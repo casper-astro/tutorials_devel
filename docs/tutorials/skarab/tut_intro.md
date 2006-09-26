@@ -62,7 +62,7 @@ Set it for 1 bit wide with offset from top bit at zero. As you might guess, this
 ![](../../_static/img/tut_intro/Slice_params.png)
 
 #### Add a GPIO block
-From: CASPER XPS library -> gpio.
+From: CASPER XPS library -> IO -> gpio.
 
 ![casper_xps_select_io.png](../../_static/img/tut_intro/casper_xps_select_io.png)
 
