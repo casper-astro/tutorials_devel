@@ -7,8 +7,6 @@ Author: Jason Manley, August 2009.
 '''
 import corr, time, struct, sys, logging, stats, socket
 
-boffile='tut2_2009_Aug_25_1124.bof'
-
 #Decide where we're going to send the data, and from which addresses:
 dest_ip  =10*(2**24) + 30 #10.0.0.30
 fabric_port=60000         
@@ -27,6 +25,7 @@ tx_core_name = 'gbe0'
 rx_core_name = 'gbe3'
 
 katcp_port=7147
+boffile='tut2_2009_Sep_28_1407.bof'
 
 def exit_fail():
     print 'FAILURE DETECTED. Log entries:\n',lh.printMessages()
@@ -131,7 +130,7 @@ try:
     print 'Programming FPGA...',
     sys.stdout.flush()
     fpga.progdev(boffile)
-    time.sleep(2)
+    time.sleep(10)
     print 'ok'
 
     print '---------------------------'
@@ -141,23 +140,23 @@ try:
     print gbe0_link
     if not gbe0_link:
         print 'There is no cable plugged into port0. Please plug a cable into ports 0 and 3 to continue demo. Exiting.'
-#        exit_clean()
+        exit_clean()
     print 'Port 3 linkup: ',
     sys.stdout.flush()
     gbe3_link=bool(fpga.read_int('gbe3_linkup'))
     print gbe3_link
     if not gbe0_link:
         print 'There is no cable plugged into port3. Please plug a cable into ports 0 and 3 to continue demo. Exiting.'
-#        exit_clean()
+        exit_clean()
 
     print '---------------------------'
     print 'Configuring receiver core...',
     sys.stdout.flush()
-#    fpga.tap_start(rx_core_name,mac_base+dest_ip,dest_ip,fabric_port)
+    fpga.tap_start(rx_core_name,mac_base+dest_ip,dest_ip,fabric_port)
     print 'done'
     print 'Configuring transmitter core...',
     sys.stdout.flush()
-#    fpga.tap_start(tx_core_name,mac_base+source_ip,source_ip,fabric_port)
+    fpga.tap_start(tx_core_name,mac_base+source_ip,source_ip,fabric_port)
     print 'done'
 
 
