@@ -5,14 +5,14 @@ This script demonstrates programming an FPGA, configuring 10GbE cores and checki
 \n\n 
 Author: Jason Manley, August 2009.
 '''
-import corr, time, struct, sys, logging, stats, socket
+import corr, time, struct, sys, logging, socket
 
 #Decide where we're going to send the data, and from which addresses:
 dest_ip  =10*(2**24) + 30 #10.0.0.30
 fabric_port=60000         
 source_ip=10*(2**24) + 20 #10.0.0.20
 mac_base=(2<<40) + (2<<32)
-ip_prefix='10. 0. 0.'     #Used for the purposes of printing output because snap blocks, arp tables and some registers only store Least significant word.
+ip_prefix='10. 0. 0.'     #Used for the purposes of printing output because snap blocks only store least significant word.
 
 pkt_period = 16384  #in FPGA clocks (200MHz)
 payload_len = 128   #in 64bit words
@@ -24,15 +24,16 @@ rx_snap = 'snap_gbe3_rx'
 tx_core_name = 'gbe0'
 rx_core_name = 'gbe3'
 
-katcp_port=7147
-boffile='tut2_2009_Sep_28_1407.bof'
+#boffile='tut2_2009_Sep_28_1407.bof'
+boffile = 'tut2_2010_Apr_02_1057.bof'
+fpga=[]
 
 def exit_fail():
     print 'FAILURE DETECTED. Log entries:\n',lh.printMessages()
-    try:
-        fpga.stop()
-    except: pass
-    raise
+#    try:
+#        fpga.stop()
+#    except: pass
+#    raise
     exit()
 
 def exit_clean():
@@ -40,55 +41,6 @@ def exit_clean():
         for f in fpgas: f.stop()
     except: pass
     exit()
-
-def get_gbe_config(fpga, dev_name, ip_prefix):
-    '''This function grabs data from a 10GbE core and decodes it.'''
-    port_dump=list(struct.unpack('>16384B',fpga.read(dev_name,16384)))
-    ip_prefix= '%3d.%3d.%3d.'%(port_dump[0x10],port_dump[0x11],port_dump[0x12])
-    print '------------------------'
-    print 'GBE0 Configuration...'
-    print 'My MAC: ',
-    for m in port_dump[02:02+6]:
-        print '%02X'%m,
-    print ''
-    print 'Gateway: ',
-    for g in port_dump[0x0c:0x0c+4]:
-        print '%3d'%g,
-    print ''
-    print 'This IP: ',
-    for i in port_dump[0x10:0x10+4]:
-        print '%3d'%i,
-    print ''
-    print 'Gateware Port: ',
-    print '%5d'%(port_dump[0x22]*(2**8)+port_dump[0x23])
-    print 'Fabric interface is currently: ',
-    if port_dump[0x21]&1: print 'Enabled'
-    else: print 'Disabled'
-    print 'XAUI Status: %2X'%(port_dump[0x24]),
-    chan_bond = port_dump[0x24]&(1<<5)
-    sync0=bool(port_dump[0x24]&(1<<1))
-    sync1=bool(port_dump[0x24]&(1<<2))
-    sync2=bool(port_dump[0x24]&(1<<3))
-    sync3=bool(port_dump[0x24]&(1<<4))
-
-    print '\tLane sync 0: %i'%sync0
-    print '\tLane sync 1: %i'%sync1
-    print '\tLane sync 2: %i'%sync2
-    print '\tLane sync 3: %i'%sync3
-    print '\tChan bond  : %i'%chan_bond
-
-    print 'XAUI PHY config: '
-    print '\tRX_eq_mix: %2X'%port_dump[0x31]
-    print '\tRX_eq_pol: %2X'%port_dump[0x30]
-    print '\tTX_pre-emph: %2X'%port_dump[0x29]
-    print '\tTX_diff_ctrl: %2X'%port_dump[0x28]
-    print 'ARP Table: '
-    for i in range(256):
-        print 'IP: %s%3d: MAC:'%(ip_prefix,i),
-        for m in port_dump[0x3000+i*8+2:0x3000+i*8+8]:
-            print '%02X'%m,
-        print ''
-
 
 if __name__ == '__main__':
     from optparse import OptionParser
@@ -110,20 +62,19 @@ if __name__ == '__main__':
         roach = args[0]
 
 try:
-    loggers = []
     lh=corr.log_handlers.DebugLogHandler()
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)
 
-    print('Connecting to server %s on port %i... '%(roach,katcp_port)),
-    fpga = corr.katcp_wrapper.FpgaClient(roach, katcp_port, timeout=10,logger=logger)
+    print('Connecting to server %s... '%(roach)),
+    fpga = corr.katcp_wrapper.FpgaClient(roach, logger=logger)
     time.sleep(1)
 
     if fpga.is_connected():
         print 'ok\n'
     else:
-        print 'ERROR connecting to server %s on port %i.\n'%(roach,katcp_port)
+        print 'ERROR connecting to server %s.\n'%(roach)
         exit_fail()
     
     print '------------------------'
@@ -152,11 +103,11 @@ try:
     print '---------------------------'
     print 'Configuring receiver core...',
     sys.stdout.flush()
-    fpga.tap_start(rx_core_name,mac_base+dest_ip,dest_ip,fabric_port)
+    fpga.tap_start('tap0',rx_core_name,mac_base+dest_ip,dest_ip,fabric_port)
     print 'done'
     print 'Configuring transmitter core...',
     sys.stdout.flush()
-    fpga.tap_start(tx_core_name,mac_base+source_ip,source_ip,fabric_port)
+    fpga.tap_start('tap3',tx_core_name,mac_base+source_ip,source_ip,fabric_port)
     print 'done'
 
 
@@ -185,11 +136,13 @@ try:
         print '\n\n==============================='
         print '10GbE Transmitter core details:'
         print '==============================='
-        get_gbe_config(fpga,tx_core_name,ip_prefix)
+        print "Note that for some IP address values, only the lower 8 bits are valid!"
+        fpga.print_10gbe_core_details(tx_core_name,arp=True)
         print '\n\n============================'
         print '10GbE Receiver core details:'
         print '============================'
-        get_gbe_config(fpga,rx_core_name,ip_prefix)
+        print "Note that for some IP address values, only the lower 8 bits are valid!"
+        fpga.print_10gbe_core_details(rx_core_name,arp=True)
 
     print 'Sent %i packets already.'%fpga.read_int('gbe0_tx_cnt')
     print 'Received %i packets already.'%fpga.read_int('gbe3_rx_frame_cnt')
