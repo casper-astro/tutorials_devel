@@ -1,5 +1,8 @@
 The tutorials at the 2010 CASPER workshop are as follows:
 
+0) Pre Tutorial VNC Setup
+This year the workshops will be run through VNC servers, this document show how to configure the VNC client on windows and linux systems to access the workshop servers.
+
 1) Introduction <COMPLETE>
 Introduction to Simulink, communication with FPGAs. Build a simple program that flashes LEDs, counts and adds numbers on demand, captures raw ADC data. Communicate with ROACH's FPGA using the PPC's BORPH operating system.  Prerequisites: just your enthusiastic self!
 
