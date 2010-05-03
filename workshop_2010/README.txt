@@ -1,4 +1,4 @@
-The tutorials at the 2009 CASPER workshop are as follows:
+The tutorials at the 2010 CASPER workshop are as follows:
 
 1) Introduction <COMPLETE>
 Introduction to Simulink, communication with FPGAs. Build a simple program that flashes LEDs, counts and adds numbers on demand, captures raw ADC data. Communicate with ROACH's FPGA using the PPC's BORPH operating system.  Prerequisites: just your enthusiastic self!
