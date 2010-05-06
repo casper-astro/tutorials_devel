@@ -12,7 +12,7 @@ You need to have KATCP and CORR installed. Get them from http://pypi.python.org/
 
 import corr,time,numpy,struct,sys,logging,pylab
 
-bitstream = 'r_spec_2048_r103_2009_Nov_23_1234.bof'
+bitstream = 'r_spec_2048_r105_2010_May_04_1421.bof'
 katcp_port=7147
 
 def exit_fail():
@@ -46,6 +46,7 @@ def plot_spectrum():
     #pylab.semilogy(interleave_a)
     pylab.title('Integration number %i.'%prev_integration)
     pylab.ylabel('Power (arbitrary units)')
+    pylab.ylim(0)
     pylab.grid()
     pylab.xlabel('Channel')
     pylab.xlim(0,2048)
@@ -114,7 +115,7 @@ try:
 
     print 'Setting digital gain of all channels to %i...'%opts.gain,
     if not opts.skip:
-        fpga.write_int('quant0_gain',opts.gain) #write the same gain for all inputs, all channels
+        fpga.write_int('gain',opts.gain) #write the same gain for all inputs, all channels
         print 'done'
     else:   
         print 'Skipped.'
