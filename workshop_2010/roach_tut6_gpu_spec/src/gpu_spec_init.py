@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.6
 
-import struct, socket, sys, corr, logging, time, re
-import math
+import struct, socket, sys #,corr, logging, time, re
+#import math
 
 # default boffile
 defaultbof='gpu_spec_2010_Aug_11_1615.bof'
@@ -13,7 +13,6 @@ katcp_port=7147
 # shifting schedule
 fft_shift=0xfffffffe
 
-channel_select=256
 numchannels=512
 bram_size=2048
 
@@ -111,7 +110,11 @@ if __name__ == '__main__':
     p.set_usage('gpu_spec_init.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.set_defaults(boffile=defaultbof)
+    p.set_defaults(plot_mode=False)
+    p.set_defaults(channel_select=256)
     p.add_option('-f','--file', help='use specified boffile', action='store', type='string', dest='boffile')
+    p.add_option('-p','--plot', help='plot the spectrum', action='store_true', dest='plot_mode')
+    p.add_option('-c','--capture_channel', help='record data from a single channel', action='store', type='int', dest='channel_select')
  
     opts, args = p.parse_args(sys.argv[1:])
 
@@ -145,17 +148,12 @@ try:
     time.sleep(10)
     print 'Programming complete'
     
-    #fpga.write_int('sync_gen_sync_period_var',2521440)
-    #fpga.write_int('sync_gen_sync_period_sel',1)
     fpga.write_int('fft_shift',fft_shift)
     
-    capture_channel(channel_select)
+    capture_channel(opts.channel_select)
 
-    
-    #plot_fft_brams();
-    
-    #struct.unpack('>'+`bram_size`+'l',fpga.read('re_channel_bram',bram_size*4))
-    #struct.unpack('>'+`bram_size`+'l',fpga.read('im_channel_bram',bram_size*4))
+    if opts.plot_mode == True:
+        plot_fft_brams();
 
 
 

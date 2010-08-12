@@ -8,9 +8,11 @@ const int fftlen = 2048;
 
 int main()
 {
-
+    //open the file containing our recorded data
     FILE *datafile = fopen(datafilename,"r");
     int next_real,next_imaginary; 
+    
+    //allocate space for the time domain and ffted data on the cpu and the gpu
     cufftComplex *roachdata;
     cufftComplex *gpudata;
     cufftComplex *gpuspectrum;
@@ -21,17 +23,14 @@ int main()
     cudaMalloc(&gpuspectrum, sizeof(cufftComplex)*fftlen);
     cudaMallocHost(&cpuspectrum, sizeof(cufftComplex)*fftlen);
     
+    //read in the time domain data from the file
     for(int i=0; i<fftlen && fscanf(datafile, "%d %d\n", &next_real, &next_imaginary) != EOF;i++)
     {
         roachdata[i].x = next_real;
         roachdata[i].y = next_imaginary;
     }
     
-    
-    // allocate device memory for the fft
-    cudaMalloc((void**)&gpudata,sizeof(cufftComplex)*fftlen);
-    cudaMalloc((void**)&gpuspectrum,sizeof(cufftComplex)*fftlen);
-
+    //create an fft plan
     static cufftHandle plan;
     cufftPlan1d(&plan,fftlen,CUFFT_C2C, 1);
 
