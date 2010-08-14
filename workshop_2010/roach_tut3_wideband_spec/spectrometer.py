@@ -70,6 +70,8 @@ if __name__ == '__main__':
         help='Set the digital gain (6bit quantisation scalar). Default is 0xffffffff (max), good for wideband noise. Set lower for CW tones.')
     p.add_option('-s', '--skip', dest='skip', action='store_true',
         help='Skip reprogramming the FPGA and configuring EQ.')
+    p.add_option('-b', '--bof', dest='boffile', action='store_true', default='',
+        help='Specify the bof file to load')
     opts, args = p.parse_args(sys.argv[1:])
 
     if args==[]:
@@ -98,7 +100,7 @@ try:
     print '------------------------'
     print 'Programming FPGA...',
     if not opts.skip:
-        fpga.progdev(bitstream)
+        fpga.progdev(opts.boffile)
         print 'done'
     else:
         print 'Skipped.'
