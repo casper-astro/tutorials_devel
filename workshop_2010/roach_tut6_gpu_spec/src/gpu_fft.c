@@ -10,8 +10,6 @@ const int filenamebufferlen = 1000;
 // size of the fft (should be the same size as the capture brams on the roach)
 const int fftlen = 2048;
 
-const char * usage_string = "Usage: gpu_fft -c <channel_id>\n";
-
 int main(int argc, char **argv)
 {
     // read in command line options
@@ -26,7 +24,7 @@ int main(int argc, char **argv)
                 break;
             case 'h':
             default:
-                fprintf(stderr,usage_string);
+                fprintf(stderr,"Usage: gpu_fft -c <channel_id>\n");
                 exit(1);
         }
     }
