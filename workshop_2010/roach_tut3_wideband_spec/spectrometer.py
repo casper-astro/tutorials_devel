@@ -11,7 +11,7 @@ You need to have KATCP and CORR installed. Get them from http://pypi.python.org/
 
 import corr,time,numpy,struct,sys,logging,pylab
 
-bitstream = 'r_spec_2048_r105_2010_Jul_26_1205.bof'
+bitstream = 'r_spec_2048_r105_katadc_2010_Aug_13_1249.bof'
 katcp_port=7147
 
 def exit_fail():
