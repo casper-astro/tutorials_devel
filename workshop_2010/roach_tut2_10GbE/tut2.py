@@ -52,7 +52,8 @@ if __name__ == '__main__':
         help='Plot the TX and RX counters. Needs matplotlib/pylab.')  
     p.add_option('-a', '--arp', dest='arp', action='store_true',
         help='Print the ARP table and other interesting bits.')  
- 
+    p.add_option('-b', '--boffile', dest='bof', type='str',
+        help='Specify the bof file to load')  
     opts, args = p.parse_args(sys.argv[1:])
 
     if args==[]:
@@ -60,7 +61,8 @@ if __name__ == '__main__':
         exit()
     else:
         roach = args[0]
-
+    if opts.bof != '':
+        boffile = opts.bof
 try:
     lh=corr.log_handlers.DebugLogHandler()
     logger = logging.getLogger(roach)
