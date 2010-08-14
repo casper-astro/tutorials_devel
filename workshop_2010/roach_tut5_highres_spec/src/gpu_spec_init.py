@@ -4,7 +4,7 @@ import struct, socket, sys ,corr, logging, time, re
 import math
 
 # default boffile
-defaultbof='gpu_spec_2010_Aug_11_1615.bof'
+defaultbof='gpu_spec.bof'
 
 # define katcp port to connect
 katcp_port=7147
