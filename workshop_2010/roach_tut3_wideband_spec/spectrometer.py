@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 '''
 This script demonstrates programming an FPGA, configuring a wideband spectrometer and plotting the received data using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with TUT3 at the 2009 CASPER workshop.\n
+
 You need to have KATCP and CORR installed. Get them from http://pypi.python.org/pypi/katcp and http://casper.berkeley.edu/svn/trunk/projects/packetized_correlator/corr-0.4.0/
 
 \nAuthor: Jason Manley, November 2009.
@@ -9,7 +10,7 @@ You need to have KATCP and CORR installed. Get them from http://pypi.python.org/
 #TODO: add support for ADC histogram plotting.
 #TODO: add support for determining ADC input level 
 
-import corr,time,numpy,struct,sys,logging,pylab
+import corr,time,numpy,struct,sys,logging,pylab,matplotlib
 
 bitstream = 'r_spec_2048_r105_2010_Jul_26_1205.bof'
 katcp_port=7147
@@ -28,8 +29,10 @@ def exit_clean():
     except: pass
     exit()
 
-def plot_spectrum():
+def get_data():
     #get the data...    
+    acc_n = fpga.read_uint('acc_cnt')
+
     a_0=struct.unpack('>1024l',fpga.read('even',1024*4,0))
     a_1=struct.unpack('>1024l',fpga.read('odd',1024*4,0))
 
@@ -39,27 +42,29 @@ def plot_spectrum():
         interleave_a.append(a_0[i])
         interleave_a.append(a_1[i])
 
-    pylab.figure(num=1,figsize=(10,10))
-    pylab.ioff()
-    pylab.plot(interleave_a)
-    #pylab.semilogy(interleave_a)
-    pylab.title('Integration number %i.'%prev_integration)
-    pylab.ylabel('Power (arbitrary units)')
-    pylab.ylim(0)
-    pylab.grid()
-    pylab.xlabel('Channel')
-    pylab.xlim(0,2048)
-    pylab.ioff()
+    return acc_n, interleave_a 
 
-    pylab.hold(False)
-    pylab.show()
-    pylab.draw()
+def plot_spectrum():
+    matplotlib.pyplot.clf()
+    acc_n, interleave_a = get_data()
+
+    matplotlib.pylab.plot(interleave_a)
+    #matplotlib.pylab.semilogy(interleave_a)
+    matplotlib.pylab.title('Integration number %i.'%acc_n)
+    matplotlib.pylab.ylabel('Power (arbitrary units)')
+    matplotlib.pylab.ylim(0)
+    matplotlib.pylab.grid()
+    matplotlib.pylab.xlabel('Channel')
+    matplotlib.pylab.xlim(0,2048)
+
+    fig.canvas.manager.window.after(100, plot_spectrum)
 
 
 #START OF MAIN:
 
 if __name__ == '__main__':
     from optparse import OptionParser
+
 
     p = OptionParser()
     p.set_usage('spectrometer.py <ROACH_HOSTNAME_or_IP> [options]')
@@ -70,7 +75,7 @@ if __name__ == '__main__':
         help='Set the digital gain (6bit quantisation scalar). Default is 0xffffffff (max), good for wideband noise. Set lower for CW tones.')
     p.add_option('-s', '--skip', dest='skip', action='store_true',
         help='Skip reprogramming the FPGA and configuring EQ.')
-    p.add_option('-b', '--bof', dest='boffile', action='store_true', default='',
+    p.add_option('-b', '--bof', dest='boffile',type='str', default='',
         help='Specify the bof file to load')
     opts, args = p.parse_args(sys.argv[1:])
 
@@ -78,7 +83,9 @@ if __name__ == '__main__':
         print 'Please specify a ROACH board. Run with the -h flag to see all options.\nExiting.'
         exit()
     else:
-        roach = args[0]
+        roach = args[0] 
+    if opts.boffile != '':
+        bitstream = opts.boffile
 
 try:
     loggers = []
@@ -98,9 +105,9 @@ try:
         exit_fail()
 
     print '------------------------'
-    print 'Programming FPGA...',
+    print 'Programming FPGA with %s...' %bitstream,
     if not opts.skip:
-        fpga.progdev(opts.boffile)
+        fpga.progdev(bitstream)
         print 'done'
     else:
         print 'Skipped.'
@@ -121,20 +128,14 @@ try:
     else:   
         print 'Skipped.'
 
-    time.sleep(2)
+    #set up the figure with a subplot to be plotted
+    fig = matplotlib.pyplot.figure()
+    ax = fig.add_subplot(1,1,1)
 
-    prev_integration = fpga.read_uint('acc_cnt')
-    while(1):
-        current_integration = fpga.read_uint('acc_cnt')
-        diff=current_integration - prev_integration
-        if diff==0:
-            time.sleep(0.01)
-        else:
-            if diff > 1:
-                print 'WARN: We lost %i integrations!'%(current_integration - prev_integration)
-            prev_integration = fpga.read_uint('acc_cnt')
-            print 'Grabbing integration number %i'%prev_integration
-            plot_spectrum()
+    # start the process
+    fig.canvas.manager.window.after(100, plot_spectrum)
+    matplotlib.pyplot.show()
+    print 'Plot started.'
 
 except KeyboardInterrupt:
     exit_clean()
