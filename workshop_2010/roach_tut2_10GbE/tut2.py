@@ -52,7 +52,7 @@ if __name__ == '__main__':
         help='Plot the TX and RX counters. Needs matplotlib/pylab.')  
     p.add_option('-a', '--arp', dest='arp', action='store_true',
         help='Print the ARP table and other interesting bits.')  
-    p.add_option('-b', '--boffile', dest='bof', type='str',
+    p.add_option('-b', '--boffile', dest='bof', type='str', default=boffile,
         help='Specify the bof file to load')  
     opts, args = p.parse_args(sys.argv[1:])
 
