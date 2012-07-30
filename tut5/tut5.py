@@ -2,7 +2,7 @@
 
 import corr, time, numpy, math, struct, sys, pylab
 
-bitstream = 'tut5_2012_Jul_30_1325.bof'
+bitstream = 'tut5_2012_Jul_30_1619.bof'
 katcp_port = 7147
 roach = '192.168.40.70'
 
@@ -21,8 +21,16 @@ def writeData(ToneFreq, SampFreq):
     imagPart = numpy.array([ScaleFactor * 0.1 * math.sin(2 * math.pi * ToneFreq * i / SampFreq) for i in range(TimeSamples)])
     imagPart = imagPart.astype(numpy.int8)
     interleavedData = numpy.empty(TimeSamples * 4, dtype=numpy.int8)
+    ##########test
+    realPart = numpy.zeros(TimeSamples)
+    imagPart = numpy.ones(TimeSamples)
+    ##########test
     interleavedData[0::4] = realPart    # x-pol real
     interleavedData[1::4] = imagPart    # x-pol imag
+    ##########test
+    realPart = numpy.zeros(TimeSamples) + 2
+    imagPart = numpy.ones(TimeSamples) + 2
+    ##########test
     interleavedData[2::4] = realPart    # y-pol real
     interleavedData[3::4] = imagPart    # y-pol real
     MSB = numpy.reshape(interleavedData, [4, TimeSamples])[0::2]
@@ -55,7 +63,6 @@ time.sleep(5)
 
 fpga.listdev()
 gbe0_link = bool(fpga.read_int(gbe0))
-print gbe0_link
 if not gbe0_link:
    print 'ERROR: There is no cable plugged into port0!'
 
@@ -87,4 +94,5 @@ SampFreq = 128e6    # 128 MHz
 ToneFreq = 5e6      # 1 MHz
 writeData(ToneFreq, SampFreq)
 print 'DONE'
+
 
