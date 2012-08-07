@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python
 
 # tut5_gencoeff.py
 # CASPER Tutorial 5: Heterogeneous Instrumentation
