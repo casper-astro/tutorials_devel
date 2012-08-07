@@ -2,39 +2,35 @@
 
 import corr, time, numpy, math, struct, sys, pylab
 
-bitstream = 'tut5_2012_Jul_30_1619.bof'
-katcp_port = 7147
+bitstream = 'tut5_2012_Aug_06_2116.bof'
+katcpPort = 7147
 roach = '192.168.40.70'
 
-dest_ip = 10*(2**24) + 145    #10.0.0.145
-dest_port = 60000
-src_ip = 10*(2**24) + 10      #10.0.0.10
-src_port = 50000
-mac_base = (2<<40) + (2<<32)
+destIP = 10*(2**24) + 1*(2**8) + 146    # 10.0.1.146
+destPort = 60000
+srcIP = 10*(2**24) + 145                # 10.0.0.145
+srcPort = 50000
+MACBase = (2<<40) + (2<<32)
 gbe0 = 'gbe0'
 
-def writeData(ToneFreq, SampFreq):
+def writeData(Tone1Freq, Tone2Freq, SampFreq):
     ScaleFactor = 127
     TimeSamples = 256   # time samples per packet
-    realPart = numpy.array([ScaleFactor * 0.1 * math.cos(2 * math.pi * ToneFreq * i / SampFreq) for i in range(TimeSamples)])
+    realPart = numpy.array([ScaleFactor * 0.1 * math.cos(2 * math.pi * Tone1Freq * i / SampFreq) for i in range(TimeSamples)])
+    realPart = realPart +  numpy.array([ScaleFactor * 0.2 * math.cos(2 * math.pi * Tone2Freq * i / SampFreq) for i in range(TimeSamples)])
+    realPart = realPart + numpy.random.random_integers(-64, 64, TimeSamples)
     realPart = realPart.astype(numpy.int8)
-    imagPart = numpy.array([ScaleFactor * 0.1 * math.sin(2 * math.pi * ToneFreq * i / SampFreq) for i in range(TimeSamples)])
+    imagPart = numpy.array([ScaleFactor * 0.1 * math.sin(2 * math.pi * Tone1Freq * i / SampFreq) for i in range(TimeSamples)])
+    imagPart = imagPart + numpy.array([ScaleFactor * 0.2 * math.sin(2 * math.pi * Tone2Freq * i / SampFreq) for i in range(TimeSamples)])
+    imagPart = imagPart + numpy.random.random_integers(-64, 64, TimeSamples)
     imagPart = imagPart.astype(numpy.int8)
     interleavedData = numpy.empty(TimeSamples * 4, dtype=numpy.int8)
-    ##########test
-    realPart = numpy.zeros(TimeSamples)
-    imagPart = numpy.ones(TimeSamples)
-    ##########test
     interleavedData[0::4] = realPart    # x-pol real
     interleavedData[1::4] = imagPart    # x-pol imag
-    ##########test
-    realPart = numpy.zeros(TimeSamples) + 2
-    imagPart = numpy.ones(TimeSamples) + 2
-    ##########test
     interleavedData[2::4] = realPart    # y-pol real
     interleavedData[3::4] = imagPart    # y-pol real
-    MSB = numpy.reshape(interleavedData, [4, TimeSamples])[0::2]
-    LSB = numpy.reshape(interleavedData, [4, TimeSamples])[1::2]
+    MSB = numpy.reshape(interleavedData, [TimeSamples, 4])[0::2]
+    LSB = numpy.reshape(interleavedData, [TimeSamples, 4])[1::2]
     MSB = numpy.reshape(MSB, [1, TimeSamples * 2])
     LSB = numpy.reshape(LSB, [1, TimeSamples * 2])
     devName = 'pkt_sim_bram_msb'
@@ -46,7 +42,7 @@ def writeData(ToneFreq, SampFreq):
 
 print 'Connecting to server %s... ' %(roach),
 sys.stdout.flush()
-fpga = corr.katcp_wrapper.FpgaClient(roach, katcp_port)
+fpga = corr.katcp_wrapper.FpgaClient(roach, katcpPort)
 time.sleep(1)
 if fpga.is_connected():
     print 'DONE'
@@ -68,13 +64,13 @@ if not gbe0_link:
 
 #print 'Starting 10GbE driver...',   
 #sys.stdout.flush()
-#fpga.tap_start('tap0', gbe0, mac_base + src_ip, src_ip, src_port)
+#fpga.tap_start('tap0', gbe0, MACBase + srcIP, srcIP, srcPort)
 #print 'DONE'
 
 print 'Setting up packet generation...',
 sys.stdout.flush()
-fpga.write_int('dest_ip', dest_ip)
-fpga.write_int('dest_port', dest_port)
+fpga.write_int('dest_ip', destIP)
+fpga.write_int('dest_port', destPort)
 
 # send data at a rate
 #   = (pkt_sim_payload_len / pkt_sim_period) * 10GbE core clock rate
@@ -90,9 +86,10 @@ print 'DONE'
 
 print 'Writing test data to BRAMs...',
 sys.stdout.flush()
-SampFreq = 128e6    # 128 MHz
-ToneFreq = 5e6      # 1 MHz
-writeData(ToneFreq, SampFreq)
+SampFreq = 32e6     # 32 MHz
+Tone1Freq = 10e6    # 10 MHz
+Tone2Freq = 16e6    # 16 MHz
+writeData(Tone1Freq, Tone2Freq, SampFreq)
 print 'DONE'
 
 
