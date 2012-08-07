@@ -1,6 +1,6 @@
 /**
  * @file tut5_plot.h
- * CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+ * CASPER Tutorial 5: Heterogeneous Instrumentation
  *  Header file for plotting
  *
  * @author Jayanth Chennamangalam

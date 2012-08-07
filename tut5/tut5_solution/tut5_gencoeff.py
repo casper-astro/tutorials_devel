@@ -1,7 +1,7 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python
 
 # tut5_gencoeff.py
-# CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+# CASPER Tutorial 5: Heterogeneous Instrumentation
 #   Generate PFB filter coefficients. The filter coefficients array will
 #   contain duplicates for optimised reading from the GPU.
 #

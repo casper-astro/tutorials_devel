@@ -1,6 +1,6 @@
 /**
  * @file tut5_kernels.h
- * CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+ * CASPER Tutorial 5: Heterogeneous Instrumentation
  *  CUDA Kernels - Header File
  *
  * @author Jayanth Chennamangalam

@@ -1,6 +1,6 @@
 /** 
  * @file tut5_plot.cu
- * CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+ * CASPER Tutorial 5: Heterogeneous Instrumentation
  *  Plotting-related functions
  *
  * @author Jayanth Chennamangalam

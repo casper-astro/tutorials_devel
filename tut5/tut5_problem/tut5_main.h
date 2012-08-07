@@ -1,6 +1,6 @@
 /**
  * @file tut5_main.h
- * CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+ * CASPER Tutorial 5: Heterogeneous Instrumentation
  *  Top-level header file
  *
  * @author Jayanth Chennamangalam

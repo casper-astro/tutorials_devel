@@ -1,4 +1,4 @@
-# Makefile for CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+# Makefile for CASPER Tutorial 5: Heterogeneous Instrumentation
 #
 # Created by Jayanth Chennamangalam
 

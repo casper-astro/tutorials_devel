@@ -1,6 +1,6 @@
 /**
  * @file tut5_fileread.h
- * CASPER Workshop 2011 Tutorial 5: Heterogeneous Instrumentation
+ * CASPER Tutorial 5: Heterogeneous Instrumentation
  *  Header file for file-reading functions
  *
  * @author Jayanth Chennamangalam

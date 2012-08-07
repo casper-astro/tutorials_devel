@@ -1,6 +1,15 @@
-#!/usr/bin/python2.6
+#!/usr/bin/python
 
-import corr, time, numpy, math, struct, sys, pylab
+# tut5.py
+# CASPER Tutorial 5: Heterogeneous Instrumentation
+#   Config script.
+
+import corr
+import time
+import numpy
+import math
+import struct
+import sys
 
 bitstream = 'tut5_2012_Aug_06_2116.bof'
 katcpPort = 7147
@@ -37,8 +46,6 @@ def writeData(Tone1Freq, Tone2Freq, SampFreq):
     fpga.write(devName, struct.pack('>512b', *MSB[0]))
     devName = 'pkt_sim_bram_lsb'
     fpga.write(devName, struct.pack('>512b', *LSB[0]))
-    #pylab.plot(realPart)
-    #pylab.show()
 
 print 'Connecting to server %s... ' %(roach),
 sys.stdout.flush()
@@ -91,5 +98,4 @@ Tone1Freq = 10e6    # 10 MHz
 Tone2Freq = 16e6    # 16 MHz
 writeData(Tone1Freq, Tone2Freq, SampFreq)
 print 'DONE'
-
 

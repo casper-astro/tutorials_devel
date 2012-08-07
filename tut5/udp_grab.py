@@ -1,4 +1,8 @@
-#!/opt/vegas/bin/python
+#!/usr/bin/python
+
+# tut5.py
+# CASPER Tutorial 5: Heterogeneous Instrumentation
+#   Data acquisition script.
 
 import socket
 import numpy as np
