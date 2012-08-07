@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 '''
-This script demonstrates grabbing data from a wideband Pocket correlator and plotting it using numpy/pylab. Designed for use with TUT4 at the 2009 CASPER workshop.
+This script demonstrates grabbing data from a wideband Pocket correlator and plotting it using numpy/pylab. Designed for use with CASPER workshop Tutorial 4.
 \n\n 
 Author: Jason Manley, August 2009.
+Modified: Aug 2012, Nie Jun
 '''
 
 #TODO: add support for coarse delay change
@@ -59,18 +60,28 @@ def drawDataCallback(baseline):
     acc_n,interleave_a,interleave_b = get_data(baseline)
 
     matplotlib.pyplot.subplot(211)
-    matplotlib.pyplot.semilogy(numpy.abs(interleave_a))
-    matplotlib.pyplot.xlim(0,1024)
+    if ifch == True:
+        matplotlib.pyplot.semilogy(numpy.abs(interleave_a))
+        matplotlib.pyplot.xlim(0,1024)
+    else:
+        matplotlib.pyplot.semilogy(xaxis,numpy.abs(interleave_a))
     matplotlib.pyplot.grid()
     matplotlib.pyplot.title('Integration number %i \n%s'%(acc_n,baseline))
     matplotlib.pyplot.ylabel('Power (arbitrary units)')
 
     matplotlib.pyplot.subplot(212)
-    matplotlib.pyplot.plot(numpy.unwrap(numpy.angle(interleave_b)))
+    if ifch == True:
+        matplotlib.pyplot.plot(numpy.unwrap(numpy.angle(interleave_b)))
+        matplotlib.pyplot.xlim(0,1024)
+        matplotlib.pyplot.xlabel('FFT Channel')
+    else:
+        matplotlib.pyplot.plot(xaxis,numpy.unwrap(numpy.angle(interleave_b)))
+        matplotlib.pyplot.xlabel('FFT Frequency')
     matplotlib.pyplot.ylabel('Phase')
+    matplotlib.pyplot.ylim(-180,180)
     matplotlib.pyplot.grid()
-    matplotlib.pyplot.xlabel('FFT Channel')
-    matplotlib.pyplot.xlim(0,1024)
+
+
 
     fig.canvas.manager.window.after(100, drawDataCallback,baseline)
 
@@ -85,6 +96,10 @@ if __name__ == '__main__':
     p.set_description(__doc__)
     p.add_option('-c', '--cross', dest='cross', type='str',default='ab',
         help='Plot this cross correlation magnitude and phase. default: ab')
+    p.add_option('-C','--channel',dest='ch',action='store_true',
+        help='Set plot with channel number or frequency.')
+    p.add_option('-f','--frequency',dest='fr',type='float',default=400.0,
+        help='Set plot max frequency.(If -c sets to False)')
     opts, args = p.parse_args(sys.argv[1:])
 
     if args==[]:
@@ -92,6 +107,18 @@ if __name__ == '__main__':
         exit()
     else:
         roach = args[0]
+
+    if opts.ch !=None:
+        ifch = opts.ch
+    else:
+        ifch = False
+
+    if ifch == False:
+        if opts.fr != '':
+            maxfr = opts.fr
+        else:
+            maxfr = 400.0
+        xaxis = numpy.arange(0.0, maxfr, maxfr*1./1024)
 
     baseline=opts.cross
 

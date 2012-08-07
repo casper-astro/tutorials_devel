@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 '''
-This script demonstrates programming an FPGA, configuring a wideband Pocket correlator and plotting the received data using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with TUT4 at the 2010 CASPER workshop.
+This script demonstrates programming an FPGA and configuring a wideband Pocket correlator using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with CASPER workshop Tutorial 4.
 \n\n 
 Author: Jason Manley, August 2010.
+Modified: May 2012, Medicina.
+Modified: Aug 2012, Nie Jun
 '''
 
 #TODO: add support for coarse delay change
@@ -32,14 +34,10 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('tut3.py <ROACH_HOSTNAME_or_IP> [options]')
+    p.set_usage('poco_init.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
-    p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=(2**28)/512,
-        help='Set the number of vectors to accumulate between dumps. default is (2^30)/512.')
-    p.add_option('-c', '--cross', dest='cross', type='str',default='ab',
-        help='Plot this cross correlation magnitude and phase. default: ab')
-    p.add_option('-a', '--auto', dest='auto', action='store_true',
-        help='Plot all the auto correlations.')
+    p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=(2**28)/1024,
+        help='Set the number of vectors to accumulate between dumps. default is (2^28)/1024.')
     p.add_option('-g', '--gain', dest='gain', type='int',default=1000,
         help='Set the digital gain (4bit quantisation scalar). default is 1000.')
     p.add_option('-s', '--skip', dest='skip', action='store_true',
@@ -57,7 +55,7 @@ if __name__ == '__main__':
     if opts.boffile != '':
         boffile = opts.boffile
     else:
-        boffile = 'poco_wide_10_r314_2010_Aug_17_0355.bof'
+        boffile = 'poco_wide_12_r315_2012_Aug_02_0107.bof'
 
 try:
     loggers = []
@@ -93,7 +91,9 @@ try:
     print 'done'
 
     print 'Resetting board, software triggering and resetting error counters...',
+    fpga.write_int('ctrl',0) 
     fpga.write_int('ctrl',1<<17) #arm
+    fpga.write_int('ctrl',0) 
     fpga.write_int('ctrl',1<<18) #software trigger
     fpga.write_int('ctrl',0) 
     fpga.write_int('ctrl',1<<18) #issue a second trigger
@@ -103,19 +103,16 @@ try:
     # writes only occur when the addr line changes value. 
     # write blindly - don't bother checking if write was successful. Trust in TCP!
     print 'Setting gains of all channels on all inputs to %i...'%opts.gain,
-    if not opts.skip:
-        fpga.write_int('quant0_gain',opts.gain) #write the same gain for all inputs, all channels
-        fpga.write_int('quant1_gain',opts.gain) #write the same gain for all inputs, all channels
-        fpga.write_int('quant2_gain',opts.gain) #write the same gain for all inputs, all channels
-        fpga.write_int('quant3_gain',opts.gain) #write the same gain for all inputs, all channels
-        for chan in range(1024):
-            #print '%i...'%chan,
-            sys.stdout.flush()
-            for input in range(4):
-                fpga.blindwrite('quant%i_addr'%input,struct.pack('>I',chan))
-        print 'done'
-    else:   
-        print 'Skipped.'
+    fpga.write_int('quant0_gain',opts.gain) #write the same gain for all inputs, all channels
+    fpga.write_int('quant1_gain',opts.gain) #write the same gain for all inputs, all channels
+    fpga.write_int('quant2_gain',opts.gain) #write the same gain for all inputs, all channels
+    fpga.write_int('quant3_gain',opts.gain) #write the same gain for all inputs, all channels
+    for chan in range(1024):
+        #print '%i...'%chan,
+        sys.stdout.flush()
+        for input in range(4):
+            fpga.blindwrite('quant%i_addr'%input,struct.pack('>I',chan))
+    print 'done'
 
     print "ok, all set up. Try plotting using poco_plot_autos.py or poco_plot_cross.py"
 
