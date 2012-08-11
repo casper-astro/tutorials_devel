@@ -55,7 +55,7 @@ if __name__ == '__main__':
     if opts.boffile != '':
         boffile = opts.boffile
     else:
-        boffile = 'poco_wide_12_r315_2012_Aug_02_0107.bof'
+        boffile = 'tut4.bof'
 
 try:
     loggers = []
