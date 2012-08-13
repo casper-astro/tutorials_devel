@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # tut5.py
 # CASPER Tutorial 5: Heterogeneous Instrumentation
