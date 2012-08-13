@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/env ipython
 
 '''
 This script demonstrates programming an FPGA, configuring 10GbE cores and checking transmitted and received data using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with TUT3 at the 2009 CASPER workshop.
@@ -8,9 +8,9 @@ Author: Jason Manley, August 2009.
 import corr, time, struct, sys, logging, socket
 
 #Decide where we're going to send the data, and from which addresses:
-dest_ip  =10*(2**24) + 30 #10.0.0.30
+dest_ip  =192*(2**24) + 168*(2**16) + 3*(2**8) + 16 #10.0.0.30
 fabric_port=60000         
-source_ip=10*(2**24) + 20 #10.0.0.20
+source_ip= 192*(2**24) + 168*(2**16) + 3*(2**8) + 13 #10.0.0.20
 mac_base=(2<<40) + (2<<32)
 ip_prefix='10. 0. 0.'     #Used for the purposes of printing output because snap blocks only store least significant word.
 
@@ -25,7 +25,9 @@ tx_core_name = 'gbe0'
 rx_core_name = 'gbe3'
 
 #boffile='tut2_2009_Sep_28_1407.bof'
-boffile = 'tut2_2010_Apr_02_1057.bof'
+#boffile = 'aduncan_tut2_2012_May_24_1340.bof'
+boffile = 'tut2.bof'
+#boffile = 'tut2_2011_Oct_03_1419.bof'
 fpga=[]
 
 def exit_fail():
@@ -225,13 +227,12 @@ try:
 
     print '=========================='
 
-    if opts.plot:
-        import pylab
-        pylab.subplot(211)
-        pylab.plot(tx_data,label='TX data')
-        pylab.subplot(212)
-        pylab.plot(rx_data,label='RX data')
-        pylab.show()
+    import pylab
+    pylab.subplot(211)
+    pylab.plot(tx_data,label='TX data')
+    pylab.subplot(212)
+    pylab.plot(rx_data,label='RX data')
+    pylab.show()
 
 except KeyboardInterrupt:
     exit_clean()
