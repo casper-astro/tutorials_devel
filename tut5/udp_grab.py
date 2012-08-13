@@ -33,6 +33,8 @@ if __name__ == '__main__':
         filename='file'+'{0:04}'.format(j)
         for i in range(35000):
             data, addr = sock.recvfrom(size)
+	    if mod(i,50)==0:
+		print 'Grabbed', i, 'th data from', addr
             arr = np.array(data)
             arr0 = np.append(arr0, arr)
         arr0.tofile(filename)
