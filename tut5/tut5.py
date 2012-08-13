@@ -68,7 +68,6 @@ if __name__ == '__main__':
         destIP = args[1]
         tmp = destIP.split('.')
         destIP = int(tmp[0])*(2**24) + int(tmp[1])*(2**16) + int(tmp[2])*(2**8) + int(tmp[3])
-        print destIP
 
     if opts.boffile != '':
         boffile = opts.boffile
