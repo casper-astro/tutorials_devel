@@ -4,25 +4,38 @@
 # CASPER Tutorial 5: Heterogeneous Instrumentation
 #   Data acquisition script.
 
-import socket
+import socket, sys
 import numpy as np
 
-udp_ip='10.0.1.146'
-udp_port=60000
-size=1024
+if __name__ == '__main__':
+    from optparse import OptionParser
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-sock.bind((udp_ip, udp_port))
+    p = OptionParser()
+    p.set_usage('udp_grab.py <10GbE IP>')
+    p.set_description(__doc__)
+    opts, args = p.parse_args(sys.argv[1:])
 
-for j in range(10):
-    arr0=np.array([])
-    filename='file'+'{0:04}'.format(j)
-    for i in range(35000):
-        data, addr = sock.recvfrom(size)
-        arr = np.array(data)
-        arr0 = np.append(arr0, arr)
-    arr0.tofile(filename)
+    if args==[]:
+        print 'Please specify 10GbE IP address. \nExiting.'
+        exit()
+    else:
+        udp_ip = args[0]
 
-sock.close()
+    udp_port=60000
+    size=1024
+
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind((udp_ip, udp_port))
+
+    for j in range(10):
+        arr0=np.array([])
+        filename='file'+'{0:04}'.format(j)
+        for i in range(35000):
+            data, addr = sock.recvfrom(size)
+            arr = np.array(data)
+            arr0 = np.append(arr0, arr)
+        arr0.tofile(filename)
+
+    sock.close()
  
