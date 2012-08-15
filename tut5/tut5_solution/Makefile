@@ -8,7 +8,7 @@ NVFLAGS = --ptxas-options=-v --compiler-bindir=/usr/bin/g77 -O3
 
 # linker options
 LFLAGS_CUFFT = -lcufft
-LFLAGS_PGPLOT = -L/opt/vegas/pgplot -lpgplot -lcpgplot -lX11
+LFLAGS_PGPLOT = -L/usr/lib64/pgplot -lpgplot -lcpgplot -lX11
 LFLAGS_MATH = -lm
 
 # bin directory

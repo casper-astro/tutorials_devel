@@ -28,12 +28,14 @@ if __name__ == '__main__':
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((udp_ip, udp_port))
 
+    #print udp_ip, udp_port
     for j in range(10):
         arr0=np.array([])
         filename='file'+'{0:04}'.format(j)
         for i in range(35000):
             data, addr = sock.recvfrom(size)
-	    if mod(i,50)==0:
+	    #print i, i%50
+	    if i%500==0:
 		    print 'Grabbed', i, 'th data from', addr
             arr = np.array(data)
             arr0 = np.append(arr0, arr)
