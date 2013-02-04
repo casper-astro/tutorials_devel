@@ -3,17 +3,18 @@
 import corr, time, struct, sys, logging, socket
 
 #Decide where we're going to send the data, and from which addresses:
-dest_ip  =10*(2**24) + 2 #10.0.0.30
-dest_port=46224
-source_ip=10*(2**24) + 3 #10.0.0.20
-mac_base=(2<<40) + (2<<32)
+dest_ip  =10*(2**24) + 4 #10.0.0.4
+dest_port=10000
+source_ip=10*(2**24) + 1 #10.0.0.1
+src_port=10000
+mac_base=0x123456780000
 ip_prefix='10. 0. 0.'     #Used for the purposes of printing output 
 
 pkt_period = 16384  #in FPGA clocks (200MHz)
 payload_len = 128   #in 64bit words
 
 brams=['bram_msb','bram_lsb','bram_oob']
-tx_snap = 'snap_gbe0_tx'
+tx_snap = 'snap_10gbe_tx'
 rx_snap = 'snap_gbe3_rx'
 
 tx_core_name = 'gbe0'
@@ -70,7 +71,7 @@ try:
         exit_fail()
     
     print '------------------------'
-    print 'Programming FPGA...',
+    print 'Programming FPGA with %s...'%(boffile)    
     sys.stdout.flush()
     fpga.progdev(boffile)
     time.sleep(10)
@@ -95,18 +96,17 @@ try:
     print 'Configuring receiver core...',
     sys.stdout.flush()
     
-    fpga.tap_start('tap0',rx_core_name,mac_base+dest_ip,dest_ip,fabric_port)
+    fpga.tap_start('tap0',tx_core_name,mac_base,source_ip,src_port)
     print 'done'
     print 'Configuring transmitter core...',
     sys.stdout.flush()
     
-    fpga.tap_start('tap3',tx_core_name,mac_base+source_ip,source_ip,fabric_port)
+    fpga.tap_start('tap3',rx_core_name,mac_base,dest_ip,dest_port)
     print 'done'
-
     print '---------------------------'
-    print 'Setting-up packet source...',
+    print 'Setting-up packet source...'
     sys.stdout.flush()
-    fpga.write_int('pkt_sim_period',period)
+    fpga.write_int('pkt_sim_period',pkt_period)
     fpga.write_int('pkt_sim_payload_len',payload_len)
     print 'done'
 
@@ -202,9 +202,8 @@ try:
         data_64bit = struct.unpack('>Q',rx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+rx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
         oob_32bit = struct.unpack('>L',rx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
         print '[%4i]: data: %16X'%(i,data_64bit),
-        ip_mask = (2**(24+5)) -(2**5)
-        ip_string = socket.inet_ntoa(struct.pack('>L',(oob_32bit&(ip_mask))>>5))
-        print 'IP: %s'%(ip_string),
+        ip_mask = (2**(8+5)) -(2**5)
+        print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
         if oob_32bit&(2**0): print '[RX overrun]',
         if oob_32bit&(2**1): print '[RX bad frame]',
         if oob_32bit&(2**3): print '[led_rx]',
@@ -229,5 +228,4 @@ except:
     exit_fail()
 
 exit_clean()
-
 
