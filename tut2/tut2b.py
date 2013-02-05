@@ -45,6 +45,8 @@ if __name__ == '__main__':
         help='Print the ARP table and other interesting bits.')  
     p.add_option('-b', '--boffile', dest='bof', type='str',
         help='Specify the bof file to load')  
+    p.add_option('-s', '--suppress', dest='suppress', action='store_true',
+        help='Suppress Snap block dump')  
     opts, args = p.parse_args(sys.argv[1:])
 
     if args==[]:
@@ -52,7 +54,7 @@ if __name__ == '__main__':
         exit()
     else:
         roach = args[0]
-    if opts.bof != '':
+    if opts.bof != None:
         boffile = opts.bof
 try:
     lh=corr.log_handlers.DebugLogHandler()
@@ -185,32 +187,34 @@ try:
     for i in range(0,tx_size):
         data_64bit = struct.unpack('>Q',tx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+tx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
         oob_32bit = struct.unpack('>L',tx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-        print '[%4i]: data: %16X'%(i,data_64bit),
-        ip_mask = (2**(8+5)) -(2**5)
-        print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
-        if oob_32bit&(2**0): print '[TX overflow]',
-        if oob_32bit&(2**1): print '[TX almost full]',
-        if oob_32bit&(2**2): print '[TX LED]',
-        if oob_32bit&(2**3): print '[Link up]',
-        if oob_32bit&(2**4): print '[eof]',
         tx_data.append(data_64bit)
-        print '' 
+        if not(opts.suppress): 
+            print '[%4i]: data: %16X'%(i,data_64bit),
+            ip_mask = (2**(8+5)) -(2**5)
+            print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
+            if oob_32bit&(2**0): print '[TX overflow]',
+            if oob_32bit&(2**1): print '[TX almost full]',
+            if oob_32bit&(2**2): print '[TX LED]',
+            if oob_32bit&(2**3): print '[Link up]',
+            if oob_32bit&(2**4): print '[eof]',
+            print '' 
 
     print 'Unpacking RX packet stream...'
     rx_data=[]
     for i in range(0,rx_size):
         data_64bit = struct.unpack('>Q',rx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+rx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
         oob_32bit = struct.unpack('>L',rx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-        print '[%4i]: data: %16X'%(i,data_64bit),
-        ip_mask = (2**(8+5)) -(2**5)
-        print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
-        if oob_32bit&(2**0): print '[RX overrun]',
-        if oob_32bit&(2**1): print '[RX bad frame]',
-        if oob_32bit&(2**3): print '[led_rx]',
-        if oob_32bit&(2**4): print '[led_up]',
-        if oob_32bit&(2**2): print '[eof]',
         rx_data.append(data_64bit)
-        print '' 
+        if not(opts.suppress): 
+            print '[%4i]: data: %16X'%(i,data_64bit),
+            ip_mask = (2**(8+5)) -(2**5)
+            print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
+            if oob_32bit&(2**0): print '[RX overrun]',
+            if oob_32bit&(2**1): print '[RX bad frame]',
+            if oob_32bit&(2**3): print '[led_rx]',
+            if oob_32bit&(2**4): print '[led_up]',
+            if oob_32bit&(2**2): print '[eof]',
+            print '' 
 
     print '=========================='
 
