@@ -12,7 +12,6 @@ You need to have KATCP and CORR installed. Get them from http://pypi.python.org/
 
 import corr,time,numpy,struct,sys,logging,pylab,matplotlib
 
-#bitstream = 'r_spec_2048_r105_2010_Jul_26_1205.bof'
 bitstream = 'tut3.bof'
 katcp_port=7147
 
@@ -33,7 +32,6 @@ def exit_clean():
 def get_data():
     #get the data...    
     acc_n = fpga.read_uint('acc_cnt')
-
     a_0=struct.unpack('>1024l',fpga.read('even',1024*4,0))
     a_1=struct.unpack('>1024l',fpga.read('odd',1024*4,0))
 
@@ -42,7 +40,6 @@ def get_data():
     for i in range(1024):
         interleave_a.append(a_0[i])
         interleave_a.append(a_1[i])
-
     return acc_n, interleave_a 
 
 def plot_spectrum():
@@ -57,7 +54,7 @@ def plot_spectrum():
     matplotlib.pylab.grid()
     matplotlib.pylab.xlabel('Channel')
     matplotlib.pylab.xlim(0,2048)
-
+    fig.canvas.draw()
     fig.canvas.manager.window.after(100, plot_spectrum)
 
 
