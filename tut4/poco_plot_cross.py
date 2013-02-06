@@ -80,11 +80,10 @@ def drawDataCallback(baseline):
     matplotlib.pyplot.ylabel('Phase')
     matplotlib.pyplot.ylim(-180,180)
     matplotlib.pyplot.grid()
-
-
+    
 
     fig.canvas.manager.window.after(100, drawDataCallback,baseline)
-
+    matplotlib.pyplot.show() 
 
 #START OF MAIN:
 
