@@ -9,6 +9,13 @@ function traffic_lights_config(this_block)
   %
   %
 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Grab HDL parameters from simulink mask
+  myname = this_block.blockName; %This is the name of the black box block
+  bb_mask = get_param(myname,'Parent'); %This is the name of the black box subsystem
+  amber_time = str2num(get_param(bb_mask,'amber_time')); %Grab the 'amber time' parameter from the parent's mask
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   this_block.setTopLevelLanguage('Verilog');
 
   this_block.setEntityName('traffic_lights');
@@ -67,7 +74,7 @@ function traffic_lights_config(this_block)
   %      on input types, make the settings in the "inputTypesKnown" code block.
   %      The addGeneric function takes  3 parameters, generic name, type and constant value.
   %      Supported types are boolean, real, integer and string.
-  this_block.addGeneric('AMBER_TIME','integer','100000000'); %At 100 MHz, 100,000,000 is 1 second
+  this_block.addGeneric('AMBER_TIME','integer',num2str(amber_time)); %At 100 MHz, 100,000,000 is 1 second
 
   % Add addtional source files as needed.
   %  |-------------

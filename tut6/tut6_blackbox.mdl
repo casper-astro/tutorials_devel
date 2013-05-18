@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.4"
+    ComputedModelVersion    "1.11"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -25,9 +25,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "jack"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri May 17 17:45:31 2013"
-  RTWModifiedTimeStamp	  290706014
-  ModelVersionFormat	  "1.%<AutoIncrement:4>"
+  LastModifiedDate	  "Sat May 18 16:11:05 2013"
+  RTWModifiedTimeStamp	  290793954
+  ModelVersionFormat	  "1.%<AutoIncrement:11>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -573,10 +573,99 @@ Model {
     FontAngle		    "normal"
   }
   BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "fixdt(1,16,0)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      DataType		      "auto"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+      SFunctionDeploymentMode off
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
   }
   System {
     Name		    "tut6_blackbox"
-    Location		    [2264, 211, 3114, 838]
+    Location		    [2264, 211, 3187, 848]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -590,7 +679,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    12
+    SIDHighWatermark	    30
     Block {
       BlockType		      Reference
       Name		      " System Generator"
@@ -649,7 +738,7 @@ Model {
       Name		      "Concat"
       SID		      12
       Ports		      [3, 1]
-      Position		      [605, 245, 665, 305]
+      Position		      [605, 240, 665, 300]
       LibraryVersion	      "1.2"
       SourceBlock	      "xbsIndex_r4/Concat"
       SourceType	      "Xilinx Bus Concatenator Block"
@@ -671,11 +760,31 @@ Model {
       ";\n"
     }
     Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      SID		      21
+      Position		      [15, 295, 45, 325]
+      ShowName		      off
+      Value		      "0"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      SID		      22
+      Position		      [15, 220, 45, 250]
+      ShowName		      off
+      Value		      "0"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Slice"
       SID		      4
       Ports		      [1, 1]
-      Position		      [185, 295, 245, 325]
+      Position		      [205, 295, 265, 325]
       LibraryVersion	      "1.2"
       SourceBlock	      "xbsIndex_r4/Slice"
       SourceType	      "Xilinx Bit Slice Extractor Block"
@@ -707,7 +816,7 @@ Model {
       Name		      "Slice1"
       SID		      8
       Ports		      [1, 1]
-      Position		      [185, 220, 245, 250]
+      Position		      [205, 220, 265, 250]
       LibraryVersion	      "1.2"
       SourceBlock	      "xbsIndex_r4/Slice"
       SourceType	      "Xilinx Bit Slice Extractor Block"
@@ -733,6 +842,13 @@ Model {
       ".866667 0.7 0.5 0.3 0.133333 0.333333 0.1 0.1 0.166667 0.1 0.1 ],[0.98 0.96 0.92]);\nplot([0 1 1 0 0 ],[0 0 1 1 "
       "0 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor('black');port_l"
       "abel('output',1,'[a:b]');\nfprintf('','COMMENT: end icon text');\n"
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      SID		      20
+      Position		      [840, 260, 860, 280]
+      ShowName		      off
     }
     Block {
       BlockType		      Reference
@@ -774,7 +890,7 @@ Model {
       Name		      "edge_detect"
       SID		      5
       Ports		      [1, 1]
-      Position		      [275, 300, 320, 320]
+      Position		      [295, 300, 340, 320]
       BackgroundColor	      "[0.501961, 1.000000, 0.501961]"
       AttributesFormatString  "rising edges\nactive high"
       LibraryVersion	      "1.19"
@@ -835,7 +951,7 @@ Model {
       Name		      "edge_detect1"
       SID		      10
       Ports		      [1, 1]
-      Position		      [275, 225, 320, 245]
+      Position		      [295, 225, 340, 245]
       BackgroundColor	      "[0.501961, 1.000000, 0.501961]"
       AttributesFormatString  "rising edges\nactive high"
       LibraryVersion	      "1.19"
@@ -897,7 +1013,7 @@ Model {
       SID		      11
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
-      Position		      [695, 258, 830, 292]
+      Position		      [695, 253, 810, 287]
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
       LibraryVersion	      "1.453"
       SourceBlock	      "xps_library/software register"
@@ -923,7 +1039,7 @@ Model {
       SID		      9
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
-      Position		      [60, 219, 160, 251]
+      Position		      [80, 219, 180, 251]
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
       LibraryVersion	      "1.453"
       SourceBlock	      "xps_library/software register"
@@ -949,7 +1065,7 @@ Model {
       SID		      3
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
-      Position		      [60, 294, 160, 326]
+      Position		      [80, 294, 180, 326]
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
       LibraryVersion	      "1.453"
       SourceBlock	      "xps_library/software register"
@@ -970,37 +1086,196 @@ Model {
       gw_name		      "tut6_blackbox_toggle_user_data_out"
     }
     Block {
-      BlockType		      Reference
-      Name		      "traffic_lights"
-      SID		      7
+      BlockType		      SubSystem
+      Name		      "traffic_lights_bb"
+      SID		      25
       Ports		      [2, 3]
-      Position		      [405, 200, 525, 350]
-      LibraryVersion	      "1.2"
-      SourceBlock	      "xbsIndex_r4/Black Box"
-      SourceType	      "Xilinx Black Box Block"
-      infoedit		      " Incorporates black box HDL and simulation model into a System Generator design.<br><br>You mus"
-      "t supply a Black Box with certain information about the HDL component you would like to bring into System Genera"
-      "tor. This information is provided through a Matlab function.<br><br>When \"Simulation mode\" is set to \"Inactiv"
-      "e\", you will typically want to provide a separate simulation model by using a Simulation Multiplexer.<br>When \""
-      "Simulation mode\" is set to \"External co-simulator\", you must include a ModelSim block in the design."
-      init_code		      "traffic_lights_config"
-      sim_method	      "Inactive"
-      verbose		      off
-      xl_use_area	      off
-      xl_area		      "[0,0,0,0,0,0,0]"
-      has_advanced_control    "0"
-      sggui_pos		      "1300,29,399,477"
-      block_type	      "blackbox2"
-      block_version	      "11.4"
-      sg_icon_stat	      "120,150,2,3,white,blue,0,ffa1fd99,right,"
-      sg_mask_display	      "fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]"
-      ");\npatch([0.233333 0.0666667 0.3 0.0666667 0.233333 0.5 0.575 0.65 0.933333 0.708333 0.491667 0.333333 0.566667"
-      " 0.333333 0.491667 0.708333 0.933333 0.65 0.575 0.5 0.233333 ],[0.186667 0.32 0.506667 0.693333 0.826667 0.82666"
-      "7 0.766667 0.826667 0.826667 0.646667 0.82 0.693333 0.506667 0.32 0.193333 0.366667 0.186667 0.186667 0.246667 0"
-      ".186667 0.186667 ],[0.98 0.96 0.92]);\nplot([0 1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT: end icon graphics'"
-      ");\nfprintf('','COMMENT: begin icon text');\ncolor('black');port_label('input',1,'reset');\ncolor('black');port_"
-      "label('input',2,'toggle');\ncolor('black');port_label('output',1,'green_led');\ncolor('black');port_label('outpu"
-      "t',2,'amber_led');\ncolor('black');port_label('output',3,'red_led');\nfprintf('','COMMENT: end icon text');\n"
+      Position		      [420, 195, 510, 345]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskPromptString	      "Number of amber light clock cycles?"
+      MaskStyleString	      "edit"
+      MaskTunableValueString  "on"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "amber_time=@1;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "200000000"
+      System {
+	Name			"traffic_lights_bb"
+	Location		[2579, 385, 2844, 589]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "reset"
+	  SID			  27
+	  Position		  [25, 58, 55, 72]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "toggle"
+	  SID			  29
+	  Position		  [25, 133, 55, 147]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "traffic_lights"
+	  SID			  24
+	  Ports			  [2, 3]
+	  Position		  [80, 29, 185, 181]
+	  AncestorBlock		  "xbsIndex_r4/Black Box"
+	  LibraryVersion	  "1.2"
+	  CopyFcn		  "xlBlockMoveCallback(gcbh);;xlbbCopyCallback;"
+	  DeleteFcn		  "xlDestroyGui(gcbh);"
+	  LoadFcn		  "xlBlockLoadCallback(gcbh);"
+	  ModelCloseFcn		  "xlDestroyGui(gcbh);"
+	  PreSaveFcn		  "xlBlockPreSaveCallback(gcbh);"
+	  PostSaveFcn		  "xlBlockPostSaveCallback(gcbh);"
+	  DestroyFcn		  "xlDestroyGui(gcbh);"
+	  OpenFcn		  "xlOpenGui(gcbh, 'blackbox2_gui.xml', @blackbox2enablement, -1)"
+	  CloseFcn		  "xlDestroyGui(gcbh);"
+	  MoveFcn		  "xlBlockMoveCallback(gcbh);"
+	  FunctionName		  "sysgen"
+	  Parameters		  "ptable_"
+	  EnableBusSupport	  off
+	  MaskType		  "Xilinx Black Box Block"
+	  MaskDescription	  " Incorporates black box HDL and simulation model into a System Generator design.\n\nYou must sup"
+	  "ply a Black Box with certain information about the HDL component you would like to bring into System Generator. Thi"
+	  "s information is provided through a Matlab function.\n\nWhen \"Simulation mode\" is set to \"Inactive\", you will t"
+	  "ypically want to provide a separate simulation model by using a Simulation Multiplexer.\nWhen \"Simulation mode\" i"
+	  "s set to \"External co-simulator\", you must include a ModelSim block in the design."
+	  MaskHelp		  "eval('');xlDoc('-book','sysgen','-topic','Black_Box');"
+	  MaskPromptString	  " |Block configuration m-function| |Simulation mode|HDL co-simulator to use  (specify helper blo"
+	  "ck by name)|Verbose| |Define FPGA area for resource estimation|FPGA area [slices, FFs, BRAMs, LUTs, IOBs, emb. mult"
+	  "s, TBUFs]| | | | | | | | |Amber clock light cycles?"
+	  MaskStyleString	  "edit,edit,edit,popup(Inactive|ISE Simulator|External co-simulator),edit,checkbox,edit,checkbox,e"
+	  "dit,edit,edit,edit,edit,edit,edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+	  MaskCallbackString	  "|||||||||||||||||"
+	  MaskEnableString	  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "off,on,off,on,on,on,off,on,on,off,off,off,off,off,off,off,off,on"
+	  MaskToolTipString	  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+	  MaskVariables		  "infoedit=&1;init_code=&2;sim_method_sgadvanced=&3;sim_method=@4;engine_block=&5;verbose=@6;xl_use"
+	  "_area_sgadvanced=&7;xl_use_area=@8;xl_area=@9;has_advanced_control=@10;sggui_pos=&11;block_type=&12;block_version=&"
+	  "13;sg_icon_stat=&14;sg_mask_display=&15;sg_list_contents=&16;sg_blockgui_xml=&17;amber_time=@18;"
+	  MaskInitialization	  "try\n  tmp_gcb = gcb;\n  tmp_gcbh = gcbh;\n  if (strcmp('SysGenIndex',get_param(bdroot(tmp_gc"
+	  "bh),'tag')) && ~isempty(regexp(bdroot(tmp_gcb), '^xbs', 'once')))\n    return;\n  end;\n  xlMungeMaskParams;\n  blo"
+	  "ck_config = 'sysgen_blockset:black_box_config';\n\n  block_type='blackbox2';\n\n  serialized_declarations = '{''eng"
+	  "ineWorkDir''=>''String'',''engine_block''=>''String'',''engine_handle''=>''Double'',''init_code''=>''String'',''mdl"
+	  "Path''=>''String'',''sim_method''=>''Int'',''srcPath''=>''String'',''validEngineBlock''=>''Int'',''verbose''=>''Boo"
+	  "l'',''block_type''=>''String''}';\n  xlblackbox2_init();\n  ptable_ = xlblockprep(get_param(tmp_gcb, 'MaskWSVariabl"
+	  "es'));\ncatch\n  global dbgsysgen;\n  if(~isempty(dbgsysgen) && dbgsysgen)\n    e = regexprep(lasterr, '\\n', '\\nE"
+	  "rror: ');\n    disp(['Error: While running MaskInit code on block ' tmp_gcb ': ' e]);\n    error(e);\n  end\nend\n"
+	  MaskDisplay		  "fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]);\npatch("
+	  "[0.228571 0.0666667 0.304762 0.0666667 0.228571 0.495238 0.571429 0.647619 0.933333 0.714286 0.504762 0.352381 0.59"
+	  "0476 0.352381 0.504762 0.714286 0.933333 0.647619 0.571429 0.495238 0.228571 ],[0.230263 0.342105 0.506579 0.671053"
+	  " 0.782895 0.782895 0.730263 0.782895 0.782895 0.631579 0.776316 0.671053 0.506579 0.342105 0.236842 0.381579 0.2302"
+	  "63 0.230263 0.282895 0.230263 0.230263 ],[0.98 0.96 0.92]);\nplot([0 1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT:"
+	  " end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor('black');port_label('input',1,'reset');\ncolo"
+	  "r('black');port_label('input',2,'toggle');\ncolor('black');port_label('output',1,'green_led');\ncolor('black');port"
+	  "_label('output',2,'amber_led');\ncolor('black');port_label('output',3,'red_led');\nfprintf('','COMMENT: end icon te"
+	  "xt');\n"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  off
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskPortRotate	  "default"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  " Incorporates black box HDL and simulation model into a System Generator design.<br><br>You must"
+	  " supply a Black Box with certain information about the HDL component you would like to bring into System Generator."
+	  " This information is provided through a Matlab function.<br><br>When \"Simulation mode\" is set to \"Inactive\", yo"
+	  "u will typically want to provide a separate simulation model by using a Simulation Multiplexer.<br>When \"Simulatio"
+	  "n mode\" is set to \"External co-simulator\", you must include a ModelSim block in the design.|traffic_lights_confi"
+	  "g||ISE Simulator||off||off|[0,0,0,0,0,0,0]|0|1300,29,399,477|blackbox2|11.4|105,152,2,3,white,blue,0,ffa1fd99,right"
+	  ",|fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]);\npatch([0.228571 0.06"
+	  "66667 0.304762 0.0666667 0.228571 0.495238 0.571429 0.647619 0.933333 0.714286 0.504762 0.352381 0.590476 0.352381 "
+	  "0.504762 0.714286 0.933333 0.647619 0.571429 0.495238 0.228571 ],[0.230263 0.342105 0.506579 0.671053 0.782895 0.78"
+	  "2895 0.730263 0.782895 0.782895 0.631579 0.776316 0.671053 0.506579 0.342105 0.236842 0.381579 0.230263 0.230263 0."
+	  "282895 0.230263 0.230263 ],[0.98 0.96 0.92]);\nplot([0 1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT: end icon grap"
+	  "hics');\nfprintf('','COMMENT: begin icon text');\ncolor('black');port_label('input',1,'reset');\ncolor('black');por"
+	  "t_label('input',2,'toggle');\ncolor('black');port_label('output',1,'green_led');\ncolor('black');port_label('output"
+	  "',2,'amber_led');\ncolor('black');port_label('output',3,'red_led');\nfprintf('','COMMENT: end icon text');\n|{'tabl"
+	  "e'=>{'sim_method'=>'popup(Inactive\\|ISE Simulator\\|External co-simulator)','userSelections'=>{'sim_method'=>'ISE "
+	  "Simulator'}}}||amber_time"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "green_led"
+	  SID			  26
+	  Position		  [210, 48, 240, 62]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "amber_led"
+	  SID			  28
+	  Position		  [210, 98, 240, 112]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "red_led"
+	  SID			  30
+	  Position		  [210, 148, 240, 162]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "traffic_lights"
+	  SrcPort		  1
+	  DstBlock		  "green_led"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "reset"
+	  SrcPort		  1
+	  DstBlock		  "traffic_lights"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "traffic_lights"
+	  SrcPort		  2
+	  DstBlock		  "amber_led"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "toggle"
+	  SrcPort		  1
+	  DstBlock		  "traffic_lights"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "traffic_lights"
+	  SrcPort		  3
+	  DstBlock		  "red_led"
+	  DstPort		  1
+	}
+      }
     }
     Line {
       SrcBlock		      "toggle"
@@ -1017,7 +1292,7 @@ Model {
     Line {
       SrcBlock		      "edge_detect"
       SrcPort		      1
-      DstBlock		      "traffic_lights"
+      DstBlock		      "traffic_lights_bb"
       DstPort		      2
     }
     Line {
@@ -1035,7 +1310,7 @@ Model {
     Line {
       SrcBlock		      "edge_detect1"
       SrcPort		      1
-      DstBlock		      "traffic_lights"
+      DstBlock		      "traffic_lights_bb"
       DstPort		      1
     }
     Line {
@@ -1045,24 +1320,42 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "traffic_lights"
+      SrcBlock		      "traffic_lights_bb"
       SrcPort		      1
       Points		      [35, 0; 0, 30]
       DstBlock		      "Concat"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "traffic_lights"
+      SrcBlock		      "traffic_lights_bb"
       SrcPort		      2
       DstBlock		      "Concat"
       DstPort		      2
     }
     Line {
-      SrcBlock		      "traffic_lights"
+      SrcBlock		      "traffic_lights_bb"
       SrcPort		      3
       Points		      [35, 0; 0, -30]
       DstBlock		      "Concat"
       DstPort		      3
+    }
+    Line {
+      SrcBlock		      "leds"
+      SrcPort		      1
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "toggle"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "rst"
+      DstPort		      1
     }
   }
 }
