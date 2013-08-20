@@ -24,10 +24,7 @@ rx_snap = 'snap_gbe3_rx'
 tx_core_name = 'gbe0'
 rx_core_name = 'gbe3'
 
-#boffile='tut2_2009_Sep_28_1407.bof'
-#boffile = 'aduncan_tut2_2012_May_24_1340.bof'
 boffile = 'tut2.bof'
-#boffile = 'tut2_2011_Oct_03_1419.bof'
 fpga=[]
 
 def exit_fail():
@@ -50,6 +47,10 @@ if __name__ == '__main__':
     p = OptionParser()
     p.set_usage('tut2.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
+    p.add_option('', '--noprogram', dest='noprogram', action='store_true',
+        help='Don\'t print the contents of the packets.')  
+    p.add_option('-s', '--silent', dest='silent', action='store_true',
+        help='Don\'t print the contents of the packets.')  
     p.add_option('-p', '--plot', dest='plot', action='store_true',
         help='Plot the TX and RX counters. Needs matplotlib/pylab.')  
     p.add_option('-a', '--arp', dest='arp', action='store_true',
@@ -66,7 +67,7 @@ if __name__ == '__main__':
     if opts.bof != '':
         boffile = opts.bof
 try:
-    lh=corr.log_handlers.DebugLogHandler()
+    lh = corr.log_handlers.DebugLogHandler()
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)
@@ -81,14 +82,21 @@ try:
         print 'ERROR connecting to server %s.\n'%(roach)
         exit_fail()
     
-    print '------------------------'
-    print 'Programming FPGA...',
-    sys.stdout.flush()
-    fpga.progdev(boffile)
-    time.sleep(10)
-    print 'ok'
+    if not opts.noprogram:
+        print '------------------------'
+        print 'Programming FPGA...',
+        sys.stdout.flush()
+        fpga.progdev(boffile)
+        time.sleep(10)
+        print 'ok'
 
-    print '---------------------------'
+    print '---------------------------'    
+    print 'Disabling output...',
+    sys.stdout.flush()
+    fpga.write_int('pkt_sim_enable', 0)
+    print 'done'
+
+    print '---------------------------'    
     print 'Port 0 linkup: ',
     sys.stdout.flush()
     gbe0_link=bool(fpga.read_int('gbe0_linkup'))
@@ -114,7 +122,6 @@ try:
     fpga.tap_start('tap3',tx_core_name,mac_base+source_ip,source_ip,fabric_port)
     print 'done'
 
-
     print '---------------------------'
     print 'Setting-up packet source...',
     sys.stdout.flush()
@@ -130,8 +137,8 @@ try:
 
     print 'Resetting cores and counters...',
     sys.stdout.flush()
-    fpga.write_int('rst',3)
-    fpga.write_int('rst',0)
+    fpga.write_int('rst', 3)
+    fpga.write_int('rst', 0)
     print 'done'
 
     time.sleep(2)
@@ -162,13 +169,13 @@ try:
 
     print 'Enabling output...',
     sys.stdout.flush()
-    fpga.write_int('pkt_sim_enable',1)
+    fpga.write_int('pkt_sim_enable', 1)
     print 'done'
 
     time.sleep(2)
 
-    tx_size=fpga.read_int(tx_snap+'_addr')+1
-    rx_size=fpga.read_int(rx_snap+'_addr')+1
+    tx_size = fpga.read_int(tx_snap+'_addr')+1
+    rx_size = fpga.read_int(rx_snap+'_addr')+1
     if tx_size <= 1:
         print ('ERR: Not transmitting anything. This should not happen. Exiting.')
         exit_clean()
@@ -196,47 +203,66 @@ try:
     tx_data=[]
     for i in range(0,tx_size):
         data_64bit = struct.unpack('>Q',tx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+tx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
-        oob_32bit = struct.unpack('>L',tx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-        print '[%4i]: data: %16X'%(i,data_64bit),
-        ip_mask = (2**(8+5)) -(2**5)
-        print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
-        if oob_32bit&(2**0): print '[TX overflow]',
-        if oob_32bit&(2**1): print '[TX almost full]',
-        if oob_32bit&(2**2): print '[TX LED]',
-        if oob_32bit&(2**3): print '[Link up]',
-        if oob_32bit&(2**4): print '[eof]',
         tx_data.append(data_64bit)
-        print '' 
+        if not opts.silent:
+            oob_32bit = struct.unpack('>L',tx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
+            print '[%4i]: data: %16X'%(i,data_64bit),
+            ip_mask = (2**(8+5)) -(2**5)
+            print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
+            if oob_32bit&(2**0): print '[TX overflow]',
+            if oob_32bit&(2**1): print '[TX almost full]',
+            if oob_32bit&(2**2): print '[TX LED]',
+            if oob_32bit&(2**3): print '[Link up]',
+            if oob_32bit&(2**4): print '[eof]',
+            print '' 
 
     print 'Unpacking RX packet stream...'
     rx_data=[]
     for i in range(0,rx_size):
         data_64bit = struct.unpack('>Q',rx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+rx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
-        oob_32bit = struct.unpack('>L',rx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-        print '[%4i]: data: %16X'%(i,data_64bit),
-        ip_mask = (2**(24+5)) -(2**5)
-        ip_string = socket.inet_ntoa(struct.pack('>L',(oob_32bit&(ip_mask))>>5))
-        print 'IP: %s'%(ip_string),
-        if oob_32bit&(2**0): print '[RX overrun]',
-        if oob_32bit&(2**1): print '[RX bad frame]',
-        if oob_32bit&(2**3): print '[led_rx]',
-        if oob_32bit&(2**4): print '[led_up]',
-        if oob_32bit&(2**2): print '[eof]',
         rx_data.append(data_64bit)
-        print '' 
+        if not opts.silent:
+            oob_32bit = struct.unpack('>L',rx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
+            print '[%4i]: data: %16X'%(i,data_64bit),
+            ip_mask = (2**(24+5)) -(2**5)
+            ip_string = socket.inet_ntoa(struct.pack('>L',(oob_32bit&(ip_mask))>>5))
+            print 'IP: %s'%(ip_string),
+            if oob_32bit&(2**0): print '[RX overrun]',
+            if oob_32bit&(2**1): print '[RX bad frame]',
+            if oob_32bit&(2**3): print '[led_rx]',
+            if oob_32bit&(2**4): print '[led_up]',
+            if oob_32bit&(2**2): print '[eof]',
+            print '' 
+
+    print 'Checking data TX vs data RX...',
+    okay = True
+    for i in range(0, len(tx_data)):
+        try:
+            assert(tx_data[i] == rx_data[i])
+        except AssertionError:
+            print 'TX[%i](%i) != RX[%i](%i)' % (i, tx_data[i], i, rx_data[i])
+            okay = False
+    if okay:
+        print 'ok.'
+    else:
+        print 'ERROR.'
 
     print '=========================='
 
-    import pylab
-    pylab.subplot(211)
-    pylab.plot(tx_data,label='TX data')
-    pylab.subplot(212)
-    pylab.plot(rx_data,label='RX data')
-    pylab.show()
+    if opts.plot:   
+        import pylab
+        pylab.subplot(211)
+        pylab.plot(tx_data, label='TX data')
+        pylab.subplot(212)
+        pylab.plot(rx_data, label='RX data')
+        pylab.show()
 
 except KeyboardInterrupt:
     exit_clean()
-except:
+except Exception as inst:
+    print type(inst)
+    print inst.args
+    print inst
     exit_fail()
 
 exit_clean()
