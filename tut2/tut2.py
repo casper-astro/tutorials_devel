@@ -4,18 +4,18 @@
 This script demonstrates programming an FPGA, configuring 10GbE cores and checking transmitted and received data using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with TUT3 at the 2009 CASPER workshop.
 \n\n 
 Author: Jason Manley, August 2009.
+Updated for CASPER 2013 workshop. This tut needs a rework to use new snap blocks and auto bit unpack.
 '''
 import corr, time, struct, sys, logging, socket
 
 #Decide where we're going to send the data, and from which addresses:
-dest_ip  =192*(2**24) + 168*(2**16) + 3*(2**8) + 16 #10.0.0.30
+dest_ip  =192*(2**24) + 168*(2**16) + 3*(2**8) + 16
 fabric_port=60000         
-source_ip= 192*(2**24) + 168*(2**16) + 3*(2**8) + 13 #10.0.0.20
+source_ip= 192*(2**24) + 168*(2**16) + 3*(2**8) + 13
 mac_base=(2<<40) + (2<<32)
-ip_prefix='10. 0. 0.'     #Used for the purposes of printing output because snap blocks only store least significant word.
 
-pkt_period = 16384  #in FPGA clocks (200MHz)
-payload_len = 128   #in 64bit words
+pkt_period = 16384  #how often to send another packet in FPGA clocks (200MHz)
+payload_len = 128   #how big to make each packet in 64bit words
 
 brams=['bram_msb','bram_lsb','bram_oob']
 tx_snap = 'snap_gbe0_tx'
@@ -102,14 +102,14 @@ try:
     gbe0_link=bool(fpga.read_int('gbe0_linkup'))
     print gbe0_link
     if not gbe0_link:
-        print 'There is no cable plugged into port0. Please plug a cable into ports 0 and 3 to continue demo. Exiting.'
+        print 'There is no cable plugged into port0. Please plug a cable between ports 0 and 3 to continue demo. Exiting.'
         exit_clean()
     print 'Port 3 linkup: ',
     sys.stdout.flush()
     gbe3_link=bool(fpga.read_int('gbe3_linkup'))
     print gbe3_link
     if not gbe0_link:
-        print 'There is no cable plugged into port3. Please plug a cable into ports 0 and 3 to continue demo. Exiting.'
+        print 'There is no cable plugged into port3. Please plug a cable between ports 0 and 3 to continue demo. Exiting.'
         exit_clean()
 
     print '---------------------------'
@@ -180,7 +180,8 @@ try:
         print ('ERR: Not transmitting anything. This should not happen. Exiting.')
         exit_clean()
     if rx_size <= 1:
-        print ('ERR: Not receiving anything.')
+        print ("ERR: Not receiving anything. Something's wrong with your setup.")
+        exit_clean()
 
     
     tx_bram_dmp=dict()
@@ -206,31 +207,31 @@ try:
         tx_data.append(data_64bit)
         if not opts.silent:
             oob_32bit = struct.unpack('>L',tx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-            print '[%4i]: data: %16X'%(i,data_64bit),
+            print '[%4i]: data: 0x%016X'%(i,data_64bit),
             ip_mask = (2**(8+5)) -(2**5)
-            print 'IP: %s%3d'%(ip_prefix,(oob_32bit&(ip_mask))>>5),
+            print 'IP: 0.0.0.%03d'%((oob_32bit&(ip_mask))>>5),
             if oob_32bit&(2**0): print '[TX overflow]',
             if oob_32bit&(2**1): print '[TX almost full]',
-            if oob_32bit&(2**2): print '[TX LED]',
-            if oob_32bit&(2**3): print '[Link up]',
+            if oob_32bit&(2**2): print '[tx_active]',
+            if oob_32bit&(2**3): print '[link_up]',
             if oob_32bit&(2**4): print '[eof]',
             print '' 
 
     print 'Unpacking RX packet stream...'
     rx_data=[]
+    ip_mask = (2**(24+5)) -(2**5) #24 bits, starting at bit 5 are valid for ip address (from snap block)
     for i in range(0,rx_size):
         data_64bit = struct.unpack('>Q',rx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+rx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
         rx_data.append(data_64bit)
         if not opts.silent:
             oob_32bit = struct.unpack('>L',rx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-            print '[%4i]: data: %16X'%(i,data_64bit),
-            ip_mask = (2**(24+5)) -(2**5)
+            print '[%4i]: data: 0x%016X'%(i,data_64bit),
             ip_string = socket.inet_ntoa(struct.pack('>L',(oob_32bit&(ip_mask))>>5))
             print 'IP: %s'%(ip_string),
             if oob_32bit&(2**0): print '[RX overrun]',
             if oob_32bit&(2**1): print '[RX bad frame]',
-            if oob_32bit&(2**3): print '[led_rx]',
-            if oob_32bit&(2**4): print '[led_up]',
+            if oob_32bit&(2**3): print '[rx_active]',
+            if oob_32bit&(2**4): print '[link_up]',
             if oob_32bit&(2**2): print '[eof]',
             print '' 
 
