@@ -4,10 +4,13 @@ module traffic_lights
     input ce,
     input reset,
     input toggle,
-    output reg green_led,
-    output reg amber_led,
-    output reg red_led
+    //Give your output registers initial values to avoid Simulink
+    //"undetermined output" errors
+    output reg green_led = 1'b0,
+    output reg amber_led = 1'b0,
+    output reg red_led = 1'b0
     );
+
 
     // State encoding
     localparam STATE_RED = 2'd0;
@@ -48,7 +51,7 @@ module traffic_lights
                 STATE_GOING_RED: begin
                     amber_led <= 1;
                     amber_timer <= amber_timer + 1;
-                    if (amber_timer == AMBER_TIME) begin
+                    if (amber_timer == (AMBER_TIME-1)) begin
                         amber_timer <= 32'b0;
                         state <= STATE_RED;
                     end else begin
@@ -59,7 +62,7 @@ module traffic_lights
                     amber_led <= 1;
                     red_led   <= 1;
                     amber_timer <= amber_timer + 1;
-                    if (amber_timer == AMBER_TIME) begin
+                    if (amber_timer == (AMBER_TIME-1)) begin
                         amber_timer <= 32'b0;
                         state <= STATE_GREEN;
                     end else begin
