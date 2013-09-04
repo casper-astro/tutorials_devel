@@ -1,0 +1,30 @@
+###################################################################
+##
+## File     : gpio_bidir_v2_1_0.mpd
+## Desc     : Microprocessor Peripheral Description
+##
+##
+###################################################################
+
+BEGIN gpio_bidir
+
+## Peripheral Options
+OPTION IPTYPE = PERIPHERAL
+OPTION IMP_NETLIST = TRUE
+OPTION HDL = VERILOG
+OPTION ARCH_SUPPORT_MAP = (VIRTEX5=PREFERRED)
+
+## Bus Interfaces
+# (none)
+
+## Generics for VHDL or Parameters for Verilog
+# (none)
+
+## Ports
+PORT clk           = "", DIR = I
+PORT dio_buf       = "", DIR = IO, VEC = [7:0], THREE_STATE = FALSE, IOB_STATE = BUF
+PORT din_i         = "", DIR = I,  VEC = [7:0]
+PORT dout_o        = "", DIR = O,  VEC = [7:0]
+PORT in_not_out_i  = "", DIR = I
+
+END
