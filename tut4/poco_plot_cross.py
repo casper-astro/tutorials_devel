@@ -75,10 +75,10 @@ def drawDataCallback(baseline):
         matplotlib.pyplot.xlim(0,1024)
         matplotlib.pyplot.xlabel('FFT Channel')
     else:
-        matplotlib.pyplot.plot(xaxis,numpy.unwrap(numpy.angle(interleave_b)))
+        matplotlib.pyplot.plot(xaxis,(numpy.angle(interleave_b)))
         matplotlib.pyplot.xlabel('FFT Frequency')
     matplotlib.pyplot.ylabel('Phase')
-    matplotlib.pyplot.ylim(-180,180)
+    matplotlib.pyplot.ylim(-numpy.pi,numpy.pi)
     matplotlib.pyplot.grid()
     
 
