@@ -6,11 +6,11 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.20"
+    ComputedModelVersion    "1.25"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
-  SavedCharacterEncoding  "US-ASCII"
+  SavedCharacterEncoding  "UTF-8"
   SaveDefaultBlockParams  on
   ScopeRefreshTime	  0.035000
   OverrideScopeRefreshTime on
@@ -30,7 +30,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [293.0, 25.0, 987.0, 974.0]
+      Location		      [289.0, 26.0, 995.0, 902.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -54,9 +54,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[947.0, 799.0]
-	ZoomFactor		[1.0]
-	Offset			[3.9547748863697052, -9.6325747668743134]
+	Extents			[955.0, 723.0]
+	ZoomFactor		[0.8]
+	Offset			[-189.29522511363098, -129.38257476687409]
       }
     }
   }
@@ -64,11 +64,11 @@ Model {
   Creator		  "jack"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "cwshop1"
+  LastModifiedBy	  "jack"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Sep 04 12:06:56 2013"
-  RTWModifiedTimeStamp	  300197195
-  ModelVersionFormat	  "1.%<AutoIncrement:20>"
+  LastModifiedDate	  "Sat Apr 26 16:50:15 2014"
+  RTWModifiedTimeStamp	  320431300
+  ModelVersionFormat	  "1.%<AutoIncrement:25>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -185,11 +185,11 @@ Model {
 	  MinStep		  "auto"
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
-	  SolverMode		  "Auto"
+	  SolverMode		  "SingleTasking"
 	  EnableConcurrentExecution off
 	  ConcurrentTasks	  off
-	  Solver		  "ode45"
-	  SolverName		  "ode45"
+	  Solver		  "VariableStepDiscrete"
+	  SolverName		  "VariableStepDiscrete"
 	  SolverJacobianMethodControl "auto"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
@@ -251,7 +251,7 @@ Model {
 	  BlockReduction	  on
 	  BooleanDataType	  on
 	  ConditionallyExecuteInputs on
-	  InlineParams		  off
+	  InlineParams		  on
 	  UseIntDivNetSlope	  off
 	  UseFloatMulNetSlope	  off
 	  UseSpecifiedMinMax	  off
@@ -827,7 +827,7 @@ Model {
   }
   System {
     Name		    "tut6_blackbox"
-    Location		    [293, 25, 1280, 999]
+    Location		    [289, 26, 1284, 928]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -839,9 +839,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "80"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "51"
+    SIDHighWatermark	    "66"
     Block {
       BlockType		      Reference
       Name		      " System Generator"
@@ -897,7 +897,7 @@ Model {
       Name		      "Concat"
       SID		      "12"
       Ports		      [3, 1]
-      Position		      [645, 340, 705, 400]
+      Position		      [645, 297, 700, 443]
       ZOrder		      -2
       LibraryVersion	      "1.2"
       SourceBlock	      "xbsIndex_r4/Concat"
@@ -910,15 +910,15 @@ Model {
       sggui_pos		      "-1,-1,-1,-1"
       block_type	      "concat"
       block_version	      "11.4"
-      sg_icon_stat	      "60,60,3,1,white,blue,0,61ef8218,right,,[ ],[ ]"
-      sg_mask_display	      "fprintf('','COMMENT: begin icon graphics');\npatch([0 60 60 0 0 ],[0 0 60 60 0 ],[0.77 0."
-      "82 0.91 ]);\nplot([0 60 60 0 0 ],[0 0 60 60 0 ]);\npatch([12.2 23.76 31.76 39.76 47.76 31.76 20.2 12.2 ],[38.88 "
-      "38.88 46.88 38.88 46.88 46.88 46.88 38.88 ],[1 1 1 ]);\npatch([20.2 31.76 23.76 12.2 20.2 ],[30.88 30.88 38.88 3"
-      "8.88 30.88 ],[0.931 0.946 0.973 ]);\npatch([12.2 23.76 31.76 20.2 12.2 ],[22.88 22.88 30.88 30.88 22.88 ],[1 1 1"
-      " ]);\npatch([20.2 47.76 39.76 31.76 23.76 12.2 20.2 ],[14.88 14.88 22.88 14.88 22.88 22.88 14.88 ],[0.931 0.946 "
-      "0.973 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor('black');po"
-      "rt_label('input',1,'hi');\n\ncolor('black');port_label('input',3,'lo');\n\ncolor('black');disp('\\fontsize{20}\\"
-      "}','texmode','on');\nfprintf('','COMMENT: end icon text');"
+      sg_icon_stat	      "55,146,3,1,white,blue,0,61ef8218,right,,[ ],[ ]"
+      sg_mask_display	      "fprintf('','COMMENT: begin icon graphics');\npatch([0 55 55 0 0 ],[0 0 146 146 0 ],[0.77 "
+      "0.82 0.91 ]);\nplot([0 55 55 0 0 ],[0 0 146 146 0 ]);\npatch([11.425 21.54 28.54 35.54 42.54 28.54 18.425 11.425"
+      " ],[80.77 80.77 87.77 80.77 87.77 87.77 87.77 80.77 ],[1 1 1 ]);\npatch([18.425 28.54 21.54 11.425 18.425 ],[73."
+      "77 73.77 80.77 80.77 73.77 ],[0.931 0.946 0.973 ]);\npatch([11.425 21.54 28.54 18.425 11.425 ],[66.77 66.77 73.7"
+      "7 73.77 66.77 ],[1 1 1 ]);\npatch([18.425 42.54 35.54 28.54 21.54 11.425 18.425 ],[59.77 59.77 66.77 59.77 66.77"
+      " 66.77 59.77 ],[0.931 0.946 0.973 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin ico"
+      "n text');\ncolor('black');port_label('input',1,'hi');\n\ncolor('black');port_label('input',3,'lo');\n\ncolor('bl"
+      "ack');disp('\\fontsize{20}\\}','texmode','on');\nfprintf('','COMMENT: end icon text');"
     }
     Block {
       BlockType		      Constant
@@ -976,6 +976,47 @@ Model {
       ".33 10.33 ],[1 1 1 ]);\npatch([23.325 33.66 30.66 27.66 24.66 20.325 23.325 ],[7.33 7.33 10.33 7.33 10.33 10.33 "
       "7.33 ],[0.931 0.946 0.973 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text')"
       ";\ncolor('black');port_label('output',1,'0');\nfprintf('','COMMENT: end icon text');"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Convert"
+      SID		      "52"
+      Ports		      [1, 1]
+      Position		      [720, 360, 760, 380]
+      ZOrder		      5235
+      ShowName		      off
+      LibraryVersion	      "1.2"
+      SourceBlock	      "xbsIndex_r4/Convert"
+      SourceType	      "Xilinx Type Converter Block"
+      infoedit		      "Hardware notes: rounding and saturating require hardware resources; truncating and wrapping do "
+      "not."
+      gui_display_data_type   "Fixed-point"
+      arith_type	      "Unsigned"
+      n_bits		      "32"
+      bin_pt		      "0"
+      float_type	      "Single"
+      exp_bits		      "8"
+      fraction_bits	      "24"
+      quantization	      "Truncate"
+      overflow		      "Wrap"
+      en		      off
+      latency		      "0"
+      dbl_ovrd		      off
+      pipeline		      off
+      xl_use_area	      off
+      xl_area		      "[0,0,0,0,0,0,0]"
+      has_advanced_control    "0"
+      sggui_pos		      "20,26,663,690"
+      block_type	      "convert"
+      block_version	      "11.4"
+      sg_icon_stat	      "40,20,1,1,white,blue,0,edca21da,right,,[ ],[ ]"
+      sg_mask_display	      "fprintf('','COMMENT: begin icon graphics');\npatch([0 40 40 0 0 ],[0 0 20 20 0 ],[0.77 0."
+      "82 0.91 ]);\nplot([0 40 40 0 0 ],[0 0 20 20 0 ]);\npatch([15.55 18.44 20.44 22.44 24.44 20.44 17.55 15.55 ],[12."
+      "22 12.22 14.22 12.22 14.22 14.22 14.22 12.22 ],[1 1 1 ]);\npatch([17.55 20.44 18.44 15.55 17.55 ],[10.22 10.22 1"
+      "2.22 12.22 10.22 ],[0.931 0.946 0.973 ]);\npatch([15.55 18.44 20.44 17.55 15.55 ],[8.22 8.22 10.22 10.22 8.22 ],"
+      "[1 1 1 ]);\npatch([17.55 24.44 22.44 20.44 18.44 15.55 17.55 ],[6.22 6.22 8.22 6.22 8.22 8.22 6.22 ],[0.931 0.94"
+      "6 0.973 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\ncolor('black'"
+      ");port_label('output',1,'cast');\nfprintf('','COMMENT: end icon text');"
     }
     Block {
       BlockType		      Reference
@@ -1191,8 +1232,8 @@ Model {
       Position		      [725, 486, 760, 574]
       ZOrder		      10
       Floating		      off
-      Location		      [188, 390, 669, 936]
-      Open		      on
+      Location		      [188, 377, 669, 923]
+      Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "xonly"
       List {
@@ -1320,117 +1361,286 @@ Model {
       BlockType		      Terminator
       Name		      "Terminator"
       SID		      "20"
-      Position		      [880, 360, 900, 380]
+      Position		      [935, 360, 955, 380]
       ZOrder		      -7
       ShowName		      off
     }
     Block {
+      BlockType		      Terminator
+      Name		      "Terminator1"
+      SID		      "63"
+      Position		      [885, 255, 905, 275]
+      ZOrder		      5246
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator2"
+      SID		      "64"
+      Position		      [885, 200, 905, 220]
+      ZOrder		      5247
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator3"
+      SID		      "65"
+      Position		      [885, 150, 905, 170]
+      ZOrder		      5248
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator4"
+      SID		      "66"
+      Position		      [885, 50, 905, 70]
+      ZOrder		      5249
+      ShowName		      off
+    }
+    Block {
       BlockType		      Reference
-      Name		      "XSG core config"
-      SID		      "2"
+      Name		      "XSG_core_config"
+      SID		      "53"
       Tag		      "xps:xsg"
       Ports		      []
       Position		      [150, 29, 196, 72]
-      ZOrder		      -8
+      ZOrder		      5236
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
-      LibraryVersion	      "1.499"
+      LibraryVersion	      "1.516"
       SourceBlock	      "xps_library/XSG core config"
       SourceType	      "xsg core config"
       hw_sys		      "ROACH:sx95t"
       clk_src		      "sys_clk"
       ROACH_clk_src	      "sys_clk"
       ROACH2_clk_src	      "adc0_clk"
+      MKDIG_clk_src	      "sys_clk"
       clk_rate		      "100"
       sample_period	      "1"
       synthesis_tool	      "XST"
     }
     Block {
-      BlockType		      Reference
+      BlockType		      SubSystem
       Name		      "edge_detect"
-      SID		      "5"
+      SID		      "54"
       Ports		      [1, 1]
       Position		      [335, 400, 380, 420]
-      ZOrder		      -9
+      ZOrder		      5237
       BackgroundColor	      "[0.501961, 1.000000, 0.501961]"
       AttributesFormatString  "rising edges\nactive high"
-      LibraryVersion	      "1.42"
-      LinkData {
-	BlockName		"Delay"
-	DialogParameters {
-	  sg_icon_stat		  "45,16,1,1,white,blue,0,07b98262,right,"
-	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]);\npat"
-	  "ch([0.422222 0.355556 0.444444 0.355556 0.422222 0.511111 0.533333 0.555556 0.666667 0.577778 0.511111 0.466667 0.5"
-	  "55556 0.466667 0.511111 0.577778 0.666667 0.555556 0.533333 0.511111 0.422222 ],[0.125 0.3125 0.5625 0.8125 1 1 0.9"
-	  "375 1 1 0.75 0.9375 0.8125 0.5625 0.3125 0.1875 0.375 0.125 0.125 0.1875 0.125 0.125 ],[0.98 0.96 0.92]);\nplot([0 "
-	  "1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor"
-	  "('black');disp('z^{-1}','texmode','on');\nfprintf('','COMMENT: end icon text');\n"
-	}
-	BlockName		"Inverter"
-	DialogParameters {
-	  sg_icon_stat		  "45,16,1,1,white,blue,0,267846e5,right,"
-	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]);\npat"
-	  "ch([0.422222 0.355556 0.444444 0.355556 0.422222 0.511111 0.533333 0.555556 0.666667 0.577778 0.511111 0.466667 0.5"
-	  "55556 0.466667 0.511111 0.577778 0.666667 0.555556 0.533333 0.511111 0.422222 ],[0.125 0.3125 0.5625 0.8125 1 1 0.9"
-	  "375 1 1 0.75 0.9375 0.8125 0.5625 0.3125 0.1875 0.375 0.125 0.125 0.1875 0.125 0.125 ],[0.98 0.96 0.92]);\nplot([0 "
-	  "1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor"
-	  "('black');disp('not');\nfprintf('','COMMENT: end icon text');\n"
-	}
-	BlockName		"edge_op"
-	DialogParameters {
-	  sg_icon_stat		  "45,44,2,1,white,blue,0,affe8783,right,,[ ],[ ]"
-	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 44 44 0 ],[0.77 0.82 0.91"
-	  " ]);\nplot([0 45 45 0 0 ],[0 0 44 44 0 ]);\npatch([8.65 17.32 23.32 29.32 35.32 23.32 14.65 8.65 ],[28.66 28.66 34."
-	  "66 28.66 34.66 34.66 34.66 28.66 ],[1 1 1 ]);\npatch([14.65 23.32 17.32 8.65 14.65 ],[22.66 22.66 28.66 28.66 22.66"
-	  " ],[0.931 0.946 0.973 ]);\npatch([8.65 17.32 23.32 14.65 8.65 ],[16.66 16.66 22.66 22.66 16.66 ],[1 1 1 ]);\npatch("
-	  "[14.65 35.32 29.32 23.32 17.32 8.65 14.65 ],[10.66 10.66 16.66 10.66 16.66 16.66 10.66 ],[0.931 0.946 0.973 ]);\nfp"
-	  "rintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\n\ncolor('black');disp('nor');"
-	  "\nfprintf('','COMMENT: end icon text');"
-	}
-      }
+      AncestorBlock	      "casper_library_misc/edge_detect"
+      LibraryVersion	      "*1.42"
       UserDataPersistent      on
       UserData		      "DataTag1"
-      SourceBlock	      "casper_library_misc/edge_detect"
-      SourceType	      "edge_detect"
-      edge		      "Rising"
-      polarity		      "Active High"
-      x_in		      "[0 0.08 0.08 0.16 0.16 0.24 0.24 0.32 0.32 0.4]"
-      y_in		      "[-1 -1  1  1  1  1  1  1  1  1]"
-      x_out		      "[0.6 0.68 0.68 0.76 0.76 0.84 0.84 0.92 0.92 1]"
-      y_out		      "[-1 -1  1  1 -1 -1 -1 -1 -1 -1]"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "edge_detect1"
-      SID		      "10"
-      Ports		      [1, 1]
-      Position		      [335, 325, 380, 345]
-      ZOrder		      -10
-      BackgroundColor	      "[0.501961, 1.000000, 0.501961]"
-      AttributesFormatString  "rising edges\nactive high"
-      LibraryVersion	      "1.42"
-      LinkData {
-	BlockName		"Delay"
-	DialogParameters {
-	  sg_icon_stat		  "45,16,1,1,white,blue,0,07b98262,right,"
-	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]);\npat"
-	  "ch([0.422222 0.355556 0.444444 0.355556 0.422222 0.511111 0.533333 0.555556 0.666667 0.577778 0.511111 0.466667 0.5"
-	  "55556 0.466667 0.511111 0.577778 0.666667 0.555556 0.533333 0.511111 0.422222 ],[0.125 0.3125 0.5625 0.8125 1 1 0.9"
-	  "375 1 1 0.75 0.9375 0.8125 0.5625 0.3125 0.1875 0.375 0.125 0.125 0.1875 0.125 0.125 ],[0.98 0.96 0.92]);\nplot([0 "
-	  "1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor"
-	  "('black');disp('z^{-1}','texmode','on');\nfprintf('','COMMENT: end icon text');\n"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		19
+	$ClassName		"Simulink.Mask"
+	Type			"edge_detect"
+	Description		"Output is active for one-cycle after each edge of the specified type (i.e. rising, falling or both)."
+	Help			"Output is active for one-cycle after each edge of the specified type (i.e. rising, falling, or both).  Latenc"
+	"y is zero."
+	Initialization		"edge_detect_init(gcb,...\n    'edge',edge,...\n    'polarity',polarity,...\n    'x_in',x_in,...\n   "
+	" 'x_out',x_out,...\n    'y_in',y_in,...\n    'y_out',y_out);\n\nx_in_num=str2num(getfield(getfield(get_param(gcb,'Use"
+	"rData'),'parameters'),'x_in'));\nx_out_num=str2num(getfield(getfield(get_param(gcb,'UserData'),'parameters'),'x_out')"
+	");\ny_in_num=str2num(getfield(getfield(get_param(gcb,'UserData'),'parameters'),'y_in'));\ny_out_num=str2num(getfield("
+	"getfield(get_param(gcb,'UserData'),'parameters'),'y_out'));"
+	SelfModifiable		"on"
+	Display			"plot(x_in_num,0.5+y_in_num*0.2);\nplot(x_out_num,0.5+y_out_num*0.2);"
+	IconUnits		"normalized"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  6
+	  Object {
+	    $ObjectID		    20
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "Rising"
+	      Cell		      "Falling"
+	      Cell		      "Both"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "edge"
+	    Prompt		    "Edge Type"
+	    Value		    "Rising"
+	    Evaluate		    "off"
+	  }
+	  Object {
+	    $ObjectID		    21
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      2
+	      Cell		      "Active High"
+	      Cell		      "Active Low"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "polarity"
+	    Prompt		    "Output Polarity"
+	    Value		    "Active High"
+	    Evaluate		    "off"
+	  }
+	  Object {
+	    $ObjectID		    22
+	    Type		    "edit"
+	    Name		    "x_in"
+	    Prompt		    "Input X Positions"
+	    Value		    "[0 0.08 0.08 0.16 0.16 0.24 0.24 0.32 0.32 0.4]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  Object {
+	    $ObjectID		    23
+	    Type		    "edit"
+	    Name		    "y_in"
+	    Prompt		    "Input Y Positions"
+	    Value		    "[-1 -1  1  1  1  1  1  1  1  1]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  Object {
+	    $ObjectID		    24
+	    Type		    "edit"
+	    Name		    "x_out"
+	    Prompt		    "Output X Positions"
+	    Value		    "[0.6 0.68 0.68 0.76 0.76 0.84 0.84 0.92 0.92 1]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  Object {
+	    $ObjectID		    25
+	    Type		    "edit"
+	    Name		    "y_out"
+	    Prompt		    "Output Y Positions"
+	    Value		    "[-1 -1  1  1 -1 -1 -1 -1 -1 -1]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  PropName		  "Parameters"
 	}
-	BlockName		"Inverter"
-	DialogParameters {
-	  sg_icon_stat		  "45,16,1,1,white,blue,0,267846e5,right,"
-	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 1 1 0 ],[0 0 1 1 ],[0.77 0.82 0.91]);\npat"
-	  "ch([0.422222 0.355556 0.444444 0.355556 0.422222 0.511111 0.533333 0.555556 0.666667 0.577778 0.511111 0.466667 0.5"
-	  "55556 0.466667 0.511111 0.577778 0.666667 0.555556 0.533333 0.511111 0.422222 ],[0.125 0.3125 0.5625 0.8125 1 1 0.9"
-	  "375 1 1 0.75 0.9375 0.8125 0.5625 0.3125 0.1875 0.375 0.125 0.125 0.1875 0.125 0.125 ],[0.98 0.96 0.92]);\nplot([0 "
-	  "1 1 0 0 ],[0 0 1 1 0 ]);\nfprintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\ncolor"
-	  "('black');disp('not');\nfprintf('','COMMENT: end icon text');\n"
+      }
+      System {
+	Name			"edge_detect"
+	Location		[263, 45, 1111, 1385]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"5"
+	SIDPrevWatermark	"5"
+	Block {
+	  BlockType		  Inport
+	  Name			  "in"
+	  SID			  "54:1"
+	  Position		  [50, 53, 80, 67]
+	  ZOrder		  -1
+	  IconDisplay		  "Port number"
 	}
-	BlockName		"edge_op"
-	DialogParameters {
+	Block {
+	  BlockType		  Reference
+	  Name			  "Delay"
+	  SID			  "54:2"
+	  Ports			  [1, 1]
+	  Position		  [180, 72, 225, 88]
+	  ZOrder		  -2
+	  ShowName		  off
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Delay"
+	  SourceType		  "Xilinx Delay Block"
+	  infoedit		  "Hardware notes: A delay line is a chain, each link of which is an SRL16 followed by a flip-flop."
+	  rst			  off
+	  infoeditControl	  "Selection of Reset will increase slice count due to use of real FFs and instead of SRLs"
+	  en			  off
+	  latency		  "1"
+	  dbl_ovrd		  off
+	  reg_retiming		  off
+	  xl_use_area		  off
+	  xl_area		  "[0, 0, 0, 0, 0, 0, 0]"
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "delay"
+	  block_version		  "10.1.3"
+	  sg_icon_stat		  "45,16,1,1,white,blue,0,07b98262,right,,[ ],[ ]"
+	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 16 16 0 ],[0.77 0.82 0.91"
+	  " ]);\nplot([0 45 45 0 0 ],[0 0 16 16 0 ]);\npatch([17.55 20.44 22.44 24.44 26.44 22.44 19.55 17.55 ],[10.22 10.22 1"
+	  "2.22 10.22 12.22 12.22 12.22 10.22 ],[1 1 1 ]);\npatch([19.55 22.44 20.44 17.55 19.55 ],[8.22 8.22 10.22 10.22 8.22"
+	  " ],[0.931 0.946 0.973 ]);\npatch([17.55 20.44 22.44 19.55 17.55 ],[6.22 6.22 8.22 8.22 6.22 ],[1 1 1 ]);\npatch([19"
+	  ".55 26.44 24.44 22.44 20.44 17.55 19.55 ],[4.22 4.22 6.22 4.22 6.22 6.22 4.22 ],[0.931 0.946 0.973 ]);\nfprintf('',"
+	  "'COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\ncolor('black');disp('z^{-1}','texmode'"
+	  ",'on');\nfprintf('','COMMENT: end icon text');"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Inverter"
+	  SID			  "54:3"
+	  Ports			  [1, 1]
+	  Position		  [180, 52, 225, 68]
+	  ZOrder		  -3
+	  ShowName		  off
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Inverter"
+	  SourceType		  "Xilinx Inverter Block"
+	  infoedit		  "Bitwise logical negation (one's complement) operator."
+	  en			  off
+	  latency		  "0"
+	  dbl_ovrd		  off
+	  xl_use_area		  off
+	  xl_area		  "[0, 0, 0, 0, 0, 0, 0]"
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "inv"
+	  block_version		  "10.1.3"
+	  sg_icon_stat		  "45,16,1,1,white,blue,0,267846e5,right,,[ ],[ ]"
+	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 16 16 0 ],[0.77 0.82 0.91"
+	  " ]);\nplot([0 45 45 0 0 ],[0 0 16 16 0 ]);\npatch([17.55 20.44 22.44 24.44 26.44 22.44 19.55 17.55 ],[10.22 10.22 1"
+	  "2.22 10.22 12.22 12.22 12.22 10.22 ],[1 1 1 ]);\npatch([19.55 22.44 20.44 17.55 19.55 ],[8.22 8.22 10.22 10.22 8.22"
+	  " ],[0.931 0.946 0.973 ]);\npatch([17.55 20.44 22.44 19.55 17.55 ],[6.22 6.22 8.22 8.22 6.22 ],[1 1 1 ]);\npatch([19"
+	  ".55 26.44 24.44 22.44 20.44 17.55 19.55 ],[4.22 4.22 6.22 4.22 6.22 6.22 4.22 ],[0.931 0.946 0.973 ]);\nfprintf('',"
+	  "'COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\ncolor('black');disp('not');\nfprintf('"
+	  "','COMMENT: end icon text');"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "edge_op"
+	  SID			  "54:4"
+	  Ports			  [2, 1]
+	  Position		  [275, 48, 320, 92]
+	  ZOrder		  -4
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Logical"
+	  SourceType		  "Xilinx Logical Block Block"
+	  logical_function	  "NOR"
+	  inputs		  "2"
+	  en			  off
+	  latency		  "0"
+	  precision		  "Full"
+	  arith_type		  "Unsigned"
+	  n_bits		  "8"
+	  bin_pt		  "2"
+	  align_bp		  on
+	  dbl_ovrd		  off
+	  xl_use_area		  off
+	  xl_area		  "[0, 0, 0, 0, 0, 0, 0]"
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "logical"
+	  block_version		  "10.1.3"
 	  sg_icon_stat		  "45,44,2,1,white,blue,0,affe8783,right,,[ ],[ ]"
 	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 44 44 0 ],[0.77 0.82 0.91"
 	  " ]);\nplot([0 45 45 0 0 ],[0 0 44 44 0 ]);\npatch([8.65 17.32 23.32 29.32 35.32 23.32 14.65 8.65 ],[28.66 28.66 34."
@@ -1440,28 +1650,334 @@ Model {
 	  "rintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\n\ncolor('black');disp('nor');"
 	  "\nfprintf('','COMMENT: end icon text');"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "out"
+	  SID			  "54:5"
+	  Position		  [380, 63, 410, 77]
+	  ZOrder		  -5
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Inverter"
+	  SrcPort		  1
+	  DstBlock		  "edge_op"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "edge_op"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  DstBlock		  "out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "in"
+	  SrcPort		  1
+	  Points		  [0, 0; 40, 0]
+	  Branch {
+	    DstBlock		    "Inverter"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 20]
+	    DstBlock		    "Delay"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Delay"
+	  SrcPort		  1
+	  DstBlock		  "edge_op"
+	  DstPort		  2
+	}
       }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "edge_detect1"
+      SID		      "55"
+      Ports		      [1, 1]
+      Position		      [335, 325, 380, 345]
+      ZOrder		      5238
+      BackgroundColor	      "[0.501961, 1.000000, 0.501961]"
+      AttributesFormatString  "rising edges\nactive high"
+      AncestorBlock	      "casper_library_misc/edge_detect"
+      LibraryVersion	      "*1.42"
       UserDataPersistent      on
       UserData		      "DataTag2"
-      SourceBlock	      "casper_library_misc/edge_detect"
-      SourceType	      "edge_detect"
-      edge		      "Rising"
-      polarity		      "Active High"
-      x_in		      "[0 0.08 0.08 0.16 0.16 0.24 0.24 0.32 0.32 0.4]"
-      y_in		      "[-1 -1  1  1  1  1  1  1  1  1]"
-      x_out		      "[0.6 0.68 0.68 0.76 0.76 0.84 0.84 0.92 0.92 1]"
-      y_out		      "[-1 -1  1  1 -1 -1 -1 -1 -1 -1]"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		26
+	$ClassName		"Simulink.Mask"
+	Type			"edge_detect"
+	Description		"Output is active for one-cycle after each edge of the specified type (i.e. rising, falling or both)."
+	Help			"Output is active for one-cycle after each edge of the specified type (i.e. rising, falling, or both).  Latenc"
+	"y is zero."
+	Initialization		"edge_detect_init(gcb,...\n    'edge',edge,...\n    'polarity',polarity,...\n    'x_in',x_in,...\n   "
+	" 'x_out',x_out,...\n    'y_in',y_in,...\n    'y_out',y_out);\n\nx_in_num=str2num(getfield(getfield(get_param(gcb,'Use"
+	"rData'),'parameters'),'x_in'));\nx_out_num=str2num(getfield(getfield(get_param(gcb,'UserData'),'parameters'),'x_out')"
+	");\ny_in_num=str2num(getfield(getfield(get_param(gcb,'UserData'),'parameters'),'y_in'));\ny_out_num=str2num(getfield("
+	"getfield(get_param(gcb,'UserData'),'parameters'),'y_out'));"
+	SelfModifiable		"on"
+	Display			"plot(x_in_num,0.5+y_in_num*0.2);\nplot(x_out_num,0.5+y_out_num*0.2);"
+	IconUnits		"normalized"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  6
+	  Object {
+	    $ObjectID		    27
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "Rising"
+	      Cell		      "Falling"
+	      Cell		      "Both"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "edge"
+	    Prompt		    "Edge Type"
+	    Value		    "Rising"
+	    Evaluate		    "off"
+	  }
+	  Object {
+	    $ObjectID		    28
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      2
+	      Cell		      "Active High"
+	      Cell		      "Active Low"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "polarity"
+	    Prompt		    "Output Polarity"
+	    Value		    "Active High"
+	    Evaluate		    "off"
+	  }
+	  Object {
+	    $ObjectID		    29
+	    Type		    "edit"
+	    Name		    "x_in"
+	    Prompt		    "Input X Positions"
+	    Value		    "[0 0.08 0.08 0.16 0.16 0.24 0.24 0.32 0.32 0.4]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  Object {
+	    $ObjectID		    30
+	    Type		    "edit"
+	    Name		    "y_in"
+	    Prompt		    "Input Y Positions"
+	    Value		    "[-1 -1  1  1  1  1  1  1  1  1]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  Object {
+	    $ObjectID		    31
+	    Type		    "edit"
+	    Name		    "x_out"
+	    Prompt		    "Output X Positions"
+	    Value		    "[0.6 0.68 0.68 0.76 0.76 0.84 0.84 0.92 0.92 1]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  Object {
+	    $ObjectID		    32
+	    Type		    "edit"
+	    Name		    "y_out"
+	    Prompt		    "Output Y Positions"
+	    Value		    "[-1 -1  1  1 -1 -1 -1 -1 -1 -1]"
+	    Evaluate		    "off"
+	    Visible		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
+      System {
+	Name			"edge_detect1"
+	Location		[263, 45, 1111, 1385]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"5"
+	SIDPrevWatermark	"5"
+	Block {
+	  BlockType		  Inport
+	  Name			  "in"
+	  SID			  "55:1"
+	  Position		  [50, 53, 80, 67]
+	  ZOrder		  -1
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Delay"
+	  SID			  "55:2"
+	  Ports			  [1, 1]
+	  Position		  [180, 72, 225, 88]
+	  ZOrder		  -2
+	  ShowName		  off
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Delay"
+	  SourceType		  "Xilinx Delay Block"
+	  infoedit		  "Hardware notes: A delay line is a chain, each link of which is an SRL16 followed by a flip-flop."
+	  rst			  off
+	  infoeditControl	  "Selection of Reset will increase slice count due to use of real FFs and instead of SRLs"
+	  en			  off
+	  latency		  "1"
+	  dbl_ovrd		  off
+	  reg_retiming		  off
+	  xl_use_area		  off
+	  xl_area		  "[0, 0, 0, 0, 0, 0, 0]"
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "delay"
+	  block_version		  "10.1.3"
+	  sg_icon_stat		  "45,16,1,1,white,blue,0,07b98262,right,,[ ],[ ]"
+	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 16 16 0 ],[0.77 0.82 0.91"
+	  " ]);\nplot([0 45 45 0 0 ],[0 0 16 16 0 ]);\npatch([17.55 20.44 22.44 24.44 26.44 22.44 19.55 17.55 ],[10.22 10.22 1"
+	  "2.22 10.22 12.22 12.22 12.22 10.22 ],[1 1 1 ]);\npatch([19.55 22.44 20.44 17.55 19.55 ],[8.22 8.22 10.22 10.22 8.22"
+	  " ],[0.931 0.946 0.973 ]);\npatch([17.55 20.44 22.44 19.55 17.55 ],[6.22 6.22 8.22 8.22 6.22 ],[1 1 1 ]);\npatch([19"
+	  ".55 26.44 24.44 22.44 20.44 17.55 19.55 ],[4.22 4.22 6.22 4.22 6.22 6.22 4.22 ],[0.931 0.946 0.973 ]);\nfprintf('',"
+	  "'COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\ncolor('black');disp('z^{-1}','texmode'"
+	  ",'on');\nfprintf('','COMMENT: end icon text');"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Inverter"
+	  SID			  "55:3"
+	  Ports			  [1, 1]
+	  Position		  [180, 52, 225, 68]
+	  ZOrder		  -3
+	  ShowName		  off
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Inverter"
+	  SourceType		  "Xilinx Inverter Block"
+	  infoedit		  "Bitwise logical negation (one's complement) operator."
+	  en			  off
+	  latency		  "0"
+	  dbl_ovrd		  off
+	  xl_use_area		  off
+	  xl_area		  "[0, 0, 0, 0, 0, 0, 0]"
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "inv"
+	  block_version		  "10.1.3"
+	  sg_icon_stat		  "45,16,1,1,white,blue,0,267846e5,right,,[ ],[ ]"
+	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 16 16 0 ],[0.77 0.82 0.91"
+	  " ]);\nplot([0 45 45 0 0 ],[0 0 16 16 0 ]);\npatch([17.55 20.44 22.44 24.44 26.44 22.44 19.55 17.55 ],[10.22 10.22 1"
+	  "2.22 10.22 12.22 12.22 12.22 10.22 ],[1 1 1 ]);\npatch([19.55 22.44 20.44 17.55 19.55 ],[8.22 8.22 10.22 10.22 8.22"
+	  " ],[0.931 0.946 0.973 ]);\npatch([17.55 20.44 22.44 19.55 17.55 ],[6.22 6.22 8.22 8.22 6.22 ],[1 1 1 ]);\npatch([19"
+	  ".55 26.44 24.44 22.44 20.44 17.55 19.55 ],[4.22 4.22 6.22 4.22 6.22 6.22 4.22 ],[0.931 0.946 0.973 ]);\nfprintf('',"
+	  "'COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\ncolor('black');disp('not');\nfprintf('"
+	  "','COMMENT: end icon text');"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "edge_op"
+	  SID			  "55:4"
+	  Ports			  [2, 1]
+	  Position		  [275, 48, 320, 92]
+	  ZOrder		  -4
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Logical"
+	  SourceType		  "Xilinx Logical Block Block"
+	  logical_function	  "NOR"
+	  inputs		  "2"
+	  en			  off
+	  latency		  "0"
+	  precision		  "Full"
+	  arith_type		  "Unsigned"
+	  n_bits		  "8"
+	  bin_pt		  "2"
+	  align_bp		  on
+	  dbl_ovrd		  off
+	  xl_use_area		  off
+	  xl_area		  "[0, 0, 0, 0, 0, 0, 0]"
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "logical"
+	  block_version		  "10.1.3"
+	  sg_icon_stat		  "45,44,2,1,white,blue,0,affe8783,right,,[ ],[ ]"
+	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 45 45 0 0 ],[0 0 44 44 0 ],[0.77 0.82 0.91"
+	  " ]);\nplot([0 45 45 0 0 ],[0 0 44 44 0 ]);\npatch([8.65 17.32 23.32 29.32 35.32 23.32 14.65 8.65 ],[28.66 28.66 34."
+	  "66 28.66 34.66 34.66 34.66 28.66 ],[1 1 1 ]);\npatch([14.65 23.32 17.32 8.65 14.65 ],[22.66 22.66 28.66 28.66 22.66"
+	  " ],[0.931 0.946 0.973 ]);\npatch([8.65 17.32 23.32 14.65 8.65 ],[16.66 16.66 22.66 22.66 16.66 ],[1 1 1 ]);\npatch("
+	  "[14.65 35.32 29.32 23.32 17.32 8.65 14.65 ],[10.66 10.66 16.66 10.66 16.66 16.66 10.66 ],[0.931 0.946 0.973 ]);\nfp"
+	  "rintf('','COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\n\ncolor('black');disp('nor');"
+	  "\nfprintf('','COMMENT: end icon text');"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "out"
+	  SID			  "55:5"
+	  Position		  [380, 63, 410, 77]
+	  ZOrder		  -5
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Inverter"
+	  SrcPort		  1
+	  DstBlock		  "edge_op"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "edge_op"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  DstBlock		  "out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "in"
+	  SrcPort		  1
+	  Points		  [0, 0; 40, 0]
+	  Branch {
+	    DstBlock		    "Inverter"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 20]
+	    DstBlock		    "Delay"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Delay"
+	  SrcPort		  1
+	  DstBlock		  "edge_op"
+	  DstPort		  2
+	}
+      }
     }
     Block {
       BlockType		      Reference
       Name		      "gpio0"
-      SID		      "31"
+      SID		      "56"
       Tag		      "xps:gpio"
       Ports		      [1, 1]
       Position		      [740, 145, 840, 175]
-      ZOrder		      1
+      ZOrder		      5239
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
-      LibraryVersion	      "1.499"
+      LibraryVersion	      "1.516"
       SourceBlock	      "xps_library/gpio"
       SourceType	      "gpio"
       io_group		      "ROACH:gpioa"
@@ -1480,13 +1996,13 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "gpio1"
-      SID		      "32"
+      SID		      "57"
       Tag		      "xps:gpio"
       Ports		      [1, 1]
       Position		      [740, 195, 840, 225]
-      ZOrder		      2
+      ZOrder		      5240
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
-      LibraryVersion	      "1.499"
+      LibraryVersion	      "1.516"
       SourceBlock	      "xps_library/gpio"
       SourceType	      "gpio"
       io_group		      "ROACH:gpioa"
@@ -1505,13 +2021,13 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "gpio2"
-      SID		      "33"
+      SID		      "58"
       Tag		      "xps:gpio"
       Ports		      [1, 1]
       Position		      [740, 250, 840, 280]
-      ZOrder		      3
+      ZOrder		      5241
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
-      LibraryVersion	      "1.499"
+      LibraryVersion	      "1.516"
       SourceBlock	      "xps_library/gpio"
       SourceType	      "gpio"
       io_group		      "ROACH:gpioa"
@@ -1530,13 +2046,13 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "gpioa_oe_n"
-      SID		      "34"
+      SID		      "59"
       Tag		      "xps:gpio"
       Ports		      [1, 1]
       Position		      [745, 45, 845, 75]
-      ZOrder		      4
+      ZOrder		      5242
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
-      LibraryVersion	      "1.499"
+      LibraryVersion	      "1.516"
       SourceBlock	      "xps_library/gpio"
       SourceType	      "gpio"
       io_group		      "ROACH:gpioa_oe_n"
@@ -1555,14 +2071,15 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "leds"
-      SID		      "11"
+      SID		      "60"
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
-      Position		      [735, 353, 850, 387]
-      ZOrder		      -11
+      Position		      [790, 353, 905, 387]
+      ZOrder		      5243
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
+      AttributesFormatString  "1output"
       AncestorBlock	      "xps_library/software register"
-      LibraryVersion	      "*1.499"
+      LibraryVersion	      "*1.516"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1572,24 +2089,34 @@ Model {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		19
+	$ObjectID		33
 	$ClassName		"Simulink.Mask"
-	Initialization		"swreg_init(gcb);"
+	Type			"swreg"
+	Initialization		"swreg_init(gcb)"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  8
+	  Dimension		  10
 	  Object {
-	    $ObjectID		    20
-	    Type		    "edit"
-	    Name		    "numios"
-	    Prompt		    "Num I/Os"
-	    Value		    "1"
-	    Callback		    "t = timer('StartDelay', 0.1); t.TimerFcn = {@swreg_cb, gcb}; start(t);"
+	    $ObjectID		    34
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "one value"
+	      Cell		      "fields of equal size"
+	      Cell		      "fields of arbitrary size"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "mode"
+	    Prompt		    "Mode:"
+	    Value		    "one value"
+	    Evaluate		    "off"
+	    Callback		    "swreg_cb(gcb);"
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    21
+	    $ObjectID		    35
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1601,12 +2128,14 @@ Model {
 	    Name		    "io_dir"
 	    Prompt		    "I/O direction"
 	    Value		    "To Processor"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'io_dir'), 'To Processor'),\na(4) = {"
-	    "'off'};\nelse\na(4) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
+	    Callback		    "mask_enables = get_param(gcb, 'MaskEnables');\nmask_names = get_param(gcb, 'MaskNames');\nif strcm"
+	    "p(get_param(gcb, 'io_dir'), 'To Processor'),\n    mask_enables{ismember(mask_names, 'sample_period')} = 'off';\ne"
+	    "lse\n    mask_enables{ismember(mask_names, 'sample_period')} = 'on';\nend\nset_param(gcb, 'MaskEnables', mask_ena"
+	    "bles);"
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    22
+	    $ObjectID		    36
 	    Type		    "edit"
 	    Name		    "io_delay"
 	    Prompt		    "I/O delay"
@@ -1614,7 +2143,7 @@ Model {
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    23
+	    $ObjectID		    37
 	    Type		    "edit"
 	    Name		    "sample_period"
 	    Prompt		    "Sample period"
@@ -1623,55 +2152,87 @@ Model {
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    24
+	    $ObjectID		    38
 	    Type		    "edit"
-	    Name		    "name1"
-	    Prompt		    "Name"
+	    Name		    "names"
+	    Prompt		    "Name:"
 	    Value		    "reg"
 	    Evaluate		    "off"
-	    TabName		    "IO1"
+	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    25
+	    $ObjectID		    39
 	    Type		    "edit"
-	    Name		    "bitwidth1"
-	    Prompt		    "Bitwidth"
+	    Name		    "bitwidths"
+	    Prompt		    "Bitwidth:"
 	    Value		    "32"
-	    TabName		    "IO1"
+	    Callback		    "swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'mode');\n% current_widths = eval(get"
+	    "_param(blk, 'bitwidths'));\n% if (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(c"
+	    "urrent_widths) > 1),\n%     error('Only one width may be specified for this mode.');\n% elseif strcmp(mode, 'fiel"
+	    "ds of arbitrary size')\n%     current_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '"
+	    "[', '')), '%s');\n%     current_names = current_names{1};\n%     numios = length(current_names);\n%     if length"
+	    "(current_widths) ~= numios,\n%         error('%d field names specified, but %d widths?', numios, length(current_w"
+	    "idths));\n%     end\n% end\n% total_width = 0;\n% for ctr = 1 : length(current_widths),\n%     total_width = tota"
+	    "l_width + current_widths(ctr);\n% end\n% if total_width > 32,\n%     error('Total width must be 32 or less, set t"
+	    "o %d.', total_width);\n% end"
+	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    26
-	    Type		    "popup"
-	    Array {
-	      Type		      "Cell"
-	      Dimension		      3
-	      Cell		      "Unsigned"
-	      Cell		      "Signed  (2's comp)"
-	      Cell		      "Boolean"
-	      PropName		      "TypeOptions"
-	    }
-	    Name		    "arith_type1"
-	    Prompt		    "Type"
-	    Value		    "Unsigned"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'arith_type1'), 'Boolean'),\nset_para"
-	    "m(gcb, 'bitwidth1', '1');\nset_param(gcb, 'bin_pt1', '0');\na(6) = {'off'};\na(8) = {'off'};\nelse\na(6) = {'on'}"
-	    ";\na(8) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
-	    TabName		    "IO1"
-	  }
-	  Object {
-	    $ObjectID		    27
+	    $ObjectID		    40
 	    Type		    "edit"
-	    Name		    "bin_pt1"
-	    Prompt		    "Binary pt"
+	    Name		    "arith_types"
+	    Prompt		    "Type (ufix=0, fix=1, bool=2):"
 	    Value		    "0"
-	    TabName		    "IO1"
+	    Callback		    "[numios, ~, ~, ~, current_types] = swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'm"
+	    "ode');\n% current_types = eval(get_param(blk, 'arith_types'));\n% numios = length(current_types);\n% if (strcmp(m"
+	    "ode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(current_types) > 1),\n%     error('Only one"
+	    " type may be specified for this mode.');\n% elseif strcmp(mode, 'fields of arbitrary size')\n%     current_names "
+	    "= textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '[', '')), '%s');\n%     current_names = curr"
+	    "ent_names{1};\n%     numios = length(current_names);\n%     if length(current_types) ~= numios,\n%         error("
+	    "'%d field names specified, but %d types?', numios, length(current_types));\n%     end\n% end\nproblem = 0;\nfor c"
+	    "tr = 1 : numios,\n    t = current_types(ctr);\n    if (t < 0) || (t > 2),\n        problem = t;\n        ctr = nu"
+	    "mios + 1;\n    end\nend\nif problem ~= 0,\n    error('Type cannot be %i, must be 0, 1 or 2.', problem);\nend"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    41
+	    Type		    "edit"
+	    Name		    "bin_pts"
+	    Prompt		    "Binary pt:"
+	    Value		    "0"
+	    Callback		    "swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'mode');\n% current_bins = eval(get_p"
+	    "aram(blk, 'bin_pts'));\n% if (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(curre"
+	    "nt_bins) > 1),\n%     error('Only one binary pt may be specified for this mode.');\n% elseif strcmp(mode, 'fields"
+	    " of arbitrary size')\n%     current_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '['"
+	    ", '')), '%s');\n%     current_names = current_names{1};\n%     numios = length(current_names);\n%     if length(c"
+	    "urrent_bins) ~= numios,\n%         error('%d field names specified, but %d binary pts?', numios, length(current_b"
+	    "ins));\n%     end\n% end"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    42
+	    Type		    "checkbox"
+	    Name		    "sim_port"
+	    Prompt		    "Provide sim input/output?"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    43
+	    Type		    "checkbox"
+	    Name		    "show_format"
+	    Prompt		    "Print format string?"
+	    Value		    "off"
+	    Evaluate		    "off"
+	    TabName		    "Setup"
 	  }
 	  PropName		  "Parameters"
 	}
       }
       System {
 	Name			"leds"
-	Location		[12, 45, 1980, 1455]
+	Location		[1920, 0, 3200, 1024]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1684,23 +2245,61 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"82"
-	SIDPrevWatermark	"6"
+	SIDHighWatermark	"6850"
+	SIDPrevWatermark	"6805"
 	Block {
 	  BlockType		  Inport
 	  Name			  "out_reg"
-	  SID			  "11:1"
+	  SID			  "60:6720"
 	  Position		  [100, 100, 150, 120]
-	  ZOrder		  -1
+	  ZOrder		  6672
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Reference
+	  Name			  "assert_reg"
+	  SID			  "60:6849"
+	  Ports			  [1, 1]
+	  Position		  [200, 100, 250, 120]
+	  ZOrder		  6801
+	  ShowName		  off
+	  LibraryVersion	  "1.2"
+	  SourceBlock		  "xbsIndex_r4/Assert"
+	  SourceType		  "Xilinx Assert Block"
+	  infoedit		  "Asserts a user-defined sample rate and/or type on a signal.<br><br>Hardware notes: In hardware this bl"
+	  "ock costs nothing."
+	  assert_type		  on
+	  type_source		  "Explicitly"
+	  gui_display_data_type	  "Fixed-point"
+	  arith_type		  "Unsigned"
+	  n_bits		  "32"
+	  bin_pt		  "0"
+	  preci_type		  "Single"
+	  exp_width		  "8"
+	  frac_width		  "24"
+	  assert_rate		  off
+	  rate_source		  "Explicitly"
+	  period		  "1"
+	  output_port		  on
+	  has_advanced_control	  "0"
+	  sggui_pos		  "-1,-1,-1,-1"
+	  block_type		  "assert"
+	  sg_icon_stat		  "60,30,1,1,white,blue,0,9657e937,right,,[ ],[ ]"
+	  sg_mask_display	  "fprintf('','COMMENT: begin icon graphics');\npatch([0 60 60 0 0 ],[0 0 30 30 0 ],[0.77 0.82 0.91"
+	  " ]);\nplot([0 60 60 0 0 ],[0 0 30 30 0 ]);\npatch([21.1 26.88 30.88 34.88 38.88 30.88 25.1 21.1 ],[19.44 19.44 23.4"
+	  "4 19.44 23.44 23.44 23.44 19.44 ],[1 1 1 ]);\npatch([25.1 30.88 26.88 21.1 25.1 ],[15.44 15.44 19.44 19.44 15.44 ],"
+	  "[0.931 0.946 0.973 ]);\npatch([21.1 26.88 30.88 25.1 21.1 ],[11.44 11.44 15.44 15.44 11.44 ],[1 1 1 ]);\npatch([25."
+	  "1 38.88 34.88 30.88 26.88 21.1 25.1 ],[7.44 7.44 11.44 7.44 11.44 11.44 7.44 ],[0.931 0.946 0.973 ]);\nfprintf('','"
+	  "COMMENT: end icon graphics');\nfprintf('','COMMENT: begin icon text');\n\n\ncolor('black');disp('Assert');\nfprintf"
+	  "('','COMMENT: end icon text');"
+	}
+	Block {
+	  BlockType		  Reference
 	  Name			  "cast_gw"
-	  SID			  "11:80"
+	  SID			  "60:6847"
 	  Ports			  [1, 1]
 	  Position		  [700, 100, 750, 120]
-	  ZOrder		  74
+	  ZOrder		  6799
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Convert"
 	  SourceType		  "Xilinx Type Converter Block"
@@ -1735,10 +2334,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "io_delay"
-	  SID			  "11:79"
+	  SID			  "60:6846"
 	  Ports			  [1, 1]
 	  Position		  [600, 100, 650, 120]
-	  ZOrder		  73
+	  ZOrder		  6798
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Delay"
 	  SourceType		  "Xilinx Delay Block"
@@ -1766,10 +2365,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "reint1"
-	  SID			  "11:82"
+	  SID			  "60:6850"
 	  Ports			  [1, 1]
 	  Position		  [300, 100, 350, 120]
-	  ZOrder		  76
+	  ZOrder		  6802
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Reinterpret"
 	  SourceType		  "Xilinx Type Reinterpreter Block"
@@ -1797,10 +2396,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "tut6_blackbox_leds_user_data_in"
-	  SID			  "11:81"
+	  SID			  "60:6848"
 	  Ports			  [1, 1]
 	  Position		  [900, 100, 950, 120]
-	  ZOrder		  75
+	  ZOrder		  6800
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Gateway Out"
 	  SourceType		  "Xilinx Gateway Out Block"
@@ -1832,9 +2431,9 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "sim_out"
-	  SID			  "11:6"
+	  SID			  "60:6738"
 	  Position		  [1300, 100, 1350, 120]
-	  ZOrder		  -6
+	  ZOrder		  6690
 	  IconDisplay		  "Port number"
 	}
 	Line {
@@ -1858,6 +2457,12 @@ Model {
 	Line {
 	  SrcBlock		  "out_reg"
 	  SrcPort		  1
+	  DstBlock		  "assert_reg"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "assert_reg"
+	  SrcPort		  1
 	  DstBlock		  "reint1"
 	  DstPort		  1
 	}
@@ -1872,14 +2477,15 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "rst"
-      SID		      "9"
+      SID		      "61"
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
       Position		      [85, 319, 185, 351]
-      ZOrder		      -12
+      ZOrder		      5244
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
+      AttributesFormatString  "1input"
       AncestorBlock	      "xps_library/software register"
-      LibraryVersion	      "*1.499"
+      LibraryVersion	      "*1.516"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1889,24 +2495,34 @@ Model {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		28
+	$ObjectID		44
 	$ClassName		"Simulink.Mask"
-	Initialization		"swreg_init(gcb);"
+	Type			"swreg"
+	Initialization		"swreg_init(gcb)"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  8
+	  Dimension		  10
 	  Object {
-	    $ObjectID		    29
-	    Type		    "edit"
-	    Name		    "numios"
-	    Prompt		    "Num I/Os"
-	    Value		    "1"
-	    Callback		    "t = timer('StartDelay', 0.1); t.TimerFcn = {@swreg_cb, gcb}; start(t);"
+	    $ObjectID		    45
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "one value"
+	      Cell		      "fields of equal size"
+	      Cell		      "fields of arbitrary size"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "mode"
+	    Prompt		    "Mode:"
+	    Value		    "one value"
+	    Evaluate		    "off"
+	    Callback		    "swreg_cb(gcb);"
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    30
+	    $ObjectID		    46
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1918,12 +2534,14 @@ Model {
 	    Name		    "io_dir"
 	    Prompt		    "I/O direction"
 	    Value		    "From Processor"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'io_dir'), 'To Processor'),\na(4) = {"
-	    "'off'};\nelse\na(4) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
+	    Callback		    "mask_enables = get_param(gcb, 'MaskEnables');\nmask_names = get_param(gcb, 'MaskNames');\nif strcm"
+	    "p(get_param(gcb, 'io_dir'), 'To Processor'),\n    mask_enables{ismember(mask_names, 'sample_period')} = 'off';\ne"
+	    "lse\n    mask_enables{ismember(mask_names, 'sample_period')} = 'on';\nend\nset_param(gcb, 'MaskEnables', mask_ena"
+	    "bles);"
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    31
+	    $ObjectID		    47
 	    Type		    "edit"
 	    Name		    "io_delay"
 	    Prompt		    "I/O delay"
@@ -1931,7 +2549,7 @@ Model {
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    32
+	    $ObjectID		    48
 	    Type		    "edit"
 	    Name		    "sample_period"
 	    Prompt		    "Sample period"
@@ -1939,55 +2557,87 @@ Model {
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    33
+	    $ObjectID		    49
 	    Type		    "edit"
-	    Name		    "name1"
-	    Prompt		    "Name"
+	    Name		    "names"
+	    Prompt		    "Name:"
 	    Value		    "reg"
 	    Evaluate		    "off"
-	    TabName		    "IO1"
+	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    34
+	    $ObjectID		    50
 	    Type		    "edit"
-	    Name		    "bitwidth1"
-	    Prompt		    "Bitwidth"
+	    Name		    "bitwidths"
+	    Prompt		    "Bitwidth:"
 	    Value		    "32"
-	    TabName		    "IO1"
+	    Callback		    "swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'mode');\n% current_widths = eval(get"
+	    "_param(blk, 'bitwidths'));\n% if (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(c"
+	    "urrent_widths) > 1),\n%     error('Only one width may be specified for this mode.');\n% elseif strcmp(mode, 'fiel"
+	    "ds of arbitrary size')\n%     current_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '"
+	    "[', '')), '%s');\n%     current_names = current_names{1};\n%     numios = length(current_names);\n%     if length"
+	    "(current_widths) ~= numios,\n%         error('%d field names specified, but %d widths?', numios, length(current_w"
+	    "idths));\n%     end\n% end\n% total_width = 0;\n% for ctr = 1 : length(current_widths),\n%     total_width = tota"
+	    "l_width + current_widths(ctr);\n% end\n% if total_width > 32,\n%     error('Total width must be 32 or less, set t"
+	    "o %d.', total_width);\n% end"
+	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    35
-	    Type		    "popup"
-	    Array {
-	      Type		      "Cell"
-	      Dimension		      3
-	      Cell		      "Unsigned"
-	      Cell		      "Signed  (2's comp)"
-	      Cell		      "Boolean"
-	      PropName		      "TypeOptions"
-	    }
-	    Name		    "arith_type1"
-	    Prompt		    "Type"
-	    Value		    "Unsigned"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'arith_type1'), 'Boolean'),\nset_para"
-	    "m(gcb, 'bitwidth1', '1');\nset_param(gcb, 'bin_pt1', '0');\na(6) = {'off'};\na(8) = {'off'};\nelse\na(6) = {'on'}"
-	    ";\na(8) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
-	    TabName		    "IO1"
-	  }
-	  Object {
-	    $ObjectID		    36
+	    $ObjectID		    51
 	    Type		    "edit"
-	    Name		    "bin_pt1"
-	    Prompt		    "Binary pt"
+	    Name		    "arith_types"
+	    Prompt		    "Type (ufix=0, fix=1, bool=2):"
 	    Value		    "0"
-	    TabName		    "IO1"
+	    Callback		    "[numios, ~, ~, ~, current_types] = swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'm"
+	    "ode');\n% current_types = eval(get_param(blk, 'arith_types'));\n% numios = length(current_types);\n% if (strcmp(m"
+	    "ode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(current_types) > 1),\n%     error('Only one"
+	    " type may be specified for this mode.');\n% elseif strcmp(mode, 'fields of arbitrary size')\n%     current_names "
+	    "= textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '[', '')), '%s');\n%     current_names = curr"
+	    "ent_names{1};\n%     numios = length(current_names);\n%     if length(current_types) ~= numios,\n%         error("
+	    "'%d field names specified, but %d types?', numios, length(current_types));\n%     end\n% end\nproblem = 0;\nfor c"
+	    "tr = 1 : numios,\n    t = current_types(ctr);\n    if (t < 0) || (t > 2),\n        problem = t;\n        ctr = nu"
+	    "mios + 1;\n    end\nend\nif problem ~= 0,\n    error('Type cannot be %i, must be 0, 1 or 2.', problem);\nend"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    52
+	    Type		    "edit"
+	    Name		    "bin_pts"
+	    Prompt		    "Binary pt:"
+	    Value		    "0"
+	    Callback		    "swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'mode');\n% current_bins = eval(get_p"
+	    "aram(blk, 'bin_pts'));\n% if (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(curre"
+	    "nt_bins) > 1),\n%     error('Only one binary pt may be specified for this mode.');\n% elseif strcmp(mode, 'fields"
+	    " of arbitrary size')\n%     current_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '['"
+	    ", '')), '%s');\n%     current_names = current_names{1};\n%     numios = length(current_names);\n%     if length(c"
+	    "urrent_bins) ~= numios,\n%         error('%d field names specified, but %d binary pts?', numios, length(current_b"
+	    "ins));\n%     end\n% end"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    53
+	    Type		    "checkbox"
+	    Name		    "sim_port"
+	    Prompt		    "Provide sim input/output?"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    54
+	    Type		    "checkbox"
+	    Name		    "show_format"
+	    Prompt		    "Print format string?"
+	    Value		    "off"
+	    Evaluate		    "off"
+	    TabName		    "Setup"
 	  }
 	  PropName		  "Parameters"
 	}
       }
       System {
 	Name			"rst"
-	Location		[12, 45, 1980, 1455]
+	Location		[1920, 0, 3200, 1024]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2000,23 +2650,23 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"141"
-	SIDPrevWatermark	"6"
+	SIDHighWatermark	"6870"
+	SIDPrevWatermark	"6805"
 	Block {
 	  BlockType		  Inport
-	  Name			  "sim_reg"
-	  SID			  "9:9"
+	  Name			  "sim_1"
+	  SID			  "61:6808"
 	  Position		  [100, 100, 150, 120]
-	  ZOrder		  3
+	  ZOrder		  6760
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Reference
 	  Name			  "io_delay"
-	  SID			  "9:136"
+	  SID			  "61:6865"
 	  Ports			  [1, 1]
 	  Position		  [1000, 100, 1050, 120]
-	  ZOrder		  130
+	  ZOrder		  6817
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Delay"
 	  SourceType		  "Xilinx Delay Block"
@@ -2044,10 +2694,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "reint1"
-	  SID			  "9:141"
+	  SID			  "61:6870"
 	  Ports			  [1, 1]
 	  Position		  [1300, 100, 1350, 120]
-	  ZOrder		  135
+	  ZOrder		  6822
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Reinterpret"
 	  SourceType		  "Xilinx Type Reinterpreter Block"
@@ -2075,10 +2725,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "slice_reg"
-	  SID			  "9:140"
+	  SID			  "61:6869"
 	  Ports			  [1, 1]
 	  Position		  [1100, 100, 1150, 120]
-	  ZOrder		  134
+	  ZOrder		  6821
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Slice"
 	  SourceType		  "Xilinx Bit Slice Extractor Block"
@@ -2108,10 +2758,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "tut6_blackbox_rst_user_data_out"
-	  SID			  "9:135"
+	  SID			  "61:6864"
 	  Ports			  [1, 1]
 	  Position		  [900, 100, 950, 120]
-	  ZOrder		  129
+	  ZOrder		  6816
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Gateway In"
 	  SourceType		  "Xilinx Gateway In Block"
@@ -2154,9 +2804,9 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "in_reg"
-	  SID			  "9:15"
+	  SID			  "61:6814"
 	  Position		  [1500, 100, 1550, 120]
-	  ZOrder		  9
+	  ZOrder		  6766
 	  IconDisplay		  "Port number"
 	}
 	Line {
@@ -2166,7 +2816,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "sim_reg"
+	  SrcBlock		  "sim_1"
 	  SrcPort		  1
 	  Points		  [135, 0; 0, -15; 595, 0]
 	  DstBlock		  "tut6_blackbox_rst_user_data_out"
@@ -2195,14 +2845,15 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "toggle"
-      SID		      "3"
+      SID		      "62"
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
       Position		      [85, 394, 185, 426]
-      ZOrder		      -13
+      ZOrder		      5245
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
+      AttributesFormatString  "1input"
       AncestorBlock	      "xps_library/software register"
-      LibraryVersion	      "*1.499"
+      LibraryVersion	      "*1.516"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -2212,24 +2863,34 @@ Model {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		37
+	$ObjectID		55
 	$ClassName		"Simulink.Mask"
-	Initialization		"swreg_init(gcb);"
+	Type			"swreg"
+	Initialization		"swreg_init(gcb)"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  8
+	  Dimension		  10
 	  Object {
-	    $ObjectID		    38
-	    Type		    "edit"
-	    Name		    "numios"
-	    Prompt		    "Num I/Os"
-	    Value		    "1"
-	    Callback		    "t = timer('StartDelay', 0.1); t.TimerFcn = {@swreg_cb, gcb}; start(t);"
+	    $ObjectID		    56
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "one value"
+	      Cell		      "fields of equal size"
+	      Cell		      "fields of arbitrary size"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "mode"
+	    Prompt		    "Mode:"
+	    Value		    "one value"
+	    Evaluate		    "off"
+	    Callback		    "swreg_cb(gcb);"
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    39
+	    $ObjectID		    57
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2241,12 +2902,14 @@ Model {
 	    Name		    "io_dir"
 	    Prompt		    "I/O direction"
 	    Value		    "From Processor"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'io_dir'), 'To Processor'),\na(4) = {"
-	    "'off'};\nelse\na(4) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
+	    Callback		    "mask_enables = get_param(gcb, 'MaskEnables');\nmask_names = get_param(gcb, 'MaskNames');\nif strcm"
+	    "p(get_param(gcb, 'io_dir'), 'To Processor'),\n    mask_enables{ismember(mask_names, 'sample_period')} = 'off';\ne"
+	    "lse\n    mask_enables{ismember(mask_names, 'sample_period')} = 'on';\nend\nset_param(gcb, 'MaskEnables', mask_ena"
+	    "bles);"
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    40
+	    $ObjectID		    58
 	    Type		    "edit"
 	    Name		    "io_delay"
 	    Prompt		    "I/O delay"
@@ -2254,7 +2917,7 @@ Model {
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    41
+	    $ObjectID		    59
 	    Type		    "edit"
 	    Name		    "sample_period"
 	    Prompt		    "Sample period"
@@ -2262,55 +2925,87 @@ Model {
 	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    42
+	    $ObjectID		    60
 	    Type		    "edit"
-	    Name		    "name1"
-	    Prompt		    "Name"
+	    Name		    "names"
+	    Prompt		    "Name:"
 	    Value		    "reg"
 	    Evaluate		    "off"
-	    TabName		    "IO1"
+	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    43
+	    $ObjectID		    61
 	    Type		    "edit"
-	    Name		    "bitwidth1"
-	    Prompt		    "Bitwidth"
+	    Name		    "bitwidths"
+	    Prompt		    "Bitwidth:"
 	    Value		    "32"
-	    TabName		    "IO1"
+	    Callback		    "swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'mode');\n% current_widths = eval(get"
+	    "_param(blk, 'bitwidths'));\n% if (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(c"
+	    "urrent_widths) > 1),\n%     error('Only one width may be specified for this mode.');\n% elseif strcmp(mode, 'fiel"
+	    "ds of arbitrary size')\n%     current_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '"
+	    "[', '')), '%s');\n%     current_names = current_names{1};\n%     numios = length(current_names);\n%     if length"
+	    "(current_widths) ~= numios,\n%         error('%d field names specified, but %d widths?', numios, length(current_w"
+	    "idths));\n%     end\n% end\n% total_width = 0;\n% for ctr = 1 : length(current_widths),\n%     total_width = tota"
+	    "l_width + current_widths(ctr);\n% end\n% if total_width > 32,\n%     error('Total width must be 32 or less, set t"
+	    "o %d.', total_width);\n% end"
+	    TabName		    "Setup"
 	  }
 	  Object {
-	    $ObjectID		    44
-	    Type		    "popup"
-	    Array {
-	      Type		      "Cell"
-	      Dimension		      3
-	      Cell		      "Unsigned"
-	      Cell		      "Signed  (2's comp)"
-	      Cell		      "Boolean"
-	      PropName		      "TypeOptions"
-	    }
-	    Name		    "arith_type1"
-	    Prompt		    "Type"
-	    Value		    "Unsigned"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'arith_type1'), 'Boolean'),\nset_para"
-	    "m(gcb, 'bitwidth1', '1');\nset_param(gcb, 'bin_pt1', '0');\na(6) = {'off'};\na(8) = {'off'};\nelse\na(6) = {'on'}"
-	    ";\na(8) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
-	    TabName		    "IO1"
-	  }
-	  Object {
-	    $ObjectID		    45
+	    $ObjectID		    62
 	    Type		    "edit"
-	    Name		    "bin_pt1"
-	    Prompt		    "Binary pt"
+	    Name		    "arith_types"
+	    Prompt		    "Type (ufix=0, fix=1, bool=2):"
 	    Value		    "0"
-	    TabName		    "IO1"
+	    Callback		    "[numios, ~, ~, ~, current_types] = swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'm"
+	    "ode');\n% current_types = eval(get_param(blk, 'arith_types'));\n% numios = length(current_types);\n% if (strcmp(m"
+	    "ode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(current_types) > 1),\n%     error('Only one"
+	    " type may be specified for this mode.');\n% elseif strcmp(mode, 'fields of arbitrary size')\n%     current_names "
+	    "= textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '[', '')), '%s');\n%     current_names = curr"
+	    "ent_names{1};\n%     numios = length(current_names);\n%     if length(current_types) ~= numios,\n%         error("
+	    "'%d field names specified, but %d types?', numios, length(current_types));\n%     end\n% end\nproblem = 0;\nfor c"
+	    "tr = 1 : numios,\n    t = current_types(ctr);\n    if (t < 0) || (t > 2),\n        problem = t;\n        ctr = nu"
+	    "mios + 1;\n    end\nend\nif problem ~= 0,\n    error('Type cannot be %i, must be 0, 1 or 2.', problem);\nend"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    63
+	    Type		    "edit"
+	    Name		    "bin_pts"
+	    Prompt		    "Binary pt:"
+	    Value		    "0"
+	    Callback		    "swreg_maskcheck(gcb);\n% blk = gcb;\n% mode = get_param(blk, 'mode');\n% current_bins = eval(get_p"
+	    "aram(blk, 'bin_pts'));\n% if (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(curre"
+	    "nt_bins) > 1),\n%     error('Only one binary pt may be specified for this mode.');\n% elseif strcmp(mode, 'fields"
+	    " of arbitrary size')\n%     current_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '['"
+	    ", '')), '%s');\n%     current_names = current_names{1};\n%     numios = length(current_names);\n%     if length(c"
+	    "urrent_bins) ~= numios,\n%         error('%d field names specified, but %d binary pts?', numios, length(current_b"
+	    "ins));\n%     end\n% end"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    64
+	    Type		    "checkbox"
+	    Name		    "sim_port"
+	    Prompt		    "Provide sim input/output?"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Setup"
+	  }
+	  Object {
+	    $ObjectID		    65
+	    Type		    "checkbox"
+	    Name		    "show_format"
+	    Prompt		    "Print format string?"
+	    Value		    "off"
+	    Evaluate		    "off"
+	    TabName		    "Setup"
 	  }
 	  PropName		  "Parameters"
 	}
       }
       System {
 	Name			"toggle"
-	Location		[12, 45, 1980, 1455]
+	Location		[1920, 0, 3200, 1024]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2323,23 +3018,23 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"141"
-	SIDPrevWatermark	"6"
+	SIDHighWatermark	"6870"
+	SIDPrevWatermark	"6805"
 	Block {
 	  BlockType		  Inport
-	  Name			  "sim_reg"
-	  SID			  "3:9"
+	  Name			  "sim_1"
+	  SID			  "62:6808"
 	  Position		  [100, 100, 150, 120]
-	  ZOrder		  3
+	  ZOrder		  6760
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Reference
 	  Name			  "io_delay"
-	  SID			  "3:136"
+	  SID			  "62:6865"
 	  Ports			  [1, 1]
 	  Position		  [1000, 100, 1050, 120]
-	  ZOrder		  130
+	  ZOrder		  6817
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Delay"
 	  SourceType		  "Xilinx Delay Block"
@@ -2367,10 +3062,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "reint1"
-	  SID			  "3:141"
+	  SID			  "62:6870"
 	  Ports			  [1, 1]
 	  Position		  [1300, 100, 1350, 120]
-	  ZOrder		  135
+	  ZOrder		  6822
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Reinterpret"
 	  SourceType		  "Xilinx Type Reinterpreter Block"
@@ -2398,10 +3093,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "slice_reg"
-	  SID			  "3:140"
+	  SID			  "62:6869"
 	  Ports			  [1, 1]
 	  Position		  [1100, 100, 1150, 120]
-	  ZOrder		  134
+	  ZOrder		  6821
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Slice"
 	  SourceType		  "Xilinx Bit Slice Extractor Block"
@@ -2431,10 +3126,10 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "tut6_blackbox_toggle_user_data_out"
-	  SID			  "3:135"
+	  SID			  "62:6864"
 	  Ports			  [1, 1]
 	  Position		  [900, 100, 950, 120]
-	  ZOrder		  129
+	  ZOrder		  6816
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Gateway In"
 	  SourceType		  "Xilinx Gateway In Block"
@@ -2477,9 +3172,9 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "in_reg"
-	  SID			  "3:15"
+	  SID			  "62:6814"
 	  Position		  [1500, 100, 1550, 120]
-	  ZOrder		  9
+	  ZOrder		  6766
 	  IconDisplay		  "Port number"
 	}
 	Line {
@@ -2489,7 +3184,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "sim_reg"
+	  SrcBlock		  "sim_1"
 	  SrcPort		  1
 	  Points		  [135, 0; 0, -15; 595, 0]
 	  DstBlock		  "tut6_blackbox_toggle_user_data_out"
@@ -2531,11 +3226,11 @@ Model {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		46
+	$ObjectID		66
 	$ClassName		"Simulink.Mask"
 	Object {
 	  $PropName		  "Parameters"
-	  $ObjectID		  47
+	  $ObjectID		  67
 	  $ClassName		  "Simulink.MaskParameter"
 	  Type			  "edit"
 	  Name			  "amber_time"
@@ -2599,7 +3294,7 @@ Model {
 	  EnableBusSupport	  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    48
+	    $ObjectID		    68
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Xilinx Black Box Block"
 	    Description		    " Incorporates black box HDL and simulation model into a System Generator design.\n\nYou must su"
@@ -2633,7 +3328,7 @@ Model {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      17
 	      Object {
-		$ObjectID		49
+		$ObjectID		69
 		Type			"edit"
 		Name			"infoedit"
 		Prompt			" "
@@ -2646,7 +3341,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		50
+		$ObjectID		70
 		Type			"edit"
 		Name			"init_code"
 		Prompt			"Block configuration m-function"
@@ -2654,7 +3349,7 @@ Model {
 		Evaluate		"off"
 	      }
 	      Object {
-		$ObjectID		51
+		$ObjectID		71
 		Type			"edit"
 		Name			"sim_method_sgadvanced"
 		Prompt			" "
@@ -2663,7 +3358,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		52
+		$ObjectID		72
 		Type			"popup"
 		Array {
 		  Type			  "Cell"
@@ -2678,7 +3373,7 @@ Model {
 		Value			"ISE Simulator"
 	      }
 	      Object {
-		$ObjectID		53
+		$ObjectID		73
 		Type			"edit"
 		Name			"engine_block"
 		Prompt			"HDL co-simulator to use  (specify helper block by name)"
@@ -2686,14 +3381,14 @@ Model {
 		Evaluate		"off"
 	      }
 	      Object {
-		$ObjectID		54
+		$ObjectID		74
 		Type			"checkbox"
 		Name			"verbose"
 		Prompt			"Verbose"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		55
+		$ObjectID		75
 		Type			"edit"
 		Name			"xl_use_area_sgadvanced"
 		Prompt			" "
@@ -2702,21 +3397,21 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		56
+		$ObjectID		76
 		Type			"checkbox"
 		Name			"xl_use_area"
 		Prompt			"Define FPGA area for resource estimation"
 		Value			"off"
 	      }
 	      Object {
-		$ObjectID		57
+		$ObjectID		77
 		Type			"edit"
 		Name			"xl_area"
 		Prompt			"FPGA area [slices, FFs, BRAMs, LUTs, IOBs, emb. mults, TBUFs]"
 		Value			"[0,0,0,0,0,0,0]"
 	      }
 	      Object {
-		$ObjectID		58
+		$ObjectID		78
 		Type			"edit"
 		Name			"has_advanced_control"
 		Prompt			" "
@@ -2724,7 +3419,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		59
+		$ObjectID		79
 		Type			"edit"
 		Name			"sggui_pos"
 		Prompt			" "
@@ -2733,7 +3428,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		60
+		$ObjectID		80
 		Type			"edit"
 		Name			"block_type"
 		Prompt			" "
@@ -2742,7 +3437,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		61
+		$ObjectID		81
 		Type			"edit"
 		Name			"block_version"
 		Prompt			" "
@@ -2751,7 +3446,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		62
+		$ObjectID		82
 		Type			"edit"
 		Name			"sg_icon_stat"
 		Prompt			" "
@@ -2760,7 +3455,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		63
+		$ObjectID		83
 		Type			"edit"
 		Name			"sg_mask_display"
 		Prompt			" "
@@ -2776,7 +3471,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		64
+		$ObjectID		84
 		Type			"edit"
 		Name			"sg_list_contents"
 		Prompt			" "
@@ -2785,7 +3480,7 @@ Model {
 		Visible			"off"
 	      }
 	      Object {
-		$ObjectID		65
+		$ObjectID		85
 		Type			"edit"
 		Name			"sg_blockgui_xml"
 		Prompt			" "
@@ -2902,7 +3597,7 @@ Model {
     Line {
       SrcBlock		      "Concat"
       SrcPort		      1
-      DstBlock		      "leds"
+      DstBlock		      "Convert"
       DstPort		      1
     }
     Line {
@@ -2915,9 +3610,9 @@ Model {
 	DstPort			1
       }
       Branch {
-	Points			[25, 0; 0, 30; 8, 0]
+	Points			[33, 0]
 	Branch {
-	  Points		  [0, -190]
+	  Points		  [0, -160]
 	  DstBlock		  "gpio0"
 	  DstPort		  1
 	}
@@ -2959,15 +3654,15 @@ Model {
 	DstPort			1
       }
       Branch {
-	Points			[11, 0; 0, -30; 26, 0]
+	Points			[37, 0]
+	Branch {
+	  Points		  [0, -155]
+	  DstBlock		  "gpio2"
+	  DstPort		  1
+	}
 	Branch {
 	  DstBlock		  "Concat"
 	  DstPort		  3
-	}
-	Branch {
-	  Points		  [0, -125]
-	  DstBlock		  "gpio2"
-	  DstPort		  1
 	}
       }
     }
@@ -3031,6 +3726,36 @@ Model {
       DstBlock		      "edge_detect"
       DstPort		      1
     }
+    Line {
+      SrcBlock		      "Convert"
+      SrcPort		      1
+      DstBlock		      "leds"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "gpioa_oe_n"
+      SrcPort		      1
+      DstBlock		      "Terminator4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "gpio0"
+      SrcPort		      1
+      DstBlock		      "Terminator3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "gpio1"
+      SrcPort		      1
+      DstBlock		      "Terminator2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "gpio2"
+      SrcPort		      1
+      DstBlock		      "Terminator1"
+      DstPort		      1
+    }
     Annotation {
       SID		      "39"
       Name		      "Set the GPIO's output buffers (ROACH 1 only)"
@@ -3039,7 +3764,7 @@ Model {
     Annotation {
       SID		      "37"
       Name		      "A register for reading the led status from software"
-      Position		      [795, 438]
+      Position		      [875, 438]
     }
   }
 }
@@ -3214,7 +3939,7 @@ MatData {
   DataRecord {
     Tag			    DataTag1
     Data		    "  %)30     .    L 8   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ /0)!@(.    ( 8   "
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ )#IO@4.    ( 8   "
     "8    (     @         %    \"     $    !     0         %  0 \"0    $    _    9&5F875L=', 961G90      <&]L87)I='D >%"
     "]I;@      >%]O=70     >5]I;@      >5]O=70       X   \"8 P  !@    @    !          4    (     0    P    !          X"
     "    P    !@    @    $          4    (     0    0    !         !  ! !E9&=E#@   #@    &    \"     0         !0    @ "
@@ -3238,7 +3963,7 @@ MatData {
   DataRecord {
     Tag			    DataTag2
     Data		    "  %)30     .    L 8   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ /0)!@(.    ( 8   "
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ )#IO@4.    ( 8   "
     "8    (     @         %    \"     $    !     0         %  0 \"0    $    _    9&5F875L=', 961G90      <&]L87)I='D >%"
     "]I;@      >%]O=70     >5]I;@      >5]O=70       X   \"8 P  !@    @    !          4    (     0    P    !          X"
     "    P    !@    @    $          4    (     0    0    !         !  ! !E9&=E#@   #@    &    \"     0         !0    @ "
