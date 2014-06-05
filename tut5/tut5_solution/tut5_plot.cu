@@ -150,8 +150,13 @@ void Plot()
         cpgeras();
         cpgsvp(PG_VP_ML, PG_VP_MR, PG_VP_MB, PG_VP_MT);
         cpgswin(fMinFreq, fMaxFreq, fMinY, fMaxY);
-        //cpglab("Bin Number", "", "SumPowX");
-        cpgbox("BCNST", 0.0, 0, "BCNST", 0.0, 0);
+        /*cpglab("Bin Number", "", "SumPowX");*/
+        cpgsci(PG_CI_PLOT);
+        cpgsch(PG_SIZE_LABEL);
+        cpgmtxt("L", 4.0, 0.2, 0, "SumPowX");
+        cpgsci(PG_CI_DEF);
+        cpgsch(PG_SIZE_DEF);
+        cpgbox("BCNST", 0.0, 0, "BCNTSV", 0.0, 0);
         cpgsci(PG_CI_PLOT);
         cpgline(g_iNFFT, g_pfFreq, g_pfSumPowX);
         cpgsci(PG_CI_DEF);
@@ -184,7 +189,12 @@ void Plot()
         cpgsvp(PG_VP_ML, PG_VP_MR, PG_VP_MB, PG_VP_MT);
         cpgswin(fMinFreq, fMaxFreq, fMinY, fMaxY);
         //cpglab("Bin Number", "", "SumPowY");
-        cpgbox("BCNST", 0.0, 0, "BCNST", 0.0, 0);
+        cpgsci(PG_CI_PLOT);
+        cpgsch(PG_SIZE_LABEL);
+        cpgmtxt("L", 4.0, 0.2, 0, "SumPowY");
+        cpgsci(PG_CI_DEF);
+        cpgsch(PG_SIZE_DEF);
+        cpgbox("BCNST", 0.0, 0, "BCNSTV", 0.0, 0);
         cpgsci(PG_CI_PLOT);
         cpgline(g_iNFFT, g_pfFreq, g_pfSumPowY);
         cpgsci(PG_CI_DEF);
@@ -211,7 +221,12 @@ void Plot()
         cpgsvp(PG_VP_ML, PG_VP_MR, PG_VP_MB, PG_VP_MT);
         cpgswin(fMinFreq, fMaxFreq, fMinY, fMaxY);
         //cpglab("Bin Number", "", "SumStokesRe");
-        cpgbox("BCNST", 0.0, 0, "BCNST", 0.0, 0);
+        cpgsci(PG_CI_PLOT);
+        cpgsch(PG_SIZE_LABEL);
+        cpgmtxt("L", 4.0, 0.2, 0, "SumStokesRe");
+        cpgsci(PG_CI_DEF);
+        cpgsch(PG_SIZE_DEF);
+        cpgbox("BCNST", 0.0, 0, "BCNSTV", 0.0, 0);
         cpgsci(PG_CI_PLOT);
         cpgline(g_iNFFT, g_pfFreq, g_pfSumStokesRe);
         cpgsci(PG_CI_DEF);
@@ -238,7 +253,13 @@ void Plot()
         cpgsvp(PG_VP_ML, PG_VP_MR, PG_VP_MB, PG_VP_MT);
         cpgswin(fMinFreq, fMaxFreq, fMinY, fMaxY);
         //cpglab("Bin Number", "", "SumStokesIm");
-        cpgbox("BCNST", 0.0, 0, "BCNST", 0.0, 0);
+        cpgsci(PG_CI_PLOT);
+        cpgsch(PG_SIZE_LABEL);
+        cpgmtxt("L", 4.0, 0.2, 0, "SumStokesIm");
+        cpgmtxt("B", 1.5, 0.45, 0, "Bin Number");
+        cpgsci(PG_CI_DEF);
+        cpgsch(PG_SIZE_DEF);
+        cpgbox("BCNST", 0.0, 0, "BCNSTV", 0.0, 0);
         cpgsci(PG_CI_PLOT);
         cpgline(g_iNFFT, g_pfFreq, g_pfSumStokesIm);
         cpgsci(PG_CI_DEF);
