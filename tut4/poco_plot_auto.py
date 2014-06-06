@@ -29,10 +29,8 @@ def exit_clean():
     exit()
 
 def get_data():
-
     acc_n = fpga.read_uint('acc_num')
     print 'Grabbing integration number %i'%acc_n
-
 
     a_0=struct.unpack('>512l',fpga.read('dir_x0_aa_real',2048,0))
     a_1=struct.unpack('>512l',fpga.read('dir_x1_aa_real',2048,0))
@@ -63,8 +61,6 @@ def get_data():
 def drawDataCallback():
     matplotlib.pyplot.clf()
     acc_n,interleave_a,interleave_b,interleave_c,interleave_d = get_data()
-
-
 
     matplotlib.pyplot.subplot(411)
     if ifch:
@@ -108,9 +104,8 @@ def drawDataCallback():
     matplotlib.pyplot.ylabel('Power (arbitrary units)')
     matplotlib.pyplot.title('DD')
 
-
     fig.canvas.manager.window.after(100, drawDataCallback)
-
+    matplotlib.pyplot.show()
 
 if __name__ == '__main__':
     from optparse import OptionParser
