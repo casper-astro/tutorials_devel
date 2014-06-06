@@ -60,156 +60,6 @@ def get_data():
 
     return acc_n,interleave_a,interleave_b,interleave_c,interleave_d
 
-def drawData_animate():
-    #matplotlib.pyplot.ion()
-    fig= matplotlib.pyplot.figure(num=1)
-    acc_n,interleave_a,interleave_b,interleave_c,interleave_d = get_data()
-
-    #matplotlib.pyplot.subplot(411)
-    ax1 = fig.add_subplot(4,1,1)
-    ax1.set_title('Integration number %i \nAA'%acc_n)	
-    if ifch:
-        plot1, = matplotlib.pyplot.semilogy(interleave_a)
-        matplotlib.pyplot.xlim(0,1024)
-    else:
-        plot1, = matplotlib.pyplot.semilogy(xaxis,interleave_a)
-    matplotlib.pyplot.grid()
-    #matplotlib.pyplot.title('Integration number %i \nAA'%acc_n)
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-
-    ax2 = fig.add_subplot(412)
-    if ifch:
-        plot2, = matplotlib.pyplot.semilogy(interleave_b)
-        matplotlib.pyplot.xlim(0,1024)
-    else:
-        plot2, = matplotlib.pyplot.semilogy(xaxis,interleave_b)
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-    matplotlib.pyplot.title('BB')
-
-    ax3 = fig.add_subplot(413)
-    if ifch:
-        plot3, = matplotlib.pyplot.semilogy(interleave_c)
-        matplotlib.pyplot.xlim(0,1024)
-    else:
-        plot3, = matplotlib.pyplot.semilogy(xaxis,interleave_c)
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-    matplotlib.pyplot.title('CC')
-
-    ax4 = fig.add_subplot(414)
-    if ifch:
-        plot4, = matplotlib.pyplot.semilogy(interleave_d)
-        matplotlib.pyplot.xlim(0,1024)
-        matplotlib.pyplot.xlabel('Channel')
-    else:
-        plot4, = matplotlib.pyplot.semilogy(xaxis,interleave_d)
-        matplotlib.pyplot.xlabel('Frequency')
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-    matplotlib.pyplot.title('DD')
-
-    def init():
-	if ifch:
-		plot1.set_ydata(numpy.zeros(1,1024))
-		plot2.set_ydata(numpy.zeros(1,1024))
-		plot3.set_ydata(numpy.zeros(1,1024))
-		plot4.set_ydata(numpy.zeros(1,1024))
-	else:
-		plot1.set_ydata(numpy.zeros(1,size(xaxis)+1))
-		plot2.set_ydata(numpy.zeros(1,size(xaxis)+1))
-		plot3.set_ydata(numpy.zeros(1,size(xaxis)+1))
-		plot4.set_ydata(numpy.zeros(1,size(xaxis)+1))
-	return ax, plot1, plot2, plot3, plot4,
-
-    def update():
-	acc_n,interleave_a,interleave_b,interleave_c,interleave_d = get_data()
-	plot1.set_ydata(interleave_a)
-	ax.set_title('Integration number %i \nAA'%acc_n)
-	plot2.set_ydata(interleave_b)
-	plot3.set_ydata(interleave_c)
-	plot4.set_ydata(interleave_d)
-	return ax, plot1, plot2, plot3, plot4,
-
-    ani = matplotlib.animation.FuncAnimation(fig, update, init_func = init, interval = 10, blit = True)
-    matplotlib.pyplot.show()
-
-
-
-def drawDataLoop():
-    matplotlib.pyplot.ion()
-    fig = matplotlib.pyplot.figure(num = 1, figsize=(18,12))
-    acc_n,interleave_a,interleave_b,interleave_c,interleave_d = get_data()
-
-
-    ax1 = fig.add_subplot(411)
-    if ifch:
-        plot1, = matplotlib.pyplot.semilogy(interleave_a)
-        matplotlib.pyplot.xlim(0,1024)
-    else:
-        plot1, = matplotlib.pyplot.semilogy(xaxis,interleave_a)
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.title('Auto-Correlation \nIntegration :%ith cycle \nAA (antenna A)'%acc_n)
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-
-    matplotlib.pyplot.subplot(412)
-    if ifch:
-        plot2, = matplotlib.pyplot.semilogy(interleave_b)
-        matplotlib.pyplot.xlim(0,1024)
-    else:
-        plot2, = matplotlib.pyplot.semilogy(xaxis,interleave_b)
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-    matplotlib.pyplot.title('BB (Antenna B)')
-
-    matplotlib.pyplot.subplot(413)
-    if ifch:
-        plot3, = matplotlib.pyplot.semilogy(interleave_c)
-        matplotlib.pyplot.xlim(0,1024)
-    else:
-        plot3, = matplotlib.pyplot.semilogy(xaxis,interleave_c)
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-    matplotlib.pyplot.title('CC (Antenna C)')
-
-    matplotlib.pyplot.subplot(414)
-    if ifch:
-        plot4, = matplotlib.pyplot.semilogy(interleave_d)
-        matplotlib.pyplot.xlim(0,1024)
-        matplotlib.pyplot.xlabel('Channel')
-    else:
-        plot4, = matplotlib.pyplot.semilogy(xaxis,interleave_d)
-        matplotlib.pyplot.xlabel('Frequency (MHz)')
-    matplotlib.pyplot.grid()
-    matplotlib.pyplot.ylabel('Power (arbitrary units)')
-    matplotlib.pyplot.title('DD (Antenna D)')
-
-    while(1):
-	try:
-		acc_n,interleave_a,interleave_b,interleave_c,interleave_d = get_data()
-		ax1.set_title('Auto-Correlation \nIntegration :%ith cycle \nAA (antenna A)'%acc_n)
-		plot1.set_ydata(interleave_a)
-		matplotlib.pyplot.hold(False)
-		matplotlib.pyplot.draw()
-		matplotlib.pyplot.hold(True)
-		plot2.set_ydata(interleave_b)
-		matplotlib.pyplot.hold(False)
-		matplotlib.pyplot.draw()
-		matplotlib.pyplot.hold(True)
-		plot3.set_ydata(interleave_c)
-		matplotlib.pyplot.hold(False)
-		matplotlib.pyplot.draw()
-		matplotlib.pyplot.hold(True)
-		plot4.set_ydata(interleave_d)
-		matplotlib.pyplot.hold(False)
-		matplotlib.pyplot.draw()
-		matplotlib.pyplot.hold(True)
-		time.sleep(1)
-	except (KeyboardInterrupt, SystemExit):
-		print '\nKeyboard interrupt caught, exiting...\n'
-		break
-
-
 def drawDataCallback():
     matplotlib.pyplot.clf()
     acc_n,interleave_a,interleave_b,interleave_c,interleave_d = get_data()
@@ -258,8 +108,8 @@ def drawDataCallback():
     matplotlib.pyplot.ylabel('Power (arbitrary units)')
     matplotlib.pyplot.title('DD')
 
-    #matplotlib.pyplot.show()
-    fig.canvas.manager.window.after(1000, drawDataCallback)
+
+    fig.canvas.manager.window.after(100, drawDataCallback)
 
 
 if __name__ == '__main__':
@@ -317,14 +167,12 @@ try:
 
 
     # set up the figure with a subplot for each polarisation to be plotted
-    #fig = matplotlib.pyplot.figure()
-    #ax = fig.add_subplot(4,1,1)
+    fig = matplotlib.pyplot.figure()
+    ax = fig.add_subplot(4,1,1)
 
     # start the process
-    #fig.canvas.manager.window.after(1000, drawDataCallback)
-    #matplotlib.pyplot.show()
-    drawDataLoop()
-    #drawData_animate()
+    fig.canvas.manager.window.after(100, drawDataCallback)
+    matplotlib.pyplot.show()
     print 'Exiting...'
 
 
