@@ -111,7 +111,7 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('tut3.py <ROACH_HOSTNAME_or_IP> [options]')
+    p.set_usage('poco_plot_auto.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.add_option('-C','--channel',dest='ch',action='store_true',
         help='Set plot with channel number or frequency.')

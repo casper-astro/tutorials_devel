@@ -91,7 +91,7 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('tut4.py <ROACH_HOSTNAME_or_IP> [options]')
+    p.set_usage('poco_plot_cross.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.add_option('-c', '--cross', dest='cross', type='str',default='ab',
         help='Plot this cross correlation magnitude and phase. default: ab')

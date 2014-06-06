@@ -40,7 +40,7 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('poco_init.py <ROACH_HOSTNAME_or_IP> [options]')
+    p.set_usage('poco_plot_adc.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     opts, args = p.parse_args(sys.argv[1:])
 
