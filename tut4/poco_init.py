@@ -114,7 +114,8 @@ try:
             fpga.blindwrite('quant%i_addr'%input,struct.pack('>I',chan))
     print 'done'
 
-    print "ok, all set up. Try plotting using poco_plot_autos.py or poco_plot_cross.py"
+    print "ok, all set up. Try use poco_adc_amplitudes.py to determine the adc input level, then \
+           try plotting using poco_plot_auto.py or poco_plot_cross.py"
 
 #    time.sleep(2)
 #
