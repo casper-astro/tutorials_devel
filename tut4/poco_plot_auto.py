@@ -103,9 +103,9 @@ def drawDataCallback():
     matplotlib.pyplot.grid()
     matplotlib.pyplot.ylabel('Power (arbitrary units)')
     matplotlib.pyplot.title('DD')
+    matplotlib.pyplot.draw()
 
     fig.canvas.manager.window.after(100, drawDataCallback)
-    matplotlib.pyplot.show()
 
 if __name__ == '__main__':
     from optparse import OptionParser

@@ -30,9 +30,9 @@ def drawDataCallback():
         matplotlib.pyplot.plot(raw_adc[0], '-o')
         matplotlib.pyplot.grid()
         matplotlib.pyplot.title('ADC ' +str(i))
-
+    
+    matplotlib.pyplot.draw()
     fig.canvas.manager.window.after(100, drawDataCallback)
-    matplotlib.pyplot.show() 
 
 #START OF MAIN:
 

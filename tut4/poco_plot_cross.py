@@ -81,9 +81,8 @@ def drawDataCallback(baseline):
     matplotlib.pyplot.ylim(-numpy.pi,numpy.pi)
     matplotlib.pyplot.grid()
     
-
+    matplotlib.pyplot.draw()
     fig.canvas.manager.window.after(100, drawDataCallback,baseline)
-    matplotlib.pyplot.show() 
 
 #START OF MAIN:
 
