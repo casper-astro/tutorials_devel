@@ -91,7 +91,7 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('tut3.py <ROACH_HOSTNAME_or_IP> [options]')
+    p.set_usage('tut4.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.add_option('-c', '--cross', dest='cross', type='str',default='ab',
         help='Plot this cross correlation magnitude and phase. default: ab')
@@ -148,7 +148,8 @@ try:
     matplotlib.pyplot.show()
     print 'Plotting complete. Exiting...'
 
-
+except AttributeError:
+    pass
 except KeyboardInterrupt:
     exit_clean()
 except:

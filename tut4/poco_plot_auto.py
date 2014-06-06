@@ -170,7 +170,8 @@ try:
     matplotlib.pyplot.show()
     print 'Exiting...'
 
-
+except AttributeError:
+    pass
 except KeyboardInterrupt:
     exit_clean()
 except:
