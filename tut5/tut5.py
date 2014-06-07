@@ -97,10 +97,10 @@ if __name__ == '__main__':
     if not gbe0_link:
        print 'ERROR: There is no cable plugged into port0!'
 
-    #print 'Starting 10GbE driver...',   
-    #sys.stdout.flush()
-    #fpga.tap_start('tap0', gbe0, MACBase + srcIP, srcIP, srcPort)
-    #print 'DONE'
+    print 'Starting 10GbE driver...',   
+    sys.stdout.flush()
+    fpga.tap_start('tap0', gbe0, MACBase + srcIP, srcIP, srcPort)
+    print 'DONE'
 
     print 'Setting up packet generation...',
     sys.stdout.flush()
