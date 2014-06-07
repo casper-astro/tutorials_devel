@@ -27,7 +27,7 @@ def drawDataCallback():
         raw_adc[i] = read_snap('snap_adc'+str(i))
 
         matplotlib.pyplot.subplot(4, 1, i+1)
-        matplotlib.pyplot.plot(raw_adc[0], '-o')
+        matplotlib.pyplot.plot(raw_adc[i], '-o')
         matplotlib.pyplot.grid()
         matplotlib.pyplot.title('ADC ' +str(i))
     
