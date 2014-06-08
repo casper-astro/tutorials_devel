@@ -26,8 +26,9 @@ def drawDataCallback():
     for i in range(0, 4):
         raw_adc[i] = read_snap('snap_adc'+str(i))
 
-        matplotlib.pyplot.subplot(4, 1, i+1)
-        matplotlib.pyplot.plot(raw_adc[i], '-o')
+        ax = matplotlib.pyplot.subplot(4, 1, i+1)
+        matplotlib.pyplot.plot(raw_adc[i], '-o') 
+        ax.set_xlim([l_xlim, u_xlim])
         matplotlib.pyplot.grid()
         matplotlib.pyplot.title('ADC ' +str(i))
     
@@ -42,6 +43,10 @@ if __name__ == '__main__':
     p = OptionParser()
     p.set_usage('poco_plot_adc.py <ROACH_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
+    p.add_option('-l', '--lxlim', dest='l_xlim', type='int', default=0,
+        help='Set the lower limit of time samples index to plot (l_xlim)')
+    p.add_option('-u', '--uxlim', dest='u_xlim', type='int', default=500,
+        help='Set the upper limit of time samples index to plot (u_xlim)')
     opts, args = p.parse_args(sys.argv[1:])
 
     if args==[]:
@@ -49,6 +54,21 @@ if __name__ == '__main__':
         exit()
     else:
         roach = args[0]
+  
+    if opts.l_xlim !=None:
+        l_xlim = opts.l_xlim
+    else:
+        l_xlim = 0
+
+    if opts.u_xlim !=None:
+        u_xlim = opts.u_xlim
+    else:
+        u_xlim = opts.u_xlim
+
+    if l_xlim < 0 or u_xlim < l_xlim:
+       print 'Both limits need to be non-negative, and upper limit needs ' + \
+             'to be larger than the lower limit. \nExiting. '
+       exit()
 
 try:
     loggers = []
