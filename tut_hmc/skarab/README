@@ -1,0 +1,8 @@
+Refer to https://casper.berkeley.edu/wiki/Tutorials HMC Interface (SKARAB)
+
+This folder contains the following files for the HMC tutorial (SKARAB):  
+
+1) The Simulink model template file (*_template.slx) for starting the tutorial with
+2) The Simulink model (*.slx) completed file for reference and comparison 
+3) pre-compiled *.fpg file for programming
+4) The python file *.py
