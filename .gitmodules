@@ -1,3 +1,3 @@
 [submodule "mlib_devel"]
-	path = mlib_devel
+	path = ise/mlib_devel
 	url = https://github.com/casper-astro/mlib_devel.git
