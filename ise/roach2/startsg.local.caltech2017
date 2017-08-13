@@ -1,0 +1,6 @@
+export XILINX_PATH=/scr/Xilinx/14.7/ISE_DS/ISE
+export MATLAB_PATH=/usr/local/matlab/matlab-R2012b
+export PLATFORM=lin64
+
+# This is needed to make Python work in CalTech
+export PATH=/usr/local/EPD/epd-7.2.2/bin:${PATH}
