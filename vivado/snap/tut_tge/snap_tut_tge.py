@@ -1,4 +1,4 @@
-#!/bin/env ipython
+#!/usr/bin/env python
 
 '''
 This script demonstrates programming an FPGA, configuring 10GbE cores and checking transmitted and received data using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with TUT3 at the 2009 CASPER workshop.
@@ -63,6 +63,12 @@ if __name__ == '__main__':
         snap = args[0]
     if opts.fpg != '':
         fpgfile = opts.fpg
+
+# DO NOT CHANGE THESE THREE VALUES!!!
+mac_location = 0x00
+ip_location = 0x10
+port_location = 0x8
+
 try:
     #lh = corr.log_handlers.DebugLogHandler()
     lh = logging.StreamHandler()
@@ -118,16 +124,24 @@ try:
     gbe_rx = fpga.gbes[rx_core_name]
     gbe_rx.set_arp_table(mac_base+numpy.arange(256))
     gbe_rx.setup(mac_base+13,ip_base+13,fabric_port)
-    #fpga.tap_start('tap0',rx_core_name,mac_base+dest_ip,dest_ip,fabric_port)
+    fpga.write(rx_core_name, gbe_rx.mac.packed(), mac_location)
+    fpga.write(rx_core_name, gbe_rx.ip_address.packed(), ip_location)
+    value = (fpga.read_int(rx_core_name, word_offset = port_location) & 0xffff0000) | (gbe_rx.port & 0xffff)
+    fpga.write_int(rx_core_name, value, word_offset = port_location)
+    gbe_rx.fabric_enable()
     print 'done'
 
     print 'Configuring transmitter core...',
     sys.stdout.flush()
-    #fpga.tap_start('tap3',tx_core_name,mac_base+source_ip,source_ip,fabric_port)
     #Set IP address of snap and set arp-table
     gbe_tx = fpga.gbes[tx_core_name]
     gbe_tx.set_arp_table(mac_base+numpy.arange(256))
     gbe_tx.setup(mac_base+16,ip_base+16,fabric_port)
+    fpga.write(tx_core_name, gbe_tx.mac.packed(), mac_location)
+    fpga.write(tx_core_name, gbe_tx.ip_address.packed(), ip_location)
+    value = (fpga.read_int(tx_core_name, word_offset = port_location) & 0xffff0000) | (gbe_tx.port & 0xffff)
+    fpga.write_int(tx_core_name, value, word_offset = port_location)
+    gbe_tx.fabric_enable()
     print 'done'
 
     print 'Setting-up destination addresses...',
@@ -166,6 +180,15 @@ try:
     print 'Sent %i packets already.'%fpga.read_int('gbe0_tx_cnt')
     print 'Received %i packets already.'%fpga.read_int('gbe1_rx_frame_cnt')
 
+    print '------------------------'
+    print 'Triggering snap captures...',
+    sys.stdout.flush()
+    # Arm the TX and RX snapshot blocks before enabling packet generator
+    gbe_tx_snap_tx = fpga.snapshots[gbe_tx.snaps['tx']]
+    gbe_rx_snap_rx = fpga.snapshots[gbe_rx.snaps['rx']]
+    gbe_tx_snap_tx.arm()
+    gbe_rx_snap_rx.arm()
+
     print 'Enabling output...',
     sys.stdout.flush()
     fpga.write_int('pkt_sim_enable', 1)
@@ -173,10 +196,7 @@ try:
 
     time.sleep(2)
 
-    print '------------------------'
-    print 'Triggering snap captures...',
-    sys.stdout.flush()
-
+    # Show how to interact with stand-alone snapshot block
     txss = fpga.snapshots['tx_snapshot_ss']
     print 'Reading %i values from bram %s...'%(2*payload_len,'tx_snapshot'),
     sys.stdout.flush()
@@ -185,68 +205,21 @@ try:
 
     print '-------------------------'
     print 'Reading TX meta data'
-    gbe_tx_ss = gbe_tx.read_txsnap()
+    gbe_tx_ss = gbe_tx_snap_tx.read(arm=False)['data']
     
     if sum(gbe_tx_ss['tx_full']):
         print 'The TX core is overflowing!!'
     
     print '-------------------------'
     print 'Reading RX meta data'        
-    gbe_rx_ss = gbe_rx.read_rxsnap()
+    gbe_rx_ss = gbe_rx_snap_rx.read(arm=False)['data']
 
     if sum(gbe_tx_ss['tx_full']):
         print 'The RX core is overflowing!!'
     
-# Count the pkts rcved and transmed
-# Rate check of tx and rx - print, check
-# Snap pkts- Compare rx and tx data
-    
-    # rx_bram_dmp=dict()
-    # for bram in brams:
-    #     bram_name = rx_snap+'_'+bram
-    #     print 'Reading %i values from bram %s...'%(rx_size,bram_name),
-    #     rx_bram_dmp[bram]=fpga.read(bram_name,rx_size*4)
-    #     sys.stdout.flush()
-    #     print 'ok'
-
-    # print 'Unpacking TX packet stream...'
-    # tx_data=[]
-    # for i in range(0,tx_size):
-    #     data_64bit = struct.unpack('>Q',tx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+tx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
-    #     tx_data.append(data_64bit)
-    #     if not opts.silent:
-    #         oob_32bit = struct.unpack('>L',tx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-    #         print '[%4i]: data: 0x%016X'%(i,data_64bit),
-    #         ip_mask = (2**(8+5)) -(2**5)
-    #         print 'IP: 0.0.0.%03d'%((oob_32bit&(ip_mask))>>5),
-    #         if oob_32bit&(2**0): print '[TX overflow]',
-    #         if oob_32bit&(2**1): print '[TX almost full]',
-    #         if oob_32bit&(2**2): print '[tx_active]',
-    #         if oob_32bit&(2**3): print '[link_up]',
-    #         if oob_32bit&(2**4): print '[eof]',
-    #         print '' 
-
-    # print 'Unpacking RX packet stream...'
-    # rx_data=[]
-    # ip_mask = (2**(24+5)) -(2**5) #24 bits, starting at bit 5 are valid for ip address (from snap block)
-    # for i in range(0,rx_size):
-    #     data_64bit = struct.unpack('>Q',rx_bram_dmp['bram_msb'][(4*i):(4*i)+4]+rx_bram_dmp['bram_lsb'][(4*i):(4*i)+4])[0]
-    #     rx_data.append(data_64bit)
-    #     if not opts.silent:
-    #         oob_32bit = struct.unpack('>L',rx_bram_dmp['bram_oob'][(4*i):(4*i)+4])[0]
-    #         print '[%4i]: data: 0x%016X'%(i,data_64bit),
-    #         ip_string = socket.inet_ntoa(struct.pack('>L',(oob_32bit&(ip_mask))>>5))
-    #         print 'IP: %s'%(ip_string),
-    #         if oob_32bit&(2**0): print '[RX overrun]',
-    #         if oob_32bit&(2**1): print '[RX bad frame]',
-    #         if oob_32bit&(2**3): print '[rx_active]',
-    #         if oob_32bit&(2**4): print '[link_up]',
-    #         if oob_32bit&(2**2): print '[eof]',
-    #         print '' 
-
     print 'Checking data TX vs data RX...',
     tx_data = gbe_tx_ss['data']
-    rx_data = gbe_rx_ss['data']
+    rx_data = gbe_rx_ss['data_in']
     okay = True
     for i in range(0, len(tx_data)):
         try:
