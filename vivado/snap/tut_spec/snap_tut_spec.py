@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 '''
-This script demonstrates programming an FPGA, configuring a wideband spectrometer and plotting the received data using the Python KATCP library along with the katcp_wrapper distributed in the corr package. Designed for use with TUT3 at the 2009 CASPER workshop.\n
-
-You need to have KATCP and CORR installed. Get them from http://pypi.python.org/pypi/katcp and http://casper.berkeley.edu/svn/trunk/projects/packetized_correlator/corr-0.4.0/
-
-\nAuthor: Jason Manley, November 2009.
+This code demonstrates readount of a SNAP spectrometer. You need a SNAP with:
+-- A 10 MHz, 8dBm  reference going into the SYNTH_OSC SMA (3rd SMA from the left)
+-- a test tone going into the ADC0 input 0 (8th input from the left)
 '''
 
 #TODO: add support for ADC histogram plotting.
