@@ -11,6 +11,7 @@ This code demonstrates readount of a SNAP spectrometer. You need a SNAP with:
 import casperfpga,casperfpga.snapadc,time,numpy,struct,sys,logging,pylab,matplotlib
 
 katcp_port=7147
+freq_range_mhz = numpy.linspace(0., 400., 2048)
 
 def get_data():
     #get the data...    
@@ -30,13 +31,13 @@ def plot_spectrum():
     acc_n, interleave_a = get_data()
     #interleave_a = 10*numpy.log10(interleave_a/(numpy.max(interleave_a)))
     interleave_a = 10*numpy.log10(interleave_a)
-    matplotlib.pylab.plot(interleave_a)
+    matplotlib.pylab.plot(freq_range_mhz, interleave_a)
     matplotlib.pylab.title('Integration number %i.'%acc_n)
     matplotlib.pylab.ylabel('Power (dB)')
     #matplotlib.pylab.ylim(0)
     matplotlib.pylab.grid()
-    matplotlib.pylab.xlabel('Channel')
-    matplotlib.pylab.xlim(0,2048)
+    matplotlib.pylab.xlabel('Freq (MHz)')
+    matplotlib.pylab.xlim(freq_range_mhz[0], freq_range_mhz[-1])
     fig.canvas.draw()
     fig.canvas.manager.window.after(100, plot_spectrum)
 
@@ -95,7 +96,7 @@ try:
     # In the future you won't have to instantiate an adc object as below, casperfpga will automatically
     # detect the presence of an adc block in your SNAP design, and will automagically create you
     # an adc object to interact with.
-    adc = casperfpga.snapadc.SNAPADC(fpga)
+    adc = casperfpga.snapadc.SNAPADC(fpga, ref=50) # reference at 10MHz
     # We want a sample rate of 800 Mhz, with 1 channel per ADC chip, using 8-bit ADCs
     # (there is another version of the ADC chip which operates with 12 bits of precision)
     if not opts.skip:
