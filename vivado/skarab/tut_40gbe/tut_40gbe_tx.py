@@ -4,7 +4,7 @@ import logging
 import time
 import os
 
-from casperfpga import skarab_fpga
+import casperfpga
 
 
 def snapdata2packets(snapdata):
@@ -269,8 +269,8 @@ if __name__ == '__main__':
         raise RuntimeError('Cannot send data faster than 40Gbps.')
 
     logging.info('Connecting to SKARABs.')
-    ftx = skarab_fpga.SkarabFpga(args.txhost)
-    frx = skarab_fpga.SkarabFpga(args.rxhost)
+    ftx = casperfpga.CasperFpga(args.txhost)
+    frx = casperfpga.CasperFpga(args.rxhost)
 
     if args.program:
         logging.info('Programming SKARABs.')
@@ -292,7 +292,10 @@ if __name__ == '__main__':
     to_pc = False
 
     # set up TX
-    ip_dest = frx.gbes[0].get_ip()
+    import IPython
+    IPython.embed()
+    print frx
+    ip_dest = frx.gbes["forty_gbe"].get_ip()
     if to_pc:
         from casperfpga import tengbe
         ip_dest = tengbe.IpAddress('10.99.1.1')
@@ -312,7 +315,7 @@ if __name__ == '__main__':
 
     # set up RX
     logging.info('Setting RX port.')
-    frx.gbes[0].set_port(8765)
+    frx.gbes["forty_gbe"].set_port(8765)
     frx.registers.control.write(gbe_rst='pulse')
 
     # enable tx
