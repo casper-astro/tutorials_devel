@@ -1,2 +1,4 @@
 *.autosave
 *.log
+docs/_build/
+*.Xil/
