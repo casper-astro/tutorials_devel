@@ -77,12 +77,12 @@ Gateway In block params:
 - We will take care of the number of bits through the mask, but set binary point to 0
 - Truncate and Wrap
 
-![alt text](../../_static/img/tut_gpio_bidir/gpio_bidir_block.png)
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_block.png)
 <INSERT PICTURE OF GPIO_BIDIR_BLOCK HERE>
 
 Next, you need to tell the toolflow that this is a yellow block, by tagging it as an xps block. Open the block properties(right-click, then select properties), and tag the block by entering xps:\<module_name> in the 'tag' field. In our case the block is tagged 'xps:gpio_bidir'.
 
-![alt text](../../_static/img/tut_gpio_bidir/gpio_bidir_properties.png)
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_properties.png)
 <INSERT PICTURE OF GPIO_BIDIR_PROPERTIES HERE>
 
 We are now almost finished with Simulink, except for one last modification to the block. As we have seen, the inputs/outputs of the "Simulink" module take the names of the gateway blocks that define them. In order that these names always be unique, the toolflow mandates that they follow a hierarchical naming scheme. This is defined by: <model_name>_<parent_block_name>_<user_specified_port_name>. Since simulink ensures that no two blocks have the same name, this naming scheme always results in a unique port name, no matter how many times you instantiate your yellow block. Each yellow block has an initialization script which (amongst other possible functions) must rename gateways in a block according to this convention.
@@ -144,7 +144,7 @@ Next, we need to add some parameters. Click on the 'Parameters & Dialog' tab, an
 The configurations are as follows:
 <INSERT PICTURE OF ALL PARAMS HERE... HOPEFULLY SIDE BY SIDE>
 
-![alt text](../../_static/img/tut_gpio_bidir/gpio_bidir_iogroup_params.png) ![alt text](../../_static/img/tut_gpio_bidir/gpio_bidir_bitwidth_params.png) ![alt text](../../_static/img/tut_gpio_bidir/gpio_bidir_bitindex_params.png)
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_iogroup_params.png) ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_bitwidth_params.png) ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_bitindex_params.png)
 
 Set the popup options for 'iogroup' to (should match the options in the same popup for the GPIO block):
 ```
@@ -159,7 +159,7 @@ Now, we finish off the design by refering to the picture below. You should copy 
 
 Below is a top-level view of the whole-finished Simulink Model:
 <INSERT TOP LEVEL SIMULINK MODEL PIC>
-![alt text](../../_static/img/tut_gpio_bidir/gpio_bidir_top_level_simulink.png)
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_top_level_simulink.png)
 
 
 ## Am I on the right track?

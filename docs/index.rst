@@ -31,7 +31,7 @@ Vivado
 
 **SNAP**
 
-1. Introduction Tutorial: `Step-by-Step <https://casper.berkeley.edu/wiki/Introduction_to_Simulink_ROACH2>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_intro>`_
+1. Introduction Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_intro>`_
 2. 10GbE Tutorial: `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_10GbE_ROACH2>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge>`__
 3. Spectrometer Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Wideband_Spectrometer>`__ or  `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec>`__
 4. Correlator Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_Wideband_Pocket_Correlator>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_corr>`__
@@ -42,11 +42,12 @@ Vivado
    :hidden:
    :caption: SNAP Tutorials
 
+   tutorials/snap/tut_intro
    tutorials/snap/tut_gpio_bidir
 
 **SKARAB**
 
-1. Introduction Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Introduction_to_Simulink_SKARAB>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_intro>`__
+1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_intro>`__
 2. 40GbE Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_40GBE_SKARAB>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_40gbe>`__
 3. HMC Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_HMC>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_hmc>`__
 
@@ -55,12 +56,14 @@ Vivado
    :hidden:
    :caption: SKARAB Tutorials
 
+   tutorials/skarab/tut_intro
+
 ISE
 ^^^^^
 
 **ROACH1/2**
 
-1. `Introduction Tutorial <https://casper.berkeley.edu/wiki/Tutorials#Introduction_to_Simulink_.28ROACH.29>`__
+1. :doc:`Introduction Tutorial <tutorials/roach/tut_intro>`
 2. `10GbE Tutorial <https://casper.berkeley.edu/wiki/Tutorials#10GbE_Interface>`__
 3. `Spectrometer Tutorial <https://casper.berkeley.edu/wiki/Tutorials#Wideband_Spectrometer>`__
 4. `Correlator Tutorial <https://casper.berkeley.edu/wiki/Tutorials#Wideband_Pocket_Correlator>`__
@@ -69,6 +72,8 @@ ISE
    :maxdepth: 1
    :hidden:
    :caption: ROACH Tutorials
+
+   tutorials/roach/tut_intro
 
 Environment setup
 ---------------------
