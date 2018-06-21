@@ -32,7 +32,7 @@ Vivado
 **SNAP**
 
 1. Introduction Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_intro>`_
-2. 10GbE Tutorial: `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_10GbE_ROACH2>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge>`__
+2. 10GbE Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_ten_gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge>`__
 3. Spectrometer Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Wideband_Spectrometer>`__ or  `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec>`__
 4. Correlator Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_Wideband_Pocket_Correlator>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_corr>`__
 5. Yellow Block Tutorial: :doc:`Bidirectional GPIO <tutorials/snap/tut_gpio_bidir>` 
@@ -43,6 +43,7 @@ Vivado
    :caption: SNAP Tutorials
 
    tutorials/snap/tut_intro
+   tutorials/snap/tut_ten_gbe
    tutorials/snap/tut_gpio_bidir
 
 **SKARAB**
@@ -64,9 +65,9 @@ ISE
 **ROACH1/2**
 
 1. :doc:`Introduction Tutorial <tutorials/roach/tut_intro>`
-2. `10GbE Tutorial <https://casper.berkeley.edu/wiki/Tutorials#10GbE_Interface>`__
-3. `Spectrometer Tutorial <https://casper.berkeley.edu/wiki/Tutorials#Wideband_Spectrometer>`__
-4. `Correlator Tutorial <https://casper.berkeley.edu/wiki/Tutorials#Wideband_Pocket_Correlator>`__
+2. :doc:`10GbE Tutorial <tutorials/roach/tut_ten_gbe>`
+3. :doc:`Spectrometer Tutorial <tutorials/roach/tut_spec>`
+4. :doc:`Correlator Tutorial <tutorials/roach/tut_corr>`
 
 .. toctree::
    :maxdepth: 1
@@ -74,6 +75,9 @@ ISE
    :caption: ROACH Tutorials
 
    tutorials/roach/tut_intro
+   tutorials/roach/tut_ten_gbe
+   tutorials/roach/tut_spec
+   tutorials/roach/tut_corr
 
 Environment setup
 ---------------------

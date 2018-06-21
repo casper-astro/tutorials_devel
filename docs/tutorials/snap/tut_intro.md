@@ -1,4 +1,4 @@
-# Introduction Tutorial
+# Tutorial 1: Introduction to Simulink
 In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial, you will know how to generate an fpg file, program it to a CASPER FPGA board, and interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via a Python Interface.
 
 ## Setup
