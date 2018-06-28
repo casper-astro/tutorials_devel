@@ -49,8 +49,8 @@ Vivado
 **SKARAB**
 
 1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_intro>`__
-2. 40GbE Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_40GBE_SKARAB>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_40gbe>`__
-3. HMC Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_HMC>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_hmc>`__
+2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_40gbe>`__
+3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_hmc>`__
 
 .. toctree::
    :maxdepth: 1
@@ -58,6 +58,8 @@ Vivado
    :caption: SKARAB Tutorials
 
    tutorials/skarab/tut_intro
+   tutorials/skarab/tut_40gbe
+   tutorials/skarab/tut_hmc
 
 ISE
 ^^^^^

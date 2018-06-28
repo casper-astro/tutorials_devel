@@ -3,12 +3,11 @@ import sys
 '''
 This script will parse the given .wiki file, tweak some basic parts,
 and output a .md file
-Pass in the source file and output file in the terminal.
-Please adjust imgpath string below.
+Pass in the source fileo, output file, and path to images in the terminal.
 '''
 src_file = sys.argv[1]
 output_file = sys.argv[2]
-imgpath = "../../_static/img/tut_corr"
+imgpath = sys.argv[3]
 # read a wiki file
 output = []
 file = open(src_file)
@@ -28,9 +27,9 @@ for line in wiki:
         output.append(line)
 
     elif "<i>" in line:
-        # handle itatlics: replace <i> and </i> with *
-        line = line.replace("<i>", "*")
-        line = line.replace("</i>", "*")
+        # handle itatlics: replace '' with *
+        line = line.replace("''", "*")
+        line = line.replace("''", "*")
         output.append(line)
 
     elif "[[File" in line:
