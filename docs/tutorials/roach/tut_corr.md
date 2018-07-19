@@ -1,13 +1,12 @@
 # Tutorial 4: Wideband Pocket Correlator
 
 ## Introduction ##
-In this tutorial, you will create a simple Simulink design which uses the [[ADC2x1000-8|iADC]] board on [[ROACH]] and the CASPER DSP blockset to process a wideband (400MHz) signal, channelize it and output the visibilities through ROACH's PPC.
+In this tutorial, you will create a simple Simulink design which uses the [iADC](https://casper.berkeley.edu/wiki/ADC2x1000-8) board on [ROACH](https://github.com/casper-astro/casper-hardware/wiki/ROACH2) and the CASPER DSP blockset to process a wideband (400MHz) signal, channelize it and output the visibilities through ROACH's PPC.
 
-By this stage, it is expected that you have completed [[Introduction to Simulink|tutorial 1]] and [[Tutorial 10GbE|tutorial 2]] and are reasonably comfortable with Simulink and basic Python. We will focus here on higher-level design concepts, and will provide you with low-level detail preimplemented.
+By this stage, it is expected that you have completed [tutorial 1](tut_intro.html) and [tutorial 2](tut_ten_gbe.html) and are reasonably comfortable with Simulink and basic Python. We will focus here on higher-level design concepts, and will provide you with low-level detail preimplemented.
 
 ## Background ##
-Some of this design is similar to that of the previous tutorial, [[Wideband Spectrometer|The Wideband Spectrometer]]. So 
-completion of Tutorial 3 is recommended.
+Some of this design is similar to that of the previous tutorial, the Wideband Spectrometer. So completion of [tutorial 3](tut_spec.html) is recommended.
 
 ### Interferometry ###
 In order to improve sensitivity and resolution, telescopes require a large collection area. Instead of using a single, large dish which is expensive to construct and complicated to maneuver, modern radio telescopes use interferometric arrays of smaller dishes (or other antennas). Interferometric arrays allow high resolution to be obtained, whilst still only requiring small individual collecting elements.

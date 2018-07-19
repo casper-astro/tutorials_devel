@@ -1,8 +1,3 @@
-.. CASPER Tutorials documentation master file, created by
-   sphinx-quickstart on Sat Jun  9 16:48:31 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 CASPER Tutorials
 ============================================
 
@@ -33,8 +28,8 @@ Vivado
 
 1. Introduction Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_intro>`_
 2. 10GbE Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_ten_gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge>`__
-3. Spectrometer Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Wideband_Spectrometer>`__ or  `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec>`__
-4. Correlator Tutorial `Step-by-Step <https://casper.berkeley.edu/wiki/Tutorial_Wideband_Pocket_Correlator>`__ or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_corr>`__
+3. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/snap/tut_spec>` or  `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec>`__
+4. Correlator Tutorial :doc:`Step-by-Step <tutorials/snap/tut_corr>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_corr>`__
 5. Yellow Block Tutorial: :doc:`Bidirectional GPIO <tutorials/snap/tut_gpio_bidir>` 
 
 .. toctree::
@@ -44,6 +39,8 @@ Vivado
 
    tutorials/snap/tut_intro
    tutorials/snap/tut_ten_gbe
+   tutorials/snap/tut_spec
+   tutorials/snap/tut_corr
    tutorials/snap/tut_gpio_bidir
 
 **SKARAB**
