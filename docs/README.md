@@ -1,6 +1,7 @@
 # [Sphinx documentation generation](http://www.sphinx-doc.org/en/master/)
 
-**Tutorial**: [![Documentation Status](https://readthedocs.org/projects/casper-tutorials/badge/?version=tutorials_rework)](https://casper-tutorials.readthedocs.io/en/tutorials_rework/?badge=tutorials_rework)
+You can find the CASPER tutorials [here](http://casper-tutorials.readthedocs.io/en/latest/) [![Documentation Status](https://readthedocs.org/projects/casper-tutorials/badge/?version=latest)](https://casper-tutorials.readthedocs.io/en/latest/?badge=latest)
+
 
 ## Getting Started:
 - Create a fork of the tutorials_devel repository

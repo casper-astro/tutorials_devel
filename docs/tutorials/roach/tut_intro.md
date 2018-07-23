@@ -1,9 +1,6 @@
 # Tutorial 1: Introduction to Simulink
 In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial, you will know how to generate an fpg file, program it to a CASPER FPGA board, and interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via a Python Interface.
 
-## Setup
-The lab at the workshop is pre-configured with the CASPER libraries, MATLAB and Xilinx tools. See [here](https://casper.berkeley.edu/wiki/Casper_Caltech_Workshop_2017_Tutorials_Help_Page) for information about the local set up.
-
 ## Creating Your Design
 ### Create a New Model
 Start Matlab via executing the <code>startsg</code> command, as described [here](https://casper.berkeley.edu/wiki/Casper_Caltech_Workshop_2017_Tutorials_Help_Page). This ensures that necessary Xilinx and CASPER libraries are loaded into your by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early, and often**.
