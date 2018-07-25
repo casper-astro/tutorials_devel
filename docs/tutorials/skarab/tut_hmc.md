@@ -38,9 +38,6 @@ More information on the HMC device (Rev D) and OpenHMC controller (Rev 1.5) can 
 
 [https://github.com/ska-sa/skarab_docs](https://github.com/ska-sa/skarab_docs) (master branch)
 
-## Setup ##
-Refer to the [Casper Caltech Workshop 2017 Tutorials Help Page](https://casper.berkeley.edu/wiki/Casper_Caltech_Workshop_2017_Tutorials_Help_Page) for how to setup. The SKARAB boards are also already on a separate network connected to one of the servers.
-
 ## Create a new model ##
 Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created HMC reordering function, SKARAB XSG core config block, Xilinx System Generator block and a 40GbE yellow block. Get a copy of this template and save it. Make sure the SKARAB XSG_core_config_block is configured for:
 

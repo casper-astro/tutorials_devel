@@ -12,9 +12,6 @@ Of particular interest for this tutorial is the section on the [QSFP+ Mezzanine 
 
 The maximum payload length of the 40GbE core is 8192 bytes (implemented in BRAM) plus another 512 (implemented in distributed RAM) which is useful for an application header. These ports (and hence part of the 40 GbE cores) run at 156.25MHz, while the interface to your design runs at the FPGA clock rate (sys_clk, etc). The interface is asynchronous, and buffers are required at the clock boundary. For this reason, even if you send data between two SKARAB boards which are running off the same hard-wired clock, there will be jitter in the data. A second consideration is how often you clock values into the core when you try to send data. If your FPGA is running faster than the core, and you try and clock data in on every clock cycle, the buffers will eventually overflow. Likewise for receiving, if you send too much data to a board and cannot clock it out of the receive buffer fast enough, the receive buffers will overflow and you will lose data. In our design, we are clocking the FPGA at 200MHz, with the cores running at 156.25MHz. We will thus not be able to clock data into the TX buffer continuously for very long before it overflows. If this doesn't make much sense to you now, don't worry, it will become clear after you've tried it.
 
-## Setup ##
-The lab at the 2017 Workshop has compile machines already set up. The SAKRAB boards are also already on a separate network connected to one of the servers. 
-
 ## Tutorial Outline ##
 This tutorial will be run in an explain-and-explore kind of way. There are too many blocks for us to run through each one and its respective configuration. Hence, each section will be generally explained and it is up to you to explore the design and understand the detail. Please don't hesitate to ask any questions and if you are doing these tutorials outside of the CASPER workshop please email any questions to the casper email list.
 
