@@ -50,7 +50,9 @@ Start by launching MATLAB via the './startsg \<your startsg.local file>\'. Creat
 
 NB: Now is another good time to remind you to save your Simulink model early and save it often! As it is prone to crash at complete random times.
 
-Grab a new yellow block from the XPS library conveniently name '1new_yellow_block'. Rename it 'gpio_bidir_a' as this will serve as our A bank GPIO bidir.
+Grab a new yellow block from the XPS library conveniently name 'new_yellow_block'. Rename it 'gpio_bidir_a' as this will serve as our A bank GPIO bidir.
+
+Next, right-click on the yellow block. Navigate to 'Library Link' -> click on 'Disable Link'. Once more, right-click on the yellow block, navigate to 'Library Lock' again, and click 'Break Link'.
 
 Our module has five inputs/outputs. The only ports which need to appear in the yellow block are those that form connections between your module, and the Simulink model. In our case, these are I, O, and T. The clock signal does not come from the Simulink design, but rather some other module. Similarly, the IO signal does not connect to the Simulink model, but rather refers to an external GPIO pin.
 
