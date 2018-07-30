@@ -258,26 +258,30 @@ Now import the fpga control library. This will automatically pull-in the KATCP l
  import casperfpga
 
 To connect to the board we create a CasperFpga instance; let's call it fpga. The CasperFpga constructor requires just one argument: the IP hostname or address of your FPGA board.
-
- fpga # casperfpga.CasperFpga('skarab hostname or ip_address')
-
+```python
+fpga = casperfpga.CasperFpga('<skarab hostname or ip_address>')
+```
 The first thing we do is program the FPGA with the .fpg file which your compile generated.
-
- fpga.upload_to_ram_and_program('your_fpgfile.fpg')
-
+```python
+fpga.upload_to_ram_and_program('<your_fpgfile.fpg>')
+```
 Should the execution of this command return true, you can safely assume the FPGA is now configured with your design. You should see the LED on your board flashing. Go check! All the available/configured registers can be displayed using:
- fpga.listdev()
+```python
+fpga.listdev()
+```
 The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
- fpga.write_int('a',10)
- fpga.write_int('b',20)
- fpga.read_int('sum_a_b')
-
+```python
+fpga.write_int('a',10)
+fpga.write_int('b',20)
+fpga.read_int('sum_a_b')
+```
 With any luck, the sum returned by the FPGA should be correct.
 
 You can also try writing to the counter control registers in your design. You should find that with appropriate manipulation of the control register, you can make the counter start, stop, and return to zero.
-
- fpga.write_int('counter_ctrl',10')
- fpga.read_uint('counter_value')
+```python
+fpga.write_int('counter_ctrl',10')
+fpga.read_uint('counter_value')
+```
 
 ## Conclusion
 This concludes the first CASPER Tutorial. You have learned how to construct a simple Simulink design, program an FPGA board and interact with it with Python using [casperfpga](https://github.com/casper-astro/casperfpga). Congratulations!

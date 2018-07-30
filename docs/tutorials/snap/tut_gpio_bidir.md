@@ -6,6 +6,8 @@ In this tutorial, you will create a yellow block for a bidirectional GPIO n-bit 
 ## Making a Bidirectional GPIO - HDL
 So we want to design a bidirectional GPIO interface. That means we need to create a bidirectional GPIO module, and convince the toolflow to instantiate it.
 
+(In most cases when we are porting something into the Toolflow, all verilog/vhdl code is completed, tested, and working in the form of a Xilinx Vivado project)
+
 The simplest version of a bidirectional GPIO module that can be created is simply a wrapper around a Xilinx IOBUF instance. An IOBUF (see the 7 series user guide [page 39](https://www.xilinx.com/support/documentation/user_guides/ug471_7Series_SelectIO.pdf)) is a Xilinx module used to connect signals to a bi-directional external pin. It has the following ports, which are described (using slightly loose terminology) below:
 
 I: the input (i.e., from the FPGA to the GPIO pin)
@@ -16,11 +18,11 @@ IO: the GPIO pin (defined by the user in the Simulink mask later)
 
 T: The control signal, which configures the interface as an input (i.e. IO ---> O) when T=1, and an output (i.e. I ---> IO) when T=0.
 
-We construct a module "gpio_bidir" which wraps 'n' number such IOBUF instances (i.e., an n-bit wide buffer) and also registers the output signal. This simple module will form the entirety of the interface we will turn into a yellow block. Create a new folder in /mlib_devel/jasper_library/hdl_sources/ named 'gpio_bidir' and save your module description as gpio_bidir.v there.
+We construct a module "my_gpio_bidir" which wraps 'n' number such IOBUF instances (i.e., an n-bit wide buffer) and also registers the output signal. This simple module will form the entirety of the interface we will turn into a yellow block. Create a new folder in /mlib_devel/jasper_library/hdl_sources/ named 'my_gpio_bidir' and save your module description as my_gpio_bidir.v there.
 
-NB: n-bit refers to the parameter 'WIDTH' below.
+NB: n-bit refers to the parameter `WIDTH` below.
 ```Verilog
-module gpio_bidir #(parameter WIDTH=1) (
+module my_gpio_bidir #(parameter WIDTH=1) (
     input            clk,
     inout      [WIDTH-1:0] dio_buf, //inout, NOT input(!)
     input      [WIDTH-1:0] din_i,
@@ -46,17 +48,21 @@ module gpio_bidir #(parameter WIDTH=1) (
 endmodule
 ```
 ## Making a Bidirectional GPIO -  Simulink
-Start by launching MATLAB via the './startsg \<your startsg.local file>\'. Create a new Simulink model titled 'tut_gpio_bidir.slx' and save it.
+Start by launching MATLAB via the `./startsg \<your startsg.local file>\`. Create a new Simulink model titled 'tut_gpio_bidir.slx' and save it.
 
 NB: Now is another good time to remind you to save your Simulink model early and save it often! As it is prone to crash at complete random times.
 
 Grab a new yellow block from the XPS library conveniently name 'new_yellow_block'. Rename it 'gpio_bidir_a' as this will serve as our A bank GPIO bidir.
+
+NB: This can be done via the Simulink Library Browser... Or by single clicking anywhere in your model and simply start typing 'new_yellow_block' then pressing enter on the highlighted block shown.
 
 Next, right-click on the yellow block. Navigate to 'Library Link' -> click on 'Disable Link'. Once more, right-click on the yellow block, navigate to 'Library Lock' again, and click 'Break Link'.
 
 Our module has five inputs/outputs. The only ports which need to appear in the yellow block are those that form connections between your module, and the Simulink model. In our case, these are I, O, and T. The clock signal does not come from the Simulink design, but rather some other module. Similarly, the IO signal does not connect to the Simulink model, but rather refers to an external GPIO pin.
 
 Therefore, our yellow block should have 3 ports. An n-bit input (to be connected to I) named 'din', an n-bit output (to be connected to O) named 'dout' and a 1-bit input (to be connected to T) named 'in_not_out'. Be careful -- an input to the yellow block requires a "Gateway out" of simulink, since the signal needs to go out from the Simulink module, in to the new GPIO module. Similarly, an output from the yellow block requires a gateway in, since the signal will go out of the GPIO module and in to the Simulink design.
+
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_block.png)
 
 The names of the ports should match the names used in your module, and gateways out should be preceded by reinterpret and cast blocks to force the correct data types. 
 
@@ -79,17 +85,13 @@ Gateway In block params:
 - We will take care of the number of bits through the mask, but set binary point to 0
 - Truncate and Wrap
 
-![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_block.png)
-<INSERT PICTURE OF GPIO_BIDIR_BLOCK HERE>
-
-Next, you need to tell the toolflow that this is a yellow block, by tagging it as an xps block. Open the block properties(right-click, then select properties), and tag the block by entering xps:\<module_name> in the 'tag' field. In our case the block is tagged 'xps:gpio_bidir'.
+Next, you need to tell the toolflow that this is a yellow block, by tagging it as an xps block. Open the block properties(right-click, then select properties), and tag the block by entering xps:\<module_name> in the 'tag' field. In our case the block is tagged 'xps:my_gpio_bidir'.
 
 ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_properties.png)
-<INSERT PICTURE OF GPIO_BIDIR_PROPERTIES HERE>
 
-We are now almost finished with Simulink, except for one last modification to the block. As we have seen, the inputs/outputs of the "Simulink" module take the names of the gateway blocks that define them. In order that these names always be unique, the toolflow mandates that they follow a hierarchical naming scheme. This is defined by: <model_name>_<parent_block_name>_<user_specified_port_name>. Since simulink ensures that no two blocks have the same name, this naming scheme always results in a unique port name, no matter how many times you instantiate your yellow block. Each yellow block has an initialization script which (amongst other possible functions) must rename gateways in a block according to this convention.
+We are now almost finished with Simulink, except for one last modification to the block. As we have seen, the inputs/outputs of the "Simulink" module take the names of the gateway blocks that define them. In order that these names always be unique, the toolflow mandates that they follow a hierarchical naming scheme. This is defined by: <model_name>_<parent_block_name>_<user_specified_port_name>. Since Simulink ensures that no two blocks have the same name, this naming scheme always results in a unique port name, no matter how many times you instantiate your yellow block. Each yellow block has an initialization script which (amongst other possible functions) must rename gateways in a block according to this convention.
 
-The gpio_bidir block's initialization script is gpio_bidir_mask.m, in the xps_library sub-directory of mlib_devel. It does nothing except find all the gateways in the block (by looking for blocks whose name ends in "<user_specified_port_name>") and renaming them appropriately. As in all things yellow blocky, If in doubt, copy from another block which works. :)
+The 'my_gpio_bidir' block's initialization script is 'my_gpio_bidir_mask.m', in the xps_library sub-directory of mlib_devel. It does nothing except find all the gateways in the block (by looking for blocks whose name ends in "<user_specified_port_name>") and renaming them appropriately. As in all things yellow blocky, If in doubt, copy from another block which works and tweak to your needs. :)
 
 ``` MATLAB
 % find all the gateway in/out blocks
@@ -139,16 +141,15 @@ for i =1:length(gateway_ins)
     end
 end
 ```
-We call the 'gpio_bidir_mask' script by specifiying it in the block's initilization commands in the block mask. I.e., right click the block, create a mask, and add to the initialization section gpio_bidir_mask;. This is exactly the same as the procedure used to call drawing functions for any other (non-yellow) library blocks.
+We call the 'my_gpio_bidir_mask' script by specifiying it in the block's initilization commands in the block mask. I.e., right click the block, create a mask, and add to the initialization section `my_gpio_bidir_mask;`. This is exactly the same as the procedure used to call drawing functions for any other (non-yellow) library blocks.
 
 Next, we need to add some parameters. Click on the 'Parameters & Dialog' tab, and click-and-drag a popup box over from the left hand side under the 'Parameters' folder. Repeat by adding two edit boxes to the parameters folder.
 
 The configurations are as follows:
-<INSERT PICTURE OF ALL PARAMS HERE... HOPEFULLY SIDE BY SIDE>
 
-![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_iogroup_params.png) ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_bitwidth_params.png) ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_bitindex_params.png)
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_iogroup_params.png) 
 
-Set the popup options for 'iogroup' to (should match the options in the same popup for the GPIO block):
+Set the 'Type options' parameter for 'iogroup' by clicking on the pencil next to 'Popup options' to (should match the options in the same popup for the GPIO block):
 ```
 led
 gpio
@@ -157,10 +158,25 @@ sync_out
 zdok0
 zdok1
 ```
-Now, we finish off the design by refering to the picture below. You should copy and paste the gpio_bidir_a block and rename it as 'gpio_bidir_b', this second block will be used for B bank GPIO's. Be sure to set the I/O group and Data bitwidth for both gpio_bidir blocks to 'gpio' and 4. Set the GPIO bit index for gpio_bidir_a to the Matlab vector '[0, 1, 2, 3]' and for gpio_bidir_b to the Matlab vector '[4, 5, 6, 7]'. The length of these vectors must match the value entered for Data bitwidth.
 
-Below is a top-level view of the whole-finished Simulink Model:
-<INSERT TOP LEVEL SIMULINK MODEL PIC>
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_bitwidth_params.png) ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_bitindex_params.png)
+
+Next, we continue by referring to the picture below. You should copy and paste the 'gpio_bidir_a' block and rename it as 'gpio_bidir_b', this second block will be used for B bank GPIO's. Be sure to set the I/O group and Data bitwidth for both my_gpio_bidir blocks to 'gpio' and 4. Set the GPIO bit index for gpio_bidir_a to the Matlab vector '[0, 1, 2, 3]' and for gpio_bidir_b to the Matlab vector '[4, 5, 6, 7]'. The length of these vectors must match the value entered for Data bitwidth.
+
+Following, drop in 4 software register blocks, named 'to_gpio_a', 'a_is_input', 'to_gpio_b', and 'b_is_input'. All with the same parameters shown below:
+
+![alt text](../../_static/img/snap/tut_gpio_bidir/sw_reg_from_params.png)
+
+Additionally, drop in 2 more software register blocks named '' and ''. Both with the following parameters:
+
+![alt text](../../_static/img/snap/tut_gpio_bidir/sw_reg_to_params.png)
+
+Finally, insert 2 gpio blocks that will be configured as leds. The first with a 'GPIO bit index' of '0' and the second as '1':
+
+![alt text](../../_static/img/snap/tut_gpio_bidir/led_params.png)
+
+Below is a top-level view of the whole-finished Simulink Model (if you are having any difficulties a completed Simulink model can be found [here](https://github.com/casper-astro/tutorials_devel/blob/master/vivado/snap/tut_gpio_bidir/tut_gpio_bidir.slx)):
+
 ![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_top_level_simulink.png)
 
 
@@ -176,42 +192,47 @@ Now we have the module (HDL you wrote first) and Simulink model finished. It is 
 
 The toolflow is as follows, starting with the jasper command in the matlab terminal (all scripts can be found in the mlib_devel directory or yellow_block sub-dir):
 
-jasper.m -> jasper_frontend.m -> exec_flow.py -> toolflow.py -> yellow_block.py -> gpio_bidir.py
+jasper.m -> jasper_frontend.m -> exec_flow.py -> toolflow.py -> yellow_block.py -> my_gpio_bidir.py
 
-The last script will be the name of your module as in this case gpio_bidir.py. Create this script in the yellow block sub-directory of mlib_devel. I recommend carefully reading yellow_block.py as the function header comments are well written and explain what you need to do. :)
+The last script will be the name of your module as in this case `my_gpio_bidir.py`. Create this script in the yellow block sub-directory of mlib_devel. I recommend carefully reading yellow_block.py as the function header comments are well written and explain what you need to do. :)
 
-NB: I figured out how to create this script by comparing gpio_bidir to the gpio yellow block. First I found the hdl_source file for it. Next I compared the top.v from a different project that contained the gpio block (as top.v contains the instantiation for the gpio module) Then, I compared the script that generated that instantiation (gpio.py) to the top.v and hdl source. 
+NB: I figured out how to create this script by comparing my_gpio_bidir to the gpio yellow block. First I found the hdl_source file for it. Next I compared the top.v from a different project that contained the gpio block (as top.v contains the instantiation for the gpio module) Then, I compared the script that generated that instantiation (gpio.py) to the top.v and hdl source. 
 
 Start by first just tweaking the modify_top function to suit your needs, run 'jasper' command and fix python errors until the errors point to the gen_constaints function. Next, repeat the process for the gen_constraints function. Debug and repeat until you compile w/out errors, look in top.v file in the build directory and you should see your yellow block instantiation. Carefully add the rest of your functionality from here until your top.v instantiation matches your HDL code (module).
 
 (Move on to the next section, once the 'jasper' command finishes and your yellow block instantiation matches the module)
 
-The code for the gpio_bidir yellow block is below:
+The code for the my_gpio_bidir yellow block is below (pay particular attention to the comments):
 ```Python
 from yellow_block import YellowBlock
 from constraints import PortConstraint
 from helpers import to_int_list
 
-class gpio_bidir(YellowBlock):
+class my_gpio_bidir(YellowBlock):
     def initialize(self):
-        # Set bitwidth of block
+        # Set bitwidth of block (this is determined by the 'Data bitwidth' parameter in the Simulink mask)
         self.bitwidth = int(self.bitwidth)
-        # add the source files, which have the same name as the module
-        self.module = 'gpio_bidir'
+        # add the source files, which have the same name as the module (this is the verilog module created above)
+        self.module = 'my_gpio_bidir'
         self.add_source(self.module)
 
     def modify_top(self,top):
+        # port name to be used for 'dio_buf'
         external_port_name = self.fullname + '_ext'
-
+        # get this instance from 'top.v' or create if not instantiated yet
         inst = top.get_instance(entity=self.module, name=self.fullname, comment=self.fullname)
+        # add ports necessary for instantiation of module
         inst.add_port('clk', signal='user_clk', parent_sig=False)
+        # parent_port=True, and dir='input', so add an input to 'top.v'
         inst.add_port('dio_buf', signal=external_port_name, dir='inout', width=self.bitwidth, parent_port=True)
         inst.add_port('din_i', signal='%s_din_i'%self.fullname, width=self.bitwidth)
         inst.add_port('dout_o', signal='%s_dout_o'%self.fullname, width=self.bitwidth)
         inst.add_port('in_not_out_i', signal='%s_in_not_out_i'%self.fullname)
+        # add width parameter from 'Data bitwidth' parameter in Simulink mask
         inst.add_parameter('WIDTH', str(self.bitwidth))
 
     def gen_constraints(self):
+        # add port constraint to user_const.xdc for 'inout' ()
         return [PortConstraint(self.fullname+'_ext', self.io_group, port_index=range(self.bitwidth), iogroup_index=to_int_list(self.bit_index))]
 ```
 ## Testing
@@ -495,10 +516,10 @@ If not, start by ensuring your original HDL code was correct to begin with, then
 2. Add your yellow block to the model. (This should be the only block in the model)
 3. Add your yellow block mask script to 'xps_library' folder if needed.
 4. Save your Simulink model in the 'xps_models' folder (please put it in the directory that makes sense, otherwise create a new directory)
-5. Launch Matlab via the './startsg' script in mlib_devel directory.
+5. Launch Matlab via the `./startsg` script in mlib_devel directory.
 6. Double-click on 'xps_library' directory from the 'Current Folder' pane on the left-hand side of the Matlab window.
-7. Run 'xps_build_new_library('xps_models', 'xps_library')', click 'Yes' on overwrite dialog prompt and ignore any warnings
-8. For any models you wish to link with this new library, open the model and run 'update_casper_blocks(`<your model name here>`)' in the Matlab command window. (Preferably all your models)
+7. Run `xps_build_new_library`, click 'Yes' on overwrite dialog prompt and ignore any warnings.
+8. For any models you wish to link with this new library, open the model and run `update_casper_blocks(bdroot)` in the Matlab command window. (Preferably all your models)
 
 **Now help out CASPER by adding more yellow blocks to our library :)**
 
