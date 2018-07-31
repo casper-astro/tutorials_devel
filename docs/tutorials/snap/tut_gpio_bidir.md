@@ -62,7 +62,7 @@ Our module has five inputs/outputs. The only ports which need to appear in the y
 
 Therefore, our yellow block should have 3 ports. An n-bit input (to be connected to I) named 'din', an n-bit output (to be connected to O) named 'dout' and a 1-bit input (to be connected to T) named 'in_not_out'. Be careful -- an input to the yellow block requires a "Gateway out" of simulink, since the signal needs to go out from the Simulink module, in to the new GPIO module. Similarly, an output from the yellow block requires a gateway in, since the signal will go out of the GPIO module and in to the Simulink design.
 
-![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_block.png)
+![alt text](../../_static/img/snap/tut_gpio_bidir/initial_block.png)
 
 The names of the ports should match the names used in your module, and gateways out should be preceded by reinterpret and cast blocks to force the correct data types. 
 
@@ -142,6 +142,10 @@ for i =1:length(gateway_ins)
 end
 ```
 We call the 'my_gpio_bidir_mask' script by specifiying it in the block's initilization commands in the block mask. I.e., right click the block, create a mask, and add to the initialization section `my_gpio_bidir_mask;`. This is exactly the same as the procedure used to call drawing functions for any other (non-yellow) library blocks.
+
+The result from the mask script will be:
+
+![alt text](../../_static/img/snap/tut_gpio_bidir/gpio_bidir_block.png)
 
 Next, we need to add some parameters. Click on the 'Parameters & Dialog' tab, and click-and-drag a popup box over from the left hand side under the 'Parameters' folder. Repeat by adding two edit boxes to the parameters folder.
 
