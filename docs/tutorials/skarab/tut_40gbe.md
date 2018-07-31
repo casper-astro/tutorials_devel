@@ -1,7 +1,7 @@
 # Tutorial 2: 40GbE Interface
 
 ## Introduction ##
-In this tutorial, you will create a simple Simulink design which uses the ROACH2's 40GbE ports to send data at high speeds to another port. This could just as easily be another ROACH board or a computer with a 40GbE network interface card. In addition, we will learn to control the design remotely, using a supplied Python library for KATCP. The UDP packets sent by the ROACH will be recorded to disk.
+In this tutorial, you will create a simple Simulink design which uses the SKARAB's 40GbE ports to send data at high speeds to another port. This could just as easily be another SKARAB or a computer with a 40GbE network interface card. In addition, we will learn to control the design remotely, using a supplied Python library for KATCP. The UDP packets sent by the ROACH will be recorded to disk.
 
 In this tutorial, a counter will be transmitted through one SFP+ port and back into another. This will allow a test of the communications link in terms of performance and reliability. This test can be used to test the link between boards and the effect of different cable lengths on communications quality.
 
@@ -47,7 +47,7 @@ The design also has a counter that keeps track of each time the overflow or almo
 
 ![](../../_static/img/skarab/tut_40gbe/Tx_afull_overflow_regs.png)
 
-Not take a look through the tx python script to see how the resisters are being set and the debug snap blocks are used to validate the data being sent. This should be well commented, but please ask questions where things aren't clear.
+Now take a look through the tx python script to see how the registers are being set and the debug snap blocks are used to validate the data being sent. This should be well commented, but please ask questions where things aren't clear.
 
 ## Rx Design ##
 
