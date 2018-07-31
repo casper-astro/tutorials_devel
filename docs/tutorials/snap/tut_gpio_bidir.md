@@ -91,7 +91,7 @@ Next, you need to tell the toolflow that this is a yellow block, by tagging it a
 
 We are now almost finished with Simulink, except for one last modification to the block. As we have seen, the inputs/outputs of the "Simulink" module take the names of the gateway blocks that define them. In order that these names always be unique, the toolflow mandates that they follow a hierarchical naming scheme. This is defined by: <model_name>_<parent_block_name>_<user_specified_port_name>. Since Simulink ensures that no two blocks have the same name, this naming scheme always results in a unique port name, no matter how many times you instantiate your yellow block. Each yellow block has an initialization script which (amongst other possible functions) must rename gateways in a block according to this convention.
 
-The 'my_gpio_bidir' block's initialization script is 'my_gpio_bidir_mask.m', in the xps_library sub-directory of mlib_devel. It does nothing except find all the gateways in the block (by looking for blocks whose name ends in "<user_specified_port_name>") and renaming them appropriately. As in all things yellow blocky, If in doubt, copy from another block which works and tweak to your needs. :)
+The 'my_gpio_bidir' block's initialization script is `my_gpio_bidir_mask.m`, in the xps_library sub-directory of mlib_devel. It does nothing except find all the gateways in the block (by looking for blocks whose name ends in "<user_specified_port_name>") and renaming them appropriately. As in all things yellow blocky, If in doubt, copy from another block which works and tweak to your needs. :)
 
 ``` MATLAB
 % find all the gateway in/out blocks
@@ -167,11 +167,11 @@ Following, drop in 4 software register blocks, named 'to_gpio_a', 'a_is_input', 
 
 ![alt text](../../_static/img/snap/tut_gpio_bidir/sw_reg_from_params.png)
 
-Additionally, drop in 2 more software register blocks named '' and ''. Both with the following parameters:
+Additionally, drop in 2 more software register blocks named 'from_gpio_a' and 'from_gpio_b'. Both with the following parameters:
 
 ![alt text](../../_static/img/snap/tut_gpio_bidir/sw_reg_to_params.png)
 
-Finally, insert 2 gpio blocks that will be configured as leds. The first with a 'GPIO bit index' of '0' and the second as '1':
+Finally, insert 2 gpio blocks that will be configured as leds, name them 'led_a' and 'led_b'. The first with a 'GPIO bit index' of '0' and the second as '1':
 
 ![alt text](../../_static/img/snap/tut_gpio_bidir/led_params.png)
 
