@@ -206,6 +206,8 @@ Start by first just tweaking the modify_top function to suit your needs, run 'ja
 
 (Move on to the next section, once the 'jasper' command finishes and your yellow block instantiation matches the module)
 
+**NB: The system generated verilog/VHDL code is all lowercase, be sure that your ports and signals match accordingly.**
+
 The code for the my_gpio_bidir yellow block is below (pay particular attention to the comments):
 ```Python
 from yellow_block import YellowBlock
