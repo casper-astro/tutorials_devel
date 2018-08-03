@@ -1,5 +1,17 @@
 # [CASPER Tutorials](http://casper-tutorials.readthedocs.io/en/latest/) [![Documentation Status](https://readthedocs.org/projects/casper-tutorials/badge/?version=latest)](https://casper-tutorials.readthedocs.io/en/latest/?badge=latest) #
 
-This README serves as a short introduction to the tutorials developed by the CASPER Community for newcomers to interfacing with [**CASPER** Hardware](https://casper.berkeley.edu/wiki/Hardware).
+These tutorials serve as an introduction to CASPER's [Toolflow](https://github.com/casper-astro/mlib_devel), [Software](https://github.com/casper-astro/casperfpga), and [Hardware](https://github.com/casper-astro/casper-hardware).
 
-Tutorials are split up into firmware that is developed using either Xilinx's [ISE](https://www.xilinx.com/products/design-tools/ise-design-suite.html) or [Vivado](https://www.xilinx.com/products/design-tools/vivado.html).
+# Downloading
+
+You can download these libraries by cloning this repository and the git submodules within it:
+
+```
+git clone https://github.com/casper-astro/tutorials_devel
+cd tutorials_devel
+git submodule init
+git submodule update
+```
+
+# Documentation
+Documentation for these tutorials can be found [here](https://casper-tutorials.readthedocs.io/)
