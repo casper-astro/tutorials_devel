@@ -94,7 +94,7 @@ To use the tutorials you will need to install the versions of Matlab and the Xil
 ============  ==================  ==================
 **Hardware**  **Matlab Version**  **Xilinx Version**
 ============  ==================  ==================
-ROACH1/2      2012b               ISE 14.7 
+ROACH1/2      2013b               ISE 14.7 
 SKARAB        2016b               Vivado 2016.2
 SNAP          2016b               Viviado 2016.4 
 ============  ==================  ================== 
