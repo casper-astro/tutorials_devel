@@ -259,9 +259,11 @@ Reconfiguration of the SKARAB's SDRAM is done via the casperfpga python library.
 
 #### Getting the required packages ####
 
-These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" repo wiki located in GitHub:
+These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" repo wiki (to be deprecated) located in GitHub and the ReadtheDocs casperfpga documentation link:
 
 [https://github.com/ska-sa/casperfpga/wiki](https://github.com/ska-sa/casperfpga/wiki)
+
+[https://casper-toolflow.readthedocs.io](https://casper-toolflow.readthedocs.io/)
 
 #### Copy your .fpg file to your NFS server ####
 
