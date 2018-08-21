@@ -1,8 +1,8 @@
-Refer to https://casper.berkeley.edu/wiki/Tutorials HMC Interface (SKARAB)
+Refer to https://casper-tutorials.readthedocs.io/en/latest/ HMC Interface (SKARAB)
 
 This folder contains the following files for the HMC tutorial (SKARAB):  
 
 1) The Simulink model template file (*_template.slx) for starting the tutorial with
 2) The Simulink model (*.slx) completed file for reference and comparison 
 3) pre-compiled *.fpg file for programming to save time
-4) The python casperfpga script file *.py, which si used to read back captured data and registers in order to analyze the HMC data
+4) The python casperfpga script file *.py, which is used to read back captured data and registers in order to analyze the HMC data
