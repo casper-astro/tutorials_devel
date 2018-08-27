@@ -260,11 +260,6 @@ if __name__ == '__main__':
         except AttributeError:
             raise RuntimeError('No such log level: %s' % log_level)
 
-    # tx_host = '10.99.45.171'
-    # tx_fpg = '/home/paulp/bofs/tut2_tx_2017-4-14_1120.fpg'
-    # rx_host = '10.99.37.5'
-    # rx_fpg = '/home/paulp/bofs/tut2_rx_2017-4-14_1024.fpg'
-
     if args.rate > 40.0:
         raise RuntimeError('Cannot send data faster than 40Gbps.')
 
@@ -292,8 +287,6 @@ if __name__ == '__main__':
     to_pc = False
 
     # set up TX
-    import IPython
-    IPython.embed()
     print frx
     ip_dest = frx.gbes["forty_gbe"].get_ip()
     if to_pc:
