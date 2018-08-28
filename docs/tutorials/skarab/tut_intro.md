@@ -236,7 +236,7 @@ Once you are familiar with the CASPER toolflow, you might find you want to run t
 ```
 After this is completed, the last message printed will tell you how to finish the compile. It will look something like:
 ```bash
-$ 'python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/skarab/tut_intro/skarab_tut_intro.slx --middleware --backend --software'
+$ python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/skarab/tut_intro/skarab_tut_intro.slx --middleware --backend --software
  ```
 You can run this command in a separate terminal, after sourcing appropriate environment variables. Not recommended for beginners.
 
