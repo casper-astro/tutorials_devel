@@ -1,16 +1,14 @@
 # Tutorial 2: 40GbE Interface
 
 ## Introduction ##
-In this tutorial, you will create a simple Simulink design which uses the SKARAB's 40GbE ports to send data at high speeds to another port. This could just as easily be another SKARAB board or a computer with a 40GbE network interface card. In addition, we will learn to control the design remotely using a supplied Python library for KATCP. The UDP packets sent by the SKARAB will be recorded to disk.
+In this tutorial, you will create a simple Simulink design which uses the SKARAB's 40GbE ports to send data at high speeds to another port. This could just as easily be another SKARAB board or a computer with a 40GbE network interface card. In addition, you will learn to control the design remotely using a supplied Python library for KATCP. The UDP packets sent by the SKARAB will be recorded to disk.
 
-In this tutorial a counter will be transmitted through one QSFP+ port and back into another. This will allow a test of the communications link in terms of performance and reliability. This test can be used to test the link between boards and the effect of different cable lengths on communications quality.
+This tutorial essentially implements the transmission of a counter through one QSFP+ port and back into another. This allows for a test of the communications link in terms of performance and reliability. This test can be used to test the link between boards and the effect of different cable lengths on communications quality.
 
 ## Background ##
-For more info on the SKARAB please follow this link to the [SKARAB](https://github.com/casper-astro/casper-hardware/wiki/SKARAB) hardware platform.
+For more info on the SKARAB please follow this link to the [SKARAB](https://github.com/casper-astro/casper-hardware/wiki/SKARAB) hardware platform. Of particular interest for this tutorial is the section on the [QSFP+ Mezzanine Card](https://github.com/casper-astro/casper-hardware/wiki/SKARAB#QSFP_Mezzanine_Card).
 
-Of particular interest for this tutorial is the section on the [QSFP+ Mezzanine Card](https://github.com/casper-astro/casper-hardware/wiki/SKARAB#QSFP_Mezzanine_Card).
-
-The maximum payload length of the 40GbE core is 8192 bytes (implemented in BRAM) plus another 512 bytes (implemented in distributed RAM) - which is useful for an application header. These ports (and hence part of the 40 GbE cores) run at 156.25MHz, while the interface to your design runs at the FPGA clock rate (sys_clk, etc). The interface is asynchronous and buffers are required at the clock boundary. For this reason, even if you send data between two SKARAB boards which are running off the same hard-wired clock, there will be jitter in the data. A second consideration is how often you clock values into the core when you try to send data. If your FPGA is running faster than the core and you attempt to clock data in on every clock cycle, the buffers will eventually overflow. Likewise for receiving, if you send too much data to a board and cannot clock it out of the receive buffer fast enough, the receive buffers will overflow and you will lose data. In our design we are clocking the FPGA at 200MHz with the cores running at 156.25MHz. We will therefore not be able to clock data into the Tx buffer continuously for very long before it overflows. If this doesn't make much sense to you now don't panic, it will become clear after you've tried it.
+The maximum payload length of the 40GbE core is 8192 bytes (implemented in BRAM) plus another 512 bytes (implemented in distributed RAM) - which is useful for an application header. These ports (and hence part of the 40 GbE cores) run at 156.25MHz, while the interface to your design runs at the FPGA clock rate (sys_clk, etc). The interface is asynchronous and buffers are required at the clock boundary. For this reason, even if you send data between two SKARAB boards which are running off the same hard-wired clock, there will be jitter in the data. A second consideration is how often you clock values into the core when you try to send data. If your FPGA is running faster than the core, and you attempt to clock data in on every clock cycle, the buffers will eventually overflow. Likewise for receiving, if you send too much data to a board and cannot clock it out of the receive buffer fast enough, the receive buffers will overflow and you will lose data. In our design we are clocking the FPGA at 200MHz with the cores running at 156.25MHz. We will therefore not be able to clock data into the Tx buffer continuously for very long before it overflows. If this doesn't make much sense to you now don't panic, it will become clear after you've tried it.
 
 ## Tutorial Outline ##
 This tutorial will be run in an explain-and-explore kind of way. There are too many blocks for us to run through each one and its respective configuration. Hence, each section will be generally explained and it is up to you to explore the design and understand the detail. Please don't hesitate to ask any questions during the tutorial session. If you are doing these tutorials outside of the CASPER workshop please email any questions to the [CASPER email list](mailto:casper@lists.berkeley.edu
@@ -42,11 +40,11 @@ This is the start of the logic to build up our payload. The decimation register 
 
 ![](../../_static/img/skarab/tut_40gbe/Tx_decimation_logic.png)
 
-Here is the rest of the payload generation logic. We are creating 2 ramps and a walking-1 pattern. The payload is generated using a combination of counters, slice blocks, delays, adders and comparators. The ramps and walking 1 are concatenated together and put into the payload buffer by toggling the tx_valid signal on the 40GbE core. The tx_data bus is 256 bits wide so only 256 bits can be clocked in on a clock cycle. The buffer can accept a payload of up to 8192 bytes. Once all the data we require is in the payload buffer we toggle the tx_end_of_frame signal to send the packet into the ether. 
+Here is the rest of the payload generation logic. We are creating 2 ramps and a walking-1 pattern. The payload is generated using a combination of counters, slice blocks, delays, adders and comparators. The ramps and walking-1 are concatenated together and put into the payload buffer by toggling the `tx_valid` signal on the 40GbE core. The `tx_data` bus is 256 bits wide so only 256 bits can be clocked in on a clock cycle. The buffer can accept a payload of up to 8192 bytes. Once all the data we require is in the payload buffer we toggle the `tx_end_of_frame` signal to send the packet into the ether. 
 
 ![](../../_static/img/skarab/tut_40gbe/tx_40gbe.png)
 
-As a method of debugging, the transmit side also as some snap blocks which can capture data as it is sent to the core. The snap block is a BRAM which can be triggered to capture data on a particular signal and then read out from software. They are very useful for debugging and checking the data at particular stages through your design. 
+As a method of debugging, the transmit side also as some data snapshot (snap, not [SNAP](https://github.com/casper-astro/casper-hardware/wiki/SNAP)) blocks which can capture data as it is sent to the core. The snap block is a BRAM which can be triggered to capture data on a particular signal and then read out from software. They are very useful for debugging and checking the data at particular stages through your design. 
 
 ![](../../_static/img/skarab/tut_40gbe/Tx_snapshot_blocks.png)
 
@@ -64,7 +62,7 @@ Again we have a control register which manages resets, enables and snap block tr
 
 ![](../../_static/img/skarab/tut_40gbe/Rx_control_regs.png)
 
-This is the receiving 40GbE. If the Tx-side is all tied to 0 this interface is not used. The Rx side is connected up to labels which are used to reduce the wires running around the design. 
+This is the receiving 40GbE. If the Tx-side is all tied to zero (0) this interface is not used. The Rx side is connected up to labels which are used to reduce the wires running around the design. 
 
 ![](../../_static/img/skarab/tut_40gbe/Rx_40gbe.png)
 
