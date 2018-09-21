@@ -96,7 +96,7 @@ try:
     # In the future you won't have to instantiate an adc object as below, casperfpga will automatically
     # detect the presence of an adc block in your SNAP design, and will automagically create you
     # an adc object to interact with.
-    adc = casperfpga.snapadc.SNAPADC(fpga, ref=50) # reference at 10MHz
+    adc = casperfpga.snapadc.SNAPADC(fpga, ref=10) # reference at 10MHz
     # We want a sample rate of 800 Mhz, with 1 channel per ADC chip, using 8-bit ADCs
     # (there is another version of the ADC chip which operates with 12 bits of precision)
     if not opts.skip:
