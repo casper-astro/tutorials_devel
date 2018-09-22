@@ -4,3 +4,6 @@
 [submodule "vivado/mlib_devel"]
 	path = vivado/mlib_devel
 	url = https://github.com/casper-astro/mlib_devel.git
+[submodule "casperfpga"]
+	path = casperfpga
+	url = https://github.com/casper-astro/casperfpga
