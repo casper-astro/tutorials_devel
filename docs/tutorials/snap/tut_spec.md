@@ -63,7 +63,7 @@ Without further ado, open up the model file and start clicking on things, referr
 
 ### [adc](https://casper.berkeley.edu/wiki/Adc) ###
 
-![](../../_static/img/tut_spec/adc_4.1.png)
+![](../../_static/img/tut_spec/adc_2018.png)
 
 The first step to creating a frequency spectrum is to digitize the signal. This is done with an ADC – an Analogue to Digital Converter. In Simulink, the ADC daughter board is represented by a yellow block. Work through the “iADC tutorial” if you're not familiar with the iADC card.
 
@@ -87,7 +87,7 @@ The ADC outputs two main signals: i and q, which correspond to the coaxial input
 
 ### [pfb_fir_real](https://casper.berkeley.edu/wiki/Pfb_fir_real) ###
 
-![](../../_static/img/tut_spec/pfb_fir_real_2012.png)
+![](../../_static/img/tut_spec/pfb_fir_real_2018.png)
 
 There are two main blocks required for a polyphase filter bank. The first is the pfb_fir_real block, which divides the signal into parallel 'taps' then applies finite impulse response filters (FIR). The output of this block is still a time-domain signal.  When combined with the FFT_wideband_real block, this constitutes a polyphase filterbank.
 
