@@ -9,13 +9,12 @@ read_length = 600;
 
 #Connecting to the SKARAB
 print 'connecting to SKARAB...'
-f=casperfpga.CasperFpga('skarab020301')
+f=casperfpga.CasperFpga('10.0.0.100')
 print 'done'
 
 #program the SKARAB
 print 'programming the SKARAB...'
-#f.upload_to_ram_and_program('tut9_2017-7-28_1414.fpg')
-f.upload_to_ram_and_program('tut_hmc_2017-8-2_1100.fpg')
+f.upload_to_ram_and_program('tut_hmc_2018-07-26_1414.fpg')
 print 'done'
 
 #Set the data rate control
@@ -48,9 +47,9 @@ print 'done'
 
 #grab the snapshots
 print 'reading the snapshots...'
-hmc_in = f.snapshots.hmc_in_snap_ss.read(arm=False,man_trig=False, man_valid=False)['data'] 
-hmc_out = f.snapshots.hmc_out_snap_ss.read(arm=False,man_trig=False, man_valid=False)['data']
-hmc_reorder = f.snapshots.hmc_reorder_snap_ss.read(arm=False,man_trig=False, man_valid=False)['data']
+hmc_in = f.snapshots.hmc_in_snap_ss.read(arm=False)['data'] 
+hmc_out = f.snapshots.hmc_out_snap_ss.read(arm=False)['data']
+hmc_reorder = f.snapshots.hmc_reorder_snap_ss.read(arm=False)['data']
 print 'done'
 
 #disable the HMC write ad read process

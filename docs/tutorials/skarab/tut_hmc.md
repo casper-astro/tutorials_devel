@@ -1,4 +1,7 @@
 # Tutorial 3: HMC Interface
+**AUTHORS:** A. Isaacson and A. van der Byl
+
+**EXPECTED TIME:** 2 hours
 
 ## Introduction ##
 In this tutorial, you will create a simple Simulink design which writes and reads to/from the HMC Mezzanine Card that is plugged into the SKARAB Mezzanine 0 MegaArray slot - refer to [SKARAB](https://github.com/casper-astro/casper-hardware/wiki/SKARAB) for more information. In addition, we will learn to control the design remotely, using a supplied Python library for KATCP. 
@@ -39,7 +42,7 @@ More information on the HMC device (Rev D) and OpenHMC controller (Rev 1.5) can 
 [https://github.com/ska-sa/skarab_docs](https://github.com/ska-sa/skarab_docs) (master branch)
 
 ## Create a new model ##
-Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created HMC reordering function, SKARAB XSG core config block, Xilinx System Generator block and a 40GbE yellow block. Get a copy of this template and save it. Make sure the SKARAB XSG_core_config_block is configured for:
+Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created HMC reordering function, SKARAB XSG core config or platform block, Xilinx System Generator block and a 40GbE yellow block. Get a copy of this template and save it. Make sure the SKARAB XSG_core_config_block or platform block is configured for:
 
 1) Hardware Platform: "SKARAB:xc7vx690t"
  
@@ -57,7 +60,7 @@ A very important piece of logic to consider when designing your system is how, w
 ![](../../_static/img/skarab/tut_hmc/hmc_software_reg_cntrl.png)
 
 #### Add a software register ####
-Use a software register yellow block from the CASPER XPS Blockset for the reg_cntrl block. Rename it to reg_cntrl. Configure the I/O direction to be From Processor. Attach two Constant blocks from the Simulink->Sources section of the Simulink Library Browser to the input of the software register and make the value 0 and 1 as shown above.
+Use a software register yellow block from the CASPER XPS Blockset->Memory for the reg_cntrl block. Rename it to reg_cntrl. Configure the I/O direction to be From Processor. Attach two Constant blocks from the Simulink->Sources section of the Simulink Library Browser to the input of the software register and make the value 0 and 1 as shown above.
 
 #### Add Goto Blocks ####
 Add three Goto blocks from Simulink->Signal Routing. Configure them to have the tags as shown (rst_cntrl, data_rate_sel and wr_rd_en). These tags will be used by associated From (also found in Simulink->Signal Routing) blocks in other parts of the design. These help to reduce clutter in your design and are useful for control signals that are routed to many destinations. They should not be used a lot for data signals as it reduces the ease with which data flow can be seen through the system.
@@ -129,7 +132,7 @@ The dotted red lines indicates where it interfaces with the HMC write and read c
 We will now add the HMC yellow block in order to write and read to the HMC Mezzanine Card on the SKARAB.
 
 #### Add the HMC yellow block for memory accessing ####
-Add a HMC yellow block from the CASPER XPS Blockset, as shown below. It will be used to write and read data to/from the HMC memory on the Mezzanine Card. Rename it to hmc. Double click on the block to configure it and set it to be associated with Mezzanine slot 0. Make sure the simulation memory depth is set to 22 and the latency is set to 5. The randomise option should be checked, as this will ensure that the read HMC data is out of sequence, which emulates the operation of the HMC. This is explained above. 
+Add a HMC yellow block from the CASPER XPS Blockset->Memory, as shown below. It will be used to write and read data to/from the HMC memory on the Mezzanine Card. Rename it to hmc. Double click on the block to configure it and set it to be associated with Mezzanine slot 0. Make sure the simulation memory depth is set to 22 and the latency is set to 5. The randomise option should be checked, as this will ensure that the read HMC data is out of sequence, which emulates the operation of the HMC. This is explained above. 
 
 Add the Xilinx constant blocks as shown below - the tag is 9 bits, the data is 256 bits, the address is 27 bits and the rest is boolean. Add Xilinx cast blocks to write data (cast to 256 bits), write/read address (cast to 27 bits) and hmc data out (cast to 9 bits). Add the GoTo and From blocks and name them as shown below.
 
@@ -176,7 +179,7 @@ The ctrl register in a snap block allows control of the capture. The least signi
 
 The basic principle of the snap block is that it is primed by the user and then waits for a trigger at which point it captures a block of data and then waits to be primed again. Once primed the addr output register returns an address of 0 and will increment as data is written into the BRAMs. Upon completion the addr register will contain the final address. Reading this value will show that the capture has completed and the results may be extracted from the shared BRAMs.
 
-In the case of this tutorial, the arming and triggering is done via software. The trigger is the rst signal. The "we" signal on the snapshot blocks is the data valid signal. Configure and connect the snap blocks as shown above. The Convert (cast) blocks should all be to 9 bits. The delays should be as shown above, as this aligns the data correctly. The following settings should be used for the bitfield snapshot blocks: storage medium should be BRAM, number of samples (2^?) should be 13, Data width 64, all boxes unchecked except "use DSP48s to implement counters", Pre-snapshot delay should be 0.
+In the case of this tutorial, the arming and triggering is done via software. The trigger is the rst signal. The "we" signal on the snapshot blocks is the data valid signal. Configure and connect the snap blocks as shown above. The Convert (cast) blocks should all be to 9 bits. The delays should be as shown above, as this aligns the data correctly. The following settings should be used for the bitfield snapshot blocks: storage medium should be BRAM, number of samples ("2^?") should be 13, Data width 64, all boxes unchecked except "use DSP48s to implement counters", Pre-snapshot delay should be 0.
 
 ### HMC status registers ###
 We shall now look at some registers to monitor the progress of our HMC writing and reading. We shall be able to check how many HMC write and read requests were issued and compare it to actual data read out of the memory via registers. We shall be able to check if the HMC is handling the throughput for the writing and reading via registers. 
@@ -233,9 +236,9 @@ Once you have verified that that design functions as you'd like, you're ready to
 
 ## Compilation ##
 
-It is now time to compile your design into a FPGA bitstream. This is explained below, but you can also refer to the Jasper How To document for compiling your toolflow design. This can be found in the casper-astro "mlib_devel" repo wiki in GitHub:
+It is now time to compile your design into a FPGA bitstream. This is explained below, but you can also refer to the Jasper How To document for compiling your toolflow design. This can be found in the ReadtheDocs mlib_devel documentation link:
 
-[https://github.com/casper-astro/mlib_devel/wiki](https://github.com/casper-astro/mlib_devel/wiki)
+[https://casper-toolflow.readthedocs.io](https://casper-toolflow.readthedocs.io/)
  
 In order to compile this to an FPGA bitstream, execute the following command in the MATLAB Command Line window:
 
@@ -256,9 +259,11 @@ Reconfiguration of the SKARAB's SDRAM is done via the casperfpga python library.
 
 #### Getting the required packages ####
 
-These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" repo wiki located in GitHub:
+These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" repo wiki (to be deprecated) located in GitHub and the ReadtheDocs casperfpga documentation link:
 
 [https://github.com/ska-sa/casperfpga/wiki](https://github.com/ska-sa/casperfpga/wiki)
+
+[https://casper-toolflow.readthedocs.io](https://casper-toolflow.readthedocs.io/)
 
 #### Copy your .fpg file to your NFS server ####
 

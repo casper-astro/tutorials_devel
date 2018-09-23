@@ -1,0 +1,4 @@
+export XILINX_PATH=/home/CASPER/software/Xilinx/Vivado/2016.4
+export MATLAB_PATH=/home/CASPER/software/2016b
+export PLATFORM=lin64
+
