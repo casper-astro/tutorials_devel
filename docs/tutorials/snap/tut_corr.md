@@ -31,14 +31,14 @@ The lab at the workshop is preconfigured with the CASPER libraries, Matlab and X
 ## Creating Your Design ##
 
 ### Create a new model ###
-Having started Matlab, open Simulink (either by typing simulink on the Matlab command line, or by clicking the Simulink icon in the taskbar). Create a new model and add the Xilinx System Generator and XSG core config blocks as before in Tutorial 1.
+Having started Matlab, open Simulink (either by typing simulink on the Matlab command line, or by clicking the Simulink icon in the taskbar). Create a new model and add the Xilinx System Generator and SNAP platform blocks as before in Tutorial 1.
 
-### System Generator and XSG Blocks ###
-![](../../_static/img/tut_corr/sysgen_xsg.png)
+### System Generator and Platform Blocks ###
+![](../../_static/img/tut_corr/sysgen_snap_platform.png)
 
 By now you should have used these blocks a number of times. Pull the <b>System Generator</b> block into your design from the Xilinx Blockset menu under Basic Elements. The settings can be left on default.
 
-The <b>XSG</b> block can be found under the CASPER XPS System Blockset. Set the Hardware platform to ROACH:sx95t, the Clock Source to adc0_clk and the rest of the configuration as the default.
+The <b>SNAP</b> platform block can be found under the CASPER XPS System Blockset: Platform subsystem. Set the Clock Source to adc0_clk and the rest of the configuration as the default.
 
 Make sure you have an ADC plugged into ZDOK0 to supply the FPGA's clock!
 
