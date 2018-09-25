@@ -26,7 +26,7 @@ mkdir <directory_name> # eg. mkdir julio-iglesias
 # Go into this directory
 cd <directory name> #eg. cd julio-iglesias
 # Grab a copy of the tutorials repository from the '/home/fast' directory
-cp -r /home/fast/tutorials_devel ~
+cp -r /home/fast/tutorials_devel .
 ```
 
 That wasn't so hard, right? Running all the above commands might be a little bit cumbersome, but it ensures your versions of the CASPER libraries are in sync with the tutorial models you are running. This will prevent all kinds of pain later on.
