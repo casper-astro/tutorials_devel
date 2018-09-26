@@ -11,13 +11,13 @@ Once on the local network, you should be given an address on the 10.0.1.X subnet
 **When you arrive at the tutorial sessions you will be allocated a remote server to build designs on, and provided with login details.**
 
 ### Setting Up SSH
-You will also need SSH to log in to the server in the tutorial room which controls the ROACH/SNAP/SKARAB boards. SSH is supported natively in Linux and MacOS. If you are using a Windows laptop, you should install an SSH client, like Putty. Log in details for this server will be provided when you arrive at the tutorial sessions.
+You will also need SSH (including X tunneling to provide graphics) to log in to the server in the tutorial room which controls the ROACH/SNAP/SKARAB boards. SSH is supported natively in Linux and MacOS (though MacOS may require the "XQuartz" application to support X windows tunneling). If you are using a Windows laptop, you should install an SSH client, like Putty, and an X windows client. Log in details for this server will be provided when you arrive at the tutorial sessions.
 
 ### Preparing to run the tutorials
 In order to get ready to build and compile designs, you need to log into the server you have been allocated, and set up a directory in which to work. To do this, follow the step-by-step instructions below.
 
 1. Using your ssh client, and the server details you were given at the tutorial session, connect to a remote desktop session 2. Start a terminal on this desktop, by clicking (look in the top left of the screen) Applications >> System Tools >> Terminal 
-3. Copy the tutorials code repository, and associated CASPER libraries. In the terminal, run:
+2. Copy the tutorials code repository, and associated CASPER libraries. In the terminal, run:
 ```bash
 # Go into the home directory (you're probably already there, but let's make sure)
 cd ~
@@ -29,9 +29,7 @@ cd <directory name> #eg. cd julio-iglesias
 cp -r /home/fast/tutorials_devel .
 ```
 
-That wasn't so hard, right? Running all the above commands might be a little bit cumbersome, but it ensures your versions of the CASPER libraries are in sync with the tutorial models you are running. This will prevent all kinds of pain later on.
-
-2. Decide which hardware platform you are compiling for and go to the appropriate direcctory. Different directories contain slightly different MATLAB / Xilinx configurations, so it's important to choose the right one for the platform you are using.
+3. Decide which hardware platform you are compiling for and go to the appropriate direcctory. Different directories contain slightly different MATLAB / Xilinx configurations, so it's important to choose the right one for the platform you are using.
 ```bash
 cd ise # For ROACH only
 # or...
