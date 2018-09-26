@@ -16,7 +16,7 @@ You will also need SSH (including X tunneling to provide graphics) to log in to 
 ### Preparing to run the tutorials
 In order to get ready to build and compile designs, you need to log into the server you have been allocated, and set up a directory in which to work. To do this, follow the step-by-step instructions below.
 
-1. Using your ssh client, and the server details you were given at the tutorial session, connect to a remote desktop session 2. Start a terminal on this desktop, by clicking (look in the top left of the screen) Applications >> System Tools >> Terminal 
+1. Using your ssh client, and the server details you will be given at the tutorials session, connect to one of the provided compile server.
 2. Copy the tutorials code repository, and associated CASPER libraries. In the terminal, run:
 ```bash
 # Go into the home directory (you're probably already there, but let's make sure)
@@ -56,7 +56,7 @@ When your compile has finished, it should deliver you a .fpg file (this will be 
 You can now follow the tutorial instructions to program this file to an FPGA board. Details of the available FPGA platforms is below.
 
 ### Available FPGA hardware
-There are two SNAPs, two SKARABs, and 2 ROACH2s in the tutorial room. You can access them from maze (or your laptops, if you have the casperfpga libraries installed) using the hostnames
+There are two SNAPs, two SKARABs, and 2 ROACH2s in the tutorial room. You can access them from whichever server you are using (or your laptops, if you have the casperfpga libraries installed) using the hostnames
 
 * roach1
 * roach2
