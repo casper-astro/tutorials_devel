@@ -8,7 +8,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 ## Setup ##
 
 This tutorial comes with a completed model file, 
-a compiled bitstream, ready for execution on ROACH, as well as a Python script to configure the ROACH and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/ise/roach2/tut_spec)
+a compiled bitstream, ready for execution on SNAP, as well as a Python script to configure the SNAP and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec)
 
 ## Spectrometer Basics ##
 
@@ -85,7 +85,7 @@ The ADC has to be clocked to four times that of the FPGA clock. In this design t
 
 The ADC outputs two main signals: i and q, which correspond to the coaxial inputs of the ADC board. In this tutorial, we'll only be using input i. As the ADC runs at 4x the FPGA rate, there are four parallel time sampled outputs: i0, i1, i2 and i3. As mentioned before, these outputs are 8.7 bit.
 
-### [pfb_fir_real](https://casper.berkeley.edu/wiki/Pfb_fir_real) ###
+### [pfb_fir_real](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Pfb_fir_real.html) ###
 
 ![](../../_static/img/tut_spec/pfb_fir_real_2012.png)
 
@@ -122,7 +122,7 @@ As the ADC has four parallel time sampled outputs: i0, i1, i2 and i3, we need fo
 | Adder implementation                     | Adders not folded into DSPs can be implemented either using fabric resources (i.e. registers and LUTs in slices) or using DSP cores. Here you get to choose which is used. Choosing a behavioural implementation will allow the compiler to choose whichever implementation it thinks is best.               |
 | Share coefficients between polarisations | Where the pfb block is simultaneously processing more than one polarization, you can save RAM by using the same set of coefficients for each stream. This may, however, make the timing performance of your design worse.                                                                                    |
 
-### [fft_wideband_real](https://casper.berkeley.edu/wiki/Fft_wideband_real) ###
+### [fft_wideband_real](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Fft_wideband_real.html) ###
 
 ![](../../_static/img/tut_spec/Fft_wideband_real_block_and_parameters.png)
 
@@ -153,7 +153,7 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 | Convert Latency | Latency through blocks used to reduce bit widths after twiddle and butterfly stages. Set this to 1. |
 | Input Latency | Here you can register your input data streams in case you run into timing issues. Leave this set to 0. |
 | Latency between biplexes and fft_direct | Here you can add optional register stages between the two major processing blocks in the FFT. These can help a failing design meet timing. For this tutorial, you should be able to compile the design with this parameter set to 0. |
-| Architecture | Set to Virtex5, the architecture of the FPGA on the ROACH. This changes some of the internal logic to better optimise for the DSP slices. If you were using an older iBOB board, you would need to set this to Virtex2Pro. |
+| Architecture | Set to Virtex5, the architecture of the FPGA on the SNAP. This changes some of the internal logic to better optimise for the DSP slices. If you were using an older iBOB board, you would need to set this to Virtex2Pro. |
 | Use less | This affects the implementation of complex multiplication in the FFT, so that they either use fewer multipliers or less logic/adders. For the complex multipliers in the FFT, you can use 4 multipliers and 2 adders, or 3 multipliers and a bunch or adders. So you can trade-off DSP slices for logic or vice-versa. Set this to Multipliers. |
 | Number of bits above which to store stage's coefficients in BRAM | Determines the threshold at which the twiddle coefficients in a stage are stored in BRAM. Below this threshold distributed RAM is used. By changing this, you can bias your design to use more BRAM or more logic. We're going to set this to 8. |
 | Number of bits above which to store stage's delays in BRAM | Determines the threshold at which the twiddle coefficients in a stage are stored in BRAM. Below this threshold distributed RAM is used. Set this to 9. |
@@ -161,7 +161,7 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 | Hardcode shift schedule | If you wish to save logic, at the expense of being able to dynamically specify your shifting regime using the block's "shift" input, you can check this box. Leave it unchecked for this tutorial. |
 | Use DSP48's for adders | The butterfly operation at each stage consists of two adders and two subtracters that can be implemented using DSP48 units instead of logic. Leave this unchecked. |
 
-### [power](https://casper.berkeley.edu/wiki/Power) ###
+### [power](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Power.html) ###
 
 ![](../../_static/img/tut_spec/power_4.4.png)
 
@@ -227,14 +227,14 @@ The FFT block outputs 1024 cosine values (odd) and 1024 sine values, making 2048
 
 ![](../../_static/img/tut_spec/shared_bram_2012.png)
 
-The final blocks, odd and even, are shared BRAMs, which we will read out the values of using the tut3.py script.
+The final blocks, odd and even, are shared BRAMs, which we will read out the values of using the [snap_tut_spec.py](https://github.com/telegraphic/tutorials_devel/blob/master/vivado/snap/tut_spec/snap_tut_spec.py) script.
 
 **PARAMETERS**
 
 | Parameter | Description |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Output data type | Unsigned |
-| Address width | 2^(Address width) is the number of 32 bit words of the implemented BRAM. There is no theoretical maximum for the Virtex 5, but there will be significant timing issues at bitwidths of 13. QDR or DRAM can be used for larger address spaces. Set this value to 11 for our design. |
+| Address width | 2^(Address width) is the number of 32 bit words of the implemented BRAM. There is no theoretical maximum for the SNAP, but there will be significant timing issues at bitwidths of 13. Off-chip RAM can be used for larger address spaces on some CASPER boards. Set this value to 11 for our design. |
 | Data Width | The Shared BRAM may have a data input/output width of either 8,16,32,64 or 128 bits. Since the vector accumulator feeds the shared bram data port with 32 bit wide values, this should be set to 32 for this tutorial. |
 | Data binary point | The binary point should be set to zero. The data going to the processor will be converted to a value with this binary point and the output data type. |
 | Initial values | This is a test vector for simulation only. We can leave it as is. |
@@ -250,9 +250,9 @@ The final blocks, odd and even, are shared BRAMs, which we will read out the val
 | we | Write enable port |
 | data_out | Writing the data to a register. This is simply terminated in the design, as the data has finally reached its final form and destination. |
 
-### [Software Registers](https://casper.berkeley.edu/wiki/Software_register) ###
+### [Software Registers](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Software_register.html) ###
 
-There are a few [control registers](https://casper.berkeley.edu/wiki/Software_register), led blinkers, and [snap](https://casper.berkeley.edu/wiki/Snap) block dotted around the design too:
+There are a few [control registers](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Software_register.html), led blinkers, and [snapshot](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Snapshot.html) blocks dotted around the design too:
 
 - **cnt_rst**: Counter reset control. Pulse this high to reset all counters back to zero.
 
@@ -269,7 +269,7 @@ There are a few [control registers](https://casper.berkeley.edu/wiki/Software_re
 - **led2_acc_clip**: This lights up led2 whenever clipping is detected.
 
 
-There are also some [snap](https://casper.berkeley.edu/wiki/Snap) blocks, which capture data from the FPGA fabric and makes it accessible to the Power PC. This tutorial doesn't go into these blocks (in its current revision, at least), but if you have the inclination, have a look at their [documentation](https://casper.berkeley.edu/wiki/Snap).
+There are also some [snapshot](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Snapshot.html) blocks, which capture data from the FPGA fabric and makes it accessible to the Power PC. This tutorial doesn't go into these blocks (in its current revision, at least), but if you have the inclination, have a look at their [documentation](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Snapshot.html).
 In this design, the snap blocks are placed such that they can give useful debugging information. You can probe these through [KATCP](https://casper.berkeley.edu/wiki/KATCP), as done in [Tutorial 1](tut_intro.html), if interested.
 If you've made it to here, congratulations, go and get yourself a cup of tea and a biscuit, then come back for part two, which explains the second part of the tutorial – actually getting the spectrometer running, and having a look at some spectra.
 
@@ -278,15 +278,13 @@ If you've made it to here, congratulations, go and get yourself a cup of tea and
 ### Hardware Configuration ###
 
 The tutorial comes with a pre-compiled bof file, which is generated from the model you just went through (tut3.bof)
-Copy this over to you ROACH boffiles directory, chmod it to a+x as in the other tutorials, then load up your ROACH. You don't need to telnet in to the ROACH; all communication and configuration will be done by the python control script called tut3.py. 
+Copy this over to you SNAP boffiles directory, chmod it to a+x as in the other tutorials, then load up your SNAP. You don't need to telnet in to the SNAP; all communication and configuration will be done by the python control script called snap_tut_spec.py. 
 
-Next, you need to set up your ROACH. Switch it on, making sure that:
+Next, you need to set up your SNAP. Switch it on, making sure that:
 
-•	You have your ADC in ZDOK0, which is the one nearest to the power supply.
+•	You have your clock source connected to the ADC. It should be generating an 800MHz sine wave with 0dBm power.
 
-•	You have your clock source connected to clk_i on the ADC, which is the second on the right. It should be generating an 800MHz sine wave with 0dBm power.
-
-### The tut3.py spectrometer script ###
+### The snap_tut_spec.py spectrometer script ###
 
 Once you've got that done, it's time to run the script. First, check that you've connected the ADC to ZDOK0, and that the clock source is connected to clk_i of the ADC.
 Now, if you're in linux, browse to where the tut3.py file is in a terminal and at the prompt type
