@@ -135,7 +135,7 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 | --- | --- |
 | shift  | Like many of the blocks, the FFT needs a heartbeat to keep it sync'd |
 | in0-3  | Sets the shifting schedule through the FFT. Bit 0 specifies the behavior of stage 0, bit 1 of stage 1, and so on. If a stage is set to shift (with bit = 1), then every sample is divided by 2 at the output of that stage.   In this design, we've set Shift to 2^(13 − 1) − 1, which will shift the data by 1 on every stage to prevent overflows. |
-| out0-1 | This real FFT produces two simultaneous outputs. Because it's a real FFT, the spectrum's left and right halves are mirror images and so we don't bother to output the imaginary half (negative channel indices). Thus, for a 1024-point FFT, you get 512 useful channels. That's why there are half the number of parallel outputs (two complex output paths to four real input paths). Each of these parallel FFT outputs will produce sequential channels on every clock cycle. So, on the first clock cycle (after a sync pulse, which denotes the start), you'll get frequency channel zero and frequency channel one. Each of those are complex numbers. Then, on the second clock cycle, you'll get frequency channels 2 and 3. These are followed by 4 and 5 etc etc. So we chose to label these output paths "even" and "odd", to differentiate the path outputting channels 0,2,4,6,8...N-1 from the channel doing 1,3,5,7...N. As you can see, in order to recreate the full spectrum, we need to interleave these paths to produce 0,1,2,3,4,5...N. Following the lines you'll see that these two inputs end up in an “odd” and “even” shared BRAMs. These are then interleaved in the tut3.py script to form a complete spectrum. |
+| out0-1 | This real FFT produces two simultaneous outputs. Because it's a real FFT, the spectrum's left and right halves are mirror images and so we don't bother to output the imaginary half (negative channel indices). Thus, for a 1024-point FFT, you get 512 useful channels. That's why there are half the number of parallel outputs (two complex output paths to four real input paths). Each of these parallel FFT outputs will produce sequential channels on every clock cycle. So, on the first clock cycle (after a sync pulse, which denotes the start), you'll get frequency channel zero and frequency channel one. Each of those are complex numbers. Then, on the second clock cycle, you'll get frequency channels 2 and 3. These are followed by 4 and 5 etc etc. So we chose to label these output paths "even" and "odd", to differentiate the path outputting channels 0,2,4,6,8...N-1 from the channel doing 1,3,5,7...N. As you can see, in order to recreate the full spectrum, we need to interleave these paths to produce 0,1,2,3,4,5...N. Following the lines you'll see that these two inputs end up in an “odd” and “even” shared BRAMs. These are then interleaved in the snap_tut_spec.py script to form a complete spectrum. |
 
 **PARAMETERS**
 
@@ -185,7 +185,7 @@ In our design, there are two power blocks, which compute the power of the odd an
 
 ![](../../_static/img/tut_spec/quant_4.5.png)
 
-The quant0 was written by Jason Manley for this tutorial and is not part of the CASPER blockset. The block re-quantizes from 36.34 bits to 6.5 unsigned bits, in preparation for accumulation by the 32 bit bram_vacc block. This block also adds gain control, via a software register. The tut3.py script sets this gain control. You would not need to re-quantize if you used a larger vacc block, such as the 64bit one, but it's illustrative to see a simple example of re-quantization, so it's in the design anyway.
+The quant0 was written by Jason Manley for this tutorial and is not part of the CASPER blockset. The block re-quantizes from 36.34 bits to 6.5 unsigned bits, in preparation for accumulation by the 32 bit bram_vacc block. This block also adds gain control, via a software register. The snap_tut_spec.py script sets this gain control. You would not need to re-quantize if you used a larger vacc block, such as the 64bit one, but it's illustrative to see a simple example of re-quantization, so it's in the design anyway.
 Note that the sync_out port is connected to a block, acc_cntrl, which provides accumulation control.
 
 **INPUTS/OUTPUTS**
@@ -256,7 +256,7 @@ There are a few [control registers](https://casper-toolflow.readthedocs.io/en/la
 
 - **cnt_rst**: Counter reset control. Pulse this high to reset all counters back to zero.
 
-- **acc_len**: Sets the accumulation length. Have a look in tut3.py for usage.
+- **acc_len**: Sets the accumulation length. Have a look in snap_tut_spec.py for usage.
 
 - **sync_cnt**: Sync pulse counter. Counts the number of sync pulses issued. Can be used to figure out board uptime and confirm that your design is being clocked correctly.
 
