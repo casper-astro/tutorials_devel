@@ -92,7 +92,7 @@ Configure the PFB_FIR_generic blocks as shown below:
 
 ![](../../_static/img/tut_corr/snap_fir_mask.png)
 
-There is potential to overflow the first FFT stage if the input is periodic or signal levels are high as shifting inside the FFT is only performed after each butterfly stage calculation. For this reason, we recommend casting any inputs up to 18 bits with the binary point at position 17 (thus keeping the range of values -1 to 1), and then ownshifting by 1 bit to place the signal in one less than the most significant bits.
+There is potential to overflow the first FFT stage if the input is periodic or signal levels are high as shifting inside the FFT is only performed after each butterfly stage calculation. For this reason, we recommend casting any inputs up to 18 bits with the binary point at position 17 (thus keeping the range of values -1 to 1), and then downshifting by 1 bit to place the signal in one less than the most significant bits.
 
 The fft_wideband_real block should be configured as follows:
 
