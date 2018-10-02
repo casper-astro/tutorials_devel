@@ -50,11 +50,9 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - You may notice Xilinx delay blocks dotted all over the design. It's common practice to add these into the design as it makes it easier to fit the design into the logic of the FPGA. It consumes more resources, but eases signal timing-induced placement restrictions.
 
-- The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring. They are also scaled by a gain factor before being quantised...
+- The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring.
 
-- These power values are then requantized by the quant0 block, from 36.34 bits to 6.5 bits, in preparation for accumulation. This is done to limit bit growth.
-
-- The requantized signals then enter the vector accumulators, vacc0 and vacc1, which are simple_bram_vacc 32 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block.
+- These power values enter the vector accumulators, vacc0 and vacc1, which are simple_bram_vacc 64 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block.
 
 - The accumulated signal is then fed into software registers, odd and even.
 
@@ -166,7 +164,7 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 ![](../../_static/img/tut_spec/power_4.4.png)
 
 The power block computes the power of a complex number. The power block typically has a latency of 5 and will compute the power of its input by taking the sum of the squares of its real and imaginary components.  The power block is written by Aaron Parsons and online documentation is by Ben Blackman.
-In our design, there are two power blocks, which compute the power of the odd and even outputs of the FFT. The output of the block is 36.34 bits; the next stage of the design re-quantizes this down to a lower bitrate.
+In our design, there are two power blocks, which compute the power of the odd and even outputs of the FFT. The output of the block is 36.34 bits.
 
 **INPUTS/OUTPUTS**
 
@@ -181,39 +179,21 @@ In our design, there are two power blocks, which compute the power of the odd an
 |-----------|----------|----------------------------------|
 | Bit Width | BitWidth | The number of bits in its input. |
 
-### quant ###
-
-![](../../_static/img/tut_spec/quant_4.5.png)
-
-The quant0 was written by Jason Manley for this tutorial and is not part of the CASPER blockset. The block re-quantizes from 36.34 bits to 6.5 unsigned bits, in preparation for accumulation by the 32 bit bram_vacc block. This block also adds gain control, via a software register. The snap_tut_spec.py script sets this gain control. You would not need to re-quantize if you used a larger vacc block, such as the 64bit one, but it's illustrative to see a simple example of re-quantization, so it's in the design anyway.
-Note that the sync_out port is connected to a block, acc_cntrl, which provides accumulation control.
-
-**INPUTS/OUTPUTS**
-
-| Port | Description |
-|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Sync | Input/output for the sync heartbeat pulse. |
-| din0-1 | Data inputs – odd is connected to din0 and even is connected to din1. In our design, data in is 36.34 bits. |
-| dout0-1 | Data outputs. In this design, the quant0 block requantizes from the 36.34 input to 6.5 bits, so the output on both of these ports is 6.5 unsigned bits. |
-
-**PARAMETERS**
-
-None.
-
 ### simple_bram_vacc ###
 
 ![](../../_static/img/tut_spec/vacc_4.6.png)
 
-The simple_bram_vacc block is used in this design for vector accumulation. Vector growth is approximately 28 bits each second, so if you wanted a really long accumulation (say a few hours), you'd have to use a block such as the qdr_vacc or dram_vacc. As the name suggests, the simple_bram_vacc is simpler so it is fine for this demo spectrometer.
-The FFT block outputs 1024 cosine values (odd) and 1024 sine values, making 2048 values in total. We have two of these bram vacc's in the design, one for the odd and one for the even frequency channels. The vector length is thus set to 1024 on both.
+The simple_bram_vacc block is used in this design for vector accumulation. Vector growth is approximately 18 bits each second, since we are accumulating about 2^18 spectra every second. We configure the vector accumulator to output values which are 64 bits wide - since our inputs are only 36 bits wide we can accumulate 2^28 spectra (several minutes of data) before having to worry about possible overflows.
+The FFT block 2048 independent frequency channels, split over two outputs. We need a vector accumulator for each of these odd and even channel streams. The vector length is thus set to 1024 on both.
 
 **PARAMETERS**
 
 | Parameter | Description |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Vector length | The length of the input/output vector. The FFT block produces two streams of 1024 length (odd and even values), so we set this to 1024. |
-| no. output bits | As there is bit growth due to accumulation, we need to set this higher than the input bits. The input is 6.5 from the quant0 block, we have set this to 32 bits. Note: We could set this to 64 bits and skip the quant block. |
-| Binary point (output) | Since we are accumulating 6.5 values there should be 5 bits below the binary point of the output, so set this to 5. |
+| Output type | We are accumulating powers, which can only be positive, so this should be set to "Unsigned"
+| no. output bits | As there is bit growth due to accumulation, we need to set this higher than the input bits. The input is 36.35 from the  power block so we have set this to 64 bits. |
+| Binary point (output) | Since we are accumulating 36.35 values there should continue to be 35 bits below the binary point of the output, so set this to 35.|
 
 **INPUTS/OUTPUTS**
 
@@ -227,17 +207,20 @@ The FFT block outputs 1024 cosine values (odd) and 1024 sine values, making 2048
 
 ![](../../_static/img/tut_spec/shared_bram_2012.png)
 
-The final blocks, odd and even, are shared BRAMs, which we will read out the values of using the [snap_tut_spec.py](https://github.com/telegraphic/tutorials_devel/blob/master/vivado/snap/tut_spec/snap_tut_spec.py) script.
+The final blocks, odd and even, are shared BRAMs, from which we will read out the values using the [snap_tut_spec.py](https://github.com/casper-astro/tutorials_devel/blob/master/vivado/snap/tut_spec/snap_tut_spec.py) script.
 
 **PARAMETERS**
 
 | Parameter | Description |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Output data type | Unsigned |
-| Address width | 2^(Address width) is the number of 32 bit words of the implemented BRAM. There is no theoretical maximum for the SNAP, but there will be significant timing issues at bitwidths of 13. Off-chip RAM can be used for larger address spaces on some CASPER boards. Set this value to 11 for our design. |
-| Data Width | The Shared BRAM may have a data input/output width of either 8,16,32,64 or 128 bits. Since the vector accumulator feeds the shared bram data port with 32 bit wide values, this should be set to 32 for this tutorial. |
-| Data binary point | The binary point should be set to zero. The data going to the processor will be converted to a value with this binary point and the output data type. |
-| Initial values | This is a test vector for simulation only. We can leave it as is. |
+| Address width | 2^(Address width) is the number of 64 bit words of the implemented BRAM. There is no theoretical maximum for the SNAP, but there will be significant timing issues at bitwidths of 13. Off-chip RAM can be used for larger address spaces on some CASPER boards.
+Set this value to 10 for our design, since each vector accumulator outputs 2^10 values |
+| Data Width | The Shared BRAM may have a data input/output width of either 8,16,32,64 or 128 bits. Since the vector accumulator feeds the shared bram data port with 64 bit wide values, this should be set to 64 for this tutorial. |
+| Data binary point | The position of the binary point should match the input data type. We have reinterpreted our data as having a binary point of 0, so this should be 0. |
+| Register Primitive Output | Selecting this option adds a cycle of latency to the RAM used by this block, increasing it's timing performance. This should be turned on. |
+| Register Core Output | Selecting this option adds a cycle of latency to the RAM used by this block, increasing it's timing performance. This should be turned on. |
+| Initial values | This is a test vector for simulation only. We can set it to any 1024-element vactor. |
 | Sample rate | Set this to 1. |
 
 
@@ -297,7 +280,7 @@ replacing <SNAP IP or hostname> with the IP address of your SNAP and <boffile na
 
 ![](../../_static/img/tut_spec/Spectrometer.py_4.8.png)
 
-In the plot, there should be a fixed DC offset spike; and if you're putting in a tone, you should also see a spike at the correct input frequency.  If you'd like to take a closer look, click the icon that is below your plot and third from the right, then select a section you'd like to zoom in to. The digital gain (-g option) is set to maximum (0xffff_ffff) by default to observe the ADC noise floor. Reduce the gain (decrease the value (for a -10dBm input 0x100)) when you are feeding the ADC with a tone, as not to saturate the spectrum.
+In the plot, there should be a fixed DC offset spike; and if you're putting in a tone, you should also see a spike at the correct input frequency.  If you'd like to take a closer look, click the icon that is below your plot and third from the right, then select a section you'd like to zoom in to.
 
 Now you've seen the python script running, let's go under the hood and have a look at how the FPGA is programmed and how data is interrogated. To stop the python script running, go back to the terminal and press ctrl + c a few times.
 
@@ -357,11 +340,10 @@ adc.selectADC(0) # send commands to the first ADC chip
 adc.adc.selectInput([1,1,1,1]) # Interleave four ADCs all pointing to the first input
 ```
 
-Now we need to configure the accumulation length and gain by writing values to their registers. For two seconds and maximum gain: accumulation length,  2*(2^28)/2048, or just under 2 seconds:
+Now we need to configure the accumulation length by writing values to the acc_len register. For two seconds of integration, the accumulation length is: 2 [seconds] * 4096 [samples per spectrum] / 800e6 [ADC sample rate]. In nice powers-of-two, this is approximately 2*(2^30)/4096
 
 ```python
-fpga.write_int('acc_len',2*(2**28)/2048)
-fpga.write_int('gain',0xffffffff)
+fpga.write_int('acc_len',2*(2**30)/4096)
 ```
 
 Finally, we reset the counters:
