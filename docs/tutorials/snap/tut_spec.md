@@ -42,7 +42,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
-- In the MSSGE block, the hardware type is set to “ROACH:sx95t” and clock rate is specified as 200MHz.
+- In the MSSGE block, the hardware type is set to “SNAP:xc7k160t” and clock rate is specified as 200MHz.
 
 - The input signal is digitised by the ADC, resulting in four parallel time samples of 8 bits each clock cycle. The ADC runs at 800MHz, which gives a 400MHz nyquist sampled spectrum. The output range is a signed number in the range -1 to +1 (ie 7 bits after the decimal point). This is expressed as fix_8_7.
 
@@ -69,7 +69,7 @@ The ADC block converts analog inputs to digital outputs. Every clock cycle, the 
 
 ADCs often internally bias themselves to halfway between 0 and -1. This means that you'd typically see the output of an ADC toggling between zero and -1 when there's no input. It also means that unless otherwise calibrated, an ADC will have a negative DC offset.
 
-The ADC has to be clocked to four times that of the FPGA clock. In this design the ADC is clocked to 800MHz, so the ROACH will be clocked to 200MHz . This gives us a bandwidth of 400MHz, as Nyquist sampling requires two samples (or more) each second.
+The ADC has to be clocked to four times that of the FPGA clock. In this design the ADC is clocked to 800MHz, so the SNAP will be clocked to 200MHz . This gives us a bandwidth of 400MHz, as Nyquist sampling requires two samples (or more) each second.
 
 **INPUTS**
 
@@ -109,7 +109,8 @@ As the ADC has four parallel time sampled outputs: i0, i1, i2 and i3, we need fo
 | Number of Simultaneous Inputs (2?)       | The number of parallel time samples which are presented to the FFT core each clock. The number of output ports are set to this same value. We have four inputs from the ADC, so set this to 2.                                                                                                               |
 | Make biplex                              | 0 (not making it biplex) is default. Double up the inputs to match with a biplex FFT.                                                                                                                                                                                                                        |
 | Input bitwidth.                          | The number of bits in each real and imaginary sample input to the PFB. The ADC outputs 8.7 bit data, so the input bitwidth should be set to 8 in our design.                                                                                                                                                 |
-| Output bitwidth                          | The number of bits in each real and imaginary sample output from the PFB. This should match the bit width in the FFT that follows. 18 bits is recommended for the ROACH (18x25 multipliers) and iBOB/BEE2 (18x18 multipliers).                                                                               |
+| Output bitwidth                          | The number of bits in each real and imaginary sample output from the PFB. This should match the bit width in the FFT that follows. 18 bits is recommended for the SNAP, whose multiplers are natively 18x25 bits wide.
+
 | Coefficient bitwidth                     | The number of bits in each coefficient. This is usually chosen to be less than or equal to the input bit width.                                                                                                                                                                                              |
 | Use dist mem for coeffients              | Store the FIR coefficients in distributed memory (if = 1). Otherwise, BRAMs are used to hold the coefficients. 0 (not using distributed memory) is default                                                                                                                                                   |
 | Add/Mult/BRAM/Convert Latency            | These values set the number of clock cycles taken by various processes in the filter. There's normally no reason to change this unless you're having troubles fitting the design into the fabric.                                                                                                            |
@@ -244,7 +245,7 @@ There are a few [control registers](https://casper-toolflow.readthedocs.io/en/la
 
 - **acc_cnt**: Accumulation counter. Keeps track of how many accumulations have been done.
 
-- **led0_sync**: Back on topic: the led0_sync light flashes each time a sync pulse is generated. It lets you know your ROACH is alive.
+- **led0_sync**: Back on topic: the led0_sync light flashes each time a sync pulse is generated. It lets you know your SNAP is alive.
 
 - **led1_new_acc**: This lights up led1 each time a new accumulation is triggered.
 
@@ -306,20 +307,20 @@ sample_rate = 800.0 # Sample rate in MHz
 freq_range_mhz = numpy.linspace(0., sample_rate/2, 2048)
 ```
 
-Which we can then use in FpgaClient() such that we can connect to the ROACH and issue commands to the FPGA:
+Which we can then use to connect to the SNAP board using casperfpga:
 
 ```python
 print('Connecting to server %s on port %i... '%(snap,katcp_port)),
 fpga = casperfpga.CasperFpga(snap)
 ```
 
-We now have an fpga object to play around with. To check if you managed to connect to your ROACH, type:
+We now have an fpga object to play around with. To check if you managed to connect to your SNAP, type:
 
 ```python	
 fpga.is_connected()
 ```
 
-Let's set the bitstream running using the progdev() command:
+Let's set the bitstream running using the upload_to_ram_and_program() command:
 
 ```python
 fpga.upload_to_ram_and_program(bitstream) 
@@ -403,7 +404,7 @@ Starting from [line 47](https://github.com/telegraphic/tutorials_devel/blob/mast
 
 ```python
     p = OptionParser()
-    p.set_usage('spectrometer.py <ROACH_HOSTNAME_or_IP> [options]')
+    p.set_usage('spectrometer.py <SNAP_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=2*(2**28)/2048,
         help='Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048, or just under 2 seconds.')
@@ -431,6 +432,6 @@ If you have followed this tutorial faithfully, you should now know:
 
 * Which CASPER blocks you might want to use to make a spectrometer, and how to connect them up in Simulink.
 
-* How to connect to and control a ROACH spectrometer using python scripting.
+* How to connect to and control a SNAP spectrometer using python scripting.
 
 In the following tutorials, you will learn to build a correlator, and a polyphase filtering spectrometer using an FPGA in conjunction with a Graphics Processing Unit (GPU).
