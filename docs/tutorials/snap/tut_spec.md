@@ -214,8 +214,7 @@ The final blocks, odd and even, are shared BRAMs, from which we will read out th
 | Parameter | Description |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Output data type | Unsigned |
-| Address width | 2^(Address width) is the number of 64 bit words of the implemented BRAM. There is no theoretical maximum for the SNAP, but there will be significant timing issues at bitwidths of 13. Off-chip RAM can be used for larger address spaces on some CASPER boards.
-Set this value to 10 for our design, since each vector accumulator outputs 2^10 values |
+| Address width | 2^(Address width) is the number of 64 bit words of the implemented BRAM. There is no theoretical maximum for the SNAP, but there will be significant timing issues at bitwidths of 13. Off-chip RAM can be used for larger address spaces on some CASPER boards. Set this value to 10 for our design, since each vector accumulator outputs 2^10 values |
 | Data Width | The Shared BRAM may have a data input/output width of either 8,16,32,64 or 128 bits. Since the vector accumulator feeds the shared bram data port with 64 bit wide values, this should be set to 64 for this tutorial. |
 | Data binary point | The position of the binary point should match the input data type. We have reinterpreted our data as having a binary point of 0, so this should be 0. |
 | Register Primitive Output | Selecting this option adds a cycle of latency to the RAM used by this block, increasing it's timing performance. This should be turned on. |
