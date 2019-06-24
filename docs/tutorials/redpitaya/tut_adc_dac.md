@@ -55,47 +55,47 @@ It should look as follows when you have added all the relevant registers:
 ![](../../_static/img/red_pitaya/tut_adc_dac/reset_architecture.png)
 
 
-### Add ADC and associated registers for debugging ###
+### Add ADC and associated registers and gpio for debugging ###
 We will now add the ADC yellow block in order to interface with the ADC device on the Red Pitaya.
 
 #### Add the ADC yellow block for digital to analog interfacing ####
-Add a HMC yellow block from the CASPER XPS Blockset->Memory, as shown below. It will be used to write and read data to/from the HMC memory on the Mezzanine Card. Rename it to hmc. Double click on the block to configure it and set it to be associated with Mezzanine slot 0. Make sure the simulation memory depth is set to 22 and the latency is set to 5. The randomise option should be checked, as this will ensure that the read HMC data is out of sequence, which emulates the operation of the HMC. This is explained above. 
+Add a Red Pitaya ADC yellow block from the CASPER XPS Blockset-> ADCs, as shown below. It will be used to interface to the ADC device on the Red Pitaya. Rename it to adc. Double click on the block to configure it and set the number of bits to be 10 bits wide. This should be hard coded for now. This will need to be changed for the bonus challenge exercise below.
 
-Add the Xilinx constant blocks as shown below - the tag is 9 bits, the data is 256 bits, the address is 27 bits and the rest is boolean. Add Xilinx cast blocks to write data (cast to 256 bits), write/read address (cast to 27 bits) and hmc data out (cast to 9 bits). Add the GoTo and From blocks and name them as shown below.
+![](../../_static/img/red_pitaya/tut_adc_dac/adc_yellow_clock_param.png)
 
-Link 2 is not used, so the outputs can be terminated, as shown below. Add the terminator block from Simulink->Sinks
- 
-![](../../_static/img/skarab/tut_hmc/hmc_yellow_block_bp.png)
+Add the From block as shown below, which connects the reset to the ADC yellow block.
 
-#### Add registers to provide HMC status monitoring ####
-Add three yellow-block software registers to provide the HMC status (2 bits), HMC receive CRC error counter (16 bits) and the HMC receive FLIT protocol error status (7 bits). Name them as shown below. The registers should be
-configured to send their values to the processor. Connect them to the HMC yellow block as shown below using GoTo blocks. A Convert (cast) block is required to interface with the 32 bit registers. Delay blocks are also required. To workspace blocks from Simulink->Sinks are attached to the simulation outputs of the software registers.
+![](../../_static/img/red_pitaya/tut_adc_dac/adc_yellow_block_with_reset.png)
 
-The HMC status is made up of the HMC initialisation done and HMC Power On Self Test (POST) OK flags. It takes a maximum of 1.2s for the HMC lanes to align and the initialisation process to complete. Once this is done then internally generated test data is written into the HMC. The data is then read out and compared with the data written in. If there is a match then POST passes and the POST OK flag is set to '1'. In this case, HMC initialisation done will be '1' when the initialisation is successful and the POST process has finished. The POST OK flag will only be set to '1' when the memory test is successful. Therefore, the user can only start writing and reading to/from the HMC when init_done and post_ok flag are both '1'. If any flags are '0' then the HMC did not properly start up. Refer to the HMC Data Rate Control functionality above, which uses these flags to only start the write and read process when they are asserted.
+#### Add registers and gpio to provide ADC debugging ####
+Add one yellow-block software register to provide an ADC sample counter (32 bits). Name them as shown below. The register should be
+configured to send their values to the processor. Connect them to the ADC yellow block as shown below. Delay blocks are also required - you will find these under Xilinx Blockset -> Basic Elements in the Simulink Library Browser. 
 
-The HMC receive CRC error counter will continue to increment if there are receive checksum errors encountered by the HMC firmware. This should always be 0.
+![](../../_static/img/red_pitaya/tut_adc_dac/adc_sample_cnt.png)
 
-The HMC receive FLIT protocol error status register is 7 bits. If any of these bits are '1' then this means an error has occurred. This should always be '0'. In order to decode what this error means there is a table in the HMC data sheet on page 48 Table 20.
 
-![](../../_static/img/skarab/tut_hmc/hmc_error_yellow_block_mon.png)
+In the event that you will be using the logic analyser, you will need to route the ADC data (channel 1) to the Logic Analyser connector (E1) on the Red Pitaya. In order to do this you will need to add two gpio yellow-blocks from CASPER XPS Blockset -> IO. The first GPIO is for the ADC data valid and the second GPIO yellow block is for the ADC channel 1 10 bit data. It should be connected as shown below for the first gpio for the ADC data valid:
 
-### Implement the HMC reordering functionality ###
-We will now implement logic to reorder the data that is read out of sequence from the HMC. This is critical, as the data is no use to us if it is out of sequence. This is already included in the template for this tutorial, so please use this functionality as is to save time. Some details are provided here for completeness.
+![](../../_static/img/red_pitaya/tut_adc_dac/gpio_adc_data_valid.png)
 
-The logic below looks complicated, but it is not. The HMC does not read back the data in the order it was requested due to how the HMC vaults operate and the DRAM refresh cycles. This makes the HMC readback undeterministic. The HMC reorder BRAM (512 Deep) reorders all the data read back from the HMC. This will synchronise the reorder readouts by using the read out tag as the write address of the reorder BRAM. It turns out through experience that the maximum delay can be in the order of 256 tags, when the data is requested. The function below does the following:
+It should be connected as shown below for the second gpio for the ADC 10 bit data on channel 1:
 
-1) It ensures that the HMC has written at least 256 words into the reorder BRAM before reading out
-of the reorder BRAM.
+![](../../_static/img/red_pitaya/tut_adc_dac/gpio_adc_data_channel_1.png)
 
-2) It makes sure the read pointer does not exceed the write pointer i.e. do not read data that has not been written yet.
+You will now be able to monitor the ADC data using the logic analyser connected to E1 on the Red Pitaya - refer to 125-10 schematics [Red Pitaya DAC Docs: Datasheets and Schematics] (https://github.com/casper-astro/red_pitaya_docs). 
 
-3) Once the read pointer reaches count 256 then it waits until the write pointer count is at 512 and then continues to read the rest of the reorder BRAM while the write pointer starts from 0 again. This prevents the write and read pointers from clashing. This is essentially a bank swopping control mechanism.
+### Add DAC ###
+We will now add the DAC yellow block in order to interface with the DAC device on the Red Pitaya.
 
-![](../../_static/img/skarab/tut_hmc/hmc_reorder_bram.png)
+#### Add the DAC yellow block for analog to digital interfacing ####
+Add a Red Pitaya DAC yellow block from the CASPER XPS Blockset-> DACs, as shown below. It will be used to interface to the DAC device on the Red Pitaya. Rename it to dac. Double click on the block to configure it and set the number of bits to be 10 bits wide. This should be hard coded for now. This will need to be changed for the bonus challenge exercise below. Add the From block as shown below, which connects the reset to the ADC yellow block and connect the ADC to the DAC as shown below.
 
-![](../../_static/img/skarab/tut_hmc/hmc_reorder_logic.png)
+![](../../_static/img/red_pitaya/tut_adc_dac/dac_yellow_clock_param.png)
 
-### Buffers to capture HMC write, HMC read and HMC reordered read data ###
+The ADC and DAC functionality is now implemented in your Simulink design. It is now time to setup the ADC data capturing snap shot blocks.
+
+
+### Buffers to capture ADC Data Valid, ADC Channel 1 and ADC Channel 2 ###
 The HMC write data (input), HMC read data (output) and HMC reordered data need to be connected to bitfield snapshot blocks for data capture analysis (located in CASPER DSP Blockset->Scopes), as shown below. These blocks (hmc_in_snap, hmc_out_snap and hmc_reorder_snap) are identical internally. Using these blocks, we can capture data as it is written and compare it to the data we have read and finally to the data that has been reordered.
 
 Bitfield snapshot blocks are a standard way of capturing snapshots of data in the CASPER tool-set. A bitfield snap block contains a single shared BRAM allowing capture of 128-bit words. 
