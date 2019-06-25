@@ -1,4 +1,6 @@
-export XILINX_PATH=/home/CASPER/software/Xilinx/Vivado/2016.2
-export MATLAB_PATH=/home/CASPER/software/2016b
+export XILINX_PATH=/media/aisaacson/HD1TB/Xilinx/Vivado/2018.2
+export MATLAB_PATH=/media/aisaacson/HD1TB/Matlab/R2018a
+export XML2VHDL_PATH="/home/aisaacson/work/git_work/ska_sa/projects/xml2vhdl/scripts/python/xml2vhdl-ox/xml2vhdl/"
 export PLATFORM=lin64
+export JASPER_BACKEND=vivado
 

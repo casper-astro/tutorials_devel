@@ -142,8 +142,8 @@ Execution of this command will result in an output .bof and .fpg file in the 'ou
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/tut_adc_dac_outputs_dir_files.png)
 
-## Programming the FPGA ##
-Reconfiguration of the Red Piatya's Zynq is done via the casperfpga python library. The casperfpga package for python, created by the SA-SKA group, wraps the Telnet commands in python. and is probably the most commonly used in the CASPER community. We will focus on programming and interacting with the Programmable Logic (PL) of the Zynq using this method.
+## Programming the FPGA (Zynq PL) ##
+Reconfiguration of the Red Pitaya's Zynq is done via the casperfpga python library. The casperfpga package for python, created by the SA-SKA group, wraps the Telnet commands in python. and is probably the most commonly used in the CASPER community. We will focus on programming and interacting with the Programmable Logic (PL) of the Zynq using this method.
 
 #### Getting the required packages ####
 
@@ -246,8 +246,6 @@ You should see something like this:
  done
  triggering the snapshot and reset the counters...
  done
- enabling the ADC sampling process...
- done
  reading the snapshot...
  done
  writing ADC data to disk ...
@@ -256,7 +254,7 @@ You should see something like this:
  adc_sample_cnt: 100000
  done
  Displaying the snapshot block data...
- ADC SNAPSHOT CAPTURED OUTPUT
+ ADC SNAPSHOT CAPTURED INPUT
  -----------------------------
  Num adc_data_valid adc_data_ch1 adc_data_ch2
  [0] 1 -1 -5
@@ -299,6 +297,17 @@ Hint: What trigger are you going to use to sample the ADC data on channel 1 - in
 
 Once you have connected everything up then configure board and switch on the signal generator. Does the data displayed on the logic analyser look similar to the data captured using the python script? How can you display a sinusoid signal on the logic analyser?
 
+Take the captured data written to disk "adc_data.txt" and display using the Matlab script "plot_adc.m" which will reside in your tutorial folder. Does it look correct? Try compute the RMS LSB of each ADC channel 
+Hint: edit the plot_adc.m script to compute the standard deviation with the ADC inputs terminated.
+
+Try and do an FFT (add windowing) of the captured ADC data by editing the plot_adc.m script. What do you get? Does it make sense?
+Hint: treat each channel as real data
+
+### Bonus Challenge ###
+
+You have gone through the ADC and DAC tutorial on the 125-10 board. Now it is time to really test your hardware porting skills and port this tutorial to work on the 125-14 board. Good luck!
+
+Hint: The Zynq pin outs are not the same. You will need to look at the 125-14 schematics. You will need to update the simulink yellow blocks, python blocks and red_pitaya.yaml script. 
 
 #### Other notes ####
 
@@ -311,4 +320,4 @@ Once you have connected everything up then configure board and switch on the sig
 • KATCP in Python supports asynchronous communications. This means you can send a command, register a callback for the response and continue to issue new commands even before you receive the response. You can achieve much greater speeds this way. The Python wrapper in the corr package does not currently make use of this and all calls are blocking. Feel free to use the lower layers to implement this yourself if you need it!
 
 ## Conclusion ##
-This concludes the ADC and DAC Interface Tutorial for the Red Pitaya. You have learned how to utilize the ADC and DAC interface on the Red Pitaya to sample incoming data and convert this sampled data to an analog signal. You also learned how to further use Python to program the Zynq PL, control the design and debugg the design remotely using casperfpga.
+This concludes the ADC and DAC Interface Tutorial for the Red Pitaya. You have learned how to utilize the ADC and DAC interface on the Red Pitaya to sample incoming data and convert this sampled data to an analog signal. You have learned to play around with Matlab's data manipulation using the signal processing toolbox. You also learned how to further use Python to program the Zynq PL, control the design and debug the design remotely using casperfpga. If you managed to successfully port your tutorial to work with the 125-14 Red Pitaya then you would of gained important hardware porting experience that will allow you to port to any hardware platform in the future.
