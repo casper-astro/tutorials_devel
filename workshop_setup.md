@@ -3,12 +3,13 @@
 ## Local Configuration Information
 
 ### Accounts and login info
-When you first arrive please connect to the local network in the tutorial room - note there is no WiFi in the tutorial room. If you have brought your own machine then you can plug in to one of the 1Gbps network switches on the tables - see diagram of HPW2019 network infrastructure setup. If not then just choose one of the PCs (36 of them) to ssh into the compile machines.
+When you first arrive please connect to the local network in the tutorial room - note there is no WiFi in the tutorial room. If you have brought your own machine then you can plug in to one of the 1Gbps network switches on the tables - see diagram of HPW2019 network infrastructure setup below. If not then just choose one of the PCs (36 of them) to ssh into the compile machines.
 
 Once on the local network, you should be given an address on the 192.168.10.X subnet. You should be able to access the internet, as well as all the hardware in the tutorial room.
 
 Not applicable to this workshop, as no WiFi is available: a small number of USBA to RJ45 dongles are available if you need them. If you are unable to join the wired network, you should connect to the local wireless network. The SSID is casper (5 Ghz) or casper24 (2.4 GHz). Please use the 5 Ghz if you can. The WiFi password will be given to you when you arrive.
 
+![](docs/_static/img/typical_workshop_network_setup.png)
 
 **When you arrive at the tutorial sessions you will be allocated a remote server to build designs on, and provided with login details.**
 
@@ -101,8 +102,8 @@ ls
 You can now follow the tutorial instructions to program this file to an FPGA board. Details of the available FPGA platforms is below.
 
 ### Available FPGA hardware
-There are one SNAP, one SKARAB, and 10 Red Pitayas in the tutorial room (excludes custom brought hardware). You can access them from dbelab02 (or your laptops, if you have the casperfpga libraries installed) using the hostnames
+There is one SNAP, one SKARAB, and 10 Red Pitayas in the tutorial room (excludes custom brought hardware). You can access them from dbelab02 (or your laptops, if you have the casperfpga libraries installed) using the hostnames
 
 * snap1
-* skarab02030D-01 (40GbE port)
+* skarab02030B-01 (40GbE port)
 * e.g. Red Pitaya: rp-f0495e.local (check on top of your Red Pitaya ethernet connector for your hostname)
