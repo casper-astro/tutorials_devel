@@ -13,7 +13,7 @@ Currently there are five hardware platforms supported through the CASPER Communi
 4. SNAP
 5. Red Pitaya
 
-It is worth noting that even though SNAP (and SKARAB) require their firmwares to be developed using Xilinx's Vivado (as opposed to ISE), the **SNAP** tutorials are **very** similar to the ROACH/2 tutorials. In fact, the only real difference is the choice of hardware platform that is made in Simulink. This is done by selecting the **SNAP** Yellow Block in the Simulink library under *CASPER XPS Blockset -> Hardware Platforms*
+It is worth noting that even though SNAP, SKARAB and Red Pitaya require their firmwares to be developed using Xilinx's Vivado (as opposed to ISE), the **SNAP** tutorials are **very** similar to the ROACH/2 tutorials. In fact, the only real difference is the choice of hardware platform that is made in Simulink. This is done by selecting the **SNAP** Yellow Block in the Simulink library under *CASPER XPS Blockset -> Hardware Platforms*
 
 Tutorial Instructions
 ----------------------
@@ -46,9 +46,9 @@ Vivado
 
 **SKARAB**
 
-1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_intro>`__
-2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_40gbe>`__
-3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_hmc>`__
+1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_intro>`__
+2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_40gbe>`__
+3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_hmc>`__
 
 .. toctree::
    :maxdepth: 1
@@ -110,7 +110,7 @@ To use the tutorials you will need to install the versions of Matlab and the Xil
 **Hardware**  **Matlab Version**  **Xilinx Version**
 ============  ==================  ==================
 ROACH1/2      2013b               ISE 14.7 
-SKARAB        2016b               Vivado 2016.2
+SKARAB        2018a               Vivado 2018.2
 SNAP          2016b               Vivado 2016.4 
 Red Pitaya    2018a               Vivado 2018.2 
 ============  ==================  ================== 
