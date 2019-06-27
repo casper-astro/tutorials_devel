@@ -78,7 +78,7 @@ In the event that you will be using the logic analyser, you will need to route t
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/gpio_adc_data_valid.png)
 
-It should be connected as shown below for the second gpio for the ADC 10 bit data on channel 1:
+It should be connected as shown below for the second gpio for the ADC 10 bit data on channel 1 - just remember to set the Register clock phase to "0":
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/gpio_adc_data_channel_1.png)
 
