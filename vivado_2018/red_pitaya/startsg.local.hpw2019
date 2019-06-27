@@ -1,0 +1,6 @@
+export XILINX_PATH=/opt/Xilinx/Vivado/2018.2
+export MATLAB_PATH=/opt/Matlab/R2018a
+export XML2VHDL_PATH="/home/hpw1/work/xml2vhdl/scripts/python/xml2vhdl-ox/xml2vhdl/"
+export PLATFORM=lin64
+export JASPER_BACKEND=vivado
+
