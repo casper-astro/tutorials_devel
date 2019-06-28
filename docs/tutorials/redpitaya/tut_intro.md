@@ -1,9 +1,12 @@
 # Tutorial 1: Introduction to Simulink
-In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial, you will know how to generate an fpg file, program it to a CASPER FPGA board, and interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via a Python Interface.
+In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial you will know:
+* How to generate an fpg file,
+* Program it to a CASPER FPGA board (specifically the [Red Pitaya](https://github.com/casper-astro/casper-hardware/blob/master/FPGA_Hosts/RED_PITAYA/README.md)), and
+* Interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via an interactive Python Interface.
 
 ## Creating Your Design
 ### Create a New Model
-Start Matlab via executing the <code>startsg</code> command, as described [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md). This ensures that necessary Xilinx and CASPER libraries are loaded into your by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early and often**.
+Start MATLAB via executing the <code>startsg</code> command, as described [here](https://casper-toolflow.readthedocs.io/en/latest/src/Running-the-Toolflow.html). This ensures that necessary Xilinx and CASPER libraries are loaded into development environment by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early and often**.
 
 There are some Matlab limitations you should be aware-of right from the start:
 
@@ -14,7 +17,7 @@ There are some Matlab limitations you should be aware-of right from the start:
   - If you use lots of subsystems, this can cause problems. 
 
 ### Library organization
-There are three libraries which you will use when you design firmware in Simulink.
+There are three libraries which you will use when you design firmware in Simulink. More information on the toolflow itself can be found [here](https://casper-toolflow.readthedocs.io/en/latest/jasper_documentation.html).
 1. The **CASPER XPS Library** contains "Yellow Blocks" -- these are blocks which encapsulate interfaces to hardware (ADCs, Memory chips, CPUs, Ethernet ports, etc.) 
 2. The **CASPER DSP Library** contains (mostly green) blocks which implement DSP functions such as filters, FFTs, etc.
 3. The **Xilinx Library** contains blue blocks which provide low-level functionality such as multiplexing, delaying, adding, etc. The Xilinx library also contains the super-special System Generator block, which contains information about the type of FPGA you are targeting.
@@ -28,10 +31,10 @@ Do not configure it directly, but rather add a platform block representing the s
 
 ![casper_xps_select_platform.png](../../_static/img/tut_intro/casper_xps_select_platform.png)
 
-![casper_xps_select_platform_skarab.png](../../_static/img/tut_intro/casper_xps_select_platform_skarab.png)
+![casper_xps_select_platform_skarab.png](../../_static/img/red_pitaya/tut_intro/casper_xps_select_platform.jpg)
 
 
-Double click on the platform block that you just added. The <i>Hardware Platform</i> parameter should match the platform you are compiling for. Once you have selected a board, you need to choose where it will get its clock. In designs including ADCs you probably want the FPGA clock to be derived from the sampling clock, but for this simple design (which doesn't include an ADC) you should use the platform's on-board clock. To do this, set the <i>User IP Clock Source</i> to <b>sys_clk</b>. The on-board clock frequency should be greater than 156.25 MHz. 230 MHz should work well.
+Double click on the platform block that you just added. The <i>Hardware Platform</i> parameter should match the platform you are compiling for. Once you have selected a board, you need to choose where it will get its clock. The Red Pitaya Platform Yellow Block has default parameters which do not need to be changed for this tutorial. However, a good rule of thumb for designs including ADCs, you probably want the FPGA clock to be derived from the sampling clock. 
 
 The configuration yellow block knows what FPGA corresponds to which platform, and so it will autmoatically configure the System Generator block which you previously added.
 
@@ -236,9 +239,14 @@ Once you are familiar with the CASPER toolflow, you might find you want to run t
 ```
 After this is completed, the last message printed will tell you how to finish the compile. It will look something like:
 ```bash
-$ python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/redpitaya/tut_intro/redpitaya_tut_intro.slx --middleware --backend --software
+$ python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/red_pitaya/tut_intro/redpitaya_tut_intro.slx --middleware --backend --software
  ```
-You can run this command in a separate terminal, after sourcing appropriate environment variables. Not recommended for beginners.
+You can run this command in a separate terminal after sourcing appropriate environment variables.
+```bash
+$ source startsg.local.hpw2019
+$ source startsg
+$ python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/red_pitaya/tut_intro/redpitaya_tut_intro.slx --middleware --backend --software
+```
 
 ## Programming the FPGA
 Reconfiguration of CASPER FPGA boards is achieved using the casperfpga python library, created by the SA-SKA group.
@@ -249,7 +257,7 @@ These are pre-installed on the server in the workshop and you do not need to do 
 
 #### Copy your .fpg file to your Server
 
-As per the previous figure, navigate to the outputs folder and (secure)copy this across to a test folder on the workshop server. Instructions to do this are available [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md#getting-your-designs-on-to-hardware)
+As per the previous figure, navigate to the outputs folder and (secure)copy this across to a test folder on the workshop server. Instructions to do this are available [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md#getting-your-designs-on-to-hardware).
 
 #### Connecting to the board
 
@@ -276,8 +284,7 @@ fpga.upload_to_ram_and_program('your_fpgfile.fpg')
 ```
 
 Should the execution of this command return true, you can safely assume the FPGA is now configured with your design. You should see the LED on your board flashing. Go check! All the available/configured registers can be displayed using:
- fpga.listdev()
-The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
+`fpga.listdev()`. The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
 ```python
 fpga.write_int('a',10)
 fpga.write_int('b',20)
@@ -289,7 +296,7 @@ With any luck, the sum returned by the FPGA should be correct.
 You can also try writing to the counter control registers in your design. You should find that with appropriate manipulation of the control register, you can make the counter start, stop, and return to zero.
 
 ```python
-fpga.write_int('counter_ctrl',10')
+fpga.write_int('counter_ctrl', 1)
 fpga.read_uint('counter_value')
 ```
 
