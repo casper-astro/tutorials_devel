@@ -9,12 +9,12 @@ read_length = 600;
 
 #Connecting to the Red Pitaya
 print 'connecting to the Red Pitaya...'
-rp=casperfpga.CasperFpga(host='192.168.14.70', port=7147)
+rp=casperfpga.CasperFpga(host='10.8.2.39', port=7147)
 print 'done'
 
 #program the Red Pitaya
 print 'programming the Red Pitaya...'
-rp.transport.upload_to_ram_and_program('tut_adc_dac_2019-06-21_1117.fpg')
+rp.upload_to_ram_and_program('tut_adc_dac_2019-07-01_1728.fpg')
 print 'done'
 
 #arm the snap shot
