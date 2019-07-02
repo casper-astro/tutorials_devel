@@ -3,32 +3,21 @@
 ## Local Configuration Information
 
 ### Accounts and login info
-When you first arrive please connect to the local network in the tutorial room - note there is no WiFi in the tutorial room. If you have brought your own machine then you can plug in to one of the 1Gbps network switches on the tables - see diagram of HPW2019 network infrastructure setup below. If not then just choose one of the PCs (36 of them) to ssh into the compile machines.
+When you first arrive please connect to the local network in the tutorial room - note there is no WiFi in the tutorial room. If you have brought your own machine then you can plug in to one of the 1Gbps network switches on the tables - see diagram of HPW2019 network infrastructure setup below. If you dont have your own laptop then just use one of the PCs (36 of them) to ssh (with x forwarding) into the compile machines.
 
-Once on the local network, you should be given an address on the 192.168.10.X subnet. You should be able to access the internet, as well as all the hardware in the tutorial room.
-
-Not applicable to this workshop, as no WiFi is available: a small number of USBA to RJ45 dongles are available if you need them. If you are unable to join the wired network, you should connect to the local wireless network. The SSID is casper (5 Ghz) or casper24 (2.4 GHz). Please use the 5 Ghz if you can. The WiFi password will be given to you when you arrive.
+Once on the local network, you should be given an address on the 192.168.10.X subnet. You should be able to access the internet and the compile machines. The hardware is accessable via the control machine.
 
 ![](docs/_static/img/typical_workshop_network_setup.png)
 
 **When you arrive at the tutorial sessions you will be allocated a remote server to build designs on, and provided with login details.**
 
-### Setting up VNC (not used for this workshop)
-You will be working on remote machines using VNC to get a remote graphical interface.
-
-You will need a VNC client installed on your laptop.
-
-There are a variety of options -- For Windows or Linux laptops, TightVNC should be available. MacOS has a built in VNC client, but you may also like to download and use "Chicken" a 3rd party VNC client.
-
-Once you have a client installed, you will be able to use it to connect to the remote servers, using a path of the form <remote hostname>:<session ID>. The hostname and session IDs will be allocated when you show up to the tutorial sessions.
-
 ### Setting Up SSH
-You will also need SSH to log in to the server in the tutorial room which controls the ROACH/SNAP/SKARAB/Red Pitaya boards. SSH is supported natively in Linux and MacOS. If you are using a Windows laptop, you should install an SSH client, like Putty. Log in details for this server will be provided when you arrive at the tutorial sessions.
+You will also need SSH to log in to the server in the tutorial room which controls and manages the ROACH/SNAP/SKARAB/Red Pitaya boards. SSH is supported natively in Linux and MacOS. If you are using a Windows laptop, you should install an SSH client, like Putty. Log in details for this server will be provided.
 
 ### Preparing to run the tutorials
 In order to get ready to build and compile designs, you need to log into the server you have been allocated, and set up a directory in which to work. To do this, follow the step-by-step instructions below.
 
-1. Using your VNC client, and the server details you were given at the tutorial session, connect to a remote desktop session 2. Start a terminal on this desktop, by using <CRTL+T>. Grab the tutorials code repository, and associated CASPER libraries. In the terminal, run:
+2. Start a terminal, by using <CRTL+T>. In the terminal, run:
 ```bash
 #ssh into the remote server you have been assigned and enter allocated password (e.g. hpw1@casper1)
 ssh -X hpw1@casper1
@@ -55,21 +44,19 @@ git submodule update
 # This last command might take a minute or two -- it downloads the complete CASPER library codebase.
 ```
 
-That wasn't so hard, right? Running all the above commands might be a little bit cumbersome, but it ensures your versions of the CASPER libraries are in sync with the tutorial models you are running. This will prevent all kinds of pain later on.
+That wasn't so hard, right? Running all the above commands might be a little bit cumbersome, but it ensures your versions of the CASPER libraries are in sync with the tutorial models you are running and hardware you are targeting. This will prevent all kinds of pain later on.
 
-2. Decide which hardware platform you are compiling for and go to the appropriate direcctory. Different directories contain slightly different MATLAB / Xilinx configurations, so it's important to choose the right one for the platform you are using.
+2. Decide which hardware platform you are compiling for and go to the appropriate directory. Different directories contain slightly different MATLAB / Xilinx configurations, so it's important to choose the right one for the platform you are using.
 ```bash
-cd ise # For ROACH only
-# or...
 cd vivado # For SNAP and SKARAB only
 # then one of the following three commands
 cd roach2 # For ROACH2 designs
 cd snap   # For SNAP designs
-cd skarab # For skarab designs
 # or...
 cd vivado_2018 # For Red Pitaya only
 # then the following command
 cd red_pitaya # For Red Pitaya designs
+cd skarab # For skarab designs
 ```
 
 3. Finally, start MATLAB. The following command will configure your environment with the install locations of the MATLAB / Xilinx tools. This configuration depends on how you have set up your compile machines. The startsg.local.hpw2019 files below will only work on the HPW2019 build machines.
@@ -102,7 +89,7 @@ ls
 You can now follow the tutorial instructions to program this file to an FPGA board. Details of the available FPGA platforms is below.
 
 ### Available FPGA hardware
-There is one SNAP, one SKARAB, and 10 Red Pitayas in the tutorial room (excludes custom brought hardware). You can access them from dbelab02 (or your laptops, if you have the casperfpga libraries installed) using the hostnames
+There is one SNAP, one SKARAB, and 10 Red Pitayas in the tutorial room (excludes custom brought hardware). You can access them from dbelab02 using the hostnames below. You can use your laptops as the control server but you will need to connect to the same subnet as the hardware, this means you wont have internet access though.
 
 * snap1
 * skarab02030B-01 (40GbE port)
