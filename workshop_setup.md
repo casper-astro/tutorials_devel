@@ -1,4 +1,9 @@
 # Hardware Porting Workshop HartRAO 2019 Tutorials Help Page
+Welcome to the 2019 Hardware Porting Workshop
+
+## Introduction
+
+This document provides an overview of the tutorial setup up at the workshop and an introduction to the environment required to run the tutorials. Before you proceed you will need to decide what hardware you are planning to work with. You have the choice of 3 platforms at this workshop, the SNAP, the SKARAB and the Red Pitaya. It is recommended that anyone new to the CASPER tools target the Red Pitaya and move onto the SNAP or SKARAB when they are more familiar with the environment.
 
 ## Local Configuration Information
 
