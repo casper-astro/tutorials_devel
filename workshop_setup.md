@@ -44,6 +44,11 @@ cd tutorials_devel
 # The following command will check out the workshop2019 branch from CASPER's github repo, and save it as a local branch, names "workshop2019"
 git checkout origin/workshop2019 -b workshop2019
 # Now update the CASPER libraries to be compatible with this version of the tutorials
+# The way that the tutorials_devel repository is structured is that each version of vivado has an associated
+# version on the mlib_devel repository by runnning the following command you pull all these versions.
+# You can target your chosen hardware by using:
+git submodule update --init <path to mlib_devel submodule>" 
+# or you can fetch all the versions (This takes longer and uses more data)
 git submodule init
 git submodule update
 # This last command might take a minute or two -- it downloads the complete CASPER library codebase.
