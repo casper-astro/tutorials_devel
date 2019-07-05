@@ -103,4 +103,5 @@ There is one SNAP, one SKARAB, and 10 Red Pitayas in the tutorial room (excludes
 
 * snap1
 * skarab02030B-01 (40GbE port)
+* skarab010101-01 (40GbE port)
 * e.g. Red Pitaya: rp-f0495e.local (check on top of your Red Pitaya ethernet connector for your hostname)

@@ -1,7 +1,7 @@
 # Tutorial 2 : ADC and DAC Interface
 **AUTHORS:** A. Isaacson
 
-**EXPECTED TIME:** 2 hours
+**EXPECTED TIME:** 2-4 hours
 
 ## Introduction ##
 In this tutorial, you will create a simple Simulink design which interfaces to both the dual channel ADC and interleaved DAC that are utilised on the Red Pitaya 125-10 boards - refer to [Red Pitaya Docs: ReadtheDocs](https://redpitaya.readthedocs.io/en/latest/) and [Red Pitaya Docs: Github](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/RED_PITAYA/docs) for more information. In addition, we will learn to control the design remotely, using a supplied Python library for KATCP. 
@@ -18,7 +18,7 @@ The following equipment is required:
 ## Background ##
 The Red Pitaya 125-10 board consists of a dual channel 10 bit ADC and DAC - refer to [Red Pitaya Docs: ReadtheDocs](https://redpitaya.readthedocs.io/en/latest/) and [Red Pitaya Docs: Github](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/RED_PITAYA/docs) for more information on the Red Pitaya. There are currently two versions of the Red Pitaya (125-10 and the 125-14) - refer to [Red Pitaya Hardware Comparison](https://redpitaya.readthedocs.io/en/latest/developerGuide/125-10/vs.html) for differences between the boards.
 
-The Red Pitaya 125-10 is fitted with a single Analog Devices dual channel ADC AD9608 device. The ADC is sampled at 125MSPS and each ADC output digital channel is 10 bits wide, 1.8V LVCMOS. Refer to [Red Pitaya Docs: Github](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/RED_PITAYA/docs) for the schematics of the 125-10. The ADC output is offset binary and converted to two's complement in the firmware running on the Zynq programmable logic (PL).
+The Red Pitaya 125-10 is fitted with a single Analog Devices dual channel ADC AD9608 device. The ADC samples at 125MSPS and each digital ADC output channel is 10 bits wide, 1.8V LVCMOS. Refer to [Red Pitaya Docs: Github](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/RED_PITAYA/docs) for the schematics of the 125-10. The ADC output is offset binary and converted to two's complement in the firmware running on the Zynq programmable logic (PL).
 
 The Red Pitaya 125-10 is fitted with a single Analog Devices dual channel DAC AD9767 device. The DAC digital input is offset binary, 10 bits, LVCMOS 3.3V and is converted from two's complement inside the firmware running on the Zynq programmable logic. The second channel of the DAC is not connected, which means the DAC is utilised in the interleave mode - refer to DAC data sheet [Red Pitaya Docs: Github](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/RED_PITAYA/docs).
 
@@ -69,16 +69,15 @@ Add the From block as shown below, which connects the reset to the ADC yellow bl
 
 #### Add registers and gpio to provide ADC debugging ####
 Add one yellow-block software register to provide an ADC sample counter (32 bits). Name it as shown below. The register should be
-configured to send its value to the processor. Connect them to the ADC yellow block as shown below. Delay blocks are also required - you will find these under Xilinx Blockset -> Basic Elements in the Simulink Library Browser. 
+configured to send its value to the processor. Connect them to the ADC yellow block as shown below. Delay blocks are added through the design to show the different types of Xilinx Simulink blocks that are available, but they are not really needed - you will find these under Xilinx Blockset -> Basic Elements in the Simulink Library Browser. 
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/adc_sample_cnt.png)
-
 
 In the event that you will be using the logic analyser, you will need to route the ADC data (channel 1) to the Logic Analyser connector (E1) on the Red Pitaya. In order to do this you will need to add two gpio yellow-blocks from CASPER XPS Blockset -> IO. The first GPIO is for the ADC data valid and the second GPIO yellow block is for the ADC channel 1 10 bit data. It should be connected as shown below for the first gpio for the ADC data valid:
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/gpio_adc_data_valid.png)
 
-It should be connected as shown below for the second gpio for the ADC 10 bit data on channel 1 - just remember to set the Register clock phase to "0":
+It should be connected as shown below for the second gpio for the ADC 10 bit data on channel 1:
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/gpio_adc_data_channel_1.png)
 
@@ -87,7 +86,7 @@ You will now be able to monitor the ADC data using the logic analyser connected 
 ### Add DAC ###
 We will now add the DAC yellow block in order to interface with the DAC device on the Red Pitaya.
 
-#### Add the DAC yellow block for analog to digital interfacing ####
+#### Add the DAC yellow block for digital to analog interfacing ####
 Add a Red Pitaya DAC yellow block from the CASPER XPS Blockset -> DACs, as shown below. It will be used to interface to the DAC device on the Red Pitaya. Rename it to dac. Double click on the block to configure it and set the number of bits to be 10 bits wide. This should be hard coded for now. This will need to be changed for the bonus challenge exercise below. Add the From block, which connects the reset to the DAC yellow block and connect the ADC to the DAC as shown below.
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/dac_yellow_clock_param.png)
@@ -106,7 +105,7 @@ The ctrl register in a snap block allows control of the capture. The least signi
 
 The basic principle of the snap block is that it is primed by the user and then waits for a trigger at which point it captures a block of data and then waits to be primed again. Once primed the addr output register returns an address of 0 and will increment as data is written into the BRAMs. Upon completion the addr register will contain the final address. Reading this value will show that the capture has completed and the results may be extracted from the shared BRAMs.
 
-In the case of this tutorial, the arming and triggering is done via software. The trigger is the rst signal. The "we" signal on the snapshot blocks is the ADC data valid signal. Configure and connect the snap blocks as shown above. The Convert (cast) blocks should all be set to 10 bits. The delays should be as shown above, as this aligns the data correctly. The following settings should be used for the bitfield snapshot blocks: storage medium should be BRAM, number of samples ("2^?") should be 10, Data width 32, all boxes unchecked except "use DSP48s to implement counters", Pre-snapshot delay should be 0.
+In the case of this tutorial, the arming and triggering is done via software. The trigger is the rst signal. The "we" signal on the snapshot blocks is the ADC data valid signal. Configure and connect the snap blocks as shown above. The delay is not really necessary, but if your data was not aligned then you could use delays for this. The following settings should be used for the bitfield snapshot blocks: storage medium should be BRAM, number of samples ("2^?") should be 10, Data width 32, all boxes unchecked except "use DSP48s to implement counters", Pre-snapshot delay should be 0.
 
 You should now have a complete Simulink design. Compare it with the complete ADC and DAC interface tutorial *.slx model provided to you before continuing if unsure.
 
@@ -143,11 +142,11 @@ Execution of this command will result in an output .bof and .fpg file in the 'ou
 ![](../../_static/img/red_pitaya/tut_adc_dac/tut_adc_dac_outputs_dir_files.png)
 
 ## Programming the FPGA (Zynq PL) ##
-Reconfiguration of the Red Pitaya's Zynq is done via the casperfpga python library. The casperfpga package for python, created by the SA-SKA group, wraps the Telnet commands in python. and is probably the most commonly used in the CASPER community. We will focus on programming and interacting with the Programmable Logic (PL) of the Zynq using this method.
+Reconfiguration of the Red Pitaya's Zynq is done via the casperfpga python library. The casperfpga package for python, created by the SA-SKA group, wraps the Telnet commands in python. and is commonly used in the CASPER community. We will focus on programming and interacting with the Programmable Logic (PL) of the Zynq using this method.
 
 #### Getting the required packages ####
 
-These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" github repo located in GitHub and the ReadtheDocs casperfpga documentation link:
+These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" github repo located on GitHub and the ReadtheDocs casperfpga documentation link:
 
 [https://github.com/casper-astro/casperfpga](https://github.com/casper-astro/casperfpga)
 
@@ -251,40 +250,40 @@ You should see something like this:
  writing ADC data to disk ...
  done
  reading back the status registers...
- adc_sample_cnt: 100000
+ adc_sample_cnt: 3689577
  done
  Displaying the snapshot block data...
  ADC SNAPSHOT CAPTURED INPUT
  -----------------------------
  Num adc_data_valid adc_data_ch1 adc_data_ch2
- [0] 1 -1 -5
- [1] 1 2 2
- [2] 1 4 -3
- [3] 1 10 1
- [4] 1 -5 2
- [5] 1 3 4
- [6] 1 5 -3
- [7] 1 -4 4
- [8] 1 5 1
- [9] 1 -6 0
- [10] 1 7 -1
+[0] 1 -10 -1
+[1] 1 6 -1
+[2] 1 -6 -1
+[3] 1 0 -1
+[4] 1 -1 -2
+[5] 1 -3 -2
+[6] 1 1 -1
+[7] 1 -6 -1
+[8] 1 3 -1
+[9] 1 -6 -1
+[10] 1 3 -1
  ....
- [589] 1 -10 -3
- [590] 1 2 4
- [591] 1 4 5
- [592] 1 9 10
- [593] 1 -3 12
- [594] 1 -4 -4
- [595] 1 5 -5
- [596] 1 7 3
- [597] 1 -6 -7
- [598] 1 9 8
- [599] 1 10 11
+[589] 1 -6 -2
+[590] 1 1 -1
+[591] 1 -3 -1
+[592] 1 -2 -1
+[593] 1 1 -1
+[594] 1 -5 -1
+[595] 1 4 -1
+[596] 1 -9 -1
+[597] 1 6 -1
+[598] 1 -9 -1
+[599] 1 5 -1
 ```
 
 The above results show that the ADC is sampling continuously and that there is just noise at the ADC input, as no signal generator is connected. The ADC sample count should continue to increase each time this script file is run - try it. You can also try and compile your Simulink design with a higher clock e.g. 200MHz. Does the ADC data valid signal stay high continually? If so, then why?
 
-Setup the signal generator to have an amplitude of 2Vpp, a frequency of 4MHz and sinusoid signal. Check using the oscilloscope that this is correct. Once satisfied connect the one end of the SMA cable to the signal generator output and connect the other end to the Red Pitaya IN1 SMA cable. Remember to also connect the Red Pitaya OUT1 SMA connector to the other channel of the oscilloscope using another SMA to SMA cable. Change the frequency and amplitude to 2MHz and to 1Vpp. What happens to the oscilloscope Red Pitaya OUT1 display? What is the frequency and amplitude now? Try run the python script and see what happens? What is different in your results now?
+Setup the signal generator to have an amplitude of 2Vpp, a frequency of 4MHz and sinusoid signal. Check using the oscilloscope that this is correct. Once satisfied connect the one end of the SMA cable to the signal generator output and connect the other end to the Red Pitaya IN1. Remember to also connect the Red Pitaya OUT1 to the other channel of the oscilloscope (needs a BNC to SMA Female) using another SMA to SMA cable. Change the frequency and amplitude to 2MHz and to 1Vpp. What happens to the oscilloscope Red Pitaya OUT1 display? What is the frequency and amplitude now? Try run the python script and see what happens? What is different in your results now?
 
 Now connect the signal generator to Red Pitaya IN2 and the other channel of the oscilloscope to Red Pitaya OUT2 and repeat the above tests. What do you notice?
 
@@ -297,8 +296,8 @@ Hint: What trigger are you going to use to sample the ADC data on channel 1 - in
 
 Once you have connected everything up then configure the board and switch on the signal generator. Does the data displayed on the logic analyser look similar to the data captured using the python script? How can you display a sinusoid signal on the logic analyser?
 
-Take the captured data written to disk "adc_data.txt" and display using the Matlab script "plot_adc.m" which will reside in your tutorial folder. Does it look correct? Try compute the RMS LSB of each ADC channel 
-Hint: edit the plot_adc.m script to compute the standard deviation with the ADC inputs terminated.
+Take the captured data written to disk "adc_data.txt" and display using the Matlab script "plot_adc.m" which will reside in your tutorial folder. Does it look correct? Try compute the RMS LSB of each ADC channel. Is there anything besides noise when the channel is unterminated or terminated? 
+Hint: edit the plot_adc.m script to compute the standard deviation with the ADC inputs terminated. 
 
 Try and do an FFT (add windowing) of the captured ADC data by editing the plot_adc.m script. What do you get? Does it make sense?
 Hint: treat each channel as real data.
@@ -320,4 +319,4 @@ Hint: The Zynq pin outs are not the same. You will need to look at the 125-14 sc
 • KATCP in Python supports asynchronous communications. This means you can send a command, register a callback for the response and continue to issue new commands even before you receive the response. You can achieve much greater speeds this way. The Python wrapper in the corr package does not currently make use of this and all calls are blocking. Feel free to use the lower layers to implement this yourself if you need it!
 
 ## Conclusion ##
-This concludes the ADC and DAC Interface Tutorial for the Red Pitaya. You have learned how to utilize the ADC and DAC interface on the Red Pitaya to sample incoming data and convert this sampled data to an analog signal. You have learned to play around with Matlab's data manipulation using the signal processing toolbox. You also learned how to further use Python to program the Zynq PL, control the design and debug the design remotely using casperfpga. If you managed to successfully port your tutorial to work with the 125-14 Red Pitaya then you would of gained important hardware porting experience that will allow you to port to any hardware platform in the future.
+This concludes the ADC and DAC Interface Tutorial for the Red Pitaya. You have learned how to utilize the ADC and DAC interface on the Red Pitaya to sample incoming data and convert this sampled data to an analog signal. You have learned to play around with Matlab's data manipulation using the signal processing toolbox. You also learned how to further use Python to program the Zynq PL, control the design and debug the design remotely using casperfpga. If you managed to successfully port your tutorial to work with the 125-14 Red Pitaya then you would have gained important hardware porting experience that will allow you to port to any hardware platform in the future.
