@@ -84,15 +84,15 @@ You should be greeted with a MATLAB window. After a few seconds, it should be re
 ## Getting your designs on to hardware
 When your compile has finished, it should deliver you a .fpg file (this will be created in <build_dir>/bit_files/ for ROACHs, or <build_dir>/outputs/ for SNAP / SKARAB / Red Pitaya). This file needs copying to the server in the tutorial room which is connected to all the FPGA boards. To copy the file between machines, run (in a terminal within your vnc session):
 ```bash
-scp /path/to/fpg_file.fpg hpw_hardware@dbelab02:<name you want your file to have>.fpg
+scp /path/to/fpg_file.fpg hpw_hw@dbelab02:<name you want your file to have>.fpg
 ```
 For example:
 ```bash
-scp ~/julio-iglesias/tutorials_devel/vivado/snap/tut_intro/snap_tut_intro/outputs/snap_tut_intro_2017-08-13_1508.fpg hpw_hardware@dbelab02:julio-iglesias_snap_intro.fpg
+scp ~/julio-iglesias/tutorials_devel/vivado/snap/tut_intro/snap_tut_intro/outputs/snap_tut_intro_2017-08-13_1508.fpg hpw_hw@dbelab02:julio-iglesias_snap_intro.fpg
 ```
 You should not be asked for a password. You may be warned that the authenticity of the host can't be verified. If so, type "yes" to continue.
 
-You can now ssh from your laptop into dbelab02, with username hpw_hardware. The password will be provided at the tutorial sessions. Once you are in dbelab02, you should see the file you copied if you list all files in the home directory with the command:
+You can now ssh from your laptop into dbelab02, with username hpw_hw. The password will be provided at the tutorial sessions. Once you are in dbelab02, you should see the file you copied if you list all files in the home directory with the command:
 ```bash
 ls
 ```
