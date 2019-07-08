@@ -185,7 +185,7 @@ rp = casperfpga.CasperFpga(host='red_pitaya_name or ip_address', port=7147)
 The first thing we do is configure the FPGA (Zynq PL).
 
 ```python
-rp.transport.upload_to_ram_and_program('your_fpgfile.fpg')
+rp.upload_to_ram_and_program('your_fpgfile.fpg')
 ```
 
 You should notice that LED0 on the Red Pitaya is flashing, which indicates that the firmware is running. Congratulations, you just configured your Red Pitaya successfully! :).
