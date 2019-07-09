@@ -199,7 +199,7 @@ rp.listdev()
 The Zynq PL is now configured with your design. The registers can now be read back. For example, the ADC sample count register can be read back from the FPGA by using:
 
 ```python 
-rp.read_uint('adc_sample_cnt') or rp.registers.adc_sample_cnt.read_uint();
+rp.read_uint('adc_sample_cnt')
 ```
 
 The value returned should be continually incrementing, which indicates that the ADC is successfully sampling the input data.
