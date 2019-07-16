@@ -1,18 +1,19 @@
 CASPER Tutorials
 ============================================
 
-Welcome to the CASPER tutorials page! Here you will find all the current tutorials for the ROACH, SNAP and SKARAB platforms.
+Welcome to the CASPER tutorials page! Here you will find all the current tutorials for the ROACH, SNAP, SKARAB and Red Pitaya platforms.
 
-It is recommended to start with the introduction tutorial for the platform of your liking, then do that platform's GBE tutorial and finally move onto the spectrometer or correlator tutorial.
+It is recommended to start with the introduction tutorial for the platform of your liking, then do that platform's GBE tutorial and finally move onto the spectrometer or correlator tutorial or the next difficulty tutorial.
 
-Currently there are four hardware platforms supported through the CASPER Community:
+Currently there are five hardware platforms supported through the CASPER Community:
 
 1. ROACH
 2. ROACH2
 3. SKARAB
 4. SNAP
+5. Red Pitaya
 
-It is worth noting that even though SNAP (and SKARAB) require their firmwares to be developed using Xilinx's Vivado (as opposed to ISE), the **SNAP** tutorials are **very** similar to the ROACH/2 tutorials. In fact, the only real difference is the choice of hardware platform that is made in Simulink. This is done by selecting the **SNAP** Yellow Block in the Simulink library under *CASPER XPS Blockset -> Hardware Platforms*
+It is worth noting that even though SNAP, SKARAB and Red Pitaya require their firmwares to be developed using Xilinx's Vivado (as opposed to ISE), the **SNAP** tutorials are **very** similar to the ROACH/2 tutorials. In fact, the only real difference is the choice of hardware platform that is made in Simulink. This is done by selecting the **SNAP** Yellow Block in the Simulink library under *CASPER XPS Blockset -> Hardware Platforms*
 
 Tutorial Instructions
 ----------------------
@@ -45,9 +46,9 @@ Vivado
 
 **SKARAB**
 
-1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_intro>`__
-2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_40gbe>`__
-3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/skarab/tut_hmc>`__
+1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_intro>`__
+2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_40gbe>`__
+3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_hmc>`__
 
 .. toctree::
    :maxdepth: 1
@@ -57,6 +58,20 @@ Vivado
    tutorials/skarab/tut_intro
    tutorials/skarab/tut_40gbe
    tutorials/skarab/tut_hmc
+   
+   
+**Red Pitaya**
+
+1. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_intro>`__
+2. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_adc_dac>`__
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Red Pitaya Tutorials
+
+   tutorials/redpitaya/tut_intro
+   tutorials/redpitaya/tut_adc_dac  
 
 ISE
 ^^^^^
@@ -84,7 +99,7 @@ Environment setup
 OS
 ^^^^
 
-It is recommended to use Ubuntu 14.04. 16.04 has also been known to work, although the setup process can be a bit of a headache.
+It is recommended to use Ubuntu 14.04. 16.04 has also been known to work, although the setup process can be a bit of a headache. Ubuntu 16.04 LTS will work with SKARAB and Red Pitaya.
 
 Matlab and Xilinx
 ^^^^^^^^^^^^^^^^^^
@@ -95,8 +110,9 @@ To use the tutorials you will need to install the versions of Matlab and the Xil
 **Hardware**  **Matlab Version**  **Xilinx Version**
 ============  ==================  ==================
 ROACH1/2      2013b               ISE 14.7 
-SKARAB        2016b               Vivado 2016.2
-SNAP          2016b               Viviado 2016.4 
+SKARAB        2018a               Vivado 2018.2
+SNAP          2016b               Vivado 2016.4 
+Red Pitaya    2018a               Vivado 2018.2 
 ============  ==================  ================== 
 
 Modifications to be run after installs

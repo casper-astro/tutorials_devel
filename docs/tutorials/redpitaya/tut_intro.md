@@ -1,5 +1,8 @@
 # Tutorial 1: Introduction to Simulink
-In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial, you will know how to generate an fpg file, program it to a CASPER FPGA board, and interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via a Python Interface.
+In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial you will know:
+* How to generate an fpg file,
+* Program it to a CASPER FPGA board (specifically the [Red Pitaya](https://github.com/casper-astro/casper-hardware/blob/master/FPGA_Hosts/RED_PITAYA/README.md)), and
+* Interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via an interactive Python Interface.
 
 ## Creating Your Design
 ### Create a New Model
@@ -14,46 +17,46 @@ There are some Matlab limitations you should be aware-of right from the start:
   - If you use lots of subsystems, this can cause problems. 
 
 ### Library organization
-There are three libraries which you will use when you design firmware in Simulink.
-1. The *CASPER XPS Library* contains "Yellow Blocks" -- these are blocks which encapsulate interfaces to hardware (ADCs, Memory chips, CPUs, Ethernet ports, etc.) 
-2. The *CASPER DSP Library* contains (mostly green) blocks which inplement DSP functions, like filters, FFTs, etc.
-3. The *Xilinx Library* contains blue blocks which provide low-level functionality such as multiplexing, delaying, adding, etc. The Xilinx library also contains the super-special System Generator block, which contains information about the type of FPGA you are targeting.
+There are three libraries which you will use when you design firmware in Simulink. More information on the toolflow itself can be found [here](https://casper-toolflow.readthedocs.io/en/latest/jasper_documentation.html).
+1. The **CASPER XPS Library** contains "Yellow Blocks" -- these are blocks which encapsulate interfaces to hardware (ADCs, Memory chips, CPUs, Ethernet ports, etc.) 
+2. The **CASPER DSP Library** contains (mostly green) blocks which implement DSP functions such as filters, FFTs, etc.
+3. The **Xilinx Library** contains blue blocks which provide low-level functionality such as multiplexing, delaying, adding, etc. The Xilinx library also contains the super-special System Generator block, which contains information about the type of FPGA you are targeting.
 
 ### Add Xilinx System Generator and XSG core config blocks
 Add a System generator block from the Xilinx library by locating the <i>Xilinx Blockset</i> library's <i>Basic Elements</i> subsection and dragging a <i>System Generator</i> token onto your new file. 
 
-![](../../_static/img/tut_intro/sysgen_select.png)
+![xilinx_select_sysgen.png](../../_static/img/tut_intro/xilinx_select_sysgen.png)
 
-Do not configure it directly, but rather add a platform block representing the system you care compiling for. These can be found in the <i>CASPER XPS System Blockset</i> library. For ROACH2, you need an XPS_core_config block.
+Do not configure it directly, but rather add a platform block representing the system you care compiling for. These can be found in the <i>CASPER XPS System Blockset</i> library. For Red Pitaya (and later) platforms, you need a block which matches the platform name, which can be found in the library under "platforms", as shown below.
 
-![](../../_static/img/tut_intro/Casper_xps_blockset_default_final.png)
+![casper_xps_select_platform.png](../../_static/img/tut_intro/casper_xps_select_platform.png)
 
-![](../../_static/img/tut_intro/Casper_xps_blockset_hw_plat.png)
+![casper_xps_select_platform_redpitaya.png](../../_static/img/red_pitaya/tut_intro/casper_xps_select_platform.jpg)
 
 
-Double click on the platform block that you just added. The <i>Hardware Platform</i> parameter should match the platform you are compiling for. For ROACH2 you have to set this from a drop-down list, for newer platforms it should automatically be set to the correct board type. Once you have selected a board, you need to choose where it will get its clock. In designs including ADCs you probably want the FPGA clock to be derived from the sampling clock, but for this simple design (which doesn't include an ADC) you should use the platform's on-board clock. To do this, set the <i>User IP Clock Source</i> to <b>sys_clk</b>. The sys_clk rate is 100 MHz, so you should set this for *User IP Clock Rate* in the block.
+Double click on the platform block that you just added. The <i>Hardware Platform</i> parameter should match the platform you are compiling for. Once you have selected a board you need to choose its clock source. The Red Pitaya Platform Yellow Block has default parameters which do not need to be changed for this tutorial. However, a good rule of thumb for designs including ADCs, you probably want the FPGA clock to be derived from the sampling clock. 
 
-The configuration yellow block knows what FPGA corresponds to which platform, and so it will automatically configure the System Generator block which you previously added.
+The configuration Yellow Block knows what FPGA corresponds to which platform and will automatically configure the System Generator block which you previously added.
 
 **The System Generator and XPS Config blocks are required by all CASPER designs**
 
 
 ### Flashing LED
-To demonstrate the basic use of hardware interfaces, we will make an LED flash. With the FPGA running at ~100MHz (or greater), the most significant bit (MSB) of a 27 bit counter will toggle approximately every 0.67 seconds. We can output this bit to an LED on your board. Most (all?) CASPER platforms have at least four LEDs, with the exact configuration depending on the board. We will make a small circuit connecting the top bit of a 27 bit counter to one of these LEDs. When compiled this will make the LED flash with a 50% duty cycle approximately once a second.
+To demonstrate the basic use of hardware interfaces we will make an LED flash. With the FPGA running at ~100MHz (or greater), the most significant bit (MSB) of a 27 bit counter will toggle approximately every 0.67 seconds. We can output this bit to an LED on your board. Most (all?) CASPER platforms have at least four LEDs, with the exact configuration depending on the board. We will make a small circuit connecting the top bit of a 27 bit counter to one of these LEDs. When compiled this will make the LED flash with a 50% duty cycle approximately once a second.
 
 #### Add a counter
 Add a counter to your design by navigating to Xilinx Blockset -> Basic Elements -> Counter and dragging it onto your model.
 
-![](../../_static/img/tut_intro/counter_select.png)
+![xilinx_select_counter.png](../../_static/img/tut_intro/xilinx_select_counter.png)
 
 Double-click it and set it for free running, 27 bits, unsigned. This means it will count from 0 to 2^27 - 1, and will then wrap back to zero and continue.
 
-![](../../_static/img/tut_intro/Counter_params.png)
+![xilinx_params_counter_led](../../_static/img/tut_intro/xilinx_params_counter_led.png)
 
-#### Add a slice block to select the MSB
-We now need to select the [most significant bit](http://en.wikipedia.org/wiki/Most_significant_bit) (MSB) of the counter. We do this using a slice block, which Xilinx provides. Xilinx Blockset -> Basic Elements -> Slice.
+#### Add a slice block to select out the msb
+We now need to select the [most significant bit](http://en.wikipedia.org/wiki/Most_significant_bit) (msb) of the counter. We do this using a slice block, which Xilinx provides. Xilinx Blockset -> Basic Elements -> Slice.
 
-![](../../_static/img/tut_intro/Slice_select.png)
+![Slice_select.png](../../_static/img/tut_intro/Slice_select.png)
 
 Double-click on the newly-added slice block. There are multiple ways to select which bit(s) you want.  In this case, it is simplest to index from the upper end and select the first bit. If you wanted the [least significant bit](http://en.wikipedia.org/wiki/Least_significant_bit) (LSB), you can also index from that position. You can either select the width and offset, or two bit locations.
 
@@ -64,11 +67,13 @@ Set it for 1 bit wide with offset from top bit at zero. As you might guess, this
 #### Add a GPIO block
 From: CASPER XPS library -> gpio.
 
-![](../../_static/img/tut_intro/Gpio_select.png)
+![casper_xps_select_io.png](../../_static/img/tut_intro/casper_xps_select_io.png)
 
-In order to send the 1-bit signal you have sliced off to an LED, you need to connect it to the right FPGA output pin. To do this you can use a GPIO (general-purpose input/output) block from the XPS library, this allows you to route a signal from Simulink to a selection of FPGA pins, which are addressed with user-friendly names. Set it to use ROACH2's LED bank as output. Once you've chosen the LED bank, you need to pick *which* LED you want to output to. Set the GPIO bit index to 0 (the first LED) and the data type to Boolean with bitwidth 1. This means your Simulink input is a 1 bit Boolean, and the output is LED0.
+![casper_xps_select_io_gpio.png](../../_static/img/tut_intro/casper_xps_select_io_gpio.png)
 
-![](../../_static/img/tut_intro/Gpio_params_r2.png)
+In order to send the 1-bit signal you have sliced off to an LED, you need to connect it to the right FPGA output pin. To do this you can use a GPIO (general-purpose input/output) block from the XPS library, this allows you to route a signal from Simulink to a selection of FPGA pins, which are addressed with user-friendly names. Set it to use Red Pitaya's LED bank as output. Once you've chosen the LED bank, you need to pick *which* LED you want to output to. Set the GPIO bit index to 0 (the first LED) and the data type to Boolean with bitwidth 1. This means your simulink input is a 1 bit Boolean, and the output is LED0.
+
+![casper_xps_params_io_gpio.png](../../_static/img/tut_intro/casper_xps_params_io_gpio.png)
 
 #### Add a terminator
 To prevent warnings (from MATLAB & Simulink) about unconnected outputs, terminate all unused outputs using a *Terminator*:
@@ -98,9 +103,7 @@ We need two software registers:
 1. To control the counter, and 
 2. To read its current value. 
 
-From the CASPER XPS System Blockset library, drag two software registers into your design.
-
-![SW_reg_select2.png](../../_static/img/tut_intro/SW_reg_select2.png)
+![casper_xps_select_memory_swreg.png](../../_static/img/tut_intro/casper_xps_select_memory_swreg.png)
 
 Set the I/O direction to *From Processor* on the first one (counter control) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
 
@@ -140,11 +143,11 @@ The enable and reset ports of the counter require boolean values (which Simulink
 
 Slice for enable:
 
-![](../../_static/img/tut_intro/Slice_en.png)
+![casper_xps_params_slice_enable.png](../../_static/img/tut_intro/casper_xps_params_slice_enable.png)
 
 Slice for reset:
 
-![](../../_static/img/tut_intro/Slice_rst.png)
+![casper_xps_params_slice_reset.png](../../_static/img/tut_intro/casper_xps_params_slice_reset.png)
 
 #### Connect it all up
 Now we need to connect all these blocks together. To neaten things up, consider resizing the slice blocks and hiding their names. Their function is clear enough from their icon without needing to see their names.
@@ -168,7 +171,7 @@ Either copy your existing software register blocks (copy-paste or holding ctrl w
 #### Add the adder block
 Locate the adder/subtractor block, Xilinx Blockset -> Math -> AddSub and drag one onto your design. This block can optionally perform addition or subtraction. Let's leave it set at it's default, for addition.
 
-![](../../_static/img/tut_intro/Add_sub_basic.png)
+![](../../_static/img/tut_intro/xilinx_params_addsub_basic.png)
 
 The output register is 32 bits. If we add two 32 bit numbers, we will have 33 bits.
 
@@ -183,7 +186,7 @@ be a 32 bit saturating adder. On the second tab, set it for user-defined precisi
 
 Also, under overflow, set it to saturate. Now if we add two very large numbers, it will simply return 2^32 -1.
 
-![](../../_static/img/tut_intro/Add_sub_output.png)
+![](../../_static/img/tut_intro/xilinx_params_addsub_output.png)
 
 #### Add the scope and simulation inputs
 Either copy your existing scope and simulation constants (copy-paste or ctrl-drag) or place a new one from the library as before. Set the values of the simulation inputs to anything you like.
@@ -202,11 +205,11 @@ You can watch the simulation progress in the status bar in the bottom right. It 
 
 You can double-click on the scopes to see what the signals look like on those lines. For example, the one connected to the counter should look like this:
 
-![](../../_static/img/tut_intro/Counter_sim.png)
+![](../../_static/img/tut_intro/scope_counter.png)
 
 The one connected to your adder should return a constant, equal to the sum of the two numbers you entered. You might have to press the Autoscale button to scale the scope appropriately.
 
-![](../../_static/img/tut_intro/Adder_sim.png)
+![](../../_static/img/tut_intro/scope_sum_with_model.png)
 
 Once you have verified that that design functions as you'd like, you're ready to compile for the FPGA...
 
@@ -219,17 +222,36 @@ Essentially, you have constructed three completely separate little instruments.
 These components are all clocked off the same clock source specified in your platform's properties, but they will operate independently.
 
 In order to compile this to an FPGA bitstream, execute the following command in the MATLAB Command Line window. **THIS COMMAND DEPENDS WHICH PLATFORM YOU ARE TARGETING**:
-
-```bash
- >> casper_xps  
+``` bash
+ >>  jasper
 ```
 When a GUI pops up, click "Compile!". This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
 
 ![](../../_static/img/tut_intro/Jasper_sysgen_SKARAB.png)
 
-After this, the second stage involves synthesis of your design through Vivado, which goes about turning your design into a physical implementation and figuring out where to put the resulting components and signals on your FPGA. Finally the toolflow will create the final output fpg file that you will use to program your FPGA. This file contains the bitstream (the FPGA configuration information) as well as meta-data describing what registers and other yellow blocks are in your design. This file will be created in the 'bit_files' directory. **Note: Compile time is approximately 15-20 minutes**.
+After this, the second stage involves synthesis of your design through Vivado, which goes about turning your design into a physical implementation and figuring out where to put the resulting components and signals on your FPGA. Finally the toolflow will create the final output fpg file that you will use to program your FPGA. This file contains the bitstream (the FPGA configuration information) as well as meta-data describing what registers and other Yellow Blocks are in your design. This file will be created in the 'outputs' folder in the working directory of your Simulink model. **Note: Compile time is approximately 15-20 minutes**.
 
-![](../../_static/img/tut_intro/Tut1_outputs_dir_files.png)
+```bash
+$ cd red_pitaya/tut_intro/red_pitaya_tut_intro/outputs/
+$ ls
+red_pitaya_tut_intro-<datetime>.fpg red_pitaya_tut_intro-<datetime>.bof
+```
+
+### Advanced Compiling
+Once you are familiar with the CASPER toolflow, you might find you want to run the two stages of the compile separately. This means that MATLAB will become usable sooner, since it won't be locked up by the second stage of the compile. If you want to do this, you can run the first stage of the compile from the MATLAB prompt with
+```bash
+>> jasper_frontend
+```
+After this is completed, the last message printed will tell you how to finish the compile. It will look something like:
+```bash
+$ python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/red_pitaya/tut_intro/red_pitaya_tut_intro.slx --middleware --backend --software
+ ```
+You can run this command in a separate terminal after navigating to the `tutorials_devel/vivado_2018/` directory and sourcing appropriate environment variables.
+```bash
+$ source startsg.local.hpw2019
+$ source startsg
+$ python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/red_pitaya/tut_intro/red_pitaya_tut_intro.slx --middleware --backend --software
+```
 
 ## Programming the FPGA
 Reconfiguration of CASPER FPGA boards is achieved using the casperfpga python library, created by the SA-SKA group.
@@ -240,11 +262,11 @@ These are pre-installed on the server in the workshop and you do not need to do 
 
 #### Copy your .fpg file to your Server
 
-As per the previous figure, navigate to the outputs folder and (secure)copy this across to a test folder on the workshop server. Instructions to do this are available [here](https://casper.berkeley.edu/wiki/Casper_Caltech_Workshop_2017_Tutorials_Help_Page#Getting_your_designs_on_to_hardware_.3D)
+As per the previous figure, navigate to the outputs folder and (secure)copy this across to a test folder on the workshop server. Instructions to do this are available [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md#getting-your-designs-on-to-hardware).
 
 #### Connecting to the board
 
-SSH into the server that the ROACH board is connected to and navigate to the folder in which your .fpg file is stored.
+SSH into the server that the Red Pitaya board is connected to and navigate to the folder in which your .fpg file is stored.
 
 Start interactive python by running:
 ```bash
@@ -258,30 +280,31 @@ import casperfpga
 
 To connect to the board we create a CasperFpga instance; let's call it fpga. The CasperFpga constructor requires just one argument: the IP hostname or address of your FPGA board.
 ```python
-fpga = casperfpga.CasperFpga('<roach2 hostname or ip_address>')
+fpga = casperfpga.CasperFpga('red_pitaya_hostname or ip_address')
 ```
+
 The first thing we do is program the FPGA with the .fpg file which your compile generated.
 ```python
 fpga.upload_to_ram_and_program('<your_fpgfile.fpg>')
 ```
-Should the execution of this command return true, you can safely assume the FPGA is now configured with your design. You should see the LED on your board flashing. Go check! All the available/configured registers can be displayed using:
-```python
-fpga.listdev()
- ```
-The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
 
-```python 
+Should the execution of this command return true, you can safely assume the FPGA is now configured with your design. You should see the LED on your board flashing. Go check! All the available/configured registers can be displayed using:
+`fpga.listdev()`. The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
+```python
 fpga.write_int('a',10)
 fpga.write_int('b',20)
 fpga.read_int('sum_a_b')
 ```
+
 With any luck, the sum returned by the FPGA should be correct.
 
 You can also try writing to the counter control registers in your design. You should find that with appropriate manipulation of the control register, you can make the counter start, stop, and return to zero.
+
 ```python
 fpga.write_int('counter_ctrl', 1)
 fpga.read_uint('counter_value')
 ```
+
 ## Conclusion
 This concludes the first CASPER Tutorial. You have learned how to construct a simple Simulink design, program an FPGA board and interact with it with Python using [casperfpga](https://github.com/casper-astro/casperfpga). Congratulations!
 
