@@ -6,7 +6,7 @@ These tutorials serve as an introduction to CASPER's [Toolflow](https://github.c
 
 You can download these libraries by cloning this repository and initializing a `mlib_devel` library version appropriate for your hardware platform.
 
-```
+```bash
 # Clone this repository from github
 git clone https://github.com/casper-astro/tutorials_devel
 # Go into the repository directory
