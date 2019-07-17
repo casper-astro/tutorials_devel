@@ -23,7 +23,10 @@ for arg in $@; do
   PLATFORM=$arg
   if [[ "$PLATFORM" =~ ^(${SUPPORTED_PLATFORMS})$ ]]; then
     echo "Initializing libraries for $PLATFORM platform"
+    # initialize submodules and update casperfpga every time.
+    # Doing this excessively shouldn't matter
     git submodule init
+    git submodule update casperfpga
     git submodule update $PLATFORM/mlib_devel
   else
     echo "Platform $PLATFORM is not supported"
