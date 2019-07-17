@@ -4,13 +4,16 @@ These tutorials serve as an introduction to CASPER's [Toolflow](https://github.c
 
 # Downloading
 
-You can download these libraries by cloning this repository and the git submodules within it:
+You can download these libraries by cloning this repository and initializing a `mlib_devel` library version appropriate for your hardware platform.
 
 ```
+# Clone this repository from github
 git clone https://github.com/casper-astro/tutorials_devel
+# Go into the repository directory
 cd tutorials_devel
-git submodule init
-git submodule update
+# Download libraries for your chosen platform.
+# <platform> should be one of: "roach2", "snap", "skarab", "red_pitaya"
+./activate_platform <platform>
 ```
 
 # Documentation
