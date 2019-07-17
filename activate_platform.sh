@@ -3,8 +3,14 @@
 SUPPORTED_PLATFORMS="roach2|snap|skarab|red_pitaya"
 
 function help() {
+  echo ""
   echo "Usage: $(basename $0) [${SUPPORTED_PLATFORMS}]"
+  echo ""
   echo "Possible platforms are: ${SUPPORTED_PLATFORMS}"
+  echo "For example, to download the libraries for ROACH2, run:"
+  echo ""
+  echo "$(basename $0) roach2"
+  echo ""
   exit
 }
 
