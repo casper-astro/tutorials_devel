@@ -1,12 +1,20 @@
-[submodule "mlib_devel"]
-	path = ise/mlib_devel
-	url = https://github.com/casper-astro/mlib_devel.git
-[submodule "vivado/mlib_devel"]
-	path = vivado/mlib_devel
-	url = https://github.com/casper-astro/mlib_devel.git
 [submodule "casperfpga"]
 	path = casperfpga
 	url = https://github.com/casper-astro/casperfpga
-[submodule "vivado_2018/mlib_devel"]
-	path = vivado_2018/mlib_devel
-	url = https://github.com/ska-sa/mlib_devel.git
+	shallow = true
+[submodule "snap/mlib_devel"]
+	path = snap/mlib_devel
+	url = https://github.com/casper-astro/mlib_devel.git
+	shallow = true
+[submodule "skarab/mlib_devel"]
+	path = skarab/mlib_devel
+	url = https://github.com/casper-astro/mlib_devel.git
+	shallow = true
+[submodule "roach2/mlib_devel"]
+	path = roach2/mlib_devel
+	url = https://github.com/casper-astro/mlib_devel.git
+	shallow = true
+[submodule "red_pitaya/mlib_devel"]
+	path = red_pitaya/mlib_devel
+	url = https://github.com/casper-astro/mlib_devel.git
+	shallow = true

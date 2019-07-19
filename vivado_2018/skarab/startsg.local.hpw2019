@@ -1,4 +1,0 @@
-export XILINX_PATH=/opt/Xilinx/Vivado/2018.2
-export MATLAB_PATH=/opt/Matlab/2018a
-export PLATFORM=lin64
-
