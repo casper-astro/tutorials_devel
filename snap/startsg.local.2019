@@ -1,5 +1,5 @@
 export XILINX_PATH=/opt/Xilinx/Vivado/2019.1
-export MATLAB_PATH=/opt/Matlab/R2018a
+export MATLAB_PATH=/opt/MATLAB/R2018a
 export PLATFORM=lin64
 export JASPER_BACKEND=vivado
 
