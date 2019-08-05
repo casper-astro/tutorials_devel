@@ -9,8 +9,10 @@ You can download these libraries by cloning this repository and initializing a `
 ```bash
 # Clone this repository from github
 git clone https://github.com/casper-astro/tutorials_devel
+
 # Go into the repository directory
 cd tutorials_devel
+
 # Download libraries for your chosen platform.
 # <platform> should be one of: "roach2", "snap", "skarab", "red_pitaya"
 # For example, to download the libraries for the SNAP board, you should run:
@@ -28,6 +30,7 @@ Once you've downloaded the appropriate libraries, you can move to your chosen pl
 # Enter the directory for your chosen platform.
 # Eg. for SNAP:
 cd snap/
+
 # Start the toolflow's MATLAB frontend
 ./startsg your.startsg.local.file
 ```
