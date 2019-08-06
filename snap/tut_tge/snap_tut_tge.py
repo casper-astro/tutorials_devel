@@ -45,7 +45,7 @@ if __name__ == '__main__':
     p.set_usage('tut2.py <SNAP_HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.add_option('', '--noprogram', dest='noprogram', action='store_true',
-        help='Don\'t print the contents of the packets.')  
+        help='Don\'t program the FPGA with a new fpg file.')  
     p.add_option('-s', '--silent', dest='silent', action='store_true',
         help='Don\'t print the contents of the packets.')  
     p.add_option('-p', '--plot', dest='plot', action='store_true',
