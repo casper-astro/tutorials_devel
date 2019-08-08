@@ -65,9 +65,9 @@ if __name__ == '__main__':
         fpgfile = opts.fpg
 
 # DO NOT CHANGE THESE THREE VALUES!!!
-mac_location = 0x00
-ip_location = 0x10
-port_location = 0x8
+mac_location = 0x0c
+ip_location = 0x14
+port_location = 0x30
 
 try:
     #lh = corr.log_handlers.DebugLogHandler()
@@ -127,7 +127,7 @@ try:
     fpga.write(rx_core_name, gbe_rx.mac.packed(), mac_location)
     fpga.write(rx_core_name, gbe_rx.ip_address.packed(), ip_location)
     value = (fpga.read_int(rx_core_name, word_offset = port_location) & 0xffff0000) | (gbe_rx.port & 0xffff)
-    fpga.write_int(rx_core_name, value, word_offset = port_location)
+    fpga.write_int(rx_core_name, value, word_offset = port_location//4)
     gbe_rx.fabric_enable()
     print 'done'
 
@@ -140,7 +140,7 @@ try:
     fpga.write(tx_core_name, gbe_tx.mac.packed(), mac_location)
     fpga.write(tx_core_name, gbe_tx.ip_address.packed(), ip_location)
     value = (fpga.read_int(tx_core_name, word_offset = port_location) & 0xffff0000) | (gbe_tx.port & 0xffff)
-    fpga.write_int(tx_core_name, value, word_offset = port_location)
+    fpga.write_int(tx_core_name, value, word_offset = port_location//4)
     gbe_tx.fabric_enable()
     print 'done'
 
@@ -244,10 +244,7 @@ try:
 except KeyboardInterrupt:
     exit_clean()
 except Exception as inst:
-    print type(inst)
-    print inst.args
-    print inst
-    exit_fail()
+    raise
 
 exit_clean()
 
