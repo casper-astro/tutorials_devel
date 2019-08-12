@@ -227,7 +227,7 @@ Manually typing these commands by hand will be cumbersome, so it is better to cr
 A pre-written python script, ''tut_adc_dac.py'' is provided. The code within the python script is well commented and won't be explained here. The user can read through the script in his/her own time. In summary, this script programs the Zynq PL with your compiled design (.fpg file), writes to the reset control register, reads back the ADC snap shot captured data and status registers while displaying them to the screen for analysis. It is also saves the ADC data as text data for displaying in Matlab. In order to run this script you will need to edit the file and change the target Red Pitaya IP address and the *.fpg file, if they are different. The script is run using:
 
 ```python
-python tut_adc_dac.py
+python tut_adc_dac.py <red pitaya hostname/ip> -p -b <path to fpg file>
 ```
 
 If everything goes as expected, you should see a whole bunch of text on your screen - this is the output of the snap block and status register contents.
@@ -296,10 +296,10 @@ Hint: What trigger are you going to use to sample the ADC data on channel 1 - in
 
 Once you have connected everything up then configure the board and switch on the signal generator. Does the data displayed on the logic analyser look similar to the data captured using the python script? How can you display a sinusoid signal on the logic analyser?
 
-Take the captured data written to disk "adc_data.txt" and display using the Matlab script "plot_adc.m" which will reside in your tutorial folder. Does it look correct? Try compute the RMS LSB of each ADC channel. Is there anything besides noise when the channel is unterminated or terminated? 
-Hint: edit the plot_adc.m script to compute the standard deviation with the ADC inputs terminated. 
+There are 2 plots one for each ADC. Try compute the RMS LSB of each ADC channel. Is there anything besides noise when the channel is unterminated or terminated? 
+Hint: edit the script to compute the standard deviation with the ADC inputs terminated. 
 
-Try and do an FFT (add windowing) of the captured ADC data by editing the plot_adc.m script. What do you get? Does it make sense?
+Try and do an FFT (add windowing) of the captured ADC data by editing the script. What do you get? Does it make sense?
 Hint: treat each channel as real data.
 
 ### Bonus Challenge ###
