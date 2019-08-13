@@ -105,7 +105,7 @@ try:
         # try initializing a few times for good measure in case it fails...
         done = False
         for i in range(3):
-            if adc.init(samplingRate=800, numChannel=1, resolution=8) == 0:
+            if adc.init(samplingRate=800, numChannel=1) == 0:
                 done = True
                 break
         print 'done (took %d attempts)' % (i+1)
