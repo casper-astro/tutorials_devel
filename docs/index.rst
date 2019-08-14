@@ -57,13 +57,13 @@ Vivado
 
    tutorials/skarab/tut_intro
    tutorials/skarab/tut_40gbe
-   tutorials/skarab/tut_hmc
-   
+   tutorials/skarab/tut_hmc  
    
 **Red Pitaya**
 
 1. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_intro>`__
 2. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_adc_dac>`__
+3. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_spec>`__
 
 .. toctree::
    :maxdepth: 1
@@ -71,7 +71,8 @@ Vivado
    :caption: Red Pitaya Tutorials
 
    tutorials/redpitaya/tut_intro
-   tutorials/redpitaya/tut_adc_dac  
+   tutorials/redpitaya/tut_adc_dac
+   tutorials/redpitaya/tut_spec
 
 ISE
 ^^^^^
