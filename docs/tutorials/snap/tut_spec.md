@@ -42,7 +42,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
-- In the MSSGE block, the hardware type is set to “ROACH:sx95t” and clock rate is specified as 200MHz.
+- In the MSSGE block, the hardware Platform is set to “SNAP:xc7k160t” and clock rate is specified as 200MHz.
 
 - The input signal is digitised by the ADC, resulting in four parallel time samples of 8 bits each clock cycle. The ADC runs at 800MHz, which gives a 400MHz nyquist sampled spectrum. The output range is a signed number in the range -1 to +1 (ie 7 bits after the decimal point). This is expressed as fix_8_7.
 
@@ -52,9 +52,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring. They are also scaled by a gain factor before being quantised...
 
-- These power values are then requantized by the quant0 block, from 36.34 bits to 6.5 bits, in preparation for accumulation. This is done to limit bit growth.
-
-- The requantized signals then enter the vector accumulators, vacc0 and vacc1, which are simple_bram_vacc 32 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block.
+- The requantized signals then enter the vector accumulators, vacc0 and vacc1, which are simple_bram_vacc 64 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block.
 
 - The accumulated signal is then fed into software registers, odd and even.
 
@@ -277,25 +275,25 @@ If you've made it to here, congratulations, go and get yourself a cup of tea and
 
 ### Hardware Configuration ###
 
-The tutorial comes with a pre-compiled bof file, which is generated from the model you just went through (tut3.bof)
-Copy this over to you ROACH boffiles directory, chmod it to a+x as in the other tutorials, then load up your ROACH. You don't need to telnet in to the ROACH; all communication and configuration will be done by the python control script called tut3.py. 
+The tutorial comes with a pre-compiled fpg file, which is generated from the model you just went through (snap_tut_spec.fpg)
+Load up your SNAP. You don't need to telnet in to the SNAP; all communication and configuration will be done by the python control script called snap_tut_spec.py. 
 
-Next, you need to set up your ROACH. Switch it on, making sure that:
+Next, you need to set up your SNAP. Switch it on, making sure that:
 
-•	You have your ADC in ZDOK0, which is the one nearest to the power supply.
+•	You have some signal on your ADC input.
 
-•	You have your clock source connected to clk_i on the ADC, which is the second on the right. It should be generating an 800MHz sine wave with 0dBm power.
+•	You have your 10MHz reference clock connected to the appropriate SNAP input. 
 
-### The tut3.py spectrometer script ###
+### The snap_tut_spec.py spectrometer script ###
 
-Once you've got that done, it's time to run the script. First, check that you've connected the ADC to ZDOK0, and that the clock source is connected to clk_i of the ADC.
-Now, if you're in linux, browse to where the tut3.py file is in a terminal and at the prompt type
+Once you've got that done, it's time to run the script.
+If you're in linux, browse to where the snap_tut_spec.py file is in a terminal and at the prompt type
 
 ```bash
- ./tut3.py <roach IP or hostname> -b <boffile name>
+ ./snap_tut_spec.py <SNAP IP or hostname> -b <fpgfile name>
 ```
 
-replacing <roach IP or hostname> with the IP address of your ROACH and <boffile name> with your boffile. You should see a spectrum like this:
+replacing <roach IP or hostname> with the IP address of your SNAP and <fpgfile name> with your fpgfile. You should see a spectrum like this:
 
 ![](../../_static/img/tut_spec/Spectrometer.py_4.8.png)
 
@@ -320,14 +318,12 @@ Next, we set a few variables:
 
 ```python
 katcp_port = 7147
-roach = 'enter IP address or hostname here'
-timeout = 10
 ```
 
 Which we can then use in FpgaClient() such that we can connect to the ROACH and issue commands to the FPGA:
 
 ```python
-fpga = corr.katcp_wrapper.FpgaClient(roach,katcp_port, timeout)
+fpga = casperfpga.CasperFpga(snap)
 ```
 
 We now have an fpga object to play around with. To check if you managed to connect to your ROACH, type:
@@ -339,7 +335,7 @@ fpga.is_connected()
 Let's set the bitstream running using the progdev() command:
 
 ```python
-fpga.progdev('tut3.bof')
+fpga.upload_to_ram_and_program('snap_tut_spec.fpg')
 ```
 
 Now we need to configure the accumulation length and gain by writing values to their registers. For two seconds and maximum gain: accumulation length,  2*(2^28)/2048, or just under 2 seconds:
@@ -392,67 +388,64 @@ pylab.xlim(0,2048)
 pylab.show()
 ```
 
-Voila! You have successfully controlled the ROACH spectrometer using python, and plotted a spectrum. Bravo! You should now have enough of an idea of what's going on to tackle the python script. Type exit() to quit ipython.
-tut3.py notes ==
+Voila! You have successfully controlled the SNAP spectrometer using python, and plotted a spectrum. Bravo! You should now have enough of an idea of what's going on to tackle the python script. Type exit() to quit ipython.
+snap_tut_spec.py notes ==
 
-Now you're ready to have a closer look at the tut3.py script. Open it with your favorite editor. Again, line by line is the only way to fully understand it, but to give you a head start, here's a few notes:
+Now you're ready to have a closer look at the snap_tut_spec.py script. Open it with your favorite editor. Again, line by line is the only way to fully understand it, but to give you a head start, here's a few notes:
 
-Connecting to the ROACH
+Connecting to the SNAP
 
-To make a connection to the ROACH, we need to know what port to connect to, and the IP address or hostname of our ROACH. The connection is made on line 96:
+To make a connection to the SNAP, we need to know what port to connect to, and the IP address or hostname of our SNAP. The connection is made on line 73:
 
 ```python
-fpga = corr.katcp_wrapper.FpgaClient(...)
+fpga = casperfpga.CasperFpga(snap)
 ```
 
-The katcp_port variable is set on line 16, and the roach variable is passed to the script at the terminal (remember that you typed python tut3.py roachname). We can check if the connection worked by using fpga.is_connected(), which returns true or false:
+The katcp_port variable is set on line 13, and the roach variable is passed to the script at the terminal (remember that you typed python snap_tut_spec.py roachname). We can check if the connection worked by using fpga.is_connected(), which returns true or false:
 
 ```python
 if fpga.is_connected():
 ```
 
-The next step is to get the right bitstream programmed onto the FPGA fabric. The bitstream is set on line 15:
+The next step is to get the right bitstream programmed onto the FPGA fabric. The bitstream is set on line 68, from the options your entered on cli:
 
 ```python
-bitstream = 'tut3.bof'
+bitstream = opts.fpgfile
 ```
 
 Then the progdev command is issued on line 108:
 
 ```python
-fpga.progdev(bitstream)
+fpga.upload_to_ram_and_program(bitstream)
 ```
 
 Passing variables to the script
 
-Starting from line 64, you'll see the following code:
+Starting from line 51, you'll see the following code:
 
 
 ```python
 from optparse import OptionParser
 
+
 p = OptionParser()
-p.set_usage('tut3.py <ROACH_HOSTNAME_or_IP> [options]')
+p.set_usage('spectrometer.py <ROACH_HOSTNAME_or_IP> [options]')
 p.set_description(__doc__)
-
-p.add_option('-l','—acc_len',dest='acc_len',
-type='int', default=2*(2**28)/2048,
-help='Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048, or just under 2 seconds.')
-
-p.add_option('-g', '--gain', dest='gain',
-type='int',default=0xffffffff,
-help='Set the digital gain (6bit quantisation scalar). Default is 0xffffffff (max), good for wideband noise. Set lower for CW tones.')
-
+p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=2*(2**28)/2048,
+    help='Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048, or just under 2 seconds.')
 p.add_option('-s', '--skip', dest='skip', action='store_true',
-help='Skip reprogramming the FPGA and configuring EQ.')
-
+    help='Skip reprogramming the FPGA and configuring EQ.')
+p.add_option('-b', '--fpg', dest='fpgfile',type='str', default='',
+    help='Specify the fpg file to load')
 opts, args = p.parse_args(sys.argv[1:])
 
- if args==[]:
-     print 'Please specify a ROACH board. Run with the -h flag to see 	all options.\nExiting.'
-     exit()
- else:
-     roach = args[0]
+if args==[]:
+    print 'Please specify a SNAP board. Run with the -h flag to see all options.\nExiting.'
+    exit()
+else:
+    snap = args[0] 
+if opts.fpgfile != '':
+    bitstream = opts.fpgfile
 ```
 
 What this code does is set up some defaults parameters which we can pass to the script from the command line. If the flags aren't present, it will default to the values set here.
@@ -464,6 +457,6 @@ If you have followed this tutorial faithfully, you should now know:
 
 •	Which CASPER blocks you might want to use to make a spectrometer, and how to connect them up in Simulink.
 
-•	How to connect to and control a ROACH spectrometer using python scripting.
+•	How to connect to and control a SNAP spectrometer using python scripting.
 
 In the following tutorials, you will learn to build a correlator, and a polyphase filtering spectrometer using an FPGA in conjunction with a Graphics Processing Unit (GPU).
