@@ -7,8 +7,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 
 ## Setup ##
 
-This tutorial comes with a completed model file, 
-a compiled bitstream, ready for execution on ROACH, as well as a Python script to configure the ROACH and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/ise/roach2/tut_spec)
+This tutorial comes with a completed model file, a compiled bitstream, ready for execution on Red Pitaya, as well as a Python script to configure the Red Pitaya and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/workshop2019/red_pitaya/tut_spec)
 
 ## Spectrometer Basics ##
 

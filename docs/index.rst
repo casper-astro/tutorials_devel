@@ -49,6 +49,7 @@ Vivado
 1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_intro>`__
 2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_40gbe>`__
 3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_hmc>`__
+4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/skarab/tut_spec>`__
 
 .. toctree::
    :maxdepth: 1
@@ -57,7 +58,8 @@ Vivado
 
    tutorials/skarab/tut_intro
    tutorials/skarab/tut_40gbe
-   tutorials/skarab/tut_hmc  
+   tutorials/skarab/tut_hmc
+   tutorials/skarab/tut_spec  
    
 **Red Pitaya**
 
