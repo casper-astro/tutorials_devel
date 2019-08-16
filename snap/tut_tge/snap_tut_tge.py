@@ -170,12 +170,12 @@ try:
         print '10GbE Transmitter core details:'
         print '==============================='
         print "Note that for some IP address values, only the lower 8 bits are valid!"
-        tx_gbe.print_10gbe_core_details()
+        tx_gbe.print_gbe_core_details()
         print '\n\n============================'
         print '10GbE Receiver core details:'
         print '============================'
         print "Note that for some IP address values, only the lower 8 bits are valid!"
-        gbe_rx.print_10gbe_core_details()
+        gbe_rx.print_gbe_core_details()
 
     print 'Sent %i packets already.'%fpga.read_int('gbe0_tx_cnt')
     print 'Received %i packets already.'%fpga.read_int('gbe1_rx_frame_cnt')
