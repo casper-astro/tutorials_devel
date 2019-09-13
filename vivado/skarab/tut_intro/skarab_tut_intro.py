@@ -47,7 +47,6 @@ try:
     logger = logging.getLogger(casper_fpga)
     
     fpga = casperfpga.CasperFpga(casper_fpga, logger=logger, log_level='INFO')
-    fpga.is_little_endian = False
     time.sleep(1)
 
 
