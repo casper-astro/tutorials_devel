@@ -1,19 +1,36 @@
 CASPER Tutorials
 ============================================
 
-Welcome to the CASPER tutorials page! Here you will find all the current tutorials for the ROACH, SNAP, SKARAB and Red Pitaya platforms.
+Welcome to the CASPER tutorials page! Here you will find all the current tutorials for the SNAP, SKARAB and Red Pitaya platforms.
 
 It is recommended to start with the introduction tutorial for the platform of your liking, then do that platform's GBE tutorial and finally move onto the spectrometer or correlator tutorial or the next difficulty tutorial.
 
-Currently there are five hardware platforms supported through the CASPER Community:
+Currently there are three hardware platforms supported through the CASPER Community:
 
-1. ROACH
-2. ROACH2
-3. SKARAB
-4. SNAP
-5. Red Pitaya
+1. SKARAB
+2. SNAP
+3. Red Pitaya
 
-It is worth noting that even though SNAP, SKARAB and Red Pitaya require their firmwares to be developed using Xilinx's Vivado (as opposed to ISE), the **SNAP** tutorials are **very** similar to the ROACH/2 tutorials. In fact, the only real difference is the choice of hardware platform that is made in Simulink. This is done by selecting the **SNAP** Yellow Block in the Simulink library under *CASPER XPS Blockset -> Hardware Platforms*
+Environment setup
+---------------------
+
+The recommended OS is Ubuntu (currently 16.04) as it is what the majority of the collaboration are using. This makes it easier for us to support you. If you are so inclined, you could also use Red Hat, but we definitely do not support Windows. You are welcome to try but you will be on your own. You could always run Linux in a VM although this will increase your compile times.
+
+The current compatibility matrix of software needed to run these tutorials is below:
+
+(Note that official support for ROACH plaforms is no longer provided, however `this version <https://github.com/casper-astro/mlib_devel/tree/d77999047d2f0dc53e1c1e6e516e6ef3cdd45632/docs>`__ of ``mlib_devel`` contains all ROACH related documentation and `this version <https://github.com/casper-astro/tutorials_devel/tree/8bdd40d856ff542640d8f62a8d3029b084ae8efa/docs/tutorials/roach>`__ of ``tutorials_devel`` contains all ROACH tutorials)
+
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|  Hardware      |   Operating System  |    Matlab Version  |    Xilinx Version  |    mlib_devel branch / commit   |   Python Version  |
++================+=====================+====================+====================+=================================+===================+
+|SKARAB          | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|SNAP            | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|Red Pitaya      | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+
+Instructions on setting up the toolflow can be found `here <https://casper-toolflow.readthedocs.io/en/latest/index.html>`__.
 
 Tutorial Instructions
 ----------------------
@@ -21,9 +38,6 @@ Tutorial Instructions
 If you are new to astronomy signal processing, here is `Tutorial 0: some basic introduction into astronomy signal processing. <https://github.com/SparkePei/tut0>`__ If you already have a lot of experience on it, you can go directly to the introduction tutorials below for CASPER FPGA design and implementation.
 
 If you are a beginner, we recommend the Step-by-Step tutorials, however if you should get stuck, prefer a less tedious method of learning, or already have decent feel for these tools, links to Completed tutorials are available with commented models.
-
-Vivado
-^^^^^^^^^
 
 **SNAP**
 
@@ -76,87 +90,16 @@ Vivado
    tutorials/redpitaya/tut_adc_dac
    tutorials/redpitaya/tut_spec
 
-ISE
-^^^^^
+..  toctree::
+    :hidden:
+    :maxdepth: 1
+    :caption: Documentation
 
-**ROACH1/2**
-
-1. :doc:`Introduction Tutorial <tutorials/roach/tut_intro>`
-2. :doc:`10GbE Tutorial <tutorials/roach/tut_ten_gbe>`
-3. :doc:`Spectrometer Tutorial <tutorials/roach/tut_spec>`
-4. :doc:`Correlator Tutorial <tutorials/roach/tut_corr>`
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-   :caption: ROACH Tutorials
-
-   tutorials/roach/tut_intro
-   tutorials/roach/tut_ten_gbe
-   tutorials/roach/tut_spec
-   tutorials/roach/tut_corr
-
-Environment setup
----------------------
-
-OS
-^^^^
-
-It is recommended to use Ubuntu 14.04. 16.04 has also been known to work, although the setup process can be a bit of a headache. Ubuntu 16.04 LTS will work with SKARAB and Red Pitaya.
-
-Matlab and Xilinx
-^^^^^^^^^^^^^^^^^^
-
-To use the tutorials you will need to install the versions of Matlab and the Xilinx tools particular to the hardware you plan to use. See the installation matrix below.
-
-============  ==================  ==================
-**Hardware**  **Matlab Version**  **Xilinx Version**
-============  ==================  ==================
-ROACH1/2      2013b               ISE 14.7 
-SKARAB        2018a               Vivado 2018.2
-SNAP          2016b               Vivado 2016.4 
-Red Pitaya    2018a               Vivado 2018.2 
-============  ==================  ================== 
-
-Modifications to be run after installs
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**ROACH1/2**
-
-Xilinx removed support for several hardware pcores we use for ROACH1/2 from ISE 14. So the current solution is to add the following pcores from the Xilinx 11 install to your `XPS_ROACH_BASE/pcores` folder or to your 14 install directory at `Xilinx/14.7/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcore`.
-
-`OPB pcores <https://www.dropbox.com/s/eq57n5td37yrwma/pcores_for_ise13.zip?dl=1>`__
-
-* bram_if_cntlr_v1_00_a
-* bram_if_cntlr_v1_00_b
-* ipif_common_v1_00_c
-* opb_arbiter_v1_02_e
-* opb_bram_if_cntlr_v1_00_a
-* opb_ipif_v3_00_a
-* opb_opb_lite_v1_00_a
-* opb_v20_v1_10_c
-* proc_common_v1_00_a
-
-**All installs**
-
-The syntax in the Xilinx Perl scripts is not supported under the Ubuntu default shell Dash.
-Change the symbolic link sh -> dash to sh -> bash:
-::
-
-    cd /bin/
-    sudo rm sh
-    sudo ln -s bash sh
+    CASPER Documentation <https://casper-toolflow.readthedocs.io/en/latest/index.html>
+    Block Documentation <https://casper-toolflow.readthedocs.io/en/latest/blockdocumentation.html>
+    The CASPER Toolflow <https://casper-toolflow.readthedocs.io/en/latest/jasper_documentation.html>
+    Toolflow Sourcecode <https://casper-toolflow.readthedocs.io/en/latest/src/jasper_library_modules/modules.html>
+    casperfpga Sourcecode <https://casper-toolflow.readthedocs.io/projects/casperfpga/en/latest/>
 
 
-Point gmake to make by creating the symbolic link gmake -> make:
-::
 
-    cd /usr/bin/
-    sudo ln -s make gmake
-
-
-If you are not getting any blocks in Simulink (Only seen in CentOS)
-change the permissions on /tmp/LibraryBrowser to a+rwx:
-::
-
-    chmod a+rwx /tmp/LibraryBrowser
