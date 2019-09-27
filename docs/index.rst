@@ -77,15 +77,17 @@ If you are a beginner, we recommend the Step-by-Step tutorials, however if you s
    
 **Red Pitaya**
 
-1. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_intro>`__
-2. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_adc_dac>`__
-3. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_spec>`__
+1. `Guide to Setting Up Your New Red Pitaya <tutorials/redpitaya/red_pitaya_setup>`__ 
+2. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_intro>`__
+3. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_adc_dac>`__
+4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/workshop2019/vivado_2018/red_pitaya/tut_spec>`__
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Red Pitaya Tutorials
 
+   tutorials/redpitaya/red_pitaya_setup 
    tutorials/redpitaya/tut_intro
    tutorials/redpitaya/tut_adc_dac
    tutorials/redpitaya/tut_spec
