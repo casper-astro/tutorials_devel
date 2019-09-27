@@ -1,7 +1,9 @@
 CASPER Tutorials
 ============================================
 
-Welcome to the CASPER tutorials page! Here you will find all the current tutorials for the SNAP, SKARAB and Red Pitaya platforms.
+Welcome to the `CASPER tutorials page <https://casper-tutorials.readthedocs.io/en/latest/>`__! Here you will find all the current tutorials for the SNAP, SKARAB and Red Pitaya platforms.
+
+The tutorial repository can be found on `github <https://github.com/casper-astro/tutorials_devel.git>`__ and can be downloaded with the command ``git clone https://github.com/casper-astro/tutorials_devel.git``.
 
 It is recommended to start with the introduction tutorial for the platform of your liking, then do that platform's GBE tutorial and finally move onto the spectrometer or correlator tutorial or the next difficulty tutorial.
 
