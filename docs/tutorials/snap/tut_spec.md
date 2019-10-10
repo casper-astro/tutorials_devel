@@ -8,7 +8,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 ## Setup ##
 
 This tutorial comes with a completed model file, 
-a compiled bitstream, ready for execution on SNAP, as well as a Python script to configure the SNAP and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec)
+a compiled bitstream, ready for execution on ROACH, as well as a Python script to configure the ROACH and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/ise/roach2/tut_spec)
 
 ## Spectrometer Basics ##
 
@@ -42,7 +42,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
-- In the MSSGE block, the hardware type is set to “SNAP:xc7k160t” and clock rate is specified as 200MHz.
+- In the MSSGE block, the hardware Platform is set to “SNAP:xc7k160t” and clock rate is specified as 200MHz.
 
 - The input signal is digitised by the ADC, resulting in four parallel time samples of 8 bits each clock cycle. The ADC runs at 800MHz, which gives a 400MHz nyquist sampled spectrum. The output range is a signed number in the range -1 to +1 (ie 7 bits after the decimal point). This is expressed as fix_8_7.
 
@@ -50,9 +50,9 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - You may notice Xilinx delay blocks dotted all over the design. It's common practice to add these into the design as it makes it easier to fit the design into the logic of the FPGA. It consumes more resources, but eases signal timing-induced placement restrictions.
 
-- The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring.
+- The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring. They are also scaled by a gain factor before being quantised...
 
-- These power values enter the vector accumulators, vacc0 and vacc1, which are simple_bram_vacc 64 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block.
+- The requantized signals then enter the vector accumulators, vacc0 and vacc1, which are simple_bram_vacc 64 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block.
 
 - The accumulated signal is then fed into software registers, odd and even.
 
@@ -61,7 +61,7 @@ Without further ado, open up the model file and start clicking on things, referr
 
 ### [adc](https://casper.berkeley.edu/wiki/Adc) ###
 
-![](../../_static/img/tut_spec/adc_2018.png)
+![](../../_static/img/tut_spec/adc_4.1.png)
 
 The first step to creating a frequency spectrum is to digitize the signal. This is done with an ADC – an Analogue to Digital Converter. In Simulink, the ADC daughter board is represented by a yellow block. Work through the “iADC tutorial” if you're not familiar with the iADC card.
 
@@ -69,7 +69,7 @@ The ADC block converts analog inputs to digital outputs. Every clock cycle, the 
 
 ADCs often internally bias themselves to halfway between 0 and -1. This means that you'd typically see the output of an ADC toggling between zero and -1 when there's no input. It also means that unless otherwise calibrated, an ADC will have a negative DC offset.
 
-The ADC has to be clocked to four times that of the FPGA clock. In this design the ADC is clocked to 800MHz, so the SNAP will be clocked to 200MHz . This gives us a bandwidth of 400MHz, as Nyquist sampling requires two samples (or more) each second.
+The ADC has to be clocked to four times that of the FPGA clock. In this design the ADC is clocked to 800MHz, so the ROACH will be clocked to 200MHz . This gives us a bandwidth of 400MHz, as Nyquist sampling requires two samples (or more) each second.
 
 **INPUTS**
 
@@ -83,9 +83,9 @@ The ADC has to be clocked to four times that of the FPGA clock. In this design t
 
 The ADC outputs two main signals: i and q, which correspond to the coaxial inputs of the ADC board. In this tutorial, we'll only be using input i. As the ADC runs at 4x the FPGA rate, there are four parallel time sampled outputs: i0, i1, i2 and i3. As mentioned before, these outputs are 8.7 bit.
 
-### [pfb_fir_real](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Pfb_fir_real.html) ###
+### [pfb_fir_real](https://casper.berkeley.edu/wiki/Pfb_fir_real) ###
 
-![](../../_static/img/tut_spec/pfb_fir_real_2018.png)
+![](../../_static/img/tut_spec/pfb_fir_real_2012.png)
 
 There are two main blocks required for a polyphase filter bank. The first is the pfb_fir_real block, which divides the signal into parallel 'taps' then applies finite impulse response filters (FIR). The output of this block is still a time-domain signal.  When combined with the FFT_wideband_real block, this constitutes a polyphase filterbank.
 
@@ -109,8 +109,7 @@ As the ADC has four parallel time sampled outputs: i0, i1, i2 and i3, we need fo
 | Number of Simultaneous Inputs (2?)       | The number of parallel time samples which are presented to the FFT core each clock. The number of output ports are set to this same value. We have four inputs from the ADC, so set this to 2.                                                                                                               |
 | Make biplex                              | 0 (not making it biplex) is default. Double up the inputs to match with a biplex FFT.                                                                                                                                                                                                                        |
 | Input bitwidth.                          | The number of bits in each real and imaginary sample input to the PFB. The ADC outputs 8.7 bit data, so the input bitwidth should be set to 8 in our design.                                                                                                                                                 |
-| Output bitwidth                          | The number of bits in each real and imaginary sample output from the PFB. This should match the bit width in the FFT that follows. 18 bits is recommended for the SNAP, whose multiplers are natively 18x25 bits wide.
-
+| Output bitwidth                          | The number of bits in each real and imaginary sample output from the PFB. This should match the bit width in the FFT that follows. 18 bits is recommended for the ROACH (18x25 multipliers) and iBOB/BEE2 (18x18 multipliers).                                                                               |
 | Coefficient bitwidth                     | The number of bits in each coefficient. This is usually chosen to be less than or equal to the input bit width.                                                                                                                                                                                              |
 | Use dist mem for coeffients              | Store the FIR coefficients in distributed memory (if = 1). Otherwise, BRAMs are used to hold the coefficients. 0 (not using distributed memory) is default                                                                                                                                                   |
 | Add/Mult/BRAM/Convert Latency            | These values set the number of clock cycles taken by various processes in the filter. There's normally no reason to change this unless you're having troubles fitting the design into the fabric.                                                                                                            |
@@ -121,7 +120,7 @@ As the ADC has four parallel time sampled outputs: i0, i1, i2 and i3, we need fo
 | Adder implementation                     | Adders not folded into DSPs can be implemented either using fabric resources (i.e. registers and LUTs in slices) or using DSP cores. Here you get to choose which is used. Choosing a behavioural implementation will allow the compiler to choose whichever implementation it thinks is best.               |
 | Share coefficients between polarisations | Where the pfb block is simultaneously processing more than one polarization, you can save RAM by using the same set of coefficients for each stream. This may, however, make the timing performance of your design worse.                                                                                    |
 
-### [fft_wideband_real](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Fft_wideband_real.html) ###
+### [fft_wideband_real](https://casper.berkeley.edu/wiki/Fft_wideband_real) ###
 
 ![](../../_static/img/tut_spec/Fft_wideband_real_block_and_parameters.png)
 
@@ -134,7 +133,7 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 | --- | --- |
 | shift  | Like many of the blocks, the FFT needs a heartbeat to keep it sync'd |
 | in0-3  | Sets the shifting schedule through the FFT. Bit 0 specifies the behavior of stage 0, bit 1 of stage 1, and so on. If a stage is set to shift (with bit = 1), then every sample is divided by 2 at the output of that stage.   In this design, we've set Shift to 2^(13 − 1) − 1, which will shift the data by 1 on every stage to prevent overflows. |
-| out0-1 | This real FFT produces two simultaneous outputs. Because it's a real FFT, the spectrum's left and right halves are mirror images and so we don't bother to output the imaginary half (negative channel indices). Thus, for a 1024-point FFT, you get 512 useful channels. That's why there are half the number of parallel outputs (two complex output paths to four real input paths). Each of these parallel FFT outputs will produce sequential channels on every clock cycle. So, on the first clock cycle (after a sync pulse, which denotes the start), you'll get frequency channel zero and frequency channel one. Each of those are complex numbers. Then, on the second clock cycle, you'll get frequency channels 2 and 3. These are followed by 4 and 5 etc etc. So we chose to label these output paths "even" and "odd", to differentiate the path outputting channels 0,2,4,6,8...N-1 from the channel doing 1,3,5,7...N. As you can see, in order to recreate the full spectrum, we need to interleave these paths to produce 0,1,2,3,4,5...N. Following the lines you'll see that these two inputs end up in an “odd” and “even” shared BRAMs. These are then interleaved in the snap_tut_spec.py script to form a complete spectrum. |
+| out0-1 | This real FFT produces two simultaneous outputs. Because it's a real FFT, the spectrum's left and right halves are mirror images and so we don't bother to output the imaginary half (negative channel indices). Thus, for a 1024-point FFT, you get 512 useful channels. That's why there are half the number of parallel outputs (two complex output paths to four real input paths). Each of these parallel FFT outputs will produce sequential channels on every clock cycle. So, on the first clock cycle (after a sync pulse, which denotes the start), you'll get frequency channel zero and frequency channel one. Each of those are complex numbers. Then, on the second clock cycle, you'll get frequency channels 2 and 3. These are followed by 4 and 5 etc etc. So we chose to label these output paths "even" and "odd", to differentiate the path outputting channels 0,2,4,6,8...N-1 from the channel doing 1,3,5,7...N. As you can see, in order to recreate the full spectrum, we need to interleave these paths to produce 0,1,2,3,4,5...N. Following the lines you'll see that these two inputs end up in an “odd” and “even” shared BRAMs. These are then interleaved in the tut3.py script to form a complete spectrum. |
 
 **PARAMETERS**
 
@@ -152,7 +151,7 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 | Convert Latency | Latency through blocks used to reduce bit widths after twiddle and butterfly stages. Set this to 1. |
 | Input Latency | Here you can register your input data streams in case you run into timing issues. Leave this set to 0. |
 | Latency between biplexes and fft_direct | Here you can add optional register stages between the two major processing blocks in the FFT. These can help a failing design meet timing. For this tutorial, you should be able to compile the design with this parameter set to 0. |
-| Architecture | Set to Virtex5, the architecture of the FPGA on the SNAP. This changes some of the internal logic to better optimise for the DSP slices. If you were using an older iBOB board, you would need to set this to Virtex2Pro. |
+| Architecture | Set to Virtex5, the architecture of the FPGA on the ROACH. This changes some of the internal logic to better optimise for the DSP slices. If you were using an older iBOB board, you would need to set this to Virtex2Pro. |
 | Use less | This affects the implementation of complex multiplication in the FFT, so that they either use fewer multipliers or less logic/adders. For the complex multipliers in the FFT, you can use 4 multipliers and 2 adders, or 3 multipliers and a bunch or adders. So you can trade-off DSP slices for logic or vice-versa. Set this to Multipliers. |
 | Number of bits above which to store stage's coefficients in BRAM | Determines the threshold at which the twiddle coefficients in a stage are stored in BRAM. Below this threshold distributed RAM is used. By changing this, you can bias your design to use more BRAM or more logic. We're going to set this to 8. |
 | Number of bits above which to store stage's delays in BRAM | Determines the threshold at which the twiddle coefficients in a stage are stored in BRAM. Below this threshold distributed RAM is used. Set this to 9. |
@@ -160,12 +159,12 @@ Parts of the documentation below are taken from the [[Block_Documentation | bloc
 | Hardcode shift schedule | If you wish to save logic, at the expense of being able to dynamically specify your shifting regime using the block's "shift" input, you can check this box. Leave it unchecked for this tutorial. |
 | Use DSP48's for adders | The butterfly operation at each stage consists of two adders and two subtracters that can be implemented using DSP48 units instead of logic. Leave this unchecked. |
 
-### [power](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Power.html) ###
+### [power](https://casper.berkeley.edu/wiki/Power) ###
 
 ![](../../_static/img/tut_spec/power_4.4.png)
 
 The power block computes the power of a complex number. The power block typically has a latency of 5 and will compute the power of its input by taking the sum of the squares of its real and imaginary components.  The power block is written by Aaron Parsons and online documentation is by Ben Blackman.
-In our design, there are two power blocks, which compute the power of the odd and even outputs of the FFT. The output of the block is 36.34 bits.
+In our design, there are two power blocks, which compute the power of the odd and even outputs of the FFT. The output of the block is 36.34 bits; the next stage of the design re-quantizes this down to a lower bitrate.
 
 **INPUTS/OUTPUTS**
 
@@ -180,21 +179,39 @@ In our design, there are two power blocks, which compute the power of the odd an
 |-----------|----------|----------------------------------|
 | Bit Width | BitWidth | The number of bits in its input. |
 
+### quant ###
+
+![](../../_static/img/tut_spec/quant_4.5.png)
+
+The quant0 was written by Jason Manley for this tutorial and is not part of the CASPER blockset. The block re-quantizes from 36.34 bits to 6.5 unsigned bits, in preparation for accumulation by the 32 bit bram_vacc block. This block also adds gain control, via a software register. The tut3.py script sets this gain control. You would not need to re-quantize if you used a larger vacc block, such as the 64bit one, but it's illustrative to see a simple example of re-quantization, so it's in the design anyway.
+Note that the sync_out port is connected to a block, acc_cntrl, which provides accumulation control.
+
+**INPUTS/OUTPUTS**
+
+| Port | Description |
+|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sync | Input/output for the sync heartbeat pulse. |
+| din0-1 | Data inputs – odd is connected to din0 and even is connected to din1. In our design, data in is 36.34 bits. |
+| dout0-1 | Data outputs. In this design, the quant0 block requantizes from the 36.34 input to 6.5 bits, so the output on both of these ports is 6.5 unsigned bits. |
+
+**PARAMETERS**
+
+None.
+
 ### simple_bram_vacc ###
 
 ![](../../_static/img/tut_spec/vacc_4.6.png)
 
-The simple_bram_vacc block is used in this design for vector accumulation. Vector growth is approximately 18 bits each second, since we are accumulating about 2^18 spectra every second. We configure the vector accumulator to output values which are 64 bits wide - since our inputs are only 36 bits wide we can accumulate 2^28 spectra (several minutes of data) before having to worry about possible overflows.
-The FFT block 2048 independent frequency channels, split over two outputs. We need a vector accumulator for each of these odd and even channel streams. The vector length is thus set to 1024 on both.
+The simple_bram_vacc block is used in this design for vector accumulation. Vector growth is approximately 28 bits each second, so if you wanted a really long accumulation (say a few hours), you'd have to use a block such as the qdr_vacc or dram_vacc. As the name suggests, the simple_bram_vacc is simpler so it is fine for this demo spectrometer.
+The FFT block outputs 1024 cosine values (odd) and 1024 sine values, making 2048 values in total. We have two of these bram vacc's in the design, one for the odd and one for the even frequency channels. The vector length is thus set to 1024 on both.
 
 **PARAMETERS**
 
 | Parameter | Description |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Vector length | The length of the input/output vector. The FFT block produces two streams of 1024 length (odd and even values), so we set this to 1024. |
-| Output type | We are accumulating powers, which can only be positive, so this should be set to "Unsigned"
-| no. output bits | As there is bit growth due to accumulation, we need to set this higher than the input bits. The input is 36.35 from the  power block so we have set this to 64 bits. |
-| Binary point (output) | Since we are accumulating 36.35 values there should continue to be 35 bits below the binary point of the output, so set this to 35.|
+| no. output bits | As there is bit growth due to accumulation, we need to set this higher than the input bits. The input is 6.5 from the quant0 block, we have set this to 32 bits. Note: We could set this to 64 bits and skip the quant block. |
+| Binary point (output) | Since we are accumulating 6.5 values there should be 5 bits below the binary point of the output, so set this to 5. |
 
 **INPUTS/OUTPUTS**
 
@@ -208,19 +225,17 @@ The FFT block 2048 independent frequency channels, split over two outputs. We ne
 
 ![](../../_static/img/tut_spec/shared_bram_2012.png)
 
-The final blocks, odd and even, are shared BRAMs, from which we will read out the values using the [snap_tut_spec.py](https://github.com/casper-astro/tutorials_devel/blob/master/vivado/snap/tut_spec/snap_tut_spec.py) script.
+The final blocks, odd and even, are shared BRAMs, which we will read out the values of using the tut3.py script.
 
 **PARAMETERS**
 
 | Parameter | Description |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Output data type | Unsigned |
-| Address width | 2^(Address width) is the number of 64 bit words of the implemented BRAM. There is no theoretical maximum for the SNAP, but there will be significant timing issues at bitwidths of 13. Off-chip RAM can be used for larger address spaces on some CASPER boards. Set this value to 10 for our design, since each vector accumulator outputs 2^10 values |
-| Data Width | The Shared BRAM may have a data input/output width of either 8,16,32,64 or 128 bits. Since the vector accumulator feeds the shared bram data port with 64 bit wide values, this should be set to 64 for this tutorial. |
-| Data binary point | The position of the binary point should match the input data type. We have reinterpreted our data as having a binary point of 0, so this should be 0. |
-| Register Primitive Output | Selecting this option adds a cycle of latency to the RAM used by this block, increasing it's timing performance. This should be turned on. |
-| Register Core Output | Selecting this option adds a cycle of latency to the RAM used by this block, increasing it's timing performance. This should be turned on. |
-| Initial values | This is a test vector for simulation only. We can set it to any 1024-element vactor. |
+| Address width | 2^(Address width) is the number of 32 bit words of the implemented BRAM. There is no theoretical maximum for the Virtex 5, but there will be significant timing issues at bitwidths of 13. QDR or DRAM can be used for larger address spaces. Set this value to 11 for our design. |
+| Data Width | The Shared BRAM may have a data input/output width of either 8,16,32,64 or 128 bits. Since the vector accumulator feeds the shared bram data port with 32 bit wide values, this should be set to 32 for this tutorial. |
+| Data binary point | The binary point should be set to zero. The data going to the processor will be converted to a value with this binary point and the output data type. |
+| Initial values | This is a test vector for simulation only. We can leave it as is. |
 | Sample rate | Set this to 1. |
 
 
@@ -233,26 +248,26 @@ The final blocks, odd and even, are shared BRAMs, from which we will read out th
 | we | Write enable port |
 | data_out | Writing the data to a register. This is simply terminated in the design, as the data has finally reached its final form and destination. |
 
-### [Software Registers](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Software_register.html) ###
+### [Software Registers](https://casper.berkeley.edu/wiki/Software_register) ###
 
-There are a few [control registers](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Software_register.html), led blinkers, and [snapshot](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Snapshot.html) blocks dotted around the design too:
+There are a few [control registers](https://casper.berkeley.edu/wiki/Software_register), led blinkers, and [snap](https://casper.berkeley.edu/wiki/Snap) block dotted around the design too:
 
 - **cnt_rst**: Counter reset control. Pulse this high to reset all counters back to zero.
 
-- **acc_len**: Sets the accumulation length. Have a look in snap_tut_spec.py for usage.
+- **acc_len**: Sets the accumulation length. Have a look in tut3.py for usage.
 
 - **sync_cnt**: Sync pulse counter. Counts the number of sync pulses issued. Can be used to figure out board uptime and confirm that your design is being clocked correctly.
 
 - **acc_cnt**: Accumulation counter. Keeps track of how many accumulations have been done.
 
-- **led0_sync**: Back on topic: the led0_sync light flashes each time a sync pulse is generated. It lets you know your SNAP is alive.
+- **led0_sync**: Back on topic: the led0_sync light flashes each time a sync pulse is generated. It lets you know your ROACH is alive.
 
 - **led1_new_acc**: This lights up led1 each time a new accumulation is triggered.
 
 - **led2_acc_clip**: This lights up led2 whenever clipping is detected.
 
 
-There are also some [snapshot](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Snapshot.html) blocks, which capture data from the FPGA fabric and makes it accessible to the Power PC. This tutorial doesn't go into these blocks (in its current revision, at least), but if you have the inclination, have a look at their [documentation](https://casper-toolflow.readthedocs.io/en/latest/src/blockdocs/Snapshot.html).
+There are also some [snap](https://casper.berkeley.edu/wiki/Snap) blocks, which capture data from the FPGA fabric and makes it accessible to the Power PC. This tutorial doesn't go into these blocks (in its current revision, at least), but if you have the inclination, have a look at their [documentation](https://casper.berkeley.edu/wiki/Snap).
 In this design, the snap blocks are placed such that they can give useful debugging information. You can probe these through [KATCP](https://casper.berkeley.edu/wiki/KATCP), as done in [Tutorial 1](tut_intro.html), if interested.
 If you've made it to here, congratulations, go and get yourself a cup of tea and a biscuit, then come back for part two, which explains the second part of the tutorial – actually getting the spectrometer running, and having a look at some spectra.
 
@@ -260,90 +275,74 @@ If you've made it to here, congratulations, go and get yourself a cup of tea and
 
 ### Hardware Configuration ###
 
-The tutorial comes with a pre-compiled fpg file, which is generated from the model you just went through.
-Copy this over to you SNAP fpg directory, then load it onto your SNAP. All communication and configuration will be done by the python control script called snap_tut_spec.py. 
+The tutorial comes with a pre-compiled fpg file, which is generated from the model you just went through (snap_tut_spec.fpg)
+Load up your SNAP. You don't need to telnet in to the SNAP; all communication and configuration will be done by the python control script called snap_tut_spec.py. 
 
 Next, you need to set up your SNAP. Switch it on, making sure that:
 
-* You have your clock source connected to the ADC (3rd SMA input from left). It should be generating an 80 0MHz sine wave with 0 dBm power.
+•	You have some signal on your ADC input.
+
+•	You have your 10MHz reference clock connected to the appropriate SNAP input. 
 
 ### The snap_tut_spec.py spectrometer script ###
 
-Once you've got that done, it's time to run the script. First, check that the clock source is connected to clk_i of the ADC.
-Now, if you're in linux, browse to where the snap_tut_spec.py file is in a terminal and at the prompt type
+Once you've got that done, it's time to run the script.
+If you're in linux, browse to where the snap_tut_spec.py file is in a terminal and at the prompt type
 
 ```bash
- ./snap_tut_spec.py <SNAP IP or hostname> -b <fpg name>
+ ./snap_tut_spec.py <SNAP IP or hostname> -b <fpgfile name>
 ```
 
-replacing <SNAP IP or hostname> with the IP address of your SNAP and <boffile name> with your fpg file. You should see a spectrum like this:
+replacing <roach IP or hostname> with the IP address of your SNAP and <fpgfile name> with your fpgfile. You should see a spectrum like this:
 
 ![](../../_static/img/tut_spec/Spectrometer.py_4.8.png)
 
-In the plot, there should be a fixed DC offset spike; and if you're putting in a tone, you should also see a spike at the correct input frequency.  If you'd like to take a closer look, click the icon that is below your plot and third from the right, then select a section you'd like to zoom in to.
+In the plot, there should be a fixed DC offset spike; and if you're putting in a tone, you should also see a spike at the correct input frequency.  If you'd like to take a closer look, click the icon that is below your plot and third from the right, then select a section you'd like to zoom in to. The digital gain (-g option) is set to maximum (0xffff_ffff) by default to observe the ADC noise floor. Reduce the gain (decrease the value (for a -10dBm input 0x100)) when you are feeding the ADC with a tone, as not to saturate the spectrum.
 
 Now you've seen the python script running, let's go under the hood and have a look at how the FPGA is programmed and how data is interrogated. To stop the python script running, go back to the terminal and press ctrl + c a few times.
 
 ### iPython walkthrough ###
-The snap_tut_spec.py script has quite a few lines of code, which you might find daunting at first. Fear not though, it's all pretty easy. To whet your whistle, let's start off by operating the spectrometer through iPython. Open up a terminal and type:
+The tut3.py script has quite a few lines of code, which you might find daunting at first. Fear not though, it's all pretty easy. To whet your whistle, let's start off by operating the spectrometer through iPython. Open up a terminal and type:
 
 ```bash
 ipython
 ```
 
-and press enter. You'll be transported into the magical world of iPython, where we can do our scripting line by line, similar to MATLAB (you can also use jupyter if you're familiar with that). Our first command will be to import the python packages we're going to use:
+and press enter. You'll be transported into the magical world of iPython, where we can do our scripting line by line, similar to MATLAB. Our first command will be to import the python packages we're going to use:
 
 ```python
-import casperfpga,casperfpga.snapadc,time,numpy,struct,sys,logging,pylab,matplotlib
+import corr,time,numpy,struct,sys,logging,pylab
 ```
 
 Next, we set a few variables:
 
 ```python
-snap='192.168.0.1'  # Put your SNAP IP here
-katcp_port=7147     # This is default KATCP port
-bitstream='snap_tut_spec.fpg'  # Path to the fpg file
-sample_rate = 800.0 # Sample rate in MHz
-freq_range_mhz = numpy.linspace(0., sample_rate/2, 2048)
+katcp_port = 7147
 ```
 
-Which we can then use to connect to the SNAP board using casperfpga:
+Which we can then use in FpgaClient() such that we can connect to the ROACH and issue commands to the FPGA:
 
 ```python
-print('Connecting to server %s on port %i... '%(snap,katcp_port)),
 fpga = casperfpga.CasperFpga(snap)
 ```
 
-We now have an fpga object to play around with. To check if you managed to connect to your SNAP, type:
+We now have an fpga object to play around with. To check if you managed to connect to your ROACH, type:
 
 ```python	
 fpga.is_connected()
 ```
 
-Let's set the bitstream running using the upload_to_ram_and_program() command:
+Let's set the bitstream running using the progdev() command:
 
 ```python
-fpga.upload_to_ram_and_program(bitstream) 
+fpga.upload_to_ram_and_program('snap_tut_spec.fpg')
 ```
 
-Next, we need to initialize the ADC. Note in the future this will be done automatically, but for now, we need to:
+Now we need to configure the accumulation length and gain by writing values to their registers. For two seconds and maximum gain: accumulation length,  2*(2^28)/2048, or just under 2 seconds:
 
 ```python
-# Create an ADC object
-adc = casperfpga.snapadc.SNAPADC(fpga, ref=10) # reference at 10MHz
-# We want a sample rate of 800 Mhz, with 1 channel per ADC chip, using 8-bit ADCs
-adc.init(samplingRate=sample_rate, numChannel=1, resolution=8)
-adc.selectADC(0)
-# Since we're in 4-way interleaving mode (i.e., one input per snap chip) we should configure
-# the ADC inputs accordingly
-adc.selectADC(0) # send commands to the first ADC chip
-adc.adc.selectInput([1,1,1,1]) # Interleave four ADCs all pointing to the first input
-```
-
-Now we need to configure the accumulation length by writing values to the acc_len register. For two seconds of integration, the accumulation length is: 2 [seconds] * 4096 [samples per spectrum] / 800e6 [ADC sample rate]. In nice powers-of-two, this is approximately 2*(2^30)/4096
-
-```python
-fpga.write_int('acc_len',2*(2**30)/4096)
+fpga.write_int('acc_len',2*(2**28)/2048)
+fpga.write_int('gain',0xffffffff)
 ```
 
 Finally, we reset the counters:
@@ -390,37 +389,63 @@ pylab.show()
 ```
 
 Voila! You have successfully controlled the SNAP spectrometer using python, and plotted a spectrum. Bravo! You should now have enough of an idea of what's going on to tackle the python script. Type exit() to quit ipython.
+snap_tut_spec.py notes ==
 
-### snap_spec_tut.py notes 
+Now you're ready to have a closer look at the snap_tut_spec.py script. Open it with your favorite editor. Again, line by line is the only way to fully understand it, but to give you a head start, here's a few notes:
 
-Now you're ready to have a closer look at the [snap_spec_tut.py](https://github.com/telegraphic/tutorials_devel/blob/master/vivado/snap/tut_spec/snap_tut_spec.py) script. Open it with your favorite editor. Again, line by line is the only way to fully understand it, but to give you a head start, here's a few notes:
+Connecting to the SNAP
 
-#### Connecting to the SNAP
+To make a connection to the SNAP, we need to know what port to connect to, and the IP address or hostname of our SNAP. The connection is made on line 73:
 
-To make a connection to the SNAP, we need to know what port to connect to, and the IP address or hostname of our SNAP. 
+```python
+fpga = casperfpga.CasperFpga(snap)
+```
 
-Starting from [line 47](https://github.com/telegraphic/tutorials_devel/blob/master/vivado/snap/tut_spec/snap_tut_spec.py#L47), you'll see the following code:
+The katcp_port variable is set on line 13, and the roach variable is passed to the script at the terminal (remember that you typed python snap_tut_spec.py roachname). We can check if the connection worked by using fpga.is_connected(), which returns true or false:
+
+```python
+if fpga.is_connected():
+```
+
+The next step is to get the right bitstream programmed onto the FPGA fabric. The bitstream is set on line 68, from the options your entered on cli:
+
+```python
+bitstream = opts.fpgfile
+```
+
+Then the progdev command is issued on line 108:
+
+```python
+fpga.upload_to_ram_and_program(bitstream)
+```
+
+Passing variables to the script
+
+Starting from line 51, you'll see the following code:
 
 
 ```python
-    p = OptionParser()
-    p.set_usage('spectrometer.py <SNAP_HOSTNAME_or_IP> [options]')
-    p.set_description(__doc__)
-    p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=2*(2**28)/2048,
-        help='Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048, or just under 2 seconds.')
-    p.add_option('-s', '--skip', dest='skip', action='store_true',
-        help='Skip reprogramming the FPGA and configuring EQ.')
-    p.add_option('-b', '--fpg', dest='fpgfile',type='str', default='',
-        help='Specify the fpg file to load')
-    opts, args = p.parse_args(sys.argv[1:])
+from optparse import OptionParser
 
-    if args==[]:
-        print 'Please specify a SNAP board. Run with the -h flag to see all options.\nExiting.'
-        exit()
-    else:
-        snap = args[0] 
-    if opts.fpgfile != '':
-bitstream = opts.fpgfile
+
+p = OptionParser()
+p.set_usage('spectrometer.py <ROACH_HOSTNAME_or_IP> [options]')
+p.set_description(__doc__)
+p.add_option('-l', '--acc_len', dest='acc_len', type='int',default=2*(2**28)/2048,
+    help='Set the number of vectors to accumulate between dumps. default is 2*(2^28)/2048, or just under 2 seconds.')
+p.add_option('-s', '--skip', dest='skip', action='store_true',
+    help='Skip reprogramming the FPGA and configuring EQ.')
+p.add_option('-b', '--fpg', dest='fpgfile',type='str', default='',
+    help='Specify the fpg file to load')
+opts, args = p.parse_args(sys.argv[1:])
+
+if args==[]:
+    print 'Please specify a SNAP board. Run with the -h flag to see all options.\nExiting.'
+    exit()
+else:
+    snap = args[0] 
+if opts.fpgfile != '':
+    bitstream = opts.fpgfile
 ```
 
 What this code does is set up some defaults parameters which we can pass to the script from the command line. If the flags aren't present, it will default to the values set here.
@@ -428,10 +453,10 @@ What this code does is set up some defaults parameters which we can pass to the 
 ## Conclusion ##
 If you have followed this tutorial faithfully, you should now know:
 
-* What a spectrometer is and what the important parameters for astronomy are.
+•	What a spectrometer is and what the important parameters for astronomy are.
 
-* Which CASPER blocks you might want to use to make a spectrometer, and how to connect them up in Simulink.
+•	Which CASPER blocks you might want to use to make a spectrometer, and how to connect them up in Simulink.
 
-* How to connect to and control a SNAP spectrometer using python scripting.
+•	How to connect to and control a SNAP spectrometer using python scripting.
 
 In the following tutorials, you will learn to build a correlator, and a polyphase filtering spectrometer using an FPGA in conjunction with a Graphics Processing Unit (GPU).

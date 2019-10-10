@@ -2,3 +2,8 @@
 *.log
 docs/_build/
 *.Xil/
+# ignore autosaved slx fies from previous simulink versions
+*.slx.r*
+# vivado files
+*.jou
+vivado_pid*
