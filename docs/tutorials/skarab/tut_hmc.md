@@ -39,7 +39,7 @@ The HMC yellow block is using a 4GB device with 32 Byte Max Block size, which is
 
 More information on the HMC device (Rev D) and OpenHMC controller (Rev 1.5) can be found under the following repo (in the "hmc" folder):
 
-[https://github.com/ska-sa/skarab_docs](https://github.com/ska-sa/skarab_docs) (master branch)
+[SKARAB Docs](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/SKARAB/docs) (master branch)
 
 ## Create a new model ##
 Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created HMC reordering function, SKARAB XSG core config or platform block, Xilinx System Generator block and a 40GbE yellow block. Get a copy of this template and save it. Make sure the SKARAB XSG_core_config_block or platform block is configured for:
@@ -140,17 +140,17 @@ Link 2 is not used, so the outputs can be terminated, as shown below. Add the te
  
 ![](../../_static/img/skarab/tut_hmc/hmc_yellow_block_bp.png)
 
-#### Add registers to provide HMC status monitoring ####
-Add three yellow-block software registers to provide the HMC status (2 bits), HMC receive CRC error counter (16 bits) and the HMC receive FLIT protocol error status (7 bits). Name them as shown below. The registers should be
-configured to send their values to the processor. Connect them to the HMC yellow block as shown below using GoTo blocks. A Convert (cast) block is required to interface with the 32 bit registers. Delay blocks are also required. To workspace blocks from Simulink->Sinks are attached to the simulation outputs of the software registers.
+#### Add a register to provide HMC status monitoring ####
+Add one yellow-block software register to provide the HMC status (1 bit). Name it as shown below. The register should be
+configured to send its value to the processor. Connect it to the HMC yellow block as shown below using GoTo blocks. A Convert (cast) block is required to interface with the 32 bit registers. Delay blocks are also required. To workspace blocks from Simulink->Sinks are attached to the simulation outputs of the software registers.
 
-The HMC status is made up of the HMC initialisation done and HMC Power On Self Test (POST) OK flags. It takes a maximum of 1.2s for the HMC lanes to align and the initialisation process to complete. Once this is done then internally generated test data is written into the HMC. The data is then read out and compared with the data written in. If there is a match then POST passes and the POST OK flag is set to '1'. In this case, HMC initialisation done will be '1' when the initialisation is successful and the POST process has finished. The POST OK flag will only be set to '1' when the memory test is successful. Therefore, the user can only start writing and reading to/from the HMC when init_done and post_ok flag are both '1'. If any flags are '0' then the HMC did not properly start up. Refer to the HMC Data Rate Control functionality above, which uses these flags to only start the write and read process when they are asserted.
+The HMC status is made up of the HMC OK flag. If there are any errors with the HMC initialisation, HMC POST (Power On Self Test), FLIT transactions or HMC ERRSTAT register then this flag will be set to "0". It takes a maximum of 1.2s for the HMC lanes to align and the initialisation process to complete. Once this is done then internally generated test data is written into the HMC. The data is then read out and compared with the data written in. If there is a match then POST passes and the internal POST OK flag is set to '1'. In this case, HMC initialisation done will be '1' when the initialisation is successful and the POST process has finished. The internal POST OK flag will only be set to '1' when the memory test is successful. Therefore, the user can only start writing and reading to/from the HMC when HMC Ok is set to '1'. If this flag is '0' then the HMC did not properly start up or data has been corrupted. Refer to the HMC Data Rate Control functionality above, which uses this flag to only start the write and read process when they are asserted.
 
-The HMC receive CRC error counter will continue to increment if there are receive checksum errors encountered by the HMC firmware. This should always be 0.
-
-The HMC receive FLIT protocol error status register is 7 bits. If any of these bits are '1' then this means an error has occurred. This should always be '0'. In order to decode what this error means there is a table in the HMC data sheet on page 48 Table 20.
+The internal HMC receive FLIT protocol error status register (HMC ERRSTAT)  is 7 bits. If any of these bits are '1' then this means an error has occurred. This should always be '0'. In order to decode what this error means there is a table in the HMC data sheet on page 48 Table 20.
 
 ![](../../_static/img/skarab/tut_hmc/hmc_error_yellow_block_mon.png)
+
+The HMC is connected to the wishbone interface and hence, it is possible to read back the internal HMC status registers using casperfpga - see below for how to do this.
 
 ### Implement the HMC reordering functionality ###
 We will now implement logic to reorder the data that is read out of sequence from the HMC. This is critical, as the data is no use to us if it is out of sequence. This is already included in the template for this tutorial, so please use this functionality as is to save time. Some details are provided here for completeness.
@@ -255,13 +255,13 @@ Execution of this command will result in an output .bof and .fpg file in the 'ou
 ![](../../_static/img/skarab/tut_hmc/Tut1_outputs_dir_files.png)
 
 ## Programming the FPGA ##
-Reconfiguration of the SKARAB's SDRAM is done via the casperfpga python library. The casperfpga package for python, created by the SA-SKA group, wraps the Telnet commands in python. and is probably the most commonly used in the CASPER community. We will focus on programming and interacting with the FPGA using this method.
+Reconfiguration of the SKARAB's SDRAM is done via the casperfpga python library. The casperfpga package for python, created by the SA-SKA group, wraps the Telnet commands in python and is used in the CASPER community. We will focus on programming and interacting with the FPGA using this method.
 
 #### Getting the required packages ####
 
 These are pre-installed on the server in the workshop and you do not need to do any further configuration, but if you are not working from the lab then refer to the How To Setup CasperFpga Python Packages document for setting up the python libraries for casperfpga. This can be found in the "casperfpga" repo wiki (to be deprecated) located in GitHub and the ReadtheDocs casperfpga documentation link:
 
-[https://github.com/ska-sa/casperfpga/wiki](https://github.com/ska-sa/casperfpga/wiki)
+[casperfpga README.md](https://github.com/casper-astro/casperfpga)
 
 [https://casper-toolflow.readthedocs.io](https://casper-toolflow.readthedocs.io/)
 
@@ -313,7 +313,7 @@ The FPGA is now configured with your design. The registers can now be read back.
 fpga.read_uint('hmc_status') or fpga.registers.hmc_status.read_uint();
 ```
 
-The value returned should be 3, which indicates that the HMC has successfully completed initialisation and POST OK passes.
+The value returned should be 1, which indicates that the HMC has successfully completed initialisation, POST OK passes and data is not corrupted.
 
 If you need to write to the reg_cntrl register then do the following:
 
@@ -325,6 +325,15 @@ If you need to write to the reg_cntrl register then do the following:
  fpga.registers.reg_cntrl.write(wr_rd_en= True) , where wr_rd_en = False (disable HMC write/read), wr_rd_en = True (Enable the HMC write/read)
 ```
 
+You can read back the HMC mezzanine site, HMC die revisions and internal status registers by doing the following:
+
+```python
+fpga.hmcs.hmc.mezz_site, this returns the mezzanine site that fpga.hmcs.hmc is connected to
+ 
+fpga.hmcs.hmc.get_hmc_revision(), this reads back the HMC firmware and product revisions
+ 
+fpga.hmcs.hmc.get_hmc_status(), this reads back the HMC status of the OpenHMC Controller - refer to OpenHMC controller document to understand the status bits located under "hmc" in [SKARAB Docs](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/SKARAB/docs) (master branch) 
+```
 Manually typing these commands by hand will be cumbersome, so it is better to create a Python script that will do all of this for you. This is described below.
 
 #### Running a Python script and interacting with the FPGA ####
@@ -361,7 +370,7 @@ You should see something like this:
  hmc out cnt: 55527004
  hmc wr err: 0
  hmc rd err: 0
- hmc status: 3
+ hmc status: 1
  rx crc err cnt: 0
  hmc error status: 0
  done
@@ -466,7 +475,7 @@ can be clearly seen in the HMC reorder snapshot captured output.
 
 #### Other notes ####
 
-• iPython includes tab-completion. In case you forget which function to use, try typing library_name.<tab><tab>
+• iPython includes tab-completion. In case you forget which function to use, try typing library_name._tab_
 
 • There is also onboard help. Try typing library_name.function?
 

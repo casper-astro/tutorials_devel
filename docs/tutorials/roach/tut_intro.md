@@ -3,13 +3,15 @@ In this tutorial, you will create a simple Simulink design using both standard X
 
 ## Creating Your Design
 ### Create a New Model
-Start Matlab via executing the <code>startsg</code> command, as described [here](https://casper.berkeley.edu/wiki/Casper_Caltech_Workshop_2017_Tutorials_Help_Page). This ensures that necessary Xilinx and CASPER libraries are loaded into your by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early, and often**.
+Start MATLAB via executing the <code>startsg</code> command, as described [here](https://casper-toolflow.readthedocs.io/en/latest/src/Running-the-Toolflow.html). This ensures that necessary Xilinx and CASPER libraries are loaded into development environment by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early and often**.
 
 There are some Matlab limitations you should be aware-of right from the start:
- 
-**Do not use spaces in your filenames** or anywhere in the file path as it will break the toolflow.
-**Do not use capital letters in your filenames** or anywhere in the file path as it will break the toolflow.
-**Beware block paths that exceed 64 characters**. This refers to not only the file path, but also the path to any block within your design. For example, if you save a model file with a name ~/some_really_long_filename.slx, and have a block called <block> in a submodule <submodule> the longest block path would be: some_really_long_filename_submodule_block. If you use lots of subsystems, this can cause problems. 
+
+- **Do not use spaces in your filenames** or anywhere in the file path as it will break the toolflow.
+- **Do not use capital letters in your filenames** or anywhere in the file path as it will break the toolflow.
+- **Beware block paths that exceed 64 characters**. This refers to not only the file path, but also the path to any block within your design.
+  - For example, if you save a model file with a name ~/some_really_long_filename.slx, and have a block called <block> in a submodule <submodule> the longest block path would be: some_really_long_filename_submodule_block.
+  - If you use lots of subsystems, this can cause problems. 
 
 ### Library organization
 There are three libraries which you will use when you design firmware in Simulink.
@@ -31,13 +33,13 @@ Do not configure it directly, but rather add a platform block representing the s
 
 Double click on the platform block that you just added. The <i>Hardware Platform</i> parameter should match the platform you are compiling for. For ROACH2 you have to set this from a drop-down list, for newer platforms it should automatically be set to the correct board type. Once you have selected a board, you need to choose where it will get its clock. In designs including ADCs you probably want the FPGA clock to be derived from the sampling clock, but for this simple design (which doesn't include an ADC) you should use the platform's on-board clock. To do this, set the <i>User IP Clock Source</i> to <b>sys_clk</b>. The sys_clk rate is 100 MHz, so you should set this for *User IP Clock Rate* in the block.
 
-The configuration yellow block knows what FPGA corresponds to which platform, and so it will autmoatically configure the System Generator block which you previously added.
+The configuration yellow block knows what FPGA corresponds to which platform, and so it will automatically configure the System Generator block which you previously added.
 
 **The System Generator and XPS Config blocks are required by all CASPER designs**
 
 
 ### Flashing LED
-To demonstrate the basic use of hardware interfaces, we will make an LED flash. With the FPGA running at ~100MHz (or greater), the most significant bit (msb) of a 27 bit counter will toggle approximately every 0.67 seconds. We can output this bit to an LED on your board. Most (all?) CASPER platforms have at least four LEDs, with the exact configuration depending on the board. We will make a small circuit connecting the top bit of a 27 bit counter to one of these LEDs. When compiled this will make the LED flash with a 50% duty cycle approximately once a second.
+To demonstrate the basic use of hardware interfaces, we will make an LED flash. With the FPGA running at ~100MHz (or greater), the most significant bit (MSB) of a 27 bit counter will toggle approximately every 0.67 seconds. We can output this bit to an LED on your board. Most (all?) CASPER platforms have at least four LEDs, with the exact configuration depending on the board. We will make a small circuit connecting the top bit of a 27 bit counter to one of these LEDs. When compiled this will make the LED flash with a 50% duty cycle approximately once a second.
 
 #### Add a counter
 Add a counter to your design by navigating to Xilinx Blockset -> Basic Elements -> Counter and dragging it onto your model.
@@ -48,12 +50,12 @@ Double-click it and set it for free running, 27 bits, unsigned. This means it wi
 
 ![](../../_static/img/tut_intro/Counter_params.png)
 
-#### Add a slice block to select out the msb
-We now need to select the [most significant bit](http://en.wikipedia.org/wiki/Most_significant_bit) (msb) of the counter. We do this using a slice block, which Xilinx provides. Xilinx Blockset -> Basic Elements -> Slice.
+#### Add a slice block to select the MSB
+We now need to select the [most significant bit](http://en.wikipedia.org/wiki/Most_significant_bit) (MSB) of the counter. We do this using a slice block, which Xilinx provides. Xilinx Blockset -> Basic Elements -> Slice.
 
 ![](../../_static/img/tut_intro/Slice_select.png)
 
-Double-click on the newly added slice block. There are multiple ways to select which bit(s) you want.  In this case, it is simplest to index from the upper end and select the first bit. If you wanted the [least significant bit](http://en.wikipedia.org/wiki/Least_significant_bit) (lsb), you can also index from that position. You can either select the width and offset, or two bit locations.
+Double-click on the newly-added slice block. There are multiple ways to select which bit(s) you want.  In this case, it is simplest to index from the upper end and select the first bit. If you wanted the [least significant bit](http://en.wikipedia.org/wiki/Least_significant_bit) (LSB), you can also index from that position. You can either select the width and offset, or two bit locations.
 
 Set it for 1 bit wide with offset from top bit at zero. As you might guess, this will take the 27-bit input signal, and output just the top bit.
 
@@ -64,7 +66,7 @@ From: CASPER XPS library -> gpio.
 
 ![](../../_static/img/tut_intro/Gpio_select.png)
 
-In order to send the 1 bit signal you have sliced off to an LED, you need to connect it to the right FPGA output pin. To do this you can use a GPIO (general-purpose input/output) block from the XPS library, this allows you to route a signal from Simulink to a selection of FPGA pins, which are addressed with user-friendly names. Set it to use ROACH2's LED bank as output. Once you've chosen the LED bank, you need to pick *which* LED you want to output to. Set the GPIO bit index to 0 (the first LED) and the data type to Boolean with bitwidth 1. This means your simulink input is a 1 bit Boolean, and the output is LED0.
+In order to send the 1-bit signal you have sliced off to an LED, you need to connect it to the right FPGA output pin. To do this you can use a GPIO (general-purpose input/output) block from the XPS library, this allows you to route a signal from Simulink to a selection of FPGA pins, which are addressed with user-friendly names. Set it to use ROACH2's LED bank as output. Once you've chosen the LED bank, you need to pick *which* LED you want to output to. Set the GPIO bit index to 0 (the first LED) and the data type to Boolean with bitwidth 1. This means your Simulink input is a 1 bit Boolean, and the output is LED0.
 
 ![](../../_static/img/tut_intro/Gpio_params_r2.png)
 
@@ -87,14 +89,16 @@ To connect the blocks simply click and drag from the 'output arrow' on one block
 Remember to save your design often. 
 
 #### Software control
-To demonstrate the use of software registers to control the FPGA from a computer, we will add a registers so that the counter in our design can be started, stopped, and reset from software. We will also add a register so that we can monitor the counter's current value too.
-
-By the end of this section, you will create a system that looks like this:
+To demonstrate the use of software registers to control the FPGA from a computer, we will add registers so that the counter in our design can be started, stopped, and reset from software. We will also add a register so that we can monitor the counter's current value too. By the end of this section you will create a system that looks like this:
 
 ![Slice_circuit.png](../../_static/img/tut_intro/Slice_circuit.png)
 
 #### Add the software registers ###
-We need two software registers. One to control the counter, and a second one to read its current value. From the CASPER XPS System Blockset library, drag two Software Registers onto your design.
+We need two software registers:
+1. To control the counter, and 
+2. To read its current value. 
+
+From the CASPER XPS System Blockset library, drag two software registers into your design.
 
 ![SW_reg_select2.png](../../_static/img/tut_intro/SW_reg_select2.png)
 
@@ -104,30 +108,26 @@ Set the I/O direction to *From Processor* on the first one (counter control) to 
 
 ![](../../_static/img/tut_intro/Cnt_val_sw_reg_config_r2.png)
 
-Rename the registers to something sensible. The names you give them here are the names you will use to access them from software. Do not use spaces, slashes and other funny characters in these. Perhaps *counter_ctrl* and *counter_value*, to represent the control and output registers respectively.
+Rename the registers to something sensible, the names you give them here are the names you will use to access them from software. Do not use spaces, slashes and other special characters in these. Perhaps *counter_ctrl* and *counter_value* to represent the control and output registers respectively.
 
 Also note that the software registers have *sim_reg* and *sim_out* ports. The input port provides a means of simulating this register's value (as would be set by the runtime software) using the sim_reg line. The output port provides a means to simulate this register's current FPGA-assigned value.
 
-For now, set the <i>sim_reg</i> port to constant one using a Simulink-type constant. Found in *Simulink -> Sources*. This will enable the counter during simulations.
+For now, set the *sim_reg* port to constant one using a Simulink-type constant. This can be found in *Simulink -> Sources*, and will enable the counter during simulations.
 
 ![](../../_static/img/tut_intro/Constant_select.png)
 
-During simulation, we can monitor the counter's value using a scope (*Simulink -> Sinks*):
+During simulation we can monitor the counter's value using a scope (*Simulink -> Sinks*):
 
 ![](../../_static/img/tut_intro/Scope_select.png)
 
 
-Here is a good point to note that all blocks from the *Simulink* library (usually white), will not be compiled into hardware. They are present for simulation only.
+Here is a good point to note that all blocks from the *Simulink* library are usually white in colour, and will not be compiled into hardware. i.e. They are present for simulation only. Xilinx blocks are usually blue in colour with the Xilinx logo, and will be compiled to hardware.
 
-Only Xilinx blocks (they are blue with Xilinx logo) will be compiled to hardware.
-
-You need to use *gateway* blocks whenever connecting a Simulink-provided block (like a scope or sine-wave generator) to a from a Xilinx block, this will sample and quantize the simulink signals so that they are compatible with the Xilinx world. Some blocks (like the software register) provide a gateway internally, so you can feed the input of a software register with a xilinx signal, and monitor its output with a Simulink scope. However, in general, you must manually insert these gateways where appropriate. Simulink will issue warnings for any direct connections between the Simulink and Xilinx worlds.
+You need to use *gateway* blocks whenever connecting a Simulink-provided block (like a scope or sine-wave generator) to and from a Xilinx block. This will sample and quantize the Simulink signals so that they are compatible with the Xilinx world. Some blocks (like the software register) provide a gateway internally, so you can feed the input of a software register with a Xilinx signal, and monitor its output with a Simulink scope. However, in general, you must manually insert these gateways where appropriate. Simulink will issue warnings for any direct connections between the Simulink and Xilinx domains.
 
 
 #### Add the counter
-You can do this either by copying your existing counter block (copy-paste, or ctrl-click-drag-drop) or by placing a new one from the library.
-
-Configure it with a reset and enable port as follows:
+You can do this either by copying your existing counter block (copy-paste, or ctrl-click-drag-drop) or by placing a new one from the library. Configure it with a reset and enable port as follows:
 
 ![](../../_static/img/tut_intro/Counter.png)
 
@@ -156,7 +156,7 @@ Do so by right-clicking and unchecking Format → Show Block Name. You could do 
 ### Adder
 To demonstrate some simple mathematical operations, we will create an adder. It will add two numbers on demand and output the result to another software register. Almost all astronomy DSP is done using fixed-point (integer) notation, and this adder will be no different.
 
-We will calculate a+b#sum_a_b.
+We will calculate a+b = sum_a_b.
 
 ![](../../_static/img/tut_intro/Add_sub_circuit.png)
 
@@ -211,7 +211,12 @@ The one connected to your adder should return a constant, equal to the sum of th
 Once you have verified that that design functions as you'd like, you're ready to compile for the FPGA...
 
 ## Compiling
-Essentially, you have constructed three completely separate little instruments. You have a flashing LED, a counter which you can start/stop/reset from software and also an adder. These components are all clocked off the same 156.25MHz system clock crystal and to your specified User IP Clock Rate, but they will operate independently.
+Essentially, you have constructed three completely separate little instruments.
+1. You have a flashing LED,
+2. A counter which you can start/stop/reset from software, and
+3. A simple adder.
+
+These components are all clocked off the same clock source specified in your platform's properties, but they will operate independently.
 
 In order to compile this to an FPGA bitstream, execute the following command in the MATLAB Command Line window. **THIS COMMAND DEPENDS WHICH PLATFORM YOU ARE TARGETING**:
 
@@ -242,10 +247,14 @@ As per the previous figure, navigate to the outputs folder and (secure)copy this
 SSH into the server that the ROACH board is connected to and navigate to the folder in which your .fpg file is stored.
 
 Start interactive python by running:
- ipython
+```bash
+$ ipython
+```
 
 Now import the fpga control library. This will automatically pull-in the KATCP library and any other required communications libraries.
- import casperfpga
+```python
+import casperfpga
+```
 
 To connect to the board we create a CasperFpga instance; let's call it fpga. The CasperFpga constructor requires just one argument: the IP hostname or address of your FPGA board.
 ```python
@@ -270,7 +279,7 @@ With any luck, the sum returned by the FPGA should be correct.
 
 You can also try writing to the counter control registers in your design. You should find that with appropriate manipulation of the control register, you can make the counter start, stop, and return to zero.
 ```python
-fpga.write_int('counter_ctrl',10')
+fpga.write_int('counter_ctrl', 1)
 fpga.read_uint('counter_value')
 ```
 ## Conclusion
