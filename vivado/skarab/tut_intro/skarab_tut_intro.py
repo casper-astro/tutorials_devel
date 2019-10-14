@@ -57,13 +57,12 @@ try:
         exit_fail()
     
     
-    
-    if not opts.noprogram:
+    if opts.noprogram:
+        fpga.get_system_information(fpgfile)
+    else:
         fpga.logger.info('Programming FPGA at %s...' % casper_fpga)
         fpga.upload_to_ram_and_program(fpgfile)
-        time.sleep(10)
         fpga.logger.info('ok')
-
 
 
     fpga.logger.info('Go see on the board if LED0 is blinking')
