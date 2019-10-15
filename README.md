@@ -28,7 +28,7 @@ For ROACH, you need Python 2.7 and python-pip. If you don't have these, you can 
 
 ```bash
 apt install python2.7
-apt-install python-pip
+apt install python-pip
 ``` 
 
 Once you have these, you can install all the dependencies you need with the following commands, run from the root directory of your repository (i.e., the `mlib_devel` directory):
@@ -51,7 +51,7 @@ For platforms newer than ROACH, you need Python 3 and python3-pip. If you don't 
 
 ```bash
 apt install python3
-apt-install python3-pip
+apt install python3-pip
 ``` 
 
 Once you have these, you can install all the dependencies you need with the following commands, run from the root directory of your repository (i.e., the `mlib_devel` directory):
