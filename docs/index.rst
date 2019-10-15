@@ -36,7 +36,7 @@ The current compatibility matrix of software needed to run these tutorials is be
 |Red Pitaya      | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
 
-Instructions on setting up the toolflow can be found `here <https://casper-toolflow.readthedocs.io/en/latest/index.html>`__.
+Instructions on setting up an environment in which to run these tutorials can be found `here <https://github.com/casper-astro/tutorials_devel/blob/workshop2019/README.md>`__. Instructions on setting up the toolflow-proper can be found `here <https://casper-toolflow.readthedocs.io/en/latest/index.html>`__.
 
 Modifications to be run after installs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
