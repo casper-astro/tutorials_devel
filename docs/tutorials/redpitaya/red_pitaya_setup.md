@@ -1,4 +1,4 @@
-# Guide to setting up your new Red Pitaya
+# Guide to Setting Up Your New Red Pitaya
 
 This guide will show you how to setup your Red Pitaya(RP) for use with the casper tools - mlib_devel and CASPERFPGA.
 
@@ -8,7 +8,7 @@ This guide will show you how to setup your Red Pitaya(RP) for use with the caspe
 You have 2 options when it comes to setting up the SD card.
 
 * Running a script on the sd card you were supplied with the RP with the OS pre installed
-* or, creating the SD card using a casper supplied image. (I have not found somewhere to host this file yet so please used the above method for now)
+* or, creating the SD card using a casper supplied image. (I have not found somewhere to host this file yet so please use the above method for now)
 
 
 ## Running the script on a preloaded RP SD Card

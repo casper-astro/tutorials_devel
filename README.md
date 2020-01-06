@@ -28,7 +28,7 @@ For ROACH, you need Python 2.7 and python-pip. If you don't have these, you can 
 
 ```bash
 apt install python2.7
-apt-install python-pip
+apt install python-pip
 ``` 
 
 Once you have these, you can install all the dependencies you need with the following commands, run from the root directory of your repository (i.e., the `mlib_devel` directory):
@@ -51,12 +51,31 @@ For platforms newer than ROACH, you need Python 3 and python3-pip. If you don't 
 
 ```bash
 apt install python3
-apt-install python3-pip
+apt install python3-pip
 ``` 
+We thoroughly recommend using a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#installing-virtualenv) to separate the version of Python and its libraries the toolflow uses from the rest of your system. 
 
-Once you have these, you can install all the dependencies you need with the following commands, run from the root directory of your repository (i.e., the `mlib_devel` directory):
+To create a Python 3 virtual environment:
 
 ```bash
+# change directory to where you want the virtual environment to live
+cd /home/user/work
+# install virtualenv using pip3
+sudo pip3 install virtualenv
+# create a Python 3 virtual environment
+virtualenv -p python3 casper_venv
+# to activate the virtual environment:
+source casper_venv/bin/activate
+# to deactivate the virtual environment:
+deactivate
+```
+
+Once you have these, you can install all the dependencies you need within your virtual environment with the following commands, run from the root directory of your repository (i.e., the `mlib_devel` directory):
+
+```bash
+# Activate your virtual environment
+source /home/user/work/casper_venv/bin/activate
+
 # Install casperfpga dependencies
 cd casperfpga
 pip3 install -r requirements.txt
