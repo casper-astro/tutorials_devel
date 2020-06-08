@@ -100,7 +100,7 @@ You can also sprinkle around other registers or LEDs to monitor status of core p
 Compiling this design takes approximately 20 to 30 minutes. A pre-compiled binary (.fpg file) is made available to save time.
 
 ### Programming and interacting with the FPGA ###
-A pre-written python script, [''snap_tut_tge.py''](https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge) is provided. This script programs the fpga with your complied design (.fpg file) configures the 10GbE Ports and initiates data transfer. The script is run using:
+A pre-written python script, [''snap_tut_tge.py''](https://github.com/casper-astro/tutorials_devel/tree/master/snap/tut_tge) is provided. This script programs the fpga with your complied design (.fpg file) configures the 10GbE Ports and initiates data transfer. The script is run using:
 
 ```bash
  ./snap_tut_tge.py <SNAP_IP_ADDRESS>
