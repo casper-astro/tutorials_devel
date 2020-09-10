@@ -1329,13 +1329,13 @@ class skarab_adc_rx:
 							print("ERROR: Timeout waiting for the mezzanine PLL outputs to be in phase.")
 
 						# Power up SYSREF input buffer on ADCs
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_MASTER_PDN_SYSREF, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_MASTER_PDN_SYSREF, 0x00)
 
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_MASTER_PDN_SYSREF, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_MASTER_PDN_SYSREF, 0x00)
 
 						time.sleep(1)
 						
@@ -1417,13 +1417,13 @@ class skarab_adc_rx:
 						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_PLL, sd.PLL_GLOBAL_MODE_AND_ENABLE_CONTROL, 0x81)
 
 						# Power up SYSREF input buffer on ADCs
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_MASTER_PDN_SYSREF, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_MASTER_PDN_SYSREF, 0x00)
 
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_MASTER_PDN_SYSREF, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_GENERAL_ADC_PAGE_SEL, 0x00)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_GENERAL_MASTER_PAGE_SEL, 0x04)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_MASTER_PDN_SYSREF, 0x00)
 
 				# Trigger a PLL SYNC signal from the MB firmware
 				skarab.write_int('pll_sync_start_in', 0)
@@ -1440,8 +1440,8 @@ class skarab_adc_rx:
 
 					if synchronise_mezzanine[mezzanine] == True:
 						# Power down SYSREF input buffer on ADCs
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_0, sd.ADC_MASTER_PDN_SYSREF, 0x10)
-						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTIONATION_ADC_1, sd.ADC_MASTER_PDN_SYSREF, 0x10)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_0, sd.ADC_MASTER_PDN_SYSREF, 0x10)
+						skarab.transport.direct_spi_write(mezzanine_site, sd.SPI_DESTINATION_ADC_1, sd.ADC_MASTER_PDN_SYSREF, 0x10)
 
 		# At this point, all the PLLs across all mezzanine sites should be in sync
 
