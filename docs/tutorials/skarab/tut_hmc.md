@@ -52,8 +52,6 @@ Start Matlab and open Simulink (either by typing 'simulink' on the Matlab comman
 
 The rest of the settings can be left as is. Click OK. 
 
-The 40GbE yellow block needs to be added as the SKARAB Board Support Package (BSP) is currently integrated in this block. If the 40GbE yellow block is not included then your Simulink will not compile as the SKARAB BSP will be missing.
-
 ### Add control and reset logic ###
 A very important piece of logic to consider when designing your system is how, when and what happens during reset. In this example we shall control our resets via a software register. We shall have one reset to reset the HMC design counters and trigger the data capture snap blocks. We shall have one data rate select, which will control/select the throughput through the HMC and we shall have one HMC write/read enable signal, which allows the user to disable/enable the process, so that the hmc read counter, write counter and hmc out counter all represent the same instant in time.  Construct reset and control circuitry as shown below.
 
@@ -226,7 +224,7 @@ Double-click on the scopes at the output of the HMC yellow block. The hmc_data_o
 ![](../../_static/img/skarab/tut_hmc/hmc_rd_tag_out_s.png)
 ![](../../_static/img/skarab/tut_hmc/hmc_data_out_s.png)
 
-Finally lets double-click on the scopes at the output of the HMC reordering function. The hmc_reord_rd_add_s, hmc_reord_rd_en_s and the hmc_reord_data_s scopes should look like below. You might have to press the Autoscale button to scale the scope appropriately. Note how the data increases in a linear ramp and then stays at 255 for a period of time and then begins to increase in a linear ramp until it reaches 511 and then resets. If you compare with the HMC reorder read enable signal then the data is actually still a ramp, as not all of the data is valid. This makes sense as the HMC reordering logic will only read from the BRAM once the write pointer is a address 255 and then again when the write pointer is at 511. This prevents the write and read pointers from clashing as explained above. 
+Finally lets double-click on the scopes at the output of the HMC reordering function. The hmc_reord_rd_add_s, hmc_reord_rd_en_s and the hmc_reord_data_s scopes should look like below. You might have to press the Autoscale button to scale the scope appropriately. Note how the data increases in a linear ramp and then stays at 255 for a period of time and then begins to increase in a linear ramp until it reaches 511 and then resets. If you compare with the HMC reorder read enable signal then the data is actually still a ramp, as not all of the data is valid. This makes sense as the HMC reordering logic will only read from the BRAM once the write pointer is at address 255 and then again when the write pointer is at 511. This prevents the write and read pointers from clashing as explained above. 
 
 ![](../../_static/img/skarab/tut_hmc/hmc_reord_rd_add.png)
 ![](../../_static/img/skarab/tut_hmc/hmc_reord_rd_en.png)
