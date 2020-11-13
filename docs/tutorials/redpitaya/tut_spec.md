@@ -178,7 +178,7 @@ There are a few [control registers](https://casper.berkeley.edu/wiki/Software_re
 
 - **acc_len**: Sets the accumulation length. Have a look in tut_spec.py for usage.
 
-- **sync_reg**: Syncrhonizes the FFTs.  Pulse this high to start/restart the FFT output.
+- **sync_reg**: Synchronizes the FFTs.  Pulse this high to start/restart the FFT output.
 
 - **sync_cnt**: Logs the number of syncs into the FFTs.
 
