@@ -124,7 +124,7 @@ As per the info above, we can see that running the 40GbE tutorial script require
   - It is also worth mentioning that the SKARABs you intend on using to carry out this tutorial **must** have at least one QSFP+ cable plugged in to each board.
 - Programming files for the Tx and Rx SKARABs. These fpg-files will be output after the build process is executed on Tx and Rx simulink models.
   - There are already-built versions of these images available in the working directory, namely `tut_40gbe_tx.fpg` and `tut_40gbe_rx.fpg`. Feel free to use these if you don't want to wait for the build process to complete.
-- The **-p** or **--program** flag dicatates whether the programming files specified in the `-txfpg` and `-rxfpg` flags will be programmed to the board (using the method you learnt in the [previous tutorial](https://casper-tutorials.readthedocs.io/en/latest/tutorials/skarab/tut_intro.html#programming-the-fpga))
+- The **-p** or **--program** flag dictates whether the programming files specified in the `-txfpg` and `-rxfpg` flags will be programmed to the board (using the method you learnt in the [previous tutorial](https://casper-tutorials.readthedocs.io/en/latest/tutorials/skarab/tut_intro.html#programming-the-fpga))
   - I would suggest specifying this flag purely to minimise the 'setup' work you need to do to get the tutorial running.
   - You could run the tutorial script without specifying this flag, however that would require programming the two SKARABs with the associated fpg-files before running the script. Nothing major.
 
