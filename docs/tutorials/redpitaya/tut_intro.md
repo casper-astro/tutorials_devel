@@ -105,7 +105,7 @@ We need two software registers:
 
 ![casper_xps_select_memory_swreg.png](../../_static/img/tut_intro/casper_xps_select_memory_swreg.png)
 
-Set the I/O direction to *From Processor* on the first one (counter control) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
+Set the I/O direction to *From Processor* on the first one (counter_ctrl) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter_value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
 
 ![](../../_static/img/tut_intro/Cnt_ctrl_sw_reg_config_r2.png)
 
