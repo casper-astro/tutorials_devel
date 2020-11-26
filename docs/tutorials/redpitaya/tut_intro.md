@@ -225,7 +225,7 @@ In order to compile this to an FPGA bitstream, execute the following command in 
 ``` bash
  >>  jasper
 ```
-When a GUI pops up, click "Compile!". This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
+This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
 
 ![](../../_static/img/tut_intro/Jasper_sysgen_SKARAB.png)
 
