@@ -36,7 +36,7 @@ Each packet that is sent from the FPGA fabric can be sent to a specified IP and 
 ![](../../_static/img/skarab/tut_40gbe/tx_ip_port_registers.png)
 
 
-This is the start of the logic to build up our payload. The decimation register is used to control the rate at which packets are sent. Have a look at lines 307-312 of the [Tx python script](https://github.com/casper-astro/tutorials_devel/blob/master/vivado/skarab/tut_40gbe/tut_40gbe_tx.py#L307) to see how this value is calculated and used.
+This is the start of the logic to build up our payload. The decimation register is used to control the rate at which packets are sent. Have a look at lines 307-312 of the [Tx python script](https://github.com/casper-astro/tutorials_devel/blob/master/skarab/tut_40gbe/tut_40gbe.py#L307) to see how this value is calculated and used.
 
 ![](../../_static/img/skarab/tut_40gbe/Tx_decimation_logic.png)
 

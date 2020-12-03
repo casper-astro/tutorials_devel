@@ -38,7 +38,7 @@ and is the width of each frequency bin. Correspondingly, Δf is a measure of how
 If you're reading this, then you've already managed to find all the tutorial files.  By now, I presume you can open the model file and have a vague idea of what's happening.
 The best way to understand fully is to follow the arrows, go through what each block is doing and make sure you know why each step is done. To help you through, there's some “blockumentation” in the appendix, which should (hopefully) answer all questions you may have. A brief rundown before you get down and dirty:
 
-- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core used to instantiante the board support package and the microblaze controller but, it is no longer the case. The board support package and the microblaze controller are now part of the Skarab platform block. However, the 40 GbE or 1 GbE core is still required in a Skarab design for communication purposes.
+- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core used to instantiante the board support package and the microblaze controller, but it is no longer the case. The board support package and the microblaze controller are now part of the Skarab platform block. However, the 40 GbE or 1 GbE core is still required in a Skarab design for communication purposes.
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
