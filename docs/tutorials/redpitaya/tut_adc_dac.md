@@ -306,7 +306,7 @@ Hint: treat each channel as real data.
 
 You have gone through the ADC and DAC tutorial on the 125-10 board. Now go through the 14 bit design and then port this tutorial to work on the 122-16 board. Good luck!
 
-Hint: The Zynq pin outs are not the same. You will need to look at the 125-14 schematics. You will need to update the simulink yellow blocks, python blocks and red_pitaya.yaml script. 
+Hint: The Zynq pin outs are not the same. You will need to look at the 122-16 schematics. You will need to update the simulink yellow blocks, python blocks and red_pitaya.yaml script. 
 
 #### Other notes ####
 
