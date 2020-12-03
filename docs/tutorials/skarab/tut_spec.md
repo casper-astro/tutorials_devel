@@ -38,11 +38,11 @@ and is the width of each frequency bin. Correspondingly, Δf is a measure of how
 If you're reading this, then you've already managed to find all the tutorial files.  By now, I presume you can open the model file and have a vague idea of what's happening.
 The best way to understand fully is to follow the arrows, go through what each block is doing and make sure you know why each step is done. To help you through, there's some “blockumentation” in the appendix, which should (hopefully) answer all questions you may have. A brief rundown before you get down and dirty:
 
-- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core instantiants the board support package and the microblaze controller.  Therefore, the core is a must for any Skarab design and is akin to the Skarab platform block.
+- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core used to instantiante the board support package and the microblaze controller, but it is no longer the case. The board support package and the microblaze controller are now part of the Skarab platform block. However, the 40 GbE or 1 GbE core is still required in a Skarab design for communication purposes.
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
-- In the MSSGE block, the hardware type is set to “SKARAB:xc7vz690t” and clock rate is specified as 187.5MHz.  This frequency is specially chosen to avoid overflows on the ADC.  Implementing other clock frequencies will require you to use the data valid port leaving the ADC yellow block.
+- In the MSSGE block, the hardware type is set to “SKARAB:xc7vx690t” and clock rate is specified as 187.5MHz.  This frequency is specially chosen to avoid overflows on the ADC.  Implementing other clock frequencies will require you to use the data valid port leaving the ADC yellow block.
 
 - The input signal is digitised by the ADC, resulting in eight parallel time samples of 16 bits each clock cycle: four in i and four in q. The ADC runs at 3 GHz but decimates by a factor of four, which gives a 375 MHz nyquist sampled spectrum.  The Skarab ADC uses a digital downconverter, which has a default frequency of 1 GHz. The output range is a signed number in the range -1 to +1 (ie 15 bits after the decimal point). This is expressed as fix_16_15.
 
@@ -57,7 +57,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 - The accumulated signal is then fed into software registers, mem1 through mem4.
 
 
-Without further ado, open up the model file and start clicking on things, referring the blockumentation as you go.
+Without further ado, open up the model file and start clicking on things, referring to the blockumentation as you go.
 
 ### [adc](https://casper.berkeley.edu/wiki/Adc) ###
 

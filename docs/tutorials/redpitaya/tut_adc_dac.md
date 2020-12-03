@@ -22,12 +22,12 @@ The Red Pitaya 125-10 is fitted with a single Analog Devices dual channel ADC AD
 
 The Red Pitaya 125-10 is fitted with a single Analog Devices dual channel DAC AD9767 device. The DAC digital input is offset binary, 10 bits, LVCMOS 3.3V and is converted from two's complement inside the firmware running on the Zynq programmable logic. The second channel of the DAC is not connected, which means the DAC is utilised in the interleave mode - refer to DAC data sheet [Red Pitaya Docs: Github](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/RED_PITAYA/docs).
 
-Feel free to spend some time reading the data sheets and looking at the schematics. This will be important for the bonus challenge at the end of the tutorial. 
+Feel free to spend some time reading the data sheets and looking at the schematics. This will be important for the bonus challenge at the end of the tutorial. Please note that the previous bonus challenge for the Red Pitaya 125-14 board has already been integrated into the toolflow. 
 
 ## Create a new model ##
 Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created firmware flashing LED function and Red Pitaya XSG core config or platform block and Xilinx System Generator block. Get a copy of this template and save it. Make sure the Red Pitaya XSG_core_config_block or platform block is configured for:
 
-1) Hardware Platform: "RED_PITAYA:xc7z010"
+1) Hardware Platform: "RED_PITAYA_10:xc7z010" for the 10 bit board or "RED_PITAYA_14:xc7z010" for the 14 bit board
  
 2) User IP Clock source: "sys_clk"
 
@@ -59,7 +59,7 @@ It should look as follows when you have added all the relevant registers:
 We will now add the ADC yellow block in order to interface with the ADC device on the Red Pitaya.
 
 #### Add the ADC yellow block for digital to analog interfacing ####
-Add a Red Pitaya ADC yellow block from the CASPER XPS Blockset -> ADCs, as shown below. It will be used to interface to the ADC device on the Red Pitaya. Rename it to adc. Double click on the block to configure it and set the number of bits to be 10 bits wide. This should be hard coded for now. This will need to be changed for the bonus challenge exercise below.
+Add a Red Pitaya ADC yellow block from the CASPER XPS Blockset -> ADCs, as shown below. It will be used to interface to the ADC device on the Red Pitaya. Rename it to adc. Double click on the block to configure it and set the number of bits to be 10 bits wide. This will need to be changed for the 14 bit Red Pitaya board.
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/adc_yellow_clock_param.png)
 
@@ -87,7 +87,7 @@ You will now be able to monitor the ADC data using the logic analyser connected 
 We will now add the DAC yellow block in order to interface with the DAC device on the Red Pitaya.
 
 #### Add the DAC yellow block for digital to analog interfacing ####
-Add a Red Pitaya DAC yellow block from the CASPER XPS Blockset -> DACs, as shown below. It will be used to interface to the DAC device on the Red Pitaya. Rename it to dac. Double click on the block to configure it and set the number of bits to be 10 bits wide. This should be hard coded for now. This will need to be changed for the bonus challenge exercise below. Add the From block, which connects the reset to the DAC yellow block and connect the ADC to the DAC as shown below.
+Add a Red Pitaya DAC yellow block from the CASPER XPS Blockset -> DACs, as shown below. It will be used to interface to the DAC device on the Red Pitaya. Rename it to dac. Double click on the block to configure it and set the number of bits to be 10 bits wide. This will need to be changed for the 14 bit Red Pitaya board. Add the From block, which connects the reset to the DAC yellow block and connect the ADC to the DAC as shown below.
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/dac_yellow_clock_param.png)
 
@@ -97,7 +97,7 @@ The ADC and DAC functionality is now implemented in your Simulink design. It is 
 ### Buffers to capture ADC Data Valid, ADC Channel 1 and ADC Channel 2 ###
 The ADC data valid, ADC data channel 1 and ADC data channel 2 (output) need to be connected to a bitfield snapshot block for data capture analysis (located in CASPER DSP Blockset -> Scopes), as shown below. Using this block, we can capture 1024 ADC samples, read it back and store them as files. These files can then be plotted using a Matlab script and analysed. 
 
-Bitfield snapshot blocks are a standard way of capturing snapshots of data in the CASPER tool-set. A bitfield snap block contains a single shared BRAM allowing capture of 32-bit words (this is a limitation of the new AXI interfacing at the moment). 
+Bitfield snapshot blocks are a standard way of capturing snapshots of data in the CASPER tool-set. A bitfield snap block contains a single shared BRAM allowing capture of 32-bit words. 
 
 ![](../../_static/img/red_pitaya/tut_adc_dac/adc_snap_shot_bitfield.png)
 
@@ -224,7 +224,7 @@ Try the following - add a "?" (leave out the brackets) to find out what the func
 Manually typing these commands by hand will be cumbersome, so it is better to create a Python script that will do all of this for you. This is described below.
 
 #### Running a Python script and interacting with the Zynq PL ####
-A pre-written python script, ''tut_adc_dac.py'' is provided. The code within the python script is well commented and won't be explained here. The user can read through the script in his/her own time. In summary, this script programs the Zynq PL with your compiled design (.fpg file), writes to the reset control register, reads back the ADC snap shot captured data and status registers while displaying them to the screen for analysis. It is also saves the ADC data as text data for displaying in Matlab. In order to run this script you will need to edit the file and change the target Red Pitaya IP address and the *.fpg file, if they are different. The script is run using:
+A pre-written python script, ''tut_adc_dac.py'' is provided. The code within the python script is well commented and won't be explained here. The user can read through the script in his/her own time. In summary, this script programs the Zynq PL with your compiled design (.fpg file), writes to the reset control register, reads back the ADC snap shot captured data and status registers while displaying them to the screen for analysis. In order to run this script you will need to edit the file and change the target Red Pitaya IP address and the *.fpg file, if they are different. The script is run using:
 
 ```python
 python tut_adc_dac.py <red pitaya hostname/ip> -p -b <path to fpg file>
@@ -304,9 +304,9 @@ Hint: treat each channel as real data.
 
 ### Bonus Challenge ###
 
-You have gone through the ADC and DAC tutorial on the 125-10 board. Now it is time to really test your hardware porting skills and port this tutorial to work on the 125-14 board. Good luck!
+You have gone through the ADC and DAC tutorial on the 125-10 board. Now go through the 14 bit design and then port this tutorial to work on the 122-16 board. Good luck!
 
-Hint: The Zynq pin outs are not the same. You will need to look at the 125-14 schematics. You will need to update the simulink yellow blocks, python blocks and red_pitaya.yaml script. 
+Hint: The Zynq pin outs are not the same. You will need to look at the 122-16 schematics. You will need to update the simulink yellow blocks, python blocks and red_pitaya.yaml script. 
 
 #### Other notes ####
 

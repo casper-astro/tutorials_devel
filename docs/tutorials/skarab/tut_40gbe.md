@@ -36,7 +36,7 @@ Each packet that is sent from the FPGA fabric can be sent to a specified IP and 
 ![](../../_static/img/skarab/tut_40gbe/tx_ip_port_registers.png)
 
 
-This is the start of the logic to build up our payload. The decimation register is used to control the rate at which packets are sent. Have a look at lines 307-312 of the [Tx python script](https://github.com/casper-astro/tutorials_devel/blob/master/vivado/skarab/tut_40gbe/tut_40gbe_tx.py#L307) to see how this value is calculated and used.
+This is the start of the logic to build up our payload. The decimation register is used to control the rate at which packets are sent. Have a look at lines 307-312 of the [Tx python script](https://github.com/casper-astro/tutorials_devel/blob/master/skarab/tut_40gbe/tut_40gbe.py#L307) to see how this value is calculated and used.
 
 ![](../../_static/img/skarab/tut_40gbe/Tx_decimation_logic.png)
 
@@ -88,7 +88,7 @@ This writes the packet header data into a snap block just to provide more debugg
 
 ## Running the python script ##
 
-Once you are finished examining the designs and feel that you have a good handle on them. Look through the python tx script. Try to figure out how to call the script with the correct parameters and files. You might have to [scp](http://www.hypexr.org/linux_scp_help.php) the files to the control server, then run it and see what data you can get out. You can also start an ipython session to manually connect and run each of the commands. If you are running the tutorial during the workshop the facilitators should have the control server information up to view, or look [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md). If you are running the tutorials elsewhere please familiarise yourself with your local setup/server(s) in order to run the tutorial.
+Once you are finished examining the designs and feel that you have a good handle on them. Look through the python tx script. Try to figure out how to call the script with the correct parameters and files. You might have to [scp](http://www.hypexr.org/linux_scp_help.php) the files to the control server, then run it and see what data you can get out. You can also start an ipython session to manually connect and run each of the commands. If you are running the tutorial during the workshop the facilitators should have the control server information up to view, or look [here](https://github.com/casper-astro/tutorials_devel) to find the workshop_setup.md documentation. If you are running the tutorials elsewhere please familiarise yourself with your local setup/server(s) in order to run the tutorial.
 
 The python script, `tut_40gbe.py`, does all the heavy lifting for the communication aspect of the tutorial. The script allows you to specify a few parameters and subsequently programs the boards, transmits and receives the test data.
 
