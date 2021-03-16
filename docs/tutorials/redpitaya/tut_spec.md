@@ -7,7 +7,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 
 ## Setup ##
 
-This tutorial comes with a completed model file, a compiled bitstream, ready for execution on Red Pitaya, as well as a Python script to configure the Red Pitaya and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/workshop2019/red_pitaya/tut_spec)
+This tutorial comes with a completed model file, a compiled bitstream, ready for execution on Red Pitaya, as well as a Python script to configure the Red Pitaya and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_spec)
 
 ## Spectrometer Basics ##
 
@@ -49,7 +49,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 
 - The Xilinx FFT is configured for 256 channels.
 
-- You may notice delay blocks dotted in places design. It's common practice to add these into the design as it makes it easier to fit the design into the logic of the FPGA. It consumes more resources, but eases signal timing-induced placement restrictions.
+- You may notice delay blocks dotted in places of the design. It's common practice to add these into the design as it makes it easier to fit the design into the logic of the FPGA. It consumes more resources, but eases signal timing-induced placement restrictions.
 
 - The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring.
 
@@ -66,17 +66,17 @@ Without further ado, open up the model file and start clicking on things, referr
 
 The first step to creating a frequency spectrum is to digitize the signal. This is done with an ADC – an Analogue to Digital Converter. In Simulink, the ADC is represented by a yellow block.
 
-The ADC block converts analog inputs to digital outputs. Every clock cycle, the inputs are sampled and digitized to 10 bit binary point numbers in the range of -1 to 1 and are then output by the ADC. This is achieved through the use of two's-compliment representation with the binary point placed after the seven least significant bits. This means we can represent numbers from -512/512 through to 511/512 including the number 0. Simulink represents such numbers with a fix_10_0 moniker.
+The ADC block converts analog inputs to digital outputs. Every clock cycle, the inputs are sampled and digitized to 10 bit binary point numbers in the range of -1024 to 1023 and are then output by the ADC. This is achieved through the use of two's-complement representation with the binary point set to 0. Simulink represents such numbers with a fix_10_0 moniker.
 
 ADCs often internally bias themselves to halfway between 0 and -1. This means that you'd typically see the output of an ADC toggling between zero and -1 when there's no input. It also means that unless otherwise calibrated, an ADC will have a negative DC offset.
 
-The ADC has to be clocked to four times that of the FPGA clock. In this design the ADC is clocked to 125MHz, generated from the Red Pitaya's system clock. This gives us a bandwidth of 62.5MHz, as Nyquist sampling requires two samples (or more) each second.
+In this design the ADC is clocked to 125MHz, generated from the Red Pitaya's system clock. This gives us a bandwidth of 62.5MHz, as Nyquist sampling requires two samples (or more) each second.
 
 **INPUTS**
 
 |                   Port                  | Description                                                                                                               |
 | --------------------------------------- |---------------------------------------------------------------------------------------------------------------------------|
-| adc_reset_in | Reset port for ADC. This signal will be activated by our script upon startup |
+| adc_reset_in | Reset port for ADC. This signal will be activated by our script upon startup. This is a boolean signal. |
 
 
 **OUTPUTS**
@@ -94,9 +94,9 @@ This Red Pitaya tutorial utilizes the Xilinx FFT block -- one for each channel o
 
 |                   Port                  | Description                                                                                                               |
 | --------------------------------------- |---------------------------------------------------------------------------------------------------------------------------|
-| in_re | Real input for FFT.  ADC signals are routed here.|
-| in_im | Imaginary input for FFT. We are sampling real signals, so we tie this line to zero. |
-| start_frame_in | Reset port for FFT. We sync this once in the beginning of the run script. |
+| in_re | Real input for FFT.  ADC signals are routed here. This is a fix_10_0 port. |
+| in_im | Imaginary input for FFT. We are sampling real signals, so we tie this line to zero. This is a fix_10_0 port. |
+| start_frame_in | Reset port for FFT. We sync this once in the beginning of the run script. This is a boolean signal.|
 
 **OUTPUTS**
 
@@ -104,7 +104,7 @@ This Red Pitaya tutorial utilizes the Xilinx FFT block -- one for each channel o
 | --------------------------------------- |---------------------------------------------------------------------------------------------------------------------------|
 | op_re | Real output of FFT.  This is a fix_19_0 port.|
 | op_im | Imaginary output of FFT. Also a fix_19_0 port.|
-| start_frame_out | Flag indicating the start of spectra.  This port is routed to the acc_cntrl block. |
+| start_frame_out | Flag indicating the start of spectra.  This port is routed to the acc_cntrl block. This is a boolean signal. |
 
 ### [power](https://casper.berkeley.edu/wiki/Power) ###
 
@@ -118,7 +118,7 @@ The output of the block is 31.0 bits.
 | Port | Direction | Data Type | Description |
 |-------|-----------|----------------------------------|---------------------------------------------------------------------------------------------------------------|
 | c | IN | 2*BitWidth Fixed point | A complex number whose higher BitWidth bits are its real part and lower BitWidth bits are its imaginary part. |
-| power | OUT | UFix_(2*BitWidth)_(2*BitWidth-1) | The computed power of the input complex number. |
+| power | OUT | ufix_(2*BitWidth+1)_(0) | The computed power of the input complex number. |
 
 
 
@@ -141,13 +141,13 @@ The FFT block outputs 256 frequency bins in total. We have two of these bram vac
 
 | Port | Description |
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| new_acc | A boolean pulse should be sent to this port to signal a new accumulation. We can't directly use the sync pulse, otherwise this would reset after each spectrum. So, Jason has connected this to acc_cntrl, a block which allows us to set the accumulation period. |
-| din/dout | Data input and output. The output depends on the no. output bits parameter. |
+| new_acc | A boolean pulse should be sent to this port to signal a new accumulation. We can't directly use the sync pulse, otherwise this would reset after each spectrum. So, the sync is first connected to the acc_cntrl block, a block which allows us to set the accumulation period. |
+| din/dout | Data input and output. The output depends on the no. output bits parameter. The input/output is ufix_31_0 in this case. |
 | Valid | The output of this block will only be valid when it has finished accumulating (signalled by a boolean pulse sent to new_acc). This will output a boolean 1 while the vector is being output, and 0 otherwise. |
 
 ### Snap Blocks ###
 
-![](../../_static/img/red_pitaya/tut_spec/snap.jpg)
+![](../../_static/img/red_pitaya/tut_spec/snap.png)
 
 The final blocks, accum0_snap and accum1_snap, capture the data coming from the accumulators, which we will read out the values of using the tut_spec.py script.
 
@@ -156,19 +156,19 @@ The final blocks, accum0_snap and accum1_snap, capture the data coming from the 
 | Parameter | Description |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Names | These are the names of the variables captured -- in this case, power and data valid. |
-| Bitwidths | Bitwidths corresponding to the named variables.  Presently, the snap blocks for the Red Pitaya support a maximum bitwdith of 32. |
-| Binary pts | The data from the accumulators is fix_31_0, so set this to zero. |
-| Data types | We have one fixed point and one boolean data type. |
+| Bitwidths | Bitwidths corresponding to the named variables.  Presently, the snap blocks for the Red Pitaya support a maximum bitwidth of 32. |
+| Binary pts | The data from the accumulators is ufix_31_0, so set this to zero. |
+| Data types | We have one unsigned fixed point and one boolean data type. |
 
 
 **INPUTS/OUTPUTS**
 
 | Port | Description |
 |----------|------------------------------------------------------------------------------------------------------------------------------------------|
-| in_P_acc0 / inP_acc1 | Input port for power.  |
-| in_val_acc0 / in_val_acc1 | Data valid signal.  The last accumulation is the valid spectrum and isflagged by this port. |
-| we | We tie the write enable port high so we can see if ther eare any invalids in the in_val_acc port. |
-| trig | Trigger for the snap block.  Note, the block diagram is configured so that the trigger happens following a reset, but we can override this trigger in the casperfpga controls of tut_spec.py by setting man_trig=True in the snapblock call. |
+| in_P_acc0 / in_P_acc1 | Input port for power. This is ufix_31_0.  |
+| in_val_acc0 / in_val_acc1 | Data valid signal, which is a boolean.  The last accumulation is the valid spectrum and is flagged by this port. |
+| we | We tie the write enable port high so we can see if there are any invalids in the in_val_acc0 and in_val_acc1 port. This is a boolean signal. |
+| trig | Trigger for the snap block. This is a boolean signal. Note, the block diagram is configured so that the trigger happens following a reset, but we can override this trigger in the casperfpga controls of tut_spec.py by setting man_trig=True in the snapblock call. |
 
 ### [Software Registers](https://casper.berkeley.edu/wiki/Software_register) ###
 
@@ -178,7 +178,7 @@ There are a few [control registers](https://casper.berkeley.edu/wiki/Software_re
 
 - **acc_len**: Sets the accumulation length. Have a look in tut_spec.py for usage.
 
-- **sync_reg**: Syncrhonizes the FFTs.  Pulse this high to start/restart the FFT output.
+- **sync_reg**: Synchronizes the FFTs.  Pulse this high to start/restart the FFT output.
 
 - **sync_cnt**: Logs the number of syncs into the FFTs.
 
@@ -188,6 +188,7 @@ There are a few [control registers](https://casper.berkeley.edu/wiki/Software_re
 
 - **gpio_led**: LED flashes while the bitcode is running.
 
+There are a few additional software registers for debug purposes only.
 
 If you've made it to here, congratulations, go and get yourself a cup of tea and a biscuit, then come back for part two, which explains the second part of the tutorial – actually getting the spectrometer running, and having a look at some spectra.
 

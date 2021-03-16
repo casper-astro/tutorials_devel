@@ -1,7 +1,7 @@
 # Tutorial 1: Introduction to Simulink
 In this tutorial, you will create a simple Simulink design using both standard Xilinx system generator blockset, as well as library blocks specific to CASPER boards (so-called "Yellow Blocks"). At the end of this tutorial you will know:
 * How to generate an fpg file,
-* Program it to a CASPER FPGA board (specifically the [Red Pitaya](https://github.com/casper-astro/casper-hardware/blob/master/FPGA_Hosts/RED_PITAYA/README.md)), and
+* Program it to a CASPER FPGA board (specifically the [Red Pitaya](https://github.com/casper-astro/casper-hardware/blob/master/FPGA_Hosts/RED_PITAYA)), and
 * Interact with your running hardware design using [casperfpga](https://github.com/casper-astro/casperfpga) via an interactive Python Interface.
 
 ## Creating Your Design
@@ -105,7 +105,7 @@ We need two software registers:
 
 ![casper_xps_select_memory_swreg.png](../../_static/img/tut_intro/casper_xps_select_memory_swreg.png)
 
-Set the I/O direction to *From Processor* on the first one (counter control) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
+Set the I/O direction to *From Processor* on the first one (counter_ctrl) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter_value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
 
 ![](../../_static/img/tut_intro/Cnt_ctrl_sw_reg_config_r2.png)
 
@@ -225,7 +225,7 @@ In order to compile this to an FPGA bitstream, execute the following command in 
 ``` bash
  >>  jasper
 ```
-When a GUI pops up, click "Compile!". This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
+This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
 
 ![](../../_static/img/tut_intro/Jasper_sysgen_SKARAB.png)
 

@@ -62,7 +62,7 @@ Set it for 1 bit wide with offset from top bit at zero. As you might guess, this
 ![](../../_static/img/tut_intro/Slice_params.png)
 
 #### Add a GPIO block
-From: CASPER XPS library -> gpio.
+From: CASPER XPS library -> IO -> gpio.
 
 ![casper_xps_select_io.png](../../_static/img/tut_intro/casper_xps_select_io.png)
 
@@ -102,7 +102,7 @@ We need two software registers. One to control the counter, and a second one to 
 
 ![casper_xps_select_memory_swreg.png](../../_static/img/tut_intro/casper_xps_select_memory_swreg.png)
 
-Set the I/O direction to *From Processor* on the first one (counter control) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
+Set the I/O direction to *From Processor* on the first one (counter_ctrl) to enable a value to be set from software and sent *to* your FPGA design. Set it to *To Processor* on the second one (counter_value) to enable a value to be sent *from* the FPGA to software. Set both registers to a bitwidth of 32 bits.
 
 ![](../../_static/img/tut_intro/Cnt_ctrl_sw_reg_config_r2.png)
 
@@ -221,7 +221,7 @@ In order to compile this to an FPGA bitstream, execute the following command in 
 ``` bash
  >>  jasper
 ```
-When a GUI pops up, click "Compile!". This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
+This will run the complete build process, which consists of two stages. The first involving Xilinx's System Generator, which compiles any Xilinx blocks in your Simulink design to a circuit which can be implemented on your FPGA. While System Generator is running, you should see the following window pop up:
 
 ![](../../_static/img/tut_intro/Jasper_sysgen_SKARAB.png)
 
@@ -275,7 +275,7 @@ The first thing we do is program the FPGA with the .fpg file which your compile 
 fpga.upload_to_ram_and_program('your_fpgfile.fpg')
 ```
 
-Should the execution of this command return true, you can safely assume the FPGA is now configured with your design. The SKARAB's Front Panel LEDs are, by default, displaying inherent Board Support Package diagnostics. More details on this can be gound [here](https://github.com/ska-sa/skarab_docs/blob/master/general/SKARAB_LED_Manager.pdf). The control of the Front Panel LEDs can be switched between BSP functionality and your Simulink design via a control signal. This control is available to you in `casperfpga` through [`control_front_panel_leds_read()`](https://github.com/casper-astro/casperfpga/blob/bw2018/src/transport_skarab.py#L2409) and [`control_front_panel_leds_write(dsp_override=True)`](https://github.com/casper-astro/casperfpga/blob/bw2018/src/transport_skarab.py#L2384). You should see the LED on your board flashing. Go check! All the available/configured registers can be displayed using:
+Should the execution of this command return true, you can safely assume the FPGA is now configured with your design. The SKARAB's Front Panel LEDs are, by default, displaying inherent Board Support Package diagnostics. More details on this can be found [here](https://github.com/ska-sa/skarab_docs/blob/master/general/SKARAB_LED_Manager.pdf). The control of the Front Panel LEDs can be switched between BSP functionality and your Simulink design via a control signal. This control is available to you in `casperfpga` through [`control_front_panel_leds_read()`](https://github.com/casper-astro/casperfpga/blob/bw2018/src/transport_skarab.py#L2409) and [`control_front_panel_leds_write(dsp_override=True)`](https://github.com/casper-astro/casperfpga/blob/bw2018/src/transport_skarab.py#L2384). You should see the LED on your board flashing. Go check! All the available/configured registers can be displayed using:
  fpga.listdev()
 The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
 ```python

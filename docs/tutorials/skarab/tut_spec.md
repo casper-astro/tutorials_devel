@@ -1,4 +1,4 @@
-# Tutorial 3: Wideband Spectrometer
+# Tutorial 4: Wideband Spectrometer
 
 ## Introduction ##
 A spectrometer is something that takes a signal in the time domain and converts it to the frequency domain. In digital systems, this is generally achieved by utilising the FFT (Fast Fourier Transform) algorithm.
@@ -7,7 +7,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 
 ## Setup ##
 
-This tutorial comes with a completed model file, a compiled bitstream, ready for execution on Skarab, as well as a Python script to configure the Skarab and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/workshop2019/skarab/tut_spec)
+This tutorial comes with a completed model file, a compiled bitstream, ready for execution on Skarab, as well as a Python script to configure the Skarab and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec)
 
 ## Spectrometer Basics ##
 
@@ -38,11 +38,11 @@ and is the width of each frequency bin. Correspondingly, Δf is a measure of how
 If you're reading this, then you've already managed to find all the tutorial files.  By now, I presume you can open the model file and have a vague idea of what's happening.
 The best way to understand fully is to follow the arrows, go through what each block is doing and make sure you know why each step is done. To help you through, there's some “blockumentation” in the appendix, which should (hopefully) answer all questions you may have. A brief rundown before you get down and dirty:
 
-- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core instantiants the board support package and the microblaze controller.  Therefore, the core is a must for any Skarab design and is akin to the Skarab platform block.
+- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core used to instantiante the board support package and the microblaze controller, but it is no longer the case. The board support package and the microblaze controller are now part of the Skarab platform block. However, the 40 GbE or 1 GbE core is still required in a Skarab design for communication purposes.
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
-- In the MSSGE block, the hardware type is set to “SKARAB:xc7vz690t” and clock rate is specified as 187.5MHz.  This frequency is specially chosen to avoid overflows on the ADC.  Implementing other clock frequencies will require you to use the data valid port leaving the ADC yellow block.
+- In the MSSGE block, the hardware type is set to “SKARAB:xc7vx690t” and clock rate is specified as 187.5MHz.  This frequency is specially chosen to avoid overflows on the ADC.  Implementing other clock frequencies will require you to use the data valid port leaving the ADC yellow block.
 
 - The input signal is digitised by the ADC, resulting in eight parallel time samples of 16 bits each clock cycle: four in i and four in q. The ADC runs at 3 GHz but decimates by a factor of four, which gives a 375 MHz nyquist sampled spectrum.  The Skarab ADC uses a digital downconverter, which has a default frequency of 1 GHz. The output range is a signed number in the range -1 to +1 (ie 15 bits after the decimal point). This is expressed as fix_16_15.
 
@@ -57,7 +57,7 @@ The best way to understand fully is to follow the arrows, go through what each b
 - The accumulated signal is then fed into software registers, mem1 through mem4.
 
 
-Without further ado, open up the model file and start clicking on things, referring the blockumentation as you go.
+Without further ado, open up the model file and start clicking on things, referring to the blockumentation as you go.
 
 ### [adc](https://casper.berkeley.edu/wiki/Adc) ###
 
@@ -96,7 +96,7 @@ The FFT block is the most important part of the design to understand. The cool g
 | sync  | Like many of the blocks, the FFT needs a heartbeat to keep it sync'd. |
 | shift  | Sets the shifting schedule through the FFT. Bit 0 specifies the behavior of stage 0, bit 1 of stage 1, and so on. If a stage is set to shift (with bit = 1), then every sample is divided by 2 at the output of that stage. We've set Shift to 2^(13 − 1) − 1, which will shift the data by 1 on every stage to prevent overflows. |
 | in0-3  | Complex-valued inputs. |
-| out0-4 | This real FFT produces four simultaneous outputs. Each of these parallel FFT outputs will produce sequential channels of complex samples on every clock cycle. So, on the first clock cycle (after a sync pulse, which denotes the start), you'll get frequency channel zero and frequency channel one. Each of those are complex numbers. Then, on the second clock cycle, you'll get frequency channels 2 and 3. These are followed by 4 and 5 etc etc. So we chose to label these output paths "even" and "odd", to differentiate the path outputting channels 0,2,4,6,8...N-1 from the channel doing 1,3,5,7...N. As you can see, in order to recreate the full spectrum, we need to interleave these paths to produce 0,1,2,3,4,5...N. Following the lines you'll see that these two inputs end up in an “odd” and “even” shared BRAMs. These are then interleaved in the tut3.py script to form a complete spectrum. |
+| out0-4 | This real FFT produces four simultaneous outputs. Each of these parallel FFT outputs will produce sequential channels of complex samples on every clock cycle. So, on the first clock cycle (after a sync pulse, which denotes the start), you'll get frequency channel zero and frequency channel one. Each of those are complex numbers. Then, on the second clock cycle, you'll get frequency channels 2 and 3. These are followed by 4 and 5 etc etc. So we chose to label these output paths "even" and "odd", to differentiate the path outputting channels 0,2,4,6,8...N-1 from the channel doing 1,3,5,7...N. As you can see, in order to recreate the full spectrum, we need to interleave these paths to produce 0,1,2,3,4,5...N. Following the lines you'll see that these two inputs end up in an “odd” and “even” shared BRAMs. These are then interleaved in the tut_spec.py script to form a complete spectrum. |
 
 **PARAMETERS**
 
@@ -176,7 +176,7 @@ There are a few [control registers](https://casper.berkeley.edu/wiki/Software_re
 
 - **cnt_rst**: Counter reset control. Pulse this high to reset all counters back to zero.
 
-- **acc_len**: Sets the accumulation length. Have a look in tut3.py for usage.
+- **acc_len**: Sets the accumulation length. Have a look in tut_spec.py for usage.
 
 - **sync_cnt**: Sync pulse counter. Counts the number of sync pulses issued. Can be used to figure out board uptime and confirm that your design is being clocked correctly.
 
@@ -208,7 +208,7 @@ script, 1 GHz is mapped to DC.  In our setup, we set the tone frequency to 1.054
 
 ### The tut_spec.py spectrometer script ###
 
-Once you've got that done, it's time to run the script. First, check that you've connected the ADC to ZDOK0, and that the clock source is connected to clk_i of the ADC.
+Once you've got that done, it's time to run the script. First, check that you've connected the ADC to mega-array connector, and that the clock source is connected to clk_i of the ADC.
 Now, if you're in linux, browse to where the tut3.py file is in a terminal and at the prompt type
 
 ```bash

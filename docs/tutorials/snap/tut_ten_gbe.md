@@ -86,9 +86,9 @@ The receive logic is is composed of another 10GbE yellow block with the transmis
 The casperfpga Python package contains all kinds of methods to interact with your 10GbE cores. For example, grabbing packets from the TX and RX stream, or counting the number of packets sent and received are all supported, as long as you turn on the appropriate functionality in the 10GbE yellow block.
 The settings we'll use are --
 
-![](../../_static/img/tut_ten_gbe/gbe_core_0_params.png)
+![](../../_static/img/tut_ten_gbe/snap_gbe_core_0_params.png)
 
-![](../../_static/img/tut_ten_gbe/gbe_core_0_debug_params.png)
+![](../../_static/img/tut_ten_gbe/snap_gbe_core_0_debug_params.png)
 
 You can see how to use these functions in the software that accompanies this tutorial.
 
@@ -100,7 +100,7 @@ You can also sprinkle around other registers or LEDs to monitor status of core p
 Compiling this design takes approximately 20 to 30 minutes. A pre-compiled binary (.fpg file) is made available to save time.
 
 ### Programming and interacting with the FPGA ###
-A pre-written python script, [''snap_tut_tge.py''](https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge) is provided. This script programs the fpga with your complied design (.fpg file) configures the 10GbE Ports and initiates data transfer. The script is run using:
+A pre-written python script, [''snap_tut_tge.py''](https://github.com/casper-astro/tutorials_devel/tree/master/snap/tut_tge) is provided. This script programs the fpga with your complied design (.fpg file) configures the 10GbE Ports and initiates data transfer. The script is run using:
 
 ```bash
  ./snap_tut_tge.py <SNAP_IP_ADDRESS>
