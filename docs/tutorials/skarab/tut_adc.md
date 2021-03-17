@@ -54,12 +54,14 @@ Please note the User IP Clock source parameter of the SKARAB Yellow Block. In th
 1. Create an fpg file from the provided Simulink design.
 2. Set up the hardware test configuration as described in the figure below.
 ![](../../_static/img/skarab/tut_adc/test_config.png)
-3. Allow a DHCP or BOOTP server on the network to allocate IP addresses to the SKARABs.
+3. Allow a DHCP or BOOTP server on the network to allocate IP addresses to the SKARABs.<BR>
 Example:
->> 06:50:02:0D:03:00: 10.0.7.2  
->> 06:50:02:0D:04:00: 10.0.7.3  
->> 06:50:03:0D:01:00: 10.0.7.4  
->> 06:50:02:0D:02:00: 10.0.7.5
+<BLOCKQUOTE>
+06:50:02:0D:03:00: 10.0.7.2<BR>  
+06:50:02:0D:04:00: 10.0.7.3<BR>
+06:50:03:0D:01:00: 10.0.7.4<BR>
+06:50:02:0D:02:00: 10.0.7.5
+</BLOCKQUOTE>
 4. Power on the SKARABs and confirm that their IP address allocation was successful (e.g. PING).
 5. Edit the Python test script configuration (under the section "1. SCRIPT CONFIG") to point to the created fpg file, specify the allocated IPs of the SKARABs, etc.
 6. Run the Python test script which will upload the created fpg file to them, perform synchronised ADC data sampling, and then write the sample data to text files.
