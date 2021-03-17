@@ -34,10 +34,10 @@ The SKARAB_ADC4X3G14_BYP Yellow Block parameters are as follows:
 - Clock Master/Slave: Determines if the Yellow Block is generating the "adc_clk" or not. If only one SKARAB_ADC4X3G14_BYP Yellow Block is used in the Simulink design, this should be set to "Master". If more than one is used in the design, the parameter of one should be set to "Master" while the parameter of the rest should be set to "Slave".
 
 The SKARAB_ADC4X3G14_BYP Yellow Block outputs are as follows:
-- adc0_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 0
-- adc1_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 1
-- adc2_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 2
-- adc3_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 3
+- adc0_data_out&lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 0
+- adc1_data_out&lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 1
+- adc2_data_out&lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 2
+- adc3_data_out&lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 3
 - adc0_data_val_out: ADC 0 sample data valid signal
 - adc1_data_val_out: ADC 1 sample data valid signal
 - adc2_data_val_out: ADC 2 sample data valid signal
