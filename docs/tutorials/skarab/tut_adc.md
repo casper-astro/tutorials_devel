@@ -1,4 +1,4 @@
-# Tutorial 5: ADC Interface
+# Tutorial 5: 2.8 GSPS, N-channel, Synchronous Data Acquisition
 
 ## Introduction ##
 This tutorial explains how to capture synchronised ADC sampled data from one or more SKARABS, each of which is populated with a single PI-12533.02G SKARAB ADC32RF45X2 Mezzanine Module. In this tutorial, the internal DDCs of the ADC32RF45 dual ADCs are bypassed.
@@ -34,10 +34,10 @@ The SKARAB_ADC4X3G14_BYP Yellow Block parameters are as follows:
 - Clock Master/Slave: Determines if the Yellow Block is generating the "adc_clk" or not. If only one SKARAB_ADC4X3G14_BYP Yellow Block is used in the Simulink design, this should be set to "Master". If more than one is used in the design, the parameter of one should be set to "Master" while the parameter of the rest should be set to "Slave".
 
 The SKARAB_ADC4X3G14_BYP Yellow Block outputs are as follows:
-- adc0_data_out<X> (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 0
-- adc1_data_out<X> (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 1
-- adc2_data_out<X> (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 2
-- adc3_data_out<X> (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 3
+- adc0_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 0
+- adc1_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 1
+- adc2_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 2
+- adc3_data_out &lt;X&gt; (where X: 0 to 15): Sixteen successive 12-bit samples from ADC 3
 - adc0_data_val_out: ADC 0 sample data valid signal
 - adc1_data_val_out: ADC 1 sample data valid signal
 - adc2_data_val_out: ADC 2 sample data valid signal
@@ -55,11 +55,11 @@ Please note the User IP Clock source parameter of the SKARAB Yellow Block. In th
 2. Set up the hardware test configuration as described in the figure below.
 ![](../../_static/img/skarab/tut_adc/test_config.png)
 3. Allow a DHCP or BOOTP server on the network to allocate IP addresses to the SKARABs.
-	Example:
-		06:50:02:0D:03:00: 10.0.7.2
-		06:50:02:0D:04:00: 10.0.7.3
-		06:50:03:0D:01:00: 10.0.7.4
-		06:50:02:0D:02:00: 10.0.7.5
+Example:
+>> 06:50:02:0D:03:00: 10.0.7.2  
+>> 06:50:02:0D:04:00: 10.0.7.3  
+>> 06:50:03:0D:01:00: 10.0.7.4  
+>> 06:50:02:0D:02:00: 10.0.7.5
 4. Power on the SKARABs and confirm that their IP address allocation was successful (e.g. PING).
 5. Edit the Python test script configuration (under the section "1. SCRIPT CONFIG") to point to the created fpg file, specify the allocated IPs of the SKARABs, etc.
 6. Run the Python test script which will upload the created fpg file to them, perform synchronised ADC data sampling, and then write the sample data to text files.

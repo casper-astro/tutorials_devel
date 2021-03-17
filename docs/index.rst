@@ -92,7 +92,7 @@ Vivado
 2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_40gbe>`__
 3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_hmc>`__
 4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec>`__
-5. :doc:`ADC Interface Tutorial <tutorials/skarab/tut_adc>`
+5. :doc:`2.8 GSPS, N-channel, Synchronous Data Acquisition Tutorial <tutorials/skarab/tut_adc>`
 
 .. toctree::
    :maxdepth: 1
