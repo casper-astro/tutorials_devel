@@ -262,11 +262,11 @@ These are pre-installed on the server in the workshop and you do not need to do 
 
 #### Copy your .fpg file to your Server
 
-As per the previous figure, navigate to the outputs folder and (secure)copy this across to a test folder on the workshop server. Instructions to do this are available [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md#getting-your-designs-on-to-hardware).
+Navigate to the outputs folder (eg red_pitaya/tut_intro/red_pitaya_tut_intro/outputs/) and (secure)copy this across to a test folder on the workshop server. Instructions to do this are available [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md#getting-your-designs-on-to-hardware). If you are running the tutorial on your own machine, with the Red Pitaya connected directly to your machine, you do not need to complete this step. 
 
 #### Connecting to the board
 
-SSH into the server that the Red Pitaya board is connected to and navigate to the folder in which your .fpg file is stored.
+SSH into the server that the Red Pitaya board is connected to and navigate to the folder in which your .fpg file is stored. Once again, running this tutorial with the Red Pitaya connected directly to your machine means you do not need to complete this step and can complete the following from the outputs folder on your own machine (provided you have installed casperfpga).
 
 Start interactive python by running:
 ```bash
