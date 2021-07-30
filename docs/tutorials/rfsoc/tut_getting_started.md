@@ -152,17 +152,6 @@ Otherwise, using the serial connection login with the default user `casper` and
 default password `casper` and run the `ip addr` command to learn the IP address
 of your board.
 
-### Platform Network Configuration
-Each platform image is configured by default to use DHCP to receive an IP
-address when the kernel boots. For the ZCU216/208, ZCU111, and RFSoC2x2
-platforms the first stage boot loader is configured to look at the EEPROM for a
-MAC address, if a valid address is not found then a randomly generated one is
-created at each boot. Random MAC generation or setting a static IP can be
-overridden by either [manually writing](#manually-writing-mac-address) a valid
-MAC to the EEPROM or using the Linux kernel's Network Manager configuration
-scripts. The HTG ZRF16-29/49DR boards boot with the static MAC address
-`0a:4c:50:14:42:00` again, this can be overridden by using a Network Manager
-configuration script.
 
 ### Setup Casperfpga
 Next is to install `casperfpga`. The same Python 3 environment can be used to keep
@@ -201,7 +190,22 @@ setup and are now ready to move on to testing the toolflow installation and get
 more familiar with your platform image and `casperfpga` in the [next
 tutorial](./tut_platform.md)
 
-# Manually Writing MAC address
+# Misc. Configuration
+
+### Platform Network Configuration
+Each platform image is configured by default to use DHCP to receive an IP
+address when the kernel boots. For the ZCU216/208, ZCU111, and RFSoC2x2
+platforms the first stage boot loader is configured to look at the EEPROM for a
+MAC address, if a valid address is not found then a randomly generated one is
+created at each boot. Random MAC generation or setting a static IP can be
+overridden by either [manually writing](#manually-writing-platform-mac-address)
+a valid MAC to the EEPROM or using the Linux kernel's Network Manager
+configuration scripts. The HTG ZRF16-29/49DR boards boot with the static MAC
+address `0a:4c:50:14:42:00` again, this can be overridden by using a Network
+Manager configuration script.
+
+
+### Manually Writing Platform MAC Address
 The on board EEPROMs are interfaced over i2c. They can be programmed with the first stage
 boot loader's (U-Boot) i2c utility, with a Linux i2c utility or custom userspace
 application, and some boards will expose i2c header pins to attach a serial
