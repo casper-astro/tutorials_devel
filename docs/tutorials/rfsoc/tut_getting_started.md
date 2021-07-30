@@ -140,7 +140,7 @@ review the [Network Configuration Section](#platform-network-configuration) to
 understand how communication will be established on the board. A micro-USB
 serial cable can be optionally attached and the serial output from the processor
 can be monitored with a utility such as `minicom`. The serial port is configured
-for baud 115200, 8 data bits, odd parity, 1 stop bit. This output can be helpful
+for baud 115200, 8 data bits, no parity, 1 stop bit. This output can be helpful
 to obtain the IP address if there is no direct access to configure a DHCP server
 or a static IP address was not set before hand.
 
