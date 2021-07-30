@@ -48,29 +48,29 @@ are three core tasks to complete:
   3. Preapre and install the communicataion library `casperfpga`
 
 Operating within a new python environment, begin by fetching the development
-branches and dependencies needed to work with RFSoC. In the following... First is `mlib_devel`,
+branches and dependencies needed to work with RFSoC. The following examples
 
 ### Toolflow Setup
 ```bash
-cd </some/path/>
-mkdir casper
-cd casper
-git clone https://gitlab.ras.byu.edu:alpaca/casper/mlib_devel.git
-cd mlib_devel
-git checkout -b rfsoc origin/rfsoc/zcu216
+$ cd </some/path/>
+$ mkdir casper
+$ cd casper
+$ git clone https://gitlab.ras.byu.edu:alpaca/casper/mlib_devel.git
+$ cd mlib_devel
+$ git checkout -b rfsoc origin/rfsoc/zcu216
 
 # install pacakge dependencies
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 
 # fetch a copy of the xilinx device tree repo
-cd </some/path>
-mkdir xilinx
-cd xilinx
-git clone https://github.com:xilinx/device-tree-xlnx.git
+$ cd </some/path>
+$ mkdir xilinx
+$ cd xilinx
+$ git clone https://github.com:xilinx/device-tree-xlnx.git
 
 # update or create your `startsg.local` config file 
-cd </some/path>/casper/mlib_devel
-cp startsg.local.example ./startsg.local
+$ cd </some/path>/casper/mlib_devel
+$ cp startsg.local.example ./startsg.local
 
 # with you favorite text editor open `startsg.local` and update the following
 # environment variables
@@ -86,7 +86,7 @@ export JASPER_BACKEND=vivado
 export XLNX_DT_REPO_PATH=/home/mcb/git/xilinx/device-tree-xlnx
 
 # Start Matlab and System Generator
-./startsg
+$ ./startsg
 ```
 
 ### Platform Processor System Setup
@@ -101,11 +101,11 @@ file would be replaced in all subsequent commands.
 
 ```bash
 # navigate to the download location of the compressed tar and unpack it
-cd </path/to/downloads>
-tar -xzf zcu216_casper.img.tar.gz
+$ cd </path/to/downloads>
+$ tar -xzf zcu216_casper.img.tar.gz
 
 # the full uncompressed image `zcu216_casper.img` is now in the current directory
-ls zcu216_casper.*
+$ ls zcu216_casper.*
 zcu216_casper.img  zcu216_casper.img.tar.gz
 
 # plug in the micro sd card, on OS's like Ubuntu the disk may auto mount,
@@ -113,7 +113,7 @@ zcu216_casper.img  zcu216_casper.img.tar.gz
 
 # Take note of the kernel registered block device
 # such as `sdb, sdc, sdd, etc.`. This can be done with the `dmesg` utility e.g.,
-dmesg
+$ dmesg
 108821.527053] scsi host38: usb-storage 2-2:1.0
 [108822.527801] scsi 38:0:0:0: Direct-Access     TS-RDF5  SD  Transcend    TS38 PQ: 0 ANSI: 6
 [108822.528460] sd 38:0:0:0: Attached scsi generic sg3 type 0
@@ -128,8 +128,8 @@ dmesg
 # in this example the sd card block device is `sdd`
 
 # flash the sd card with the `dd`, wait until this completes. It can take awhile
-# as we must wait to sync all the I/O
-dd if=zcu216_casper.img of=/dev/sdd bs=32MB
+# as we must wait to sync all the I/O, must also have root access
+$ sudo dd if=zcu216_casper.img of=/dev/sdd bs=32MB
 ```
 
 Take out the SD card and plug into your platform board. Place the DIP swtiches
@@ -169,16 +169,16 @@ Next is to install `casperfpga`. The same Python 3 environment can be used to ke
 it simple.
 
 ```bash
-cd </some/path>/casper
-git clone https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
-cd casperfpga
-git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
+$ cd </some/path>/casper
+$ git clone https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
+$ cd casperfpga
+$ git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
 
 # install package requirments
-pip install -r requirments.txt
+$ pip install -r requirments.txt
 
 # build and install `casperfpga`
-python setup.py install
+$ python setup.py install
 ```
 
 `casperfpga` is now installed and we can test connection with the platform. To
