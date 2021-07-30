@@ -215,7 +215,7 @@ reporting status of peripheral hardware the prompt "hit any key to stop
 autoboot:". Before the count down ends, interrupt with the keyboard starting the
 U-Boot command line interface. The output would have been similar to the
 following:
-```
+```bash
 Xilinx Zynq MP First Stage Boot Loader 
 Release 2020.2   Jul 15 2021  -  16:48:09
 NOTICE:  ATF running on XCZU49DR/silicon v4/RTL5.1 at 0xfffea000
@@ -241,11 +241,84 @@ Reset reason:   SOFT
 Net:   
 ZYNQ GEM: ff0e0000, mdio bus ff0e0000, phyaddr 12, interface rgmii-id
 
-Warning: ethernet@ff0e0000 using MAC address from ROM
+Warning: ethernet@ff0e0000 (eth0) using random MAC address - 3a:b0:c7:80:96:3f
 eth0: ethernet@ff0e0000
 Hit any key to stop autoboot:  0 
 ZynqMP> 
 ```
+Notice the 'Warning' line informing that a random MAC address was created. We
+now begin to peek and poke using the i2c utility.
+
+```bash
+# get information from the i2c bus, look for the "eeprom" node
+# on the zcu216 this is at address 54
+ZynqMP> i2c bus
+.
+.
+Bus 2:  i2c@ff030000->i2c-mux@74->i2c@0  (active 2)
+   54: eeprom@54, offset len 2, flags 0
+.
+.
+
+# target that bus
+ZynqMP> i2c dev 2
+Setting bus to 2
+
+# we can get help on what the i2c utility can do
+ZynqMP> i2c    
+i2c - I2C sub-system
+
+Usage:
+i2c bus [muxtype:muxaddr:muxchannel] - show I2C bus info
+i2c crc32 chip address[.0, .1, .2] count - compute CRC32 checksum
+i2c dev [dev] - show or set current I2C bus
+i2c loop chip address[.0, .1, .2] [# of objects] - looping read of device
+i2c md chip address[.0, .1, .2] [# of objects] - read from I2C deviceA
+i2c mm chip address[.0, .1, .2] - write to I2C device (auto-incrementing)
+.
+.
+.
+
+# We will only need to read/write here, we can start by taking a peek at the
+# first 16 bytes of the memory using the address reported by `i2c bus`.
+# Depending on the platform this could be initialized or not, in the case of the
+# ZCU216 and ZCU111 it is.
+ZynqMP> i2c md 0x54 0x0 0x10
+0000: 5a 43 55 32 31 36 ff ff 11 ff ff ff 99 ff ff ff    ZCU216..........
+
+# The MAC address is stored as 6 bytes at offset 0x20 in the eeprom. First write
+# the address we want to place in the eeprom inside U-Boot's scratchpad area in
+# DDR memory
+ZynqMP> mm.b 0x 
+00000000: 00 ? 0a
+00000001: 00 ? 4c 
+00000002: 00 ? 50
+00000003: 00 ? 41 
+00000004: 00 ? 43
+00000005: 00 ? 41
+00000006: 00 ? q
+
+# now write from address 0x0 to the eeprom at address 0x20 and write those 6 bytes
+ZynqMP> i2c write 0x00 0x54 0x20 0x6
+
+# read back to make sure it worked as expected
+ZynqMP> i2c md 0x54 0x20 0x6        
+0020: 0a 4c 50 41 43 41    .LPACA
+
+# reboot the board
+ZynqMP> reset
+
+# the first stage boot loader will start back up, reporting the same information
+# as before, but this time the Warning should now read
+.
+.
+Warning: ethernet@ff0e0000 using MAC address from ROM
+.
+.
+```
+The MAC address has been set and you can let the auto boot counter timeout and
+proceed to boot.
+
 [image downloads]: https://casper.groups.et.byu.net
 [zcu216]: https://www.xilinx.com/products/boards-and-kits/zcu216.html
 [zcu208]: https://www.xilinx.com/products/boards-and-kits/zcu208.html
