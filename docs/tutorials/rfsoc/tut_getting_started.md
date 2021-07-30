@@ -133,24 +133,25 @@ dd if=zcu216_casper.img of=/dev/sdd bs=32MB
 ```
 
 Take out the SD card and plug into your platform board. Place the DIP swtiches
-that select the boot device to SD mode. You are about ready to power on the
+that select the boot device to SD mode. You are about ready to power-on the
 board.
 
 Prior to booting the board, provide a connection to the 1GBE port and
-review the [Network Configuration Section][] to understand how communication
-will be established on the board. A micro-USB serial cable can be optionally
-attached and the serial output from the processor can be monitored with a
-utility such as `minicom`. The serial port is configured for baud 115200, 8 data
-bits, odd parity, 1 stop bit. This output can be helpful to obtain the IP
-address if there is no direct access to configure a DHCP server or a static IP
-address was not set before hand.
+review the [Network Configuration Section](#platform-network-configuration) to
+understand how communication will be established on the board. A micro-USB
+serial cable can be optionally attached and the serial output from the processor
+can be monitored with a utility such as `minicom`. The serial port is configured
+for baud 115200, 8 data bits, odd parity, 1 stop bit. This output can be helpful
+to obtain the IP address if there is no direct access to configure a DHCP server
+or a static IP address was not set before hand.
 
 Power-on the board. As long as the IP address of the board is known there is no
 requirement at this time to log in. The image comes pre-configured to be ready
 to interface with `casperfpga`. In this case, if the IP is known the last step
-is to [install `casperfpga`][#install-casperfpga] and test commmunications. Otherwise, using the
-serial connection login with the default user `casper` and default password
-`casper` and run the `ip addr` command to learn the IP address of your board.
+is to [install `casperfpga`](#setup-casperfpga) and test commmunications.
+Otherwise, using the serial connection login with the default user `casper` and
+default password `casper` and run the `ip addr` command to learn the IP address
+of your board.
 
 ### Platform Network Configuration
 Each platform image is configured by default to use DHCP to receive an IP
@@ -163,15 +164,13 @@ Linux kernel's Network Manager configuration scripts. The HTG ZRF16-29/49DR
 boards boot with the static MAC address `0a::::`, again this can be overridden by
 using a Network Manager configuration script.
 
-
-
-### Install Casperfpga
+### Setup Casperfpga
 Next is to install `casperfpga`. The same Python 3 environment can be used to keep
 it simple.
 
 ```bash
 cd </some/path>/casper
-git clonoe https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
+git clone https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
 cd casperfpga
 git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
 
@@ -182,8 +181,25 @@ pip install -r requirments.txt
 python setup.py install
 ```
 
-Before we 
+`casperfpga` is now installed and we can test connection with the platform. To
+do this we can run a few commands in IPython. First, change out of the
+`casperfpga` directory as we want to reference the package we just installed
+instead of the one in the source directory.
 
+Start an IPython session; In this example the zcu216 IP address was assigned
+to `192.168.2.101`
+```python
+In [1]: import casperfpga
+
+In [2]: fpga = casperfpga.CasperFpga('192.168.2.101')
+
+In [3]: fpga.is_connected()
+Out[3]: True
+```
+This is does not seem like an incredibly exciting result, but everything is
+setup and are now ready to move on to testing the toolflow installation and get
+more familiar with your platform image and `casperfpga` in the [next
+tutorial](#tut_platform.md)
 
 [image downloads]: https://casper.groups.et.byu.net
 [zcu216]: https://www.xilinx.com/products/boards-and-kits/zcu216.html
