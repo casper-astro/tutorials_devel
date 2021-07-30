@@ -1,6 +1,5 @@
 # Getting Started With RFSoC
 
-
 ## Platform Overview
 The Xilinx Zynq UltraScale+ RFSoC is a new class of system-on-chip (SoC) FPGA
 incorporating traditional programmable logic (PL) fabric, processors and
@@ -159,10 +158,11 @@ address when the kernel boots. For the ZCU216/208, ZCU111, and RFSoC2x2
 platforms the first stage boot loader is configured to look at the EEPROM for a
 MAC address, if a valid address is not found then a randomly generated one is
 created at each boot. Random MAC generation or setting a static IP can be
-overridden by either [manually writing][] a valid MAC to the EEPROM or using the
-Linux kernel's Network Manager configuration scripts. The HTG ZRF16-29/49DR
-boards boot with the static MAC address `0a::::`, again this can be overridden by
-using a Network Manager configuration script.
+overridden by either [manually writing](#manually-writing-mac-address) a valid
+MAC to the EEPROM or using the Linux kernel's Network Manager configuration
+scripts. The HTG ZRF16-29/49DR boards boot with the static MAC address
+`0a:4c:50:14:42:00` again, this can be overridden by using a Network Manager
+configuration script.
 
 ### Setup Casperfpga
 Next is to install `casperfpga`. The same Python 3 environment can be used to keep
@@ -199,8 +199,53 @@ Out[3]: True
 This is does not seem like an incredibly exciting result, but everything is
 setup and are now ready to move on to testing the toolflow installation and get
 more familiar with your platform image and `casperfpga` in the [next
-tutorial](#tut_platform.md)
+tutorial](./tut_platform.md)
 
+# Manually Writing MAC address
+The on board EEPROMs are interfaced over i2c. They can be programmed with the first stage
+boot loader's (U-Boot) i2c utility, with a Linux i2c utility or custom userspace
+application, and some boards will expose i2c header pins to attach a serial
+programmer. As setting the MAC address in the EEPROM is a "set once and forget
+about" type of thing, a quick an easy way is to use U-boot's i2c utility.
+
+With a micro-USB serial cable connected to the board begin to monitor the serial
+output from the processor. Power-on the board and the serial console will begin
+to display boot progress starting with the first stage boot loader. After
+reporting status of peripheral hardware the prompt "hit any key to stop
+autoboot:". Before the count down ends, interrupt with the keyboard starting the
+U-Boot command line interface. The output would have been similar to the
+following:
+```
+Xilinx Zynq MP First Stage Boot Loader 
+Release 2020.2   Jul 15 2021  -  16:48:09
+NOTICE:  ATF running on XCZU49DR/silicon v4/RTL5.1 at 0xfffea000
+NOTICE:  BL31: v2.2(release):xilinx_rebase_v2.2_2020.1-10-ge6eea88b1
+NOTICE:  BL31: Built : 16:45:03, Jul 15 2021
+
+
+U-Boot 2020.01 (Jul 15 2021 - 16:49:01 +0000)
+
+Model: ZynqMP ZCU216 RevA
+Board: Xilinx ZynqMP
+DRAM:  4 GiB
+PMUFW:  v1.1
+EL Level:       EL2
+Chip ID:        zu49dr
+NAND:  0 MiB
+MMC:   mmc@ff170000: 0
+In:    serial@ff000000
+Out:   serial@ff000000
+Err:   serial@ff000000
+Bootmode: LVL_SHFT_SD_MODE1
+Reset reason:   SOFT 
+Net:   
+ZYNQ GEM: ff0e0000, mdio bus ff0e0000, phyaddr 12, interface rgmii-id
+
+Warning: ethernet@ff0e0000 using MAC address from ROM
+eth0: ethernet@ff0e0000
+Hit any key to stop autoboot:  0 
+ZynqMP> 
+```
 [image downloads]: https://casper.groups.et.byu.net
 [zcu216]: https://www.xilinx.com/products/boards-and-kits/zcu216.html
 [zcu208]: https://www.xilinx.com/products/boards-and-kits/zcu208.html

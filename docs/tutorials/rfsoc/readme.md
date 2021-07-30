@@ -3,6 +3,8 @@
 * [Getting Started][getting-started]
 * [Platform and Simulink Overview][platform-overview]
 * [Using the RFDC][rfdc]
+
+## Designs
 * [Example Designs][example-designs]
 
 
