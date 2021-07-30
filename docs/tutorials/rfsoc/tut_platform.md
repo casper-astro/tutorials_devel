@@ -35,19 +35,19 @@ in Xilinx Blockset->Basic Elements->System Generator. Add the block by clicking 
 block into your design. See the Simulink documentation by mathworks for other methods of finding and adding 
 blocks to your design.
 
-![](../../_static/img/rfsoc/tut_plat/system_gen_block.png)
+![](../../_static/img/rfsoc/tut_plat/system_gen_block.PNG)
 
 You can double click on the added block to see its configuration. However, instead of configuring the System
 Generator ourselves, we will use a platform block from the **CASPER XPS Library** to configure it. Locate the block for the
 board you are using in CASPER XPS Blockset->Platforms-><your platform>. This example uses the ZCU216 board, so
 this example will add the ZCU216 block.
 
-![](../../_static/img/rfsoc/tut_plat/platform_block.png)
+![](../../_static/img/rfsoc/tut_plat/platform_block.PNG)
 
 Double click on the added platform block to see its configuration. Confirm that the Hardware Platform parameter matches
 the platform you are using. From here, you can also configure other options, such as the board clocks.
 
-![](../../_static/img/rfsoc/tut_plat/platform_block_param.png)
+![](../../_static/img/rfsoc/tut_plat/platform_block_param.PNG)
 
 Note: The platform blocks for the various rfsoc boards are configured to use the adc clocks. See the relevant tutorial
 on those for more information (to be written).
@@ -67,7 +67,7 @@ different functions on the board:
 
 The final design will look something like this:
 
-![](../../_static/img/rfsoc/tut_plat/whole_design.png)
+![](../../_static/img/rfsoc/tut_plat/whole_design.PNG)
 
 ### Function 1: Flashing LED
 We can create a flashing LED by using a 27 bit counter. On the ZCU216, the default clock given by its CASPER platform
@@ -78,42 +78,42 @@ causing the LED to flash at about 50% duty cycle every so many seconds (half a s
 #### Step 1: Add a counter
 Add a blue counter block to the design. It can be found in Xilinx Blockset->Basic Elements->Counter.
 
-![](../../_static/img/rfsoc/tut_plat/counter_block.png)
+![](../../_static/img/rfsoc/tut_plat/counter_block.PNG)
 
 Double click the block to access its parameters, and set it to free running, 27 bits, unsigned. This will set the
 counter to count from 0 to (2^27)-1, wrap back to zero, and continue.
 
-![](../../_static/img/rfsoc/tut_plat/led_counter_param.png)
+![](../../_static/img/rfsoc/tut_plat/led_counter_param.PNG)
 
 #### Step 2: Add a slice block to select the MSB
 Now that we have a counter, we want to select just the most significant bit so that we can send it to an LED. Do this
 by adding a blue slice block, found in Xilinx BLockset->Basic Elements->Slice.
 
-![](../../_static/img/rfsoc/tut_plat/slice_block.png)
+![](../../_static/img/rfsoc/tut_plat/slice_block.PNG)
 
 Double click on the slice block to modify it. There are several ways to use the slice block to grab the bit we want.
 For this example, we will select the msb by indexing from the upper end and selecting the first bit.
 
-![](../../_static/img/rfsoc/tut_plat/led_slice_param.png)
+![](../../_static/img/rfsoc/tut_plat/led_slice_param.PNG)
 
 #### Step 3: Add a GPIO Block
 Next we want to access an LED to send that bit to. We can access the correct FPGA output pin by using a GPIO block.
 GPIO blocks allow you to route signals from Simulink to various FPGA pins. Add a yellow GPIO block, found in 
 CASPER XPS Library->IO->gpio.
 
-![](../../_static/img/rfsoc/tut_plat/gpio_block.png)
+![](../../_static/img/rfsoc/tut_plat/gpio_block.PNG)
 
 Double click the gpio block and set it to the led I/O group. Set the I/O direction to out, the data type to boolean,
 the data bitwidth to 1, and the GPIO bit index to 0. This tells the toolflow that it will be connecting a 1 bit input
 to LED0.
 
-![](../../_static/img/rfsoc/tut_plat/gpio_param.png)
+![](../../_static/img/rfsoc/tut_plat/gpio_param.PNG)
 
 #### Step 4: Add a terminator
 To prevent warnings (from MATLAB & Simulink) about unconnected outputs, terminate all unused outputs using a 
 *Terminator* block. 
 
-![](../../_static/img/rfsoc/tut_plat/term_block.png)
+![](../../_static/img/rfsoc/tut_plat/term_block.PNG)
 
 #### Step 5: Connect the design
 If you haven't done so already, rename the blocks to sensible names, such as counter_led instead of counter.
@@ -122,7 +122,7 @@ You can do this by double-clicking the name on the blocks.
 Connect the blocks together by clicking and dragging from the output arrow on one block and dragging it to the 
 input arrow on another block.
 
-![](../../_static/img/rfsoc/tut_plat/led_design.png)
+![](../../_static/img/rfsoc/tut_plat/led_design.PNG)
 
 And you're done with the flashing LED!
 
@@ -135,17 +135,17 @@ In order to interact with the hardware while it's running, we need some software
 we want two software registers, one to control the counter, and another to read it's current value. Add two
 yellow software_register blocks to the design, found in CASPER XPS Blockset->Memory->software_register. 
 
-![](../../_static/img/rfsoc/tut_plat/register_block.png)
+![](../../_static/img/rfsoc/tut_plat/register_block.PNG)
 
 On one of the software_register blocks, set the I/O direction to *From Processor*. This will allow a value 
 from the software to be sent to the FPGA hardware. This block will be the counter controller.
 
-![](../../_static/img/rfsoc/tut_plat/counter_control_param.png)
+![](../../_static/img/rfsoc/tut_plat/counter_control_param.PNG)
 
 On the other software_register block, set the I/O direction to *To Processor*. This will allow the FPGA hardware
 to send a value to the software when prompted. This block will be our counter reader.
 
-![](../../_static/img/rfsoc/tut_plat/counter_value_param.png)
+![](../../_static/img/rfsoc/tut_plat/counter_value_param.PNG)
 
 Set both registers to a bitwidth of 32 bits and rename them something sensible. The names of the blocks here
 are the names used to access them from the software. Do not use spaces, slashes, or other funny characters for
@@ -160,9 +160,9 @@ set it to 1, and connect it to the *sim* input of the counter controller registe
 in simulation, add a simulink scope block (found in Simulink->Sinks->Scope) and connect it to the *sim* output of
 the counter value register. 
 
-![](../../_static/img/rfsoc/tut_plat/constant_block.png)
+![](../../_static/img/rfsoc/tut_plat/constant_block.PNG)
 
-![](../../_static/img/rfsoc/tut_plat/scope_block.png)
+![](../../_static/img/rfsoc/tut_plat/scope_block.PNG)
 
 Note that these white simulink blocks will not be compiled to the fpga hardware. They
 are for simulation purposes only. Only blue Xilinx blocks are acutally compiled. Yellow blocks are required to interface
@@ -173,7 +173,7 @@ Add another counter block the same way we did before. You can also copy the exis
 copy-paste or by ctrl-click-drag-drop. Open it's paramters and set it to free running, unsigned, 32 bits, with
 synchronous reset port and enable port turned on.
 
-![](../../_static/img/rfsoc/tut_plat/counter_param.png)
+![](../../_static/img/rfsoc/tut_plat/counter_param.PNG)
 
 #### Step 3: Add the slice blocks
 We want to be able to control the enable and reset ports on this new counter with the counter control register we
@@ -184,16 +184,16 @@ but as the registers are 32 bits each, that would be wasteful.
 Add 2 new slice blocks (or copy them from the flashing LED function). Configure one slice block for the enable by
 setting it to boolean output, specifyin the range as Lower bit location + width, offset 0, and relative to LSB.
 
-![](../../_static/img/rfsoc/tut_plat/slice_enable_param.png)
+![](../../_static/img/rfsoc/tut_plat/slice_enable_param.PNG)
 
 Configure the other slice block for the reset by doing the same thing, but setting the offset to 1.
 
-![](../../_static/img/rfsoc/tut_plat/slice_reset_param.png)
+![](../../_static/img/rfsoc/tut_plat/slice_reset_param.PNG)
 
 #### Step 4: Connect the design
 Connect the blocks together. Take time to make the design look neat as well, renaming and resizing blocks as needed.
 
-![](../../_static/img/rfsoc/tut_plat/counter_design.png)
+![](../../_static/img/rfsoc/tut_plat/counter_design.PNG)
 
 And that concludes this counter!
 
@@ -210,9 +210,9 @@ Name them something reasonable. Remember that the register names are how they wi
 Add a blue adder/subtractor block to the design, found in Xilinx Blockset->Math->AddSub. Check its configuration
 and make sure it is set to addition.
 
-![](../../_static/img/rfsoc/tut_plat/adder_block.png)
+![](../../_static/img/rfsoc/tut_plat/adder_block.PNG)
 
-![](../../_static/img/rfsoc/tut_plat/adder_param1.png)
+![](../../_static/img/rfsoc/tut_plat/adder_param1.PNG)
 
 The output register is 32 bits. If we add two 32 bit numbers, we will have 33 bits.
 
@@ -226,7 +226,7 @@ For this example, we will configure the AddSub block to be a 32 bit adder. In it
 set it to unsigned 32 bits. Also set its overflow to Saturate. This way if two very large numbers are added, it will 
 just return its max (2^32-1).
 
-![](../../_static/img/rfsoc/tut_plat/adder_param2.png)
+![](../../_static/img/rfsoc/tut_plat/adder_param2.PNG)
 
 #### Step 3: Add the scope and simulation inputs
 Add simulink scope and constant blocks to the output register and input registers. Set the constant blocks to something
@@ -236,13 +236,13 @@ so we can check the adder in simulation.
 Connect all the blocks together, name things properly, and adjust/resize the design so it's easy to look at. Of course,
 these can all be done as you go, and probably should be done as you go.
 
-![](../../_static/img/rfsoc/tut_plat/adder_design.png)
+![](../../_static/img/rfsoc/tut_plat/adder_design.PNG)
 
 Now the adder is done!
 
 ### Simulating the design
 
-![](../../_static/img/rfsoc/tut_plat/whole_design.png)
+![](../../_static/img/rfsoc/tut_plat/whole_design.PNG)
 
 Now that everything has been designed and hooked up, we can simulate it within Simulink.
 
@@ -250,15 +250,15 @@ Under the simulate section of the simulation tab on the ribbon, set the stop tim
 to simulate. This example uses 10. Note that (at least in MATLAB R2020b) it says that the stop time is in seconds, but 
 this is actually clock cycles because of the way the toolflow and CASPER blocks are configured.
 
-![](../../_static/img/rfsoc/tut_plat/simulate_button.png)
+![](../../_static/img/rfsoc/tut_plat/simulate_button.PNG)
 
 Press Run to simulate the design. Once the simulation is done, and assuming there are no errors, you can double click
 the scopes to view the output signals. You should see the counter incrementing once every clock cycle and the adder
 should show you the result of the addition. You may have to scale the scopes to see the results properly.
 
-![](../../_static/img/rfsoc/tut_plat/counter_scope.png)
+![](../../_static/img/rfsoc/tut_plat/counter_scope.PNG)
 
-![](../../_static/img/rfsoc/tut_plat/adder_scope.png)
+![](../../_static/img/rfsoc/tut_plat/adder_scope.PNG)
 
 Once everything looks like it should, you're ready to compile for the FPGA!
 
