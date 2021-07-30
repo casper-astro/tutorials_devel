@@ -1,4 +1,4 @@
-# Tutorial 1: RFSoC First Design
+# Tutorial 1: RFSoC Platform and Simulink Overview
 
 In this tutorial, you will make a simple design for an rfsoc board using the CASPER toolflow.
 It will take you through launching the toolflow, creating a valid CASPER design in Simulink,
@@ -8,11 +8,17 @@ the running hardware using the casperfpga library through a python interface.
 This tutorial assumes that you have already setup your environment correctly, as explained in the
 Getting Started With RFSoC tutorial. You should have all the programs and packages installed and 
 configuration files set, and you should have successfully set up and tested your connection to the rfsoc board.
+The examples in this tutorial were made using Vivado 2020.2 and MATLAB R2020b.
 
 ## Creating Your First Design
 ### Create a New Model
 Make sure you are in your previously set up environment and navigate to `mlib_devel`.
-**Start Matlab by exectuing `startsg`.** This will properly load the Xilinx and CASPER libraries into Simulink, so
+**Start Matlab by exectuing `startsg`.** You can execute it in bash as follows:
+```bash
+$ ./startsg
+```
+
+This will properly load the Xilinx and CASPER libraries into Simulink, so
 long as your `config.local` file is set correctly. Within Matlab, start Simulink by typing `simulink` into
 Matlab's command line. Create a new blank model and save it with an appropriate name.
 
@@ -282,7 +288,7 @@ toolflow creates the final output .fpg file that is used to program the FPGA. Th
 that Vivado created as well as meta-data that describes the yellow blocks from the simulink design. The .fpg file
 will be made the 'outputs' folder in teh working directory of the simulink model. The .fpg file will be named using
 the simulink file name and the date/time that compilation begain. When putting together this example, compilation
-took about 20 minutes.
+took about 25 minutes.
 
 ## Programming the FPGA
 Reconfiguring any CASPER boards is done by using the casperfpga python library. You should have installed and used this
