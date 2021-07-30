@@ -175,7 +175,7 @@ do this we can run a few commands in IPython. First, change out of the
 `casperfpga` directory as we want to reference the package we just installed
 instead of the one in the source directory.
 
-Start an IPython session; In this example the zcu216 IP address was assigned
+Start an IPython session; In this example the ZCU216 IP address was assigned
 to `192.168.2.101`
 ```python
 In [1]: import casperfpga
