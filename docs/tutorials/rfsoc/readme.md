@@ -9,4 +9,4 @@
 [getting-started]: ./tut_getting_started.md
 [platform-overview]: ./tut_platform.md
 [rfdc]: ./tut_rfdc.md
-[example-designs]: ./designs/readme.md
+[example-designs]: ./tut_designs/readme.md
