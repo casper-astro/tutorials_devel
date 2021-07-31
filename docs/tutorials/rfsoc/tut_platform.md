@@ -101,7 +101,6 @@ Blockset->Basic Elements->Counter`.
 Double-click the block to access its parameters, and set it to free running,
 27-bits, unsigned. This will set the counter to count from `0` to `(2^27)-1`,
 wrap back to zero, and continue.
->>>>>>> Stashed changes
 
 ![](../../_static/img/rfsoc/tut_plat/led_counter_param.PNG)
 
