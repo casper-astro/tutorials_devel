@@ -74,7 +74,7 @@ designs**
 
 ### The Example Design
 In order to demonstrate the basic use of hardware interfaces and software
-interaction, this design will implement 3 different functions on the board:
+interaction, this design will implement three different functions on the board:
 
 1. A Flashing LED
 2. A Software Controllable Counter
@@ -110,6 +110,7 @@ that we can send it to an LED.  Do this by adding a blue slice block, found in
 `Xilinx BLockset->Basic Elements->Slice`.
 
 ![](../../_static/img/rfsoc/tut_plat/slice_block.PNG)
+
 Double-click on the slice block to modify it. There are several ways to use the
 slice block to grab the bit we want.  For this example, we will select the MSB
 by indexing from the upper end and selecting the first bit.
@@ -218,7 +219,8 @@ be wasteful.
 
 Add two new slice blocks (or copy them from the flashing LED function). Configure
 one slice block for the enable by setting it to `boolean` output, specifying the
-range as Lower bit location + width, offset 0, and relative to LSB.
+range as `Lower bit location + width`, offset `0`, and relative to `LSB of
+input`.
 
 ![](../../_static/img/rfsoc/tut_plat/slice_enable_param.PNG)
 
@@ -288,8 +290,8 @@ Now the adder is done!
 ### Simulating the design
 ![](../../_static/img/rfsoc/tut_plat/whole_design.PNG)
 
-Now that everything has been designed and hooked up, we can simulate it within
-Simulink.
+With all hardware functions configureed has hooked up, we can simulate the
+design with Simulink.
 
 Under the simulate section of the simulation tab on the ribbon, set the `stop
 time` to the number of clock cycles you want to simulate. This example uses
@@ -312,9 +314,9 @@ see the results properly.
 Once everything looks like it should, you're ready to compile for the FPGA!
 
 ## Compiling
-We now have a design with 3 independent functions all working off the same FPGA
-clock. From here, compiling the design is easy, so long as your environment was
-set up correctly.
+We now have a design with three independent functions all working off the same
+FPGA clock. From here, compiling the design is easy, so long as your environment
+was set up correctly.
 
 To compile the design, go to the MATLAB command line and enter
 
@@ -338,14 +340,14 @@ the yellow blocks from the simulink design. The .fpg file will be made the
 will be named using the simulink file name and the date/time that compilation
 begain. When putting together this example, compilation took about 25 minutes.
 
-## Programming the
-PL Reconfiguration on any CASPER platform is done using the `casperfpga` python
+## Programming the FPGA
+Reconfiguration on any CASPER platform is done using the `casperfpga` python
 library. You should have installed and used this in the [Getting
 Started](./tut_getting_started.md#setup-casperfpga) tutorial to check your
 connection to your board.
 
 #### Step 1: Copy the `.fpg` file to where you need it
-Navigate to the prevously mention 'outputs' folder and copy the .fpg file to
+Navigate to the prevously mention 'outputs' folder and copy the `.fpg` file to
 wherever you are going to be running your ipython session from.
 
 #### Step 2: Connect to the board
@@ -437,15 +439,15 @@ In [18]: fpga.read_uint('counter_value')
 Out[18]: 0
 ```
 
-We can see that the counter starts at 0 and doesn't start counting until it
+We can see that the counter starts at `0` and does not start counting until it
 receives the proper signal in the proper register.  We can also see that the
 counter wraps properly, and stops and resets as expected according the signals
 and registers we designed.  Note that `read_uint()` is used here to read the
 counter properly (otherwise it would have reported a negative value half the
-time!).
+time).
 
 ## Conclusion
-In this tutorial, you've gone through the process of using `startsg` to initiate
-the toolflow, use Simulink to create a design, use `jasper` to compile and
+In this tutorial, you have gone through the process of using `startsg` to initiate
+the toolflow, used Simulink to create a design, called `jasper` to compile and
 obtain a `.fpg` file, and use `casperfpga` to program and interact with your rfsoc
 board. Congratulations!
