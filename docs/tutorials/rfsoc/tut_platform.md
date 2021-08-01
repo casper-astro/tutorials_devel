@@ -1,4 +1,4 @@
-# Tutorial 1: RFSoC Platform and Simulink Overview
+# Tutorial 1: RFSoC Platform Yellow Block and Simulink Overview
 
 In this tutorial, you will make a simple design for an rfsoc board using the
 CASPER toolflow. It will take you through launching the toolflow, creating a

@@ -1,20 +1,9 @@
 # Getting Started With RFSoC
 
-## Platform Overview
-The Xilinx Zynq UltraScale+ RFSoC is a new class of system-on-chip (SoC) FPGA
-incorporating traditional programmable logic (PL) fabric, processors and
-multi-gigasample per second ADCs and DACs, the RF-Data Converter (RFDC) into the
-same package.
+## Introduction
 
-There are several family generations of the 
-
-The CASPER library contains support for the RFDC are 5 RFSoC platforms that have been tested 
-  * [ZCU216][zcu216]
-  * [ZCU111][zcu111]
-  * [PYNQ RFSoC 2x2][pynq-rfsoc2x2]
-  * [HTG ZRF16-29DR][htg-zrf16] [\*\*][htg-disclaimers]
-  * [HTG ZRF16-49DR][htg-zrf16] [\*\*][htg-disclaimers]
-
+This tutorial will walk through the procedure to instsall the development
+branches of the CASPER tools needed to target supported RFSoC platforms.
 
 ## Environment Setup
 
@@ -40,18 +29,20 @@ OS and required vendor software has been installed.
 
 ## Core Setup
 
-With a compatible Linux OS, Vivado and Matlab installed (or installing...) there
+With a compatible Linux OS, Vivado and Matlab installed (or installing...), there
 are three core tasks to complete:
   1. Prepare and install the core "toolfow" `mlib_devel`
   2. Prepare and setup of the CASPER platform (usually the fun part)
   3. Preapre and install the communicataion library `casperfpga`
 
 Operating within a new python environment, begin by fetching the development
-branches and dependencies needed to work with RFSoC. The following examples
+branches and dependencies needed to work with RFSoC. The following will assume a
+working directory called `sandbox` just as an isolated example through this
+tutorial. Feel free to organize suitable to your preferences.
 
 ### Toolflow Setup
 ```bash
-$ cd </some/path/>
+$ cd </path/to>/sandbox
 $ mkdir casper
 $ cd casper
 $ git clone https://gitlab.ras.byu.edu:alpaca/casper/mlib_devel.git
@@ -62,20 +53,20 @@ $ git checkout -b rfsoc origin/rfsoc/zcu216
 $ pip install -r requirements.txt
 
 # fetch a copy of the xilinx device tree repo
-$ cd </some/path>
+$ cd </path/to>/sandbox
 $ mkdir xilinx
 $ cd xilinx
 $ git clone https://github.com:xilinx/device-tree-xlnx.git
 
 # update or create your `startsg.local` config file 
-$ cd </some/path>/casper/mlib_devel
+$ cd </path/to>/sandbox/casper/mlib_devel
 $ cp startsg.local.example ./startsg.local
 
 # with you favorite text editor open `startsg.local` and update the following
 # environment variables
 XILINX_PATH=</path/to/your/Xilinx>/Vivado/2020.2
 MATLAB_PATH=</path/to/your/Matlab>/R2020b
-XLNX_DT_REPO_PATH=</some/path/>xilinx/device-tree-xlnx
+XLNX_DT_REPO_PATH=</path/to>/sandbox/xilinx/device-tree-xlnx
 
 # The following is an example of my startsg.local
 export XILINX_PATH=/opt/Xilinx/Vivado/2020.2 
@@ -89,10 +80,9 @@ $ ./startsg
 ```
 
 ### Platform Processor System Setup
-
 These steps are generally platform agnostic as this focuses more on preparing
 and booting the processor system (PS). However, there are some platform
-dependent hardware setup and procedures will be discussed later.
+dependent hardware setup and procedures to be discussed later.
 [Download][image downloads] the casperized image for your target RFSoC board and
 locate a 16 GB micro SD card. We next start to unpack and flash the image. The
 following uses the `zcu216_casper.img` as an example, the target `.img` download
@@ -126,14 +116,14 @@ $ dmesg
 
 # in this example the sd card block device is `sdd`
 
-# flash the sd card with the `dd`, wait until this completes. It can take awhile
+# flash the sd card with the `dd` utility, wait until this completes. It can take awhile
 # as we must wait to sync all the I/O, must also have root access
 $ sudo dd if=zcu216_casper.img of=/dev/sdd bs=32MB
 ```
 
-Take out the SD card and plug into your platform board. Place the DIP swtiches
-that select the boot device to SD mode. You are about ready to power-on the
-board.
+Take out the SD card and plug it into your platform board. Place the DIP
+swtiches that select the boot device to SD mode. You are about ready to power-on
+the board.
 
 Prior to booting the board, provide a connection to the 1GBE port and
 review the [Network Configuration Section](#platform-network-configuration) to
@@ -158,7 +148,7 @@ Next is to install `casperfpga`. The same Python 3 environment can be used to ke
 it simple.
 
 ```bash
-$ cd </some/path>/casper
+$ cd </path/to>/sanbox/casper
 $ git clone https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
 $ cd casperfpga
 $ git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
@@ -173,10 +163,10 @@ $ python setup.py install
 `casperfpga` is now installed and we can test connection with the platform. To
 do this we can run a few commands in IPython. First, change out of the
 `casperfpga` directory as we want to reference the package we just installed
-instead of the one in the source directory.
+instead of the one in the `casperfpga` source directory.
 
 Start an IPython session; In this example the ZCU216 IP address was assigned
-to `192.168.2.101`
+to `192.168.2.101`.
 ```python
 In [1]: import casperfpga
 
@@ -185,10 +175,10 @@ In [2]: fpga = casperfpga.CasperFpga('192.168.2.101')
 In [3]: fpga.is_connected()
 Out[3]: True
 ```
-This is does not seem like an incredibly exciting result, but everything is
-setup and are now ready to move on to testing the toolflow installation and get
-more familiar with your platform image and `casperfpga` in the [next
-tutorial](./tut_platform.md)
+This does not seem like an incredibly exciting result, but everything is setup
+and we are now ready to move on to testing the toolflow installation and get more
+familiar with your platform image and `casperfpga` in the [next
+tutorial](./tut_platform.md).
 
 # Misc. Configuration
 
@@ -313,7 +303,7 @@ ZynqMP> i2c md 0x54 0x20 0x6
 ZynqMP> reset
 
 # the first stage boot loader will start back up, reporting the same information
-# as before, but this time the Warning should now read
+# as before, but this time the `Warning` should now read
 .
 .
 Warning: ethernet@ff0e0000 using MAC address from ROM
@@ -324,12 +314,6 @@ The MAC address has been set and you can let the auto boot counter timeout and
 proceed to boot.
 
 [image downloads]: https://casper.groups.et.byu.net
-[zcu216]: https://www.xilinx.com/products/boards-and-kits/zcu216.html
-[zcu208]: https://www.xilinx.com/products/boards-and-kits/zcu208.html
-[zcu111]: https://www.xilinx.com/products/boards-and-kits/zcu111.html
-[htg-zrf16]: http://www.hitechglobal.com/Boards/16ADC-DAC_Zynq_RFSOC.htm
-[pynq-rfsoc2x2]: https://www.rfsoc-pynq.io 
-[htg-disclaimers]: ./htg-disclaimers.md
 
 [casper-install-pre-req]: https://casper-toolflow.readthedocs.io/en/latest/src/Installing-the-Toolflow.html#pre-requisites
 [pg269-v2.3]: https://www.xilinx.com/support/documentation/ip_documentation/usp_rf_data_converter/v2_3/pg269-rf-data-converter.pdf
