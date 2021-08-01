@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This tutorial will walk through the procedure to instsall the development
+This tutorial will walk through the procedure to install the development
 branches of the CASPER tools needed to target supported RFSoC platforms.
 
 ## Environment Setup
@@ -33,7 +33,7 @@ With a compatible Linux OS, Vivado and Matlab installed (or installing...), ther
 are three core tasks to complete:
   1. Prepare and install the core "toolfow" `mlib_devel`
   2. Prepare and setup of the CASPER platform (usually the fun part)
-  3. Preapre and install the communicataion library `casperfpga`
+  3. Prepare and install the communication library `casperfpga`
 
 Operating within a new python environment, begin by fetching the development
 branches and dependencies needed to work with RFSoC. The following will assume a
@@ -122,7 +122,7 @@ $ sudo dd if=zcu216_casper.img of=/dev/sdd bs=32MB
 ```
 
 Take out the SD card and plug it into your platform board. Place the DIP
-swtiches that select the boot device to SD mode. You are about ready to power-on
+switches that select the boot device to SD mode. You are about ready to power-on
 the board.
 
 Prior to booting the board, provide a connection to the 1GBE port and
