@@ -32,14 +32,43 @@ the different platforms k
   * 
 
 To get a picture of where we are headed the final design will look like this:
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_final.PNG)
+
 
 ### Step 1: Add XSG and RFSoC platform yellow block
 
+Add a Xilinx `System Generator` block and a platform yellow block to the design, as demonstrated in tutorial 1.
+The examples in this tutorial use the zcu216 platform.
+
 ### Step 2: Place and configure the RFDC yellow block
+
+Add an RFDC yellow block, found in CASPER XPS Blockset->ADCs->rfdc.
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_block.PNG)
+
+The rfdc yellow block supports 4 ADC tiles, each with 4 ADCs. For this tutorial we will only use 1 tile.
+Configure the rfdc block as follows:
+
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_config1.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_config2.PNG)
 
 ### Step 3: Update the platform yellow block
 
+I didn't have to do anything here?
+
 ### Step 4: Place and configure the Snapshot blocks
+
+Next we want to be able to take snapshots of the data the ADCs are producing. The green `bitfield_snapshot`
+block from the CASPER DSP Blockset library can be used to do this.
+Add a `bitfield_snapshot` block to the design, found in CASPER DSP Blockset->Scopes->bitfield_snapshot.
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_block.PNG)
+
+Configure the snapshot block as follows:
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_config1.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_config2.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_config3.PNG)
+
+
+
 
 ### Step 5: Validate the design
 
