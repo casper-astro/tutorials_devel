@@ -70,7 +70,7 @@ design the toolflow automatically includes meta information to indicate to
 `casperfpga` that it should instantiate an `RFDC` object that we can use to
 manipulate and interact with the software driver components of the RFDC.
 
-```
+```python
 In [4]: alpaca1.adcs
 Out[4]: ['rfdc']
 ```
@@ -78,7 +78,7 @@ Out[4]: ['rfdc']
 We can create a reference to that `RFDC` object and begin to exercise some of
 the software components included with the that object.
 
-```
+```python
 In [5]: rfdc = alpaca1.adcs['rfdc']
 ```
 
@@ -86,7 +86,7 @@ We first initialize the driver; a doc string is provided for all functions and
 so we can always use IPythons help `?` mechanism to get more information of a
 methods signature and a brief description of its functionality.
 
-```
+```python
 In [6]: rfdc.init?
 Signature: rfdc.init(lmk_file=None, lmx_file=None, upload=False)
 Docstring:
@@ -110,14 +110,14 @@ demonstrate some more of the `casperfpga` `RFDC` object functionality run
 `init()` without any arguments. This simply initializes the underlying software
 driver with configuration parameters for future use.
 
-```
+```python
 In [7]: rfdc.init()
 Out[7]: True
 ```
 
 We can query the status of the rfdc using `status()`
 
-```
+```python
 In [8]: rfdc.status()
 ADC0: Enabled 1, State: 6 PLL: 0
 ADC1: Enabled 1, State: 6 PLL: 0
@@ -145,7 +145,7 @@ helper methods to program the PLLs and manage the available register files:
 
 First take a look at `progpll()`:
 
-```
+```python
 In [9]: rfdc.progpll?
 Signature: rfdc.progpll(plltype, fpath=None, upload=False, port=None)
 Docstring:
@@ -180,7 +180,7 @@ TI Clock Pro file (the .txt formatted file).
 `show_clk_files()` will return a list of the available clock files that are
 available for reuse.
 
-```
+```python
 In [10]: c = rfdc.show_clk_files()
 
 In [11]: c
