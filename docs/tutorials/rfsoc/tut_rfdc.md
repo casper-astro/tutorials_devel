@@ -175,20 +175,40 @@ upload set to `False` this indicates that the target file already exists on the
 remote processor for PLL programming. As the current CASPER supported RFSoC
 platforms use various TI LMX/LMX chips as part of the RFPLL clocking
 infrastructure the `progpll()` method is able to parse any hexdump export of a
-TI Clock Pro file (the .txt formatted file).
+TI TICS Pro file (the .txt formatted file).
 
 `show_clk_files()` will return a list of the available clock files that are
-available for reuse.
+available for reuse; The distributed CASPER image for each platform provides the
+clock files needed for this tutorial. We use those clock files with `progpll()`
+to initialize the sample clock and finish the RFDC power-on sequence state
+machine. Follow the code relevant for your selected target
 
 ```python
+# zcu216
 In [10]: c = rfdc.show_clk_files()
 
 In [11]: c
 Out[11]: ['250M_PL_125M_SYSREF_10M.txt']
+
+In [13]: rfdc_zcu111.show_clk_files()
+Out[13]: ['122M88_PL_122M88_SYSREF_7M68_clk5_122M88.txt']
+
+In [15]: rfdc_2x2.show_clk_files()
+Out[15]: 
+['rfsoc2x2_lmk04832_12M288_PL_15M36_OUT_122M88.txt',
+ 'LMX_REF_122M88_OUT_245M76.txt']
+
+In [14]: rfdc_zrf16.show_clk_files()
+Out[14]:
+['zrf16_LMK_CLK1REF_10M_LMXREF_50M_PL_OUT_50M_nosysref.txt',
+ 'zrf16_LMX_REF_50M_OUT_250M.txt']
+
 ```
 
-`upload_clk_file()` and `del_clk_file()` are also available methods and as their
-names suggest can be used to manage the clock files available for programming.
+
+
+`upload_clk_file()` and `del_clk_file()` are available methods and used to
+manage the clock files available for programming.
 
 Note: All supported platforms already come available with...
 
