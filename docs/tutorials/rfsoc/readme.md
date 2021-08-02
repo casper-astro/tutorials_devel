@@ -36,8 +36,6 @@ the RFSoC product family.
 
 ![](../../_static/img/rfsoc/readme/qt-dt-arch12.png)
 
-asdlkjlkasd
-
 # Platforms
 
 ![](../../_static/img/rfsoc/readme/rfsoc_spec_table.png)
