@@ -61,9 +61,10 @@ generations of the RFSoC.
 
 ![](../../_static/img/rfsoc/readme/casper-rfsoc-yb-platform-summary.png)
 
-The CASPER library contains support and has been tested for the following 5
+The CASPER library contains support and has been tested for the following 6
 RFSoC platforms:
   * [ZCU216][zcu216]
+  * [ZCU208][zcu208]
   * [ZCU111][zcu111]
   * [PYNQ RFSoC 2x2][pynq-rfsoc2x2]
   * [HTG ZRF16-29DR][htg-zrf16] [\*\*][htg-disclaimers]
@@ -90,12 +91,12 @@ channelizers using the available fabric resources.
 [ds889]: https://www.xilinx.com/support/documentation/data_sheets/ds889-zynq-usp-rfsoc-overview.pdf
 [ds926]: https://www.xilinx.com/support/documentation/data_sheets/ds926-zynq-ultrascale-plus-rfsoc.pdf
 
-[zcu216]: https://www.xilinx.com/products/boards-and-kits/zcu216.html
-[zcu208]: https://www.xilinx.com/products/boards-and-kits/zcu208.html
-[zcu111]: https://www.xilinx.com/products/boards-and-kits/zcu111.html
-[htg-zrf16]: http://www.hitechglobal.com/Boards/16ADC-DAC_Zynq_RFSOC.htm
-[pynq-rfsoc2x2]: https://www.rfsoc-pynq.io
-[htg-disclaimers]: ./htg-disclaimers.md
+[zcu216]: ./platforms/zcu216.md#zcu216
+[zcu208]: ./platforms/zcu208.md#zcu208
+[zcu111]: ./platforms/zcu111.md#zcu111
+[pynq-rfsoc2x2]: ./platforms/rfsoc2x2.md#rfsoc2x2
+[htg-zrf16]: ./platforms/zrf16.md#htg-zrf16
+[htg-disclaimers]: ./platforms/zrf16.md#htg-disclaimers
 
 [getting-started]: ./tut_getting_started.md
 [platform-overview]: ./tut_platform.md
