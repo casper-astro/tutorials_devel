@@ -10,7 +10,7 @@ next generation instruments.
 
 Before starting with the tutorials and reviewing the available platforms, the
 following is a brief introduction and overview of the RFSoC architecture and its
-capabilties. The primary source of the information presented here is Xilinx
+capabilities. The primary source of the information presented here is Xilinx
 documentation and data sheets pertaining to the [Zynq UltraScale+
 RFSoC][xilinx-rfsoc]. Please reference those materials ([PG269][pg269],
 [DS889][ds889], and [DS926][ds926]) for more details as this is a rehashing of
@@ -38,8 +38,8 @@ other columnar tile components of a Xilinx FPGA. In this case however, the ADCs
 or DACs and their supporting components populate the entire tile. There are two
 different tile architectures found in RFSoC devices: quad-tile and dual-tile.
 The number of tiles found in the device and their capabilities varies between
-RFSoC pacakages and generation. The quad- and dual-tile architectures are
-depicated in the below figure.
+RFSoC packages and generation. The quad- and dual-tile architectures are
+depicted in the below figure.
 
 ![](../../_static/img/rfsoc/readme/qt-dt-arch12.png)
 
@@ -53,7 +53,7 @@ over its configuration and provide that to the general CASPER user.
 
 The RFDC yellow block is designed to detect the tile architecture (quad/dual)
 and the generation (gen 1/3) of the selected platform as specified by an RFSoC
-platform yellow block. This provides a forward compatability mechansim as more
+platform yellow block. This provides a forward compatibility mechanism as more
 RFSoC platforms are targeted in CASPER and as Xilinx inevitably produces future
 generations of the RFSoC.
 
