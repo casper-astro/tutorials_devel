@@ -32,18 +32,113 @@ the different platforms k
   * 
 
 To get a picture of where we are headed the final design will look like this:
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_final.PNG)
+
 
 ### Step 1: Add XSG and RFSoC platform yellow block
 
+Add a Xilinx `System Generator` block and a platform yellow block to the design, as demonstrated in tutorial 1.
+The examples in this tutorial use the zcu216 platform.
+
 ### Step 2: Place and configure the RFDC yellow block
+
+Add an RFDC yellow block, found in CASPER XPS Blockset->ADCs->rfdc.
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_block.PNG)
+
+The rfdc yellow block supports 4 ADC tiles, each with 4 ADCs. For this tutorial we will only use 1 tile.
+Configure the rfdc block as follows:
+
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_config1.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_config2.PNG)
 
 ### Step 3: Update the platform yellow block
 
+I didn't have to do anything here?
+
 ### Step 4: Place and configure the Snapshot blocks
+
+Next we want to be able to take snapshots of the data the ADCs are producing. The green `bitfield_snapshot`
+block from the CASPER DSP Blockset library can be used to do this.
+Add a `bitfield_snapshot` block to the design, found in CASPER DSP Blockset->Scopes->bitfield_snapshot.
+The block in the example has been renamed to snapshot1 after placement.
+
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_block.PNG)
+
+Configure the snapshot block as follows:
+
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_config1.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_config2.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/snapshot_config3.PNG)
+
+Now we need to hook up the snapshot our rfdc block. In its current configuration, the snapshot block
+takes two data inputs, a write enable, and a trigger. Hook up the first two data output streams from
+the rfdc (m00_axis_tdata and m10_axis_tdata) to the inputs of the snapshot block. Next, we're just going
+to leave write enable hight, so add a *blue Xilinx* constant block (Xilinx Blockset->Basic Elements->Constant),
+connect it to the snapshot `we` port, and configure it as follows:
+
+![](../../_static/img/rfsoc/tut_rfdc/constant_block.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/constant_config.PNG)
+
+A blue Xilinx block is used here instead of a white simulink block because we want the constant 1 to exist
+in the synthesized hardware design.
+
+Lastly, we want to be able to trigger the snapshot block on command. To do this, we will use a yellow 
+`software_register` and a green `edge_detect` block (CASPER DSP Blockset->Misc->edge_detect).
+
+![](../../_static/img/rfsoc/tut_rfdc/edge_block.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/edge_config.PNG)
+
+Set the software_register to **From Software** and connect its output to the input of the edge_detect. Also,
+name the register something sensible. In the example, it has been renamed snapshot_ctrl. Connect the output
+of the edge_connect block to the trigger port on the snapshot block. Now when we write a 1 to the
+software register, it will be converted into a pulse to trigger the snapshot block.
 
 ### Step 5: Validate the design
 
+The design is now complete!
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_final.PNG)
+
+You can connect some simulink constant blocks to get rid of simulink unconnected port warnings, or leave them
+if they don't bother your. Validate the design by running the simulation. In this case, there's nothing to see
+in the simulation, so you could alternatively press `ctrl+d` to only update the diagram. Make sure to save!
+
 ### Step 6: Build!
+As explained in tutorial 1, all you have to do to build the design is run the `jasper` command in the MATLAB
+command window, assuming your environment was set up correctly and you started MATLAB by using the `startsg`
+command. The toolflow will take over from there and eventually produce a .fpg file. When running this example,
+synthesis took about 30 minutes.
+
+However, now that we're using the rfdc block, we need an extra step. If you try to upload the .fpg file right now,
+you'll notice that casperfpga will tell you it's missing a .dtbo file. To produce this file, do the following:
+
+1. Go back to your MATLAB command window and scroll up to find the completion of the front end compile. If for
+some reason you can't find it, you can just run `jasper_frontend`.
+```
+************************************
+*    Front End compile complete    *
+************************************
+To complete your compile, run the following command in a terminal.
+Remember to source your startsg.local environment first!
+/opt/local/CASPER/pyenvs/casper-dev3/bin/python /home/bjacobm/mlib_devel/jasper_library/exec_flow.py -m /home/bjacobm/swiftprojects/tutorial2/tutorial2.slx --middleware --backend --software
+****************************************
+```
+
+2. Copy the long command and go to a terminal. Remember to source startsg as mentioned by the toolflow. 
+Paste the command, but wait, as we're going to edit it.
+
+3. Edit the tags at the end of the command to the following:
+
+```
+--middleware --vitis --xsa ./directorytoyourthing/myproj/top.xsa
+```
+
+4. Run the modified command. It should produce the needed .dtbo file!
+
+5. If the second part of the .dtbo file name (indicating the time of creation) is different than your 
+.fpg file name, just the .dtbo to match. 
+
+Ex: You have tutorial2_2021-80-02_1230.fpg and tutorial2_2021-80-02_1310.dtbo. Just change the .dtbo name
+to tutorial2_2021-80-02_1230.dtbo to match the .fpg file.
 
 Note about the output the .dtbo must follow the .fpg
 
