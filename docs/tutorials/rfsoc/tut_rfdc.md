@@ -17,12 +17,13 @@ Reference PG269 for more details?
 ## The Example Design
 In this example we will configure the RFDC to sample an RF signal in the range
 of 1250 to 1750 MHz as to demonstrate the capabilities of the RFDC. There are a
-few different ways this could be accomplished between the different RFSoC
-platforms. However, in this tutorial we target configuration settings that are
-as common as possible between the different platforms and that use a various
-number of the RFDC features in order to provide a concrete example that all the
-platforms can accomodate. Where different settings are required because of the
-target platform those will be identified.
+few different ways this could be accomplished between the two different tile
+architectures of the RFSoC on these platforms. However, in this tutorial we
+target configuration settings that are as common as possible, use a various
+number of the RFDC features, yet still be able to point out a some of the
+differences between the quad- and dual- tile architectures of the RFSoC. Where
+platform specific settings are required required beyond what is required as a
+quad- or dual-tile RFSoC those differences will be identifed.
 
 Where differences are required between the different platforms
   * Sample at 2000 Msps
@@ -30,9 +31,14 @@ Where differences are required between the different platforms
   * deimcate by 4x
   * 
 
-To get a picture of where we are headed the final design will look like this:
+To get a picture of where we are headed, the final design will look like this for
+quad-tile platforms:
 
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc_final.PNG)
+
+And this for quad-tile platforms:
+
+
 
 ### Step 1: Add XSG and RFSoC platform yellow block
 
