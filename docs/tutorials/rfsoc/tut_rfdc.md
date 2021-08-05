@@ -24,28 +24,35 @@ number of the RFDC features in order to provide a concrete example that all the
 platforms can accomodate. Where different settings are required because of the
 target platform those will be identified.
 
- Where differences are required between
-the different platforms k
+Where differences are required between the different platforms
   * Sample at 2000 Msps
   * output complex basebanded I/Q samples
   * deimcate by 4x
   * 
 
 To get a picture of where we are headed the final design will look like this:
-![](../../_static/img/rfsoc/tut_rfdc/rfdc_final.PNG)
 
+![](../../_static/img/rfsoc/tut_rfdc/rfdc_final.PNG)
 
 ### Step 1: Add XSG and RFSoC platform yellow block
 
-Add a Xilinx `System Generator` block and a platform yellow block to the design, as demonstrated in tutorial 1.
-The examples in this tutorial use the zcu216 platform.
+Add a Xilinx `System Generator` block and a platform yellow block to the design,
+as demonstrated in [tutorial 1](../tut_getting_started.md). The examples in this
+tutorial use the `ZCU216` platform, but the same steps for laying out the design
+for other RFSoC platforms.
 
 ### Step 2: Place and configure the RFDC yellow block
 
-Add an RFDC yellow block, found in CASPER XPS Blockset->ADCs->rfdc.
+Add an `rfdc` yellow block, found in `CASPER XPS Blockset->ADCs->rfdc`.
+
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc_block.PNG)
 
-The rfdc yellow block supports 4 ADC tiles, each with 4 ADCs. For this tutorial we will only use 1 tile.
+The `rfdc` yellow block automatically understands the target RFSoC part and
+derives the corresponding tile architecture rendering the correct view. The
+dual-tile architecture provides two ADC's per tile and the quad-tile providing
+four. In this example we are targeting the ZCU216 which is a quad-tile
+architecture rfsoc.
+
 Configure the rfdc block as follows:
 
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc_config1.PNG)
