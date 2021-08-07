@@ -53,20 +53,20 @@ as the example for a quad-tile platform, these steps for a design targeting the
 other RFSoC platforms is similar for its respective tile architecture.
 
 Configure the `User IP Clock Rate` and `PL Clock Rate` for your platform as:
-```Matlab
-% ZCU216
+```Bash
+# ZCU216
 User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
 
-% ZCU208
+# ZCU208
 User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
 
-% ZCU111
+# ZCU111
 User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
 
-% RFSoC2x2
+# RFSoC2x2
 User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 15.36
 
-% ZFR16
+# ZFR16
 User IP Clock Rate: 250, RFPLL PL Clock Rate: 50
 ```
 

@@ -79,7 +79,7 @@ channelizers using the available fabric resources.
 ![](../../_static/img/rfsoc/readme/rfsoc_spec_table.png)
 
 # Tutorials
-* [Getting Started With RFsoC][getting-started]
+* [Getting Started With RFSoC][getting-started]
 * [RFSoC Platform Yellow Block and Simulink Overview][platform-overview]
 * [Using the RFDC][rfdc]
 
