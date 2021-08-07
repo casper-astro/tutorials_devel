@@ -13,7 +13,7 @@ tutorial](./tut_platform.md).
 
 ## The Example Design
 In this example we will configure the RFDC for a dual- and quad-tile RFSoC to
-sample an RF signals over a bandwidth centered at 1500 MHz. There are a few different
+sample RF signals over a bandwidth centered at 1500 MHz. There are a few different
 ways this could be accomplished between the two different tile architectures of
 the RFSoC on these platforms. However, in this tutorial we target configuration
 settings that are as common as possible, use a various number of the RFDC
@@ -39,10 +39,11 @@ And this for dual-tile platforms:
 
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.PNG)
 
-This design is a "snapshot" capture of raw ADC samples places them in a BRAM and
-later read out using `casperfpga` for analysis. The design could easily be
-extended with more snapshot blocks to capture outputs from the remaining ports
-but what is shown here is sufficient for the scope of this tutorial.
+This design is a "snapshot" capture on two inputs on quad-tile platforms and one
+input on dual-tile platforms placing raw ADC samples in a BRAM that are read out
+using `casperfpga` for analysis. The design could easily be extended with more
+snapshot blocks to capture outputs from the remaining ports but what is shown
+here is sufficient for the scope of this tutorial.
 
 ### Step 1: Add the XSG and RFSoC platform yellow block
 Add a Xilinx `System Generator` block and a platform yellow block to the design,
@@ -50,6 +51,24 @@ as demonstrated in [tutorial 1](../tut_platform.md). While the above example
 layouts used the `ZCU111` as the example for a dual-tile RFSoC and the `ZCU216`
 as the example for a quad-tile platform, these steps for a design targeting the
 other RFSoC platforms is similar for its respective tile architecture.
+
+Configure the `User IP Clock Rate` and `PL Clock Rate` for your platform as:
+```Matlab
+% ZCU216
+User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
+
+% ZCU208
+User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
+
+% ZCU111
+User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
+
+% RFSoC2x2
+User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 15.36
+
+% ZFR16
+User IP Clock Rate: 250, RFPLL PL Clock Rate: 50
+```
 
 ### Step 2: Place and configure the RFDC yellow block
 Add an `rfdc` yellow block, found in `CASPER XPS Blockset->ADCs->rfdc`.
@@ -115,9 +134,9 @@ For a dual-tile platform configure this section as:
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-tile-config.png)
 
 Currently, the selected configuration will be replicated across all enabled
-tiles. Meaning, that for right now, different ADCs within a tile can have be
+tiles. Meaning, that for right now, different ADCs within a tile can be
 configured differently to the extent that they meet the same required AXI4
-stream clock requirment, but it that same behavior will be applied ot all tiles
+stream clock requirment, but that same behavior will be applied to all tiles
 equally.
 
 The `Enable ADC` checkbox enables the corresponding ADC. Under "Data Settings",
@@ -185,7 +204,7 @@ index, in this case `0` is the first ADC input on each tile. In both `Real` and
 bus. So in this example, with `4` samples per clock this results in `2` complex
 samples ordered `{I1, Q1, I0, Q0}`. Where in each ADC word, the most recent
 sample is at the MSB of the word. With the snapshot block configured to capture
-`2^14` `128-bit` words this is a total of `2^15` samples on both ports.
+`2^14` `128-bit` words this is a total of `2^15` complex samples on both ports.
 
 For dual-tile platforms in `I/Q` digital output modes, the inphase and
 quadarature data are produced from different ports. In this mode the first digit
@@ -196,10 +215,10 @@ components coming different ports, `m00_axis_tdata` for inphase data ordered
 `{I3, I2, I1, I0}` and  `m01_axis_tdata` with quadrature data ordered
 `{Q3, Q2, Q1, Q0}`. When configured in `Real` digital output mode the second
 digit is `0` for the first ADC and `2` for the second. With the snapshot block
-configured to capture `2^14` `128-bit` words this is a total of `2^16` samples
-for the one port.
+configured to capture `2^14` `128-bit` words this is a total of `2^16` complex
+samples for the one port.
 
- Next, we're just going to leave write enable high, so add a blue Xilinx
+Next, we're just going to leave write enable high, so add a blue Xilinx
 constant block (`Xilinx Blockset->Basic Elements->Constant`), connect it to the
 snapshot `we` port, and configure it as follows:
 
@@ -227,10 +246,13 @@ into a pulse to trigger the snapshot block.
 
 ### Step 5: Validate the design
 
-The design is now complete! For a quad-tile platform it should have turned out like:
+The design is now complete! For a quad-tile platform it should have turned out
+like:
+
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc-qt-final.PNG)
 
 And this for dual-tile platforms:
+
 ![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.PNG)
 
 You can connect some simulink constant blocks to get rid of simulink unconnected
@@ -247,17 +269,24 @@ the `startsg` command. The toolflow will take over from there and eventually
 produce an `.fpg` file. When running this example, depending on your build
 machine hardware synthesis could take from 15-30 minutes.
 
-As briefly foreshadowed in the [first tutorial](./tut_platform.md#compiling) the
-toolflow will run one extra step that previous users may now notice. In this
-step the software platform design is being generated building software products
-needed for the software drivers that interact with IP. In the case of the
-previous tutorial there was no IP with a corresponding driver (other than the
-underlying Zynq processor). However, here we are using the `rfdc` that has a
-fully configurable software component that we want to communicate with in
-software. The resulting output at this step is the `.dtbo` or `device tree
-binary overlay` which is a binary representation of the device tree that is
-is dynamically updated at runtime in software when the new bitstream is
-programmed.
+As briefly explained in the [first tutorial](./tut_platform.md#compiling) the
+toolflow will run one extra step that previous users may now notice. After
+Vivado syntheis and bitstream generation the toolflow exports the platform
+hardware definition to use Xilinx's software tools (the Vitis flow) to
+generate software produts to interface with the hardware design.
+
+In this step the software platform hardware definition is read parsing the
+design for IP with an associated software driver. This is done in two steps, the
+hardware platform is ran first against Xilinx software tools and then a second
+pass is taken augmenting those output products as neccessary with any CASPER
+specificy additions. The result is any software drivers that interact with user
+IP. In the case of the previous tutorial there was no IP with a corresponding
+driver (other than the underlying Zynq processor). However, here we are using
+the `rfdc` that has a fully configurable software component that we want to
+communicate with in software. The resulting output at this step is the `.dtbo`
+or `device tree binary overlay` which is a binary representation of the device
+tree containing information for software dirvers that is is applied at runtime
+in software after the new bitstream is programmed.
 
 Note: For the `RFDC` `casperfpga` object and corresponding software driver to
 function correctly this `.dtbo` must be created and when programming the board
@@ -269,7 +298,7 @@ Make sure then that the final bit of output of the toolflow build now reports
 
 ## Testing the Design
 Before starting this segment power-cycle the board. This is to force a hard
-reset of the on-board rfpll clocking network. After the board has rebooted,
+reset of the on-board RFPLL clocking network. After the board has rebooted,
 start IPython and establish a connection to the board using `casperfpga` in the
 normal way.
 
@@ -401,7 +430,8 @@ TI TICS Pro file (the .txt formatted file).
 available for reuse; The distributed CASPER image for each platform provides the
 clock files needed for this tutorial. We use those clock files with `progpll()`
 to initialize the sample clock and finish the RFDC power-on sequence state
-machine. Follow the code relevant for your selected target
+machine. Follow the code relevant for your selected target (make sure to have
+reviewed your platforms [page](./readme.md#platforms) for any required setup):
 
 ```python
 # clock files for different platforms
@@ -472,7 +502,7 @@ Out[25]: True
 ```
 
 The remaning methods, `upload_clk_file()` and `del_clk_file()` are available
-methods and used to manage the clock files available for programming.
+methods used to manage the clock files available for programming.
 
 The ADC is now sampling and we can begin to interface with our design to copy
 back samples from the BRAM and take a look at them. The following are a few
@@ -549,8 +579,8 @@ Here it was called `start` when configuring software register yellow block.
 
 Using these methods to capture data for a quad- or dual-tile platform and then
 plotting the first few time samples for the real part of the signal would look
-something like the following (make sure to replace `fpga` with your `casperfpga`
-object instance):
+something like the following (make sure to replace the `fpga` variable with your
+`casperfpga` object instance):
 
 ```python
 import numpy as np

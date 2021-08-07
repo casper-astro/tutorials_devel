@@ -64,11 +64,11 @@ generations of the RFSoC.
 The CASPER library contains support and has been tested for the following 6
 RFSoC platforms:
   * [ZCU216][zcu216]
-  * [ZCU208][zcu208]
+  * [ZCU208][zcu208] [\*\*][zcu208-notes]
   * [ZCU111][zcu111]
   * [PYNQ RFSoC 2x2][pynq-rfsoc2x2]
-  * [HTG ZRF16-29DR][htg-zrf16] [\*\*][htg-disclaimers]
-  * [HTG ZRF16-49DR][htg-zrf16] [\*\*][htg-disclaimers]
+  * [HTG ZRF16-29DR][htg-zrf16] [\*\*][htg-notes]
+  * [HTG ZRF16-49DR][htg-zrf16] [\*\*][htg-notes]
 
 A summary of the board resources taken from the Xlinx RFSoC product selection
 guide is shown in the following table. In the context of astronomy signal
@@ -93,10 +93,11 @@ channelizers using the available fabric resources.
 
 [zcu216]: ./platforms/zcu216.md#zcu216
 [zcu208]: ./platforms/zcu208.md#zcu208
+[zcu208-notes]: ./platforms/zcu208.md#notes
 [zcu111]: ./platforms/zcu111.md#zcu111
 [pynq-rfsoc2x2]: ./platforms/rfsoc2x2.md#rfsoc2x2
 [htg-zrf16]: ./platforms/zrf16.md#htg-zrf16
-[htg-disclaimers]: ./platforms/zrf16.md#htg-disclaimers
+[htg-notes]: ./platforms/zrf16.md#notes
 
 [getting-started]: ./tut_getting_started.md
 [platform-overview]: ./tut_platform.md

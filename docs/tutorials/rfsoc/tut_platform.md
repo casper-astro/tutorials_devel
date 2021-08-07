@@ -2,16 +2,17 @@
 
 In this tutorial, you will make a simple design for an rfsoc board using the
 CASPER toolflow. It will take you through launching the toolflow, creating a
-valid CASPER design in Simulink, generating an `.fpg` file, programming the
-`.fpg` file to a CASPER rfsoc board, and interacting with the hardware running
-on the board using the casperfpga library through a python interface.
+valid CASPER design in Simulink, generating an `.fpg` and `.dtbo` file,
+programming the `.fpg` and `.dtbo` file to a CASPER rfsoc board, and interacting
+with the hardware running on the board using the casperfpga library through a
+python interface.
 
 This tutorial assumes that you have already setup your environment correctly, as
 explained in the [Getting Started With
-RFSoC](./tut_getting_started.md#core-setup) tutorial, specifically that MATLAB
-R2020b and Vivado 2020.2 are installed. You should also have all the programs and
-packages installed, configuration files set, and have successfully set up and
-tested your connection to the rfsoc board.
+RFSoC](./tut_getting_started.md#core-setup) tutorial, specifically that the
+correct versions of Vivado and Matlab are installed. You should also have all
+the programs and packages installed, configuration files set, and have
+successfully set up and tested your connection to the rfsoc board.
 
 ## Creating Your First Design
 
@@ -39,8 +40,8 @@ your rfsoc board:
   `System Generator` block, which contains information about the FPGA you are
   using.
 
-### Add the Xilinx System Generator and XSG core config blocks
-The first thing to add is the 'System Generator' block, found using the Simulink
+### Add the Xilinx System Generator and CASPER Platform blocks
+The first thing to add is the `System Generator` block, found using the Simulink
 Library Browser in `Xilinx Blockset->Basic Elements->System Generator`. Add the
 block by clicking and dragging the block into your design. See the Simulink
 documentation by Mathworks for other methods of finding and adding blocks to
@@ -57,20 +58,52 @@ the ZCU216 Yellow Block to our Simulink model. All RFSoC platfrom Yellow Blocks
 are similar in their configuration. The following is therefore easily applied to
 your specific platform.
 
+Note: **The System Generator and XPS platform blocks are required by all CASPER
+designs**
+
 ![](../../_static/img/rfsoc/tut_plat/platform_block.PNG)
 
-Double-click on the added platform block to see its configuration. Confirm that
-the `Hardware Platform` parameter matches the platform you are using. From here,
-you can also configure other options, such as the board clocks.
+Double-click on the added platform block to see its configuration.
 
 ![](../../_static/img/rfsoc/tut_plat/platform_block_param.PNG)
 
-*Note: The platform blocks for the various rfsoc boards are configured to use the
-adc clocks. See the relevant tutorial on those for more information (to be
-written).*
+Confirm that the `Hardware Platform` parameter matches the platform you are
+using. The `User IP Clock Rate` is the desired frequency for the IP of the
+design. For the RFSoC platform the `adc_clk` user IP clock source is derived
+from the `pl_clk` coming from the first stage PLL in the clocking hierarchy for
+the RFDC. In most cases this is an LMK creating the `pl_clk` in addition to the
+clock that drives the RFDC tiles. This frequency coming from the LMK as `pl_clk`
+is what is to be entered into the `RFPLL PL Clock Rate` field. In other words,
+this is the clock rate the design is expecting to produce the clock frequency
+for the user IP clock.
 
-Note: **The System Generator and XPS platform blocks are required by all CASPER
-designs**
+Before proceeding briefly review the clocking information for your target
+platform and any additional setup/configuration required:
+  * [ZCU216](./platforms/zcu216.md#rf-clocking)
+  * [ZCU208](./platforms/zcu208.md#rf-clocking)
+  * [ZCU111](./platforms/zcu111.md#rf-clocking)
+  * [RFSoC2x2](./platforms/rfsoc2x2.md#rf-clocking)
+  * [ZRF16](./platforms/zrf16.md#rf-clocking)
+
+Set the `User IP Clock Rate` and `RFPLL PL Clock Rate` as follows for your
+target RFSoC platform:
+
+```bash
+# ZCU216
+User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
+
+# ZCU208
+User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
+
+# ZCU111
+User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
+
+# RFSoC2x2
+User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 15.36
+
+# ZFR16
+User IP Clock Rate: 250, RFPLL PL Clock Rate: 50
+```
 
 ### The Example Design
 In order to demonstrate the basic use of hardware interfaces and software
@@ -287,6 +320,12 @@ probably should be done as you go.
 
 Now the adder is done!
 
+### Extra Design Function (RFsoC2x2 only)
+Make sure to have added the software register and GPIO needed to remove `RESET`
+from the LMK PLL chip so that it can be programmed later on. See the
+[clocking](./platforms/rfsoc2x2.md#rf-clocking) section of the RFSoC2x2 platform
+page.
+
 ### Simulating the design
 ![](../../_static/img/rfsoc/tut_plat/whole_design.PNG)
 
@@ -324,32 +363,120 @@ To compile the design, go to the MATLAB command line and enter
 >> jasper
 ```
 
-You should not have to do anything else. This should work for any of the rfsoc
-platforms.
+Depending on your computing resources compilation of this design will take
+between 10 and 25 mins.
 
 The `jasper` command will run the various parts of the build process. The first
 part uses Xilinx's System Generator to compile any Xilinx blocks in the design
 to a circuit that can be implemented on the FPGA, i.e., HDL code.
 
-The second part runs Vivado's synthesis tools to create the physical
-implementation of the design for the board. Lastly, the toolflow creates the
-final output `.fpg` file that is used to program the FPGA. The `.fpg` file
-contains the bitstream that Vivado created as well as meta-data that describes
-the yellow blocks from the simulink design. The .fpg file will be made the
-'outputs' folder in the working directory of the Simulink model. The `.fpg` file
-will be named using the simulink file name and the date/time that compilation
-begain. When putting together this example, compilation took about 25 minutes.
+The second part runs Vivado's synthesis, implementation and place and route
+tools creating the physical hardware design for the FPGA. Lastly, the toolflow
+creates the final output `.fpg` and `.dtbo` files that are used to program the
+FPGA using CASPER software framework. The `.fpg` file contains the bitstream
+that Vivado created as well as meta-data that describes the yellow blocks from
+the simulink design and their configurations. The `.dtbo` is a new output
+product of the toolflow targeting SoC platforms like the RFSoC.
+
+Similar to the meta-data that is created for CASPER softawre the .`dtbo` is the
+device tree overlay binary containing somewhat similar meta data information but
+taragetd to the software drivers that will be loaded by the processor system
+when programming the FPGA. After Vivado syntheis and bitstream generation the
+toolflow exports the platform hardware definition to use Xilinx's software tools
+(the Vitis flow) to generate software produts to interface with the hardware
+design. The `.dtbo` is one of those software products. The `.dtbo` is now used
+in conjunction with the `.fpg` file where the `.fpg` is used to first program
+the FPGA followed by application of the device tree overlay. In this design
+there are no IP that take advantage of this and so the resulting `.dtbo` will be
+mostly empty (the MPSoC is always present in the design). Both the `.fpg` and
+`.dtbo` file will be placed in the `outputs` folder in the working directory of
+the Simulink model. The files will be named using the simulink file name and the
+date/time that compilation began.
+
+Note that the `.dtbo` must be placed in the same directory as the `.fpg` and
+have the same name (except for the extension).  Meaning if the `.fgp` file name
+is changed from the compiled default, the `.dtbo` must also be updated as well.
 
 ## Programming the FPGA
-Reconfiguration on any CASPER platform is done using the `casperfpga` python
-library. You should have installed and used this in the [Getting
+Reconfiguration on any CASPER platform is typically done using the `casperfpga`
+python library. However, before we use `casperfpga` we are going to instead
+manually connect to the board to program the clocks needed for the user design.
+This is done to briefly introduce the processing system and idea that as a user
+the processor is there to be used if needed.
+
+Programming the onboard clocks for the RFSoC can be done using the `rfdc` yellow
+block and associated `RFDC` `casperfpga` object (to be introduced in the next
+tutorial). However this does not use the `rfdc` yellow block meaning an RFDC
+object is not automatically present on the software side. There are other ways
+to program these clocks using `casperfpga` but instead we can also use a basic
+software utility that is distributed with each platform to do this.
+
+shell into the board using an ssh client, the default username is
+`casper` with password `casper`. For example,
+
+```bash
+$ ssh casper@your.ip.address.here
+```
+
+In the home directory there is a `bin` directory containing a few utilities for
+some of the board on-board peripherals. Specifically, each platform will have a
+utility to program the PLLs that are to drive the sample clock or PLL for the
+RFDC. Take a look at that directory, it is shown here for all the platforms.
+
+```bash
+casper@alpaca-1:~$ ls bin/
+prg_8a34001  prg_clk104_rfpll  reset_rfpll  zcu216_probe_sfp
+```
+
+The program to configure the LMK/LMX PLLs for the RFDC all accept a `.txt`
+formatted hexdump file from TICS with the commandline switch `-lmk` or `-lmk`
+to indicate the target PLL.
+
+```bash
+casper@alpaca-1:~$ ./bin/prg_clk104_rfpll
+must specify -lmk|-lmx
+./bin/prg_clk104_rfpll -lmk|-lmx <path/to/clk/file.txt>
+```
+
+The distributed clock files for the platform are stored in `/lib/firmare`. As
+mentioned [above](#add-the-xilinx-system-generator-and-casper-platform-blocks),
+designs for RFSoC use `pl_clk` coming from the on board LMK to generate the User
+IP clock. Program the LMK using the corresponding platforms utility (before
+proceeding make sure to have reviewed your platforms
+[page](./readme.md#platforms) for required clocking configuration and setup):
+
+```bash
+# ZCU216
+casper@alpaca-1:~$ sudo ./bin/prg_clk104_rfpll -lmk /lib/firmware/250M_PL_125M_SYSREF_10M.txt
+
+# ZCU111
+casper@alpaca-zcu111:~$ sudo ./bin/prg_rfpll -lmk /lib/firmware/122M88_PL_122M88_SYSREF_7M68_clk5_12M8.txt
+
+# RFSoC2x2
+casper@rfsoc2x2:~$ sudo ./bin/prg_rfpll -lmk /lib/firmware/rfsoc2x2_lmk04832_12M288_PL_15M36_OUT_122M88_CLK12_15M36.txt
+
+# ZRF16
+casper@htg-zrf16:~$ sudo ./bin/prg_rfpll -lmk /lib/firmware/zrf16_LMK_CLK1REF_10M_LMXREF_50M_PL_OUT_50M_nosysref.txt
+```
+
+Each platform has an LED connected to the status pin of the LMK that should now
+be lit indicating that PLL is locked.
+
+The LMXs could also be programmed in the same way using the `-lmx` switch and a
+corresponding LMX hexdump file but this is not needed here as those drive the
+sample clock or internal PLL reference clock for the RFDC.
+
+With the clock to drive the user design configured we can now continue to use
+`casperfpga` to program the FPGA and interact with our design.  You should have
+installed and used this in the [Getting
 Started](./tut_getting_started.md#setup-casperfpga) tutorial to check your
 connection to your board.
+
 
 #### Step 1: Copy the `.fpg` file to where you need it
 Navigate to the prevously mention 'outputs' folder and copy the `.fpg` file to
 wherever you are going to be running your ipython session from.
-
+ro
 #### Step 2: Connect to the board
 Assuming that your board is on, configured, and on the same network you are
 working on, connect to the board the same way demonstrated in the [Getting
@@ -447,7 +574,7 @@ counter properly (otherwise it would have reported a negative value half the
 time).
 
 ## Conclusion
-In this tutorial, you have gone through the process of using `startsg` to initiate
-the toolflow, used Simulink to create a design, called `jasper` to compile and
-obtain a `.fpg` file, and use `casperfpga` to program and interact with your rfsoc
-board. Congratulations!
+In this tutorial, you have gone through the process of using `startsg` to
+initiate the toolflow, used Simulink to create a design, called `jasper` to
+compile and obtain a `.fpg` and `.dtbo` file, and use `casperfpga` to program
+and interact with your rfsoc board. Congratulations!

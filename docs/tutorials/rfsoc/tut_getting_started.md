@@ -66,13 +66,14 @@ $ cp startsg.local.example ./startsg.local
 # environment variables
 XILINX_PATH=</path/to/your/Xilinx>/Vivado/2020.2
 MATLAB_PATH=</path/to/your/Matlab>/R2020b
+JASPER_BACKEND=vitis
 XLNX_DT_REPO_PATH=</path/to>/sandbox/xilinx/device-tree-xlnx
 
 # The following is an example of my startsg.local
 export XILINX_PATH=/opt/Xilinx/Vivado/2020.2 
 export MATLAB_PATH=/opt/MATLAB/R2020b 
 export PLATFORM=lin64 
-export JASPER_BACKEND=vivado 
+export JASPER_BACKEND=vitis
 export XLNX_DT_REPO_PATH=/home/mcb/git/xilinx/device-tree-xlnx
 
 # Start Matlab and System Generator
