@@ -320,7 +320,7 @@ probably should be done as you go.
 
 Now the adder is done!
 
-### Extra Design Function (RFsoC2x2 only)
+#### Extra Design Function (RFSoC2x2 only)
 Make sure to have added the software register and GPIO needed to remove `RESET`
 from the LMK PLL chip so that it can be programmed later on. See the
 [clocking](./platforms/rfsoc2x2.md#rf-clocking) section of the RFSoC2x2 platform

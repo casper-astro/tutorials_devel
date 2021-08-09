@@ -84,7 +84,7 @@ channelizers using the available fabric resources.
 * [Using the RFDC][rfdc]
 
 ## Designs
-* [Example Designs][example-designs]
+* [Tutorial Designs][tutorial-designs]
 
 [xilinx-rfsoc]: https://www.xilinx.com/products/silicon-devices/soc/rfsoc.html#documentation
 [pg269]: https://www.xilinx.com/support/documentation/ip_documentation/usp_rf_data_converter/v2_4/pg269-rf-data-converter.pdf
@@ -103,4 +103,4 @@ channelizers using the available fabric resources.
 [platform-overview]: ./tut_platform.md
 [rfdc]: ./tut_rfdc.md
 
-[example-designs]: ./tut_designs/readme.md
+[tutorial-designs]: ../../../rfsoc/readme.md
