@@ -45,9 +45,9 @@ tutorial. Feel free to organize suitable to your preferences.
 $ cd </path/to>/sandbox
 $ mkdir casper
 $ cd casper
-$ git clone https://gitlab.ras.byu.edu:alpaca/casper/mlib_devel.git
+$ git clone https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel.git
 $ cd mlib_devel
-$ git checkout -b rfsoc origin/rfsoc/zcu216
+$ git checkout -b rfsoc origin/rfsoc/devel
 
 # install pacakge dependencies
 $ pip install -r requirements.txt
@@ -56,7 +56,7 @@ $ pip install -r requirements.txt
 $ cd </path/to>/sandbox
 $ mkdir xilinx
 $ cd xilinx
-$ git clone https://github.com:xilinx/device-tree-xlnx.git
+$ git clone https://github.com/xilinx/device-tree-xlnx.git
 
 # update or create your `startsg.local` config file 
 $ cd </path/to>/sandbox/casper/mlib_devel
