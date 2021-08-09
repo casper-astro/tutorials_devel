@@ -103,4 +103,4 @@ channelizers using the available fabric resources.
 [platform-overview]: ./tut_platform.md
 [rfdc]: ./tut_rfdc.md
 
-[tutorial-designs]: ../../../rfsoc/readme.md
+[tutorial-designs]: ../../../rfsoc/
