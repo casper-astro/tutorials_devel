@@ -14,7 +14,7 @@ consistent with the standard CASPER
 In this case, for RFSoC what you will need is:
   * Compatible Linux host operating system (tested on RHEL 7.9, 8.4 and Ubuntu 18.04 LTS, 20.04 LTS)
   * Vivado 2020.2
-  * Matlab 2020b (with Simulink)
+  * Matlab 2019a (with Simulink)
   * Python 3 environment 
   * Development branches of the CASPER "toolflow" library [`mlib_devel`][rfsoc-mlib-devel] and board
     communication library [`casperfpga`][rfsoc-casperfpga] with RFSoC support
@@ -65,13 +65,13 @@ $ cp startsg.local.example ./startsg.local
 # with you favorite text editor open `startsg.local` and update the following
 # environment variables
 XILINX_PATH=</path/to/your/Xilinx>/Vivado/2020.2
-MATLAB_PATH=</path/to/your/Matlab>/R2020b
+MATLAB_PATH=</path/to/your/Matlab>/R2019a
 JASPER_BACKEND=vitis
 XLNX_DT_REPO_PATH=</path/to>/sandbox/xilinx/device-tree-xlnx
 
 # The following is an example of my startsg.local
 export XILINX_PATH=/opt/Xilinx/Vivado/2020.2 
-export MATLAB_PATH=/opt/MATLAB/R2020b 
+export MATLAB_PATH=/opt/MATLAB/R2019a
 export PLATFORM=lin64 
 export JASPER_BACKEND=vitis
 export XLNX_DT_REPO_PATH=/home/mcb/git/xilinx/device-tree-xlnx
