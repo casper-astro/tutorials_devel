@@ -82,6 +82,8 @@ channelizers using the available fabric resources.
 * [Getting Started With RFSoC][getting-started]
 * [RFSoC Platform Yellow Block and Simulink Overview][platform-overview]
 * [Using the RFDC][rfdc]
+* [Example Spectrometer][spectrometer]
+* [100GbE][100g]
 
 ## Designs
 * [Tutorial Designs][tutorial-designs]
@@ -102,5 +104,7 @@ channelizers using the available fabric resources.
 [getting-started]: ./tut_getting_started.md
 [platform-overview]: ./tut_platform.md
 [rfdc]: ./tut_rfdc.md
+[spectrometer]: ./tut_spec.md
+[100g]: ./tut_100g.md
 
 [tutorial-designs]: ../../../rfsoc/
