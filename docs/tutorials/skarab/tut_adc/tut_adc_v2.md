@@ -160,23 +160,23 @@ SKARAB ADC board is installed.
 - Ensure that there is only one Master SKARAB ADC Yellow Block in the design.
 
 The links to the Simulink design models are:
-- [Simulink design model with one DDC mode SKARAB ADC Yellow Block](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/test_skarab_adc.slx)
+- [Simulink design model with one DDC mode SKARAB ADC Yellow Block](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/test_skarab_adc.slx)
 
-- [Simulink design model with one Bypass mode SKARAB ADC Yellow Block](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/test_skarab_adc_byp.slx)
+- [Simulink design model with one Bypass mode SKARAB ADC Yellow Block](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/test_skarab_adc_byp.slx)
 
-- [Simulink design model with two DDC mode SKARAB ADC Yellow Blocks](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/test_skarab_adc_x2.slx)
+- [Simulink design model with two DDC mode SKARAB ADC Yellow Blocks](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/test_skarab_adc_x2.slx)
 
-- [Simulink design model with two Bypass mode SKARAB ADC Yellow Blocks](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/test_skarab_adc_byp_x2.slx)
+- [Simulink design model with two Bypass mode SKARAB ADC Yellow Blocks](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/test_skarab_adc_byp_x2.slx)
 
 The link to the Python test script is:
 
-- [Python test script](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/scripts/skarab_adc_test/skarab_adc_test.py)
+- [Python test script](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/scripts/skarab_adc_test/skarab_adc_test.py)
 
 The links to the ADC data plotting MATLAB scripts are:
 
-- [DDC mode ADC data plotting MATLAB script](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/scripts/skarab_adc_test/plot_adc_data_ddc.m)
+- [DDC mode ADC data plotting MATLAB script](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/scripts/skarab_adc_test/plot_adc_data_ddc.m)
 
-- [Bypass mode ADC data plotting MATLAB script](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/scripts/skarab_adc_test/plot_adc_data_byp.m)
+- [Bypass mode ADC data plotting MATLAB script](https://github.com/ska-sa/mlib_devel/blob/devel/jasper_library/test_models/scripts/skarab_adc_test/plot_adc_data_byp.m)
 
 
 ## SKARAB ADC Firmware Version Requirements ##
@@ -185,7 +185,7 @@ A SKARAB ADC board needs to be programmed with firmware version 2.0 to be compat
 Two bin file variants of the SKARAB ADC firmware version 2.0 are provided: EMB124901U8R2_DDC.bin and EMB124901U8R2_BYP.bin. The only difference between them is the default bandwidth mode in which they configure the SKARAB ADC board on startup. EMB124901U8R2_DDC.bin configures it in DDC mode on startup, while EMB124901U8R2_BYP.bin configures it in Bypass mode on startup. When only using a SKARAB ADC board in a single bandwidth mode, the appropriate bin file can be chosen so that it is not required to configure the SKARAB ADC board after startup using a casperfpga function.
 
 The skarab_adc_reconfig.py Python script and the two bin files can be found here:
-[SKARAB ADC FW](https://github.com/ska-sa/mlib_devel/tree/peralex_adc/jasper_library/test_models/scripts/skarab_adc_reconfig)
+[SKARAB ADC FW](https://github.com/ska-sa/mlib_devel/tree/devel/jasper_library/test_models/scripts/skarab_adc_reconfig)
 
 
 WARNING: Please ensure that the power and network connection to the SKARAB is stable before using this script. There is a possibility that the SKARAB ADC board can be bricked if the firmware update process is interrupted by a power or network failure. In this case, the SKARAB ADC board will need to be returned to Peralex Electronics so that its firmware can be restored to a working state.
@@ -193,9 +193,9 @@ WARNING: Please ensure that the power and network connection to the SKARAB is st
 ## CASPER Toolflow and casperfpga Library Requirements ##
 Please install the following versions of the CASPER Toolflow and casperfpga library:
 
-[peralex_adc branch of the CASPER Toolflow](https://github.com/ska-sa/mlib_devel/tree/peralex_adc)
+[ska-sa devel branch of the CASPER Toolflow](https://github.com/ska-sa/mlib_devel/tree/devel)
 
-[peralex_adc branch of the casperfpga library](https://github.com/ska-sa/casperfpga/tree/peralex_adc)
+[ska-sa devel branch of the casperfpga library](https://github.com/ska-sa/casperfpga/tree/devel)
 
 ## Test Procedure ##
 1. Open one of the provided Simulink design models and modify it as required (as described in the "Example Designs" section)
