@@ -1,4 +1,4 @@
-# Tutorial 4: Wideband Spectrometer
+# Tutorial 4: [Previous] Wideband Spectrometer
 
 ## Introduction ##
 A spectrometer is something that takes a signal in the time domain and converts it to the frequency domain. In digital systems, this is generally achieved by utilising the FFT (Fast Fourier Transform) algorithm.
