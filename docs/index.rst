@@ -91,8 +91,8 @@ Vivado
 1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_intro>`__
 2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_40gbe>`__
 3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_hmc>`__
-4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec>`__
-5. :doc:`SKARAB ADC Synchronous Data Acquisition Tutorials <tutorials/skarab/tut_adc/tut_adc_index>`
+4. Spectrometer Tutorials :doc:`Step-by-Step <tutorials/skarab/tut_spec/tut_spec_index>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec>`__
+5. :doc:`ADC Synchronous Data Acquisition Tutorials <tutorials/skarab/tut_adc/tut_adc_index>`
 
 .. toctree::
    :maxdepth: 2
@@ -102,7 +102,7 @@ Vivado
    tutorials/skarab/tut_intro
    tutorials/skarab/tut_40gbe
    tutorials/skarab/tut_hmc
-   tutorials/skarab/tut_spec  
+   tutorials/skarab/tut_spec/tut_spec_index  
    tutorials/skarab/tut_adc/tut_adc_index
    
 **Red Pitaya**
