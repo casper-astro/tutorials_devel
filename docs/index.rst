@@ -112,6 +112,7 @@ Vivado
 3. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_adc_dac>`__
 4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_spec>`__
 
+
 .. toctree::
    :maxdepth: 1
    :hidden:
@@ -121,6 +122,27 @@ Vivado
    tutorials/redpitaya/tut_intro
    tutorials/redpitaya/tut_adc_dac
    tutorials/redpitaya/tut_spec
+
+**RFSOC**
+
+1. :doc:`CASPER RFSOC README <tutorials/rfsoc/readme>`
+2. :doc:`Getting Started With RFSoC <tutorials/rfsoc/tut_getting_started>`
+3. RFSoC Platform Yellow Block and Simulink Overview :doc:`Step-by-Step <tutorials/rfsoc/tut_platform>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_platform>`__
+4. Using the RFDC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_rfdc>`__ 
+5. [Under Construction] Spectrometer Tutorial :doc:`Step-by-Step <tutorials/rfsoc/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_spec>`__
+6. [Under Construction] 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_onehundred_gbe>`__
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: RFSOC Tutorials
+
+   tutorials/rfsoc/readme 
+   tutorials/rfsoc/tut_getting_started
+   tutorials/rfsoc/tut_platform
+   tutorials/rfsoc/tut_rfdc
+   tutorials/rfsoc/tut_spec
+   tutorials/rfsoc/tut_100g
 
 ..  toctree::
     :hidden:

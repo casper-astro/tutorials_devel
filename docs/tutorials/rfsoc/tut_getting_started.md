@@ -181,7 +181,7 @@ and we are now ready to move on to testing the toolflow installation and get mor
 familiar with your platform image and `casperfpga` in the [next
 tutorial](./tut_platform.md).
 
-# Misc. Configuration
+## Misc. Configuration
 
 ### Platform Network Configuration
 Each platform image is configured by default to use DHCP to receive an IP

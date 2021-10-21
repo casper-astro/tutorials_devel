@@ -1,4 +1,4 @@
-# Example Spectrometer
+# Tutorial 3: Example Spectrometer
 
 Tutorial in progress...
 
