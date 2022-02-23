@@ -47,7 +47,7 @@ $ mkdir casper
 $ cd casper
 $ git clone https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel.git
 $ cd mlib_devel
-$ git checkout -b rfsoc origin/rfsoc/devel
+$ git checkout -b rfsoc origin/rfsocs/devel
 
 # install pacakge dependencies
 $ pip install -r requirements.txt
