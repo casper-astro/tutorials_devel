@@ -37,6 +37,12 @@ The configuration yellow block knows what FPGA corresponds to which platform, an
 
 **The System Generator and XPS Config blocks are required by all CASPER designs**
 
+### Add an Ethernet core block
+An Ethernet core must be present in every SKARAB design to facilitate communication with the board via Ethernet. In the case of some later tutorials, such as the [40GE Interface tutorial](https://casper-toolflow.readthedocs.io/projects/tutorials/en/latest/tutorials/skarab/tut_40gbe.html), this core is used within the design itself and so does not need to be added separately. However, in this tutorial, we won't need an Ethernet core for anything other than basic communication using the [casperfpga library](https://casper-toolflow.readthedocs.io/en/latest/src/How-to-install-casperfpga.html) and so one must be added specifically for this purpose. Yellow blocks for both 1GbE and 40GbE exist for the SKARAB - a pre-configured template containing a 40GbE core exists within the `tutorials_devel` repo at `/tutorials_devel/skarab/tut_intro/skarab_tut_intro_template.slx`. Open this design in a new simulink window, and copy the subsystem block containing the core across to your design.
+
+Your design should now contain the following three blocks:
+
+![tut_intro_subsystem_and_core_config.png](../../_static/img/skarab/tut_intro_subsystem_and_core_config.png)
 
 ### Flashing LED
 To demonstrate the basic use of hardware interfaces, we will make an LED flash. With the FPGA running at ~100MHz (or greater), the most significant bit (msb) of a 27 bit counter will toggle approximately every 0.67 seconds. We can output this bit to an LED on your board. Most (all?) CASPER platforms have at least four LEDs, with the exact configuration depending on the board (for example, SKARAB has four green LEDs and four red LEDs). We will make a small circuit connecting the top bit of a 27 bit counter to one of these LEDs. When compiled this will make the LED flash with a 50% duty cycle approximately once a second.

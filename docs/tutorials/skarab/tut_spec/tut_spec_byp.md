@@ -10,7 +10,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 
 ## Setup ##
 
-This tutorial comes with completed model files, compiled bitstreams, ready for execution on Skarab, as well as Python scripts to configure the Skarab and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec/tut_spec_byp)
+This tutorial comes with completed model files, compiled bitstreams, ready for execution on SKARAB, as well as Python scripts to configure the SKARAB and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec/tut_spec_byp)
 
 ## Spectrometer Basics ##
 
@@ -45,11 +45,11 @@ In the **Main Blocks** section, you'll notice that:
 - In the SKARAB platform block, the hardware type is set to “SKARAB:xc7vx690t” and clock rate is specified as 176MHz when the *sys_clk* user IP clock is selected.  This frequency is specially chosen to avoid overflows on the ADC.  Implementing other clock frequencies will require you to use the data valid port leaving the ADC yellow block. When the *adc_clk* user IP clock is selected, the clock rate defaults to 175MHz.
 
 At the bottom of the design you will find the **GbE Interface** and the **40GbE Interface** blocks.
-The GbE Interface or the 40GbE Interface is required in the Skarab design for communication purposes, particularly to enable the design to be controlled from the python test script.
+As was mentioned in [Tutorial 1](https://casper-toolflow.readthedocs.io/projects/tutorials/en/latest/tutorials/skarab/tut_intro.html), the GbE Interface or the 40GbE Interface is required in the SKARAB design for communication purposes, particularly to enable the design to be controlled from the python test script.
 
 In the **ADC Data Capture** block, there are several components which are responsible for the capturing and processing the input signal. A brief run down is outlined below:
 - The input signal is digitised by the ADC, resulting in sixteen parallel time samples of 12 bits each clock cycle. The ADC runs at 2.8 GHz. The sixteen samples are provided at a rate of 175MHz: [(2.8 GHz]/[16 samples per output clock cycles]) = 175MHz. Note that the ADC is operated in DDC bypass mode and provides the full bandwidth of 1.4 GHz.The output range is a signed number in the range -1 to +1 (ie 15 bits after the decimal point). This is expressed as fix_16_15
-- In this tutorial we use the fft_wideband_real FFT block. The Skarab ADC yellow block produces demultiplexed real channels that are fed to the FFT block. This FFT block outputs only positive frequencies (negative frequencies are the mirror images of their positive counterparts), so the number of output ports (8) is half the number of input ports (16)
+- In this tutorial we use the fft_wideband_real FFT block. The SKARAB ADC yellow block produces demultiplexed real channels that are fed to the FFT block. This FFT block outputs only positive frequencies (negative frequencies are the mirror images of their positive counterparts), so the number of output ports (8) is half the number of input ports (16)
 - You may notice Xilinx delay blocks dotted all over the design. It's common practice to add these into the design as it makes it easier to fit the design into the logic of the FPGA. It consumes more resources, but eases signal timing-induced placement restrictions
 - The real and imaginary (sine and cosine value) components of the FFT are plugged into power blocks, to convert from complex values to real power values by squaring
 - The requantized signals then enter the vector accumulators, simple_bram_vacc1 through simple_bram_vacc8, which are 64 bit vector accumulators. Accumulation length is controlled by the acc_cntrl block
@@ -67,7 +67,7 @@ The ADC block converts analog inputs to digital outputs. Every clock cycle, the 
 
 ADCs often internally bias themselves to halfway between 0 and -1. This means that you'd typically see the output of an ADC toggling between zero and -1 when there's no input. It also means that unless otherwise calibrated, an ADC will have a negative DC offset.
 
-The Skarab ADC is clocked at 2.8 GHz.  It is operated in DDC bypass mode while outputting sixteen parallel samples, so the FPGA is clocked at 175 MHz. The bandwidth for a 2.8 GHz sample rate is 1.4 GHz, as Nyquist sampling requires two samples (or more) each second.
+The SKARAB ADC is clocked at 2.8 GHz.  It is operated in DDC bypass mode while outputting sixteen parallel samples, so the FPGA is clocked at 175 MHz. The bandwidth for a 2.8 GHz sample rate is 1.4 GHz, as Nyquist sampling requires two samples (or more) each second.
 
 **PARAMETERS**
 The Yellow Block parameters are as follows:
@@ -208,7 +208,7 @@ If you've made it to here, congratulations, go and get yourself a cup of tea and
 The tutorial comes with a pre-compiled fpg file, which is generated from the model you just went through (tut_spec_byp.fpg).
 All communication and configuration will be done by the python control script called tut_spec_byp.py.
 
-Next, you need to set up your Skarab as shown in the diagram below.
+Next, you need to set up your SKARAB as shown in the diagram below.
 
 ![](../../../_static/img/skarab/tut_spec/hardware_setup.png)
 
@@ -227,13 +227,13 @@ Once you've got that done, it's time to run the script. If you're in linux, brow
  python tut_spec_byp.py <skarab IP or hostname> -l <accumulation length> -b <fpgfile name>
 ```
 
-replacing <skarab IP or hostname> with the IP address of your Skarab, <accumulation length> is the number of accumulations, and <fpgfile name> with your fpgfile. You should see a spectrum like this:
+replacing <skarab IP or hostname> with the IP address of your SKARAB, <accumulation length> is the number of accumulations, and <fpgfile name> with your fpgfile. You should see a spectrum like this:
 
 ![](../../../_static/img/skarab/tut_spec/1p054GHz_sine_5accum.png)
 
 Take some time to inspect the tut_spec_byp.py script.  It is quite long, but don't be intimidated. Most of the script is configuration for the ADC.  The important lines begin after the ```#START OF MAIN``` comment.  There, you will see that the script
 
-•	Instantiates the casperfpga connection with the Skarab
+•	Instantiates the casperfpga connection with the SKARAB
 
 •	Uploads the fpg file
 
@@ -251,5 +251,5 @@ If you have followed this tutorial faithfully, you should now know:
 
 •	Which CASPER blocks you might want to use to make a spectrometer, and how to connect them up in Simulink
 
-•	How to connect to and control a Skarab spectrometer using python scripting
+•	How to connect to and control a SKARAB spectrometer using python scripting
 

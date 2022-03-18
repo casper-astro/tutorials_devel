@@ -150,6 +150,7 @@ Vivado
     :caption: Documentation
 
     CASPER Documentation <https://casper-toolflow.readthedocs.io/en/latest/index.html>
+    AXI Documentation <https://casper-toolflow.readthedocs.io/en/latest/axi4lite_documentation.html>
     Block Documentation <https://casper-toolflow.readthedocs.io/en/latest/blockdocumentation.html>
     The CASPER Toolflow <https://casper-toolflow.readthedocs.io/en/latest/jasper_documentation.html>
     Toolflow Sourcecode <https://casper-toolflow.readthedocs.io/en/latest/src/jasper_library_modules/modules.html>
