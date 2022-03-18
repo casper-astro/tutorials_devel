@@ -7,7 +7,7 @@ When designing a spectrometer for astronomical applications, it's important to c
 
 ## Setup ##
 
-This tutorial comes with a completed model file, a compiled bitstream, ready for execution on Skarab, as well as a Python script to configure the Skarab and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec)
+This tutorial comes with a completed model file, a compiled bitstream, ready for execution on SKARAB, as well as a Python script to configure the SKARAB and make plots. [Here](https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec)
 
 ## Spectrometer Basics ##
 
@@ -38,15 +38,15 @@ and is the width of each frequency bin. Correspondingly, Δf is a measure of how
 If you're reading this, then you've already managed to find all the tutorial files.  By now, I presume you can open the model file and have a vague idea of what's happening.
 The best way to understand fully is to follow the arrows, go through what each block is doing and make sure you know why each step is done. To help you through, there's some “blockumentation” in the appendix, which should (hopefully) answer all questions you may have. A brief rundown before you get down and dirty:
 
-- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core used to instantiante the board support package and the microblaze controller, but it is no longer the case. The board support package and the microblaze controller are now part of the Skarab platform block. However, the 40 GbE or 1 GbE core is still required in a Skarab design for communication purposes.
+- In the slx file, you'll notice a subsystem block in the top left corner of the design.  If you click into it, you'll see it contains a 40 GbE core.  That core used to instantiante the board support package and the microblaze controller, but it is no longer the case. The board support package and the microblaze controller are now part of the SKARAB platform block. However, as was mentioned in [Tutorial 1](https://casper-toolflow.readthedocs.io/projects/tutorials/en/latest/tutorials/skarab/tut_intro.html), a 40 GbE or 1 GbE core is still required in a SKARAB design for communication purposes.
 
 - The all important Xilinx token is placed to allow System Generator to be called to compile the design.
 
 - In the MSSGE block, the hardware type is set to “SKARAB:xc7vx690t” and clock rate is specified as 187.5MHz.  This frequency is specially chosen to avoid overflows on the ADC.  Implementing other clock frequencies will require you to use the data valid port leaving the ADC yellow block.
 
-- The input signal is digitised by the ADC, resulting in eight parallel time samples of 16 bits each clock cycle: four in i and four in q. The ADC runs at 3 GHz but decimates by a factor of four, which gives a 375 MHz nyquist sampled spectrum.  The Skarab ADC uses a digital downconverter, which has a default frequency of 1 GHz. The output range is a signed number in the range -1 to +1 (ie 15 bits after the decimal point). This is expressed as fix_16_15.
+- The input signal is digitised by the ADC, resulting in eight parallel time samples of 16 bits each clock cycle: four in i and four in q. The ADC runs at 3 GHz but decimates by a factor of four, which gives a 375 MHz nyquist sampled spectrum.  The SKARAB ADC uses a digital downconverter, which has a default frequency of 1 GHz. The output range is a signed number in the range -1 to +1 (ie 15 bits after the decimal point). This is expressed as fix_16_15.
 
-- Unlike the other CASPER spectrometer tutorials, we use the complex FFT block here.  The Skarab ADC produces demultiplexed i and q channels that are concatenated and fed to the FFT block.
+- Unlike the other CASPER spectrometer tutorials, we use the complex FFT block here.  The SKARAB ADC produces demultiplexed i and q channels that are concatenated and fed to the FFT block.
 
 - You may notice Xilinx delay blocks dotted all over the design. It's common practice to add these into the design as it makes it easier to fit the design into the logic of the FPGA. It consumes more resources, but eases signal timing-induced placement restrictions.
 
@@ -69,7 +69,7 @@ The ADC block converts analog inputs to digital outputs. Every clock cycle, the 
 
 ADCs often internally bias themselves to halfway between 0 and -1. This means that you'd typically see the output of an ADC toggling between zero and -1 when there's no input. It also means that unless otherwise calibrated, an ADC will have a negative DC offset.
 
-The Skarab ADC is clocked at 3.0 GHz.  There is a decimation factor of 4, so the sample rate is 750 MHz.  The i and q channels each have a demux factor of 4, so the FPGA is clocked at 187.5 MHz. The bandwidth for a 750 MHz sample rate is 375 MHz, as Nyquist sampling requires two samples (or more) each second.
+The SKARAB ADC is clocked at 3.0 GHz.  There is a decimation factor of 4, so the sample rate is 750 MHz.  The i and q channels each have a demux factor of 4, so the FPGA is clocked at 187.5 MHz. The bandwidth for a 750 MHz sample rate is 375 MHz, as Nyquist sampling requires two samples (or more) each second.
 
 **INPUTS**
 
@@ -80,7 +80,7 @@ The Skarab ADC is clocked at 3.0 GHz.  There is a decimation factor of 4, so the
 
 **OUTPUTS**
 
-The Skarab ADC has four channels and a series of eight outputs for each.  The outputs for a channel comprise four demultiplexed i's and four demultiplexed q's.  The i0 port is concatenated with the q0 port to form a complex stream using the real/imaginary-to-complex block.  Similarly, the i1 port is concatenated with the q1 port, i2 with q2, and i3 with q3.
+The SKARAB ADC has four channels and a series of eight outputs for each.  The outputs for a channel comprise four demultiplexed i's and four demultiplexed q's.  The i0 port is concatenated with the q0 port to form a complex stream using the real/imaginary-to-complex block.  Similarly, the i1 port is concatenated with the q1 port, i2 with q2, and i3 with q3.
 
 
 ### [fft](https://casper.berkeley.edu/wiki/fft) ###
@@ -114,7 +114,7 @@ The FFT block is the most important part of the design to understand. The cool g
 | Convert Latency | Latency through blocks used to reduce bit widths after twiddle and butterfly stages. Set this to 1. |
 | Input Latency | Here you can register your input data streams in case you run into timing issues. Leave this set to 0. |
 | Latency between biplexes and fft_direct | Here you can add optional register stages between the two major processing blocks in the FFT. These can help a failing design meet timing. For this tutorial, you should be able to compile the design with this parameter set to 0. |
-| Architecture | Set to Virtex5, the architecture of the FPGA on the Skarab. This changes some of the internal logic to better optimise for the DSP slices. If you were using an older iBOB board, you would need to set this to Virtex2Pro. |
+| Architecture | Set to Virtex5, the architecture of the FPGA on the SKARAB. This changes some of the internal logic to better optimise for the DSP slices. If you were using an older iBOB board, you would need to set this to Virtex2Pro. |
 | Use less | This affects the implementation of complex multiplication in the FFT, so that they either use fewer multipliers or less logic/adders. For the complex multipliers in the FFT, you can use 4 multipliers and 2 adders, or 3 multipliers and a bunch or adders. So you can trade-off DSP slices for logic or vice-versa. Set this to Multipliers. |
 | Number of bits above which to store stage's coefficients in BRAM | Determines the threshold at which the twiddle coefficients in a stage are stored in BRAM. Below this threshold distributed RAM is used. By changing this, you can bias your design to use more BRAM or more logic. We're going to set this to 8. |
 | Number of bits above which to store stage's delays in BRAM | Determines the threshold at which the twiddle coefficients in a stage are stored in BRAM. Below this threshold distributed RAM is used. Set this to 9. |
@@ -200,7 +200,7 @@ If you've made it to here, congratulations, go and get yourself a cup of tea and
 The tutorial comes with a pre-compiled bof file, which is generated from the model you just went through (tut_spec.fpg).
 All communication and configuration will be done by the python control script called tut_spec.py. 
 
-Next, you need to set up your Skarab. Switch it on, making sure that:
+Next, you need to set up your SKARAB. Switch it on, making sure that:
 
 •	Your tone source is set within the band of the ADC.  The default digital downconverter setting is 1 GHz, so signals within 375 MHz of this frequency should pass. In the tut_spec.py
 script, 1 GHz is mapped to DC.  In our setup, we set the tone frequency to 1.054 GHz.  If you use a different tone frequency, be sure to update the ```freq_range_mhz = [0,80]``` in the Python script so that the plot covers the range of your tone.
@@ -215,13 +215,13 @@ Now, if you're in linux, browse to where the tut3.py file is in a terminal and a
  ./tut_spec.py <skarab IP or hostname> -l <accumulation length> -b <fpgfile name>
 ```
 
-replacing <skarab IP or hostname> with the IP address of your Skarab, <accumulation length> is the number of accumulations, and <fpgfile name> with your fpgfile. You should see a spectrum like this:
+replacing <skarab IP or hostname> with the IP address of your SKARAB, <accumulation length> is the number of accumulations, and <fpgfile name> with your fpgfile. You should see a spectrum like this:
 
 ![](../../../_static/img/skarab/tut_spec/1p054GHz_sine_10accum.png)
 
 Take some time to inspect the tut_spec.py script.  It is quite long, but don't be intimiated. Most of the script is configuration for the ADC.  The import lines begin after the ```#START OF MAIN``` comment.  There, you will see that the script
 
-•	Instantiates the casperfpga connection with the Skarab
+•	Instantiates the casperfpga connection with the SKARAB
 
 •	Uploads the fpg file
 
@@ -239,5 +239,5 @@ If you have followed this tutorial faithfully, you should now know:
 
 •	Which CASPER blocks you might want to use to make a spectrometer, and how to connect them up in Simulink.
 
-•	How to connect to and control a Skarab spectrometer using python scripting.
+•	How to connect to and control a SKARAB spectrometer using python scripting.
 

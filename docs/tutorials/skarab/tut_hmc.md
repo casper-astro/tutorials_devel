@@ -42,7 +42,7 @@ More information on the HMC device (Rev D) and OpenHMC controller (Rev 1.5) can 
 [SKARAB Docs](https://github.com/casper-astro/casper-hardware/tree/master/FPGA_Hosts/SKARAB/docs) (master branch)
 
 ## Create a new model ##
-Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created HMC reordering function, SKARAB XSG core config or platform block, Xilinx System Generator block and a 40GbE yellow block. Get a copy of this template and save it. Make sure the SKARAB XSG_core_config_block or platform block is configured for:
+Start Matlab and open Simulink (either by typing 'simulink' on the Matlab command line, or by clicking on the Simulink icon in the taskbar). A template is provided for this tutorial with a pre-created HMC reordering function, SKARAB XSG core config or platform block, Xilinx System Generator block and a 40GbE yellow block (required for communication with the board). Get a copy of this template and save it as a new design in the directory in which you are saving your tutorial models. Within this design, make sure the SKARAB XSG_core_config_block or platform block is configured for:
 
 1) Hardware Platform: "SKARAB:xc7vx690t"
  
