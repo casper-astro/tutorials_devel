@@ -150,7 +150,7 @@ it simple.
 
 ```bash
 $ cd </path/to>/sanbox/casper
-$ git clone https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
+$ git clone https://gitlab.ras.byu.edu/alpaca/casper/casperfpga.git
 $ cd casperfpga
 $ git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
 
