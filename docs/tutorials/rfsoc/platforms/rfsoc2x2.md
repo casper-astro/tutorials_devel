@@ -1,4 +1,4 @@
-# RFSoC2x2
+# RFSoC 2x2
 
 vendor [link][pynq-rfsoc2x2]
 
@@ -30,4 +30,4 @@ tile 3. Callout `ADC 2` (`J5`) is connected to tile 0 corresponding to ports
 `m0X_axis_tdata` on the `rfdc`. Callout `ADC 1` (`J4`) is connected to tile 2
 corresponding to ports `m2X_axis_tdata` on the `rfdc`.
 
-[pynq-rfsoc2x2]: https://www.rfsoc-pynq.io
+[pynq-rfsoc2x2]: https://www.rfsoc-pynq.io/rfsoc_2x2_overview
