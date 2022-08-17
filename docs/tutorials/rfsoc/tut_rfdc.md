@@ -63,7 +63,10 @@ User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
 # ZCU111
 User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
 
-# RFSoC2x2
+# RFSoC 4x2
+User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
+
+# RFSoC 2x2
 User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 15.36
 
 # ZFR16
@@ -459,33 +462,46 @@ Out[15]: True
 In [16]: rfdc_zcu111.progpll('lmx', c[1])
 Out[16]: True
 
-# RFSoC 2x2
-In [17]: c = rfdc_2x2.show_clk_files()
+# RFSoC 4x2
+In [17]: c = rfdc_rfsoc4x2.show_clk_files()
 
 In [18]: c
-Out[18]: 
-['rfsoc2x2_lmk04832_12M288_PL_15M36_OUT_122M88.txt',
- 'LMX_REF_122M88_OUT_245M76.txt']
+Out[18]: ['rfsoc4x2_LMX_REF_245M76_OUT_491M52.txt',
+'rfsoc4x2_PL_122M88_REF_245M76.txt']
 
-In [19]: rfdc_2x2.progpll('lmk', c[0])
+In [19]: rfdc_rfsoc4x2.progpll('lmk', c[1])
 Out[19]: True
 
-In [20]: rfdc_2x2.progpll('lmx', c[1])
+In [20]: rfdc_rfsoc4x2.progpll('lmx', c[0])
 Out[20]: True
 
-# ZRF16
-In [21]: c = rfdc_zrf16.show_clk_files()
+# RFSoC 2x2
+In [21]: c = rfdc_2x2.show_clk_files()
 
 In [22]: c
 Out[22]:
+['rfsoc2x2_lmk04832_12M288_PL_15M36_OUT_122M88.txt',
+ 'LMX_REF_122M88_OUT_245M76.txt']
+
+In [23]: rfdc_2x2.progpll('lmk', c[0])
+Out[23]: True
+
+In [24]: rfdc_2x2.progpll('lmx', c[1])
+Out[24]: True
+
+# ZRF16
+In [25]: c = rfdc_zrf16.show_clk_files()
+
+In [26]: c
+Out[26]:
 ['zrf16_LMK_CLK1REF_10M_LMXREF_50M_PL_OUT_50M_nosysref.txt',
  'zrf16_LMX_REF_50M_OUT_250M.txt']
 
-In [23]: rfdc_zrf16.progpll('lmk', c[0])
-Out[23]: True
+In [27]: rfdc_zrf16.progpll('lmk', c[0])
+Out[27]: True
 
-In [24]: rfdc_zrf16.progpll('lmx', c[1])
-Out[24]: True
+In [28]: rfdc_zrf16.progpll('lmx', c[1])
+Out[28]: True
 ```
 
 With the clocks programmed we can now check the status of the `rfdc` and it
@@ -597,7 +613,7 @@ def qt_capture(fpga):
 
 N = 100
 n = np.arange(0,N)
-x_m00, xm10 = qt_capture(fpga)
+x_m00, x_m10 = qt_capture(fpga)
 fig, ax = plt.subplots(2,1, sharey='row')
 ax[0].plot(n, np.real(x_m00[0:N])); ax[0].set_title('Tile 0 Ch.0'); ax[0].grid(True);
 ax[1].plot(n, np.real(x_m10[0:N])); ax[1].set_title('Tile 1 Ch.0'); ax[1].grid(True); plt.show();
