@@ -13,6 +13,10 @@ Setting up the Red Pitaya involves installing and building a few things through 
 - Run the following script on the RP:
 
 ```bash
+# make sure /etc/hosts exists
+touch /etc/hosts
+# make sure localhost is in /etc/hosts (required by tcpborphserver3)
+grep -q localhost /etc/hosts || echo "127.0.0.1 localhost" >> /etc/hosts
 # install git
 apt-get install git
 # clone katcp
