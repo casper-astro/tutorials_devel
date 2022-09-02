@@ -61,9 +61,8 @@ To create a Python 3 virtual environment:
 # change directory to where you want the virtual environment to live
 cd /home/user/work
 # install virtualenv using pip3
-sudo pip3 install virtualenv
 # create a Python 3 virtual environment
-virtualenv -p python3 casper_venv
+python3 -m casper_venv
 # to activate the virtual environment:
 source casper_venv/bin/activate
 # to deactivate the virtual environment:
@@ -79,7 +78,7 @@ source /home/user/work/casper_venv/bin/activate
 # Install casperfpga dependencies
 cd casperfpga
 pip3 install -r requirements.txt
-
+pip3 install .
 # Go back to the root of the repository
 cd ..
 

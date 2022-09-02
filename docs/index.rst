@@ -7,18 +7,10 @@ The tutorial repository can be found on `github <https://github.com/casper-astro
 
 It is recommended to start with the introduction tutorial for the platform of your liking, then do that platform's GBE tutorial and finally move onto the spectrometer or correlator tutorial or the next difficulty tutorial.
 
-Currently there are tutorials available for five hardware platforms within the CASPER community:
-
-1. ROACH
-2. ROACH2
-3. SKARAB
-4. SNAP
-5. Red Pitaya
-
 Environment setup
 ---------------------
 
-The recommended OS is Ubuntu (currently 16.04) as it is what the majority of the collaboration are using. This makes it easier for us to support you. If you are so inclined, you could also use Red Hat, but we definitely do not support Windows. You are welcome to try but you will be on your own. You could always run Linux in a VM although this will increase your compile times.
+The recommended OS is Ubuntu (currently 20.04) as it is what the majority of the collaboration are using. This makes it easier for us to support you. If you are so inclined, you could also use Red Hat, but we definitely do not support Windows. You are welcome to try but you will be on your own. You could always run Linux in a VM although this will increase your compile times.
 
 The current compatibility matrix of software needed to run these tutorials is below:
 
@@ -29,11 +21,23 @@ The current compatibility matrix of software needed to run these tutorials is be
 +================+=====================+====================+====================+=================================+===================+
 |ROACH1/2        | Ubuntu 14.04        |  2013b             |  ISE 14.7          |  branch: `roach`                |   Python 2.7      |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|SKARAB          | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
+|SKARAB          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|SNAP            | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
+|SNAP            | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|Red Pitaya      | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
+|Red Pitaya      | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|ZCU216          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|ZCU208          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|ZCU111          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|PYNQ RFSoC 2x2  | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|HTG ZRF16-29DR  | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
++----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
+|HTG ZRF16-49DR  | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `master`               |   Python 3.8      |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
 
 Instructions on setting up an environment in which to run these tutorials can be found `here <https://github.com/casper-astro/tutorials_devel/blob/workshop2019/README.md>`__. Instructions on setting up the toolflow-proper can be found `here <https://casper-toolflow.readthedocs.io/en/latest/index.html>`__.
