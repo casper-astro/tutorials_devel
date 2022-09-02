@@ -83,6 +83,7 @@ platform and any additional setup/configuration required:
   * [ZCU208](./platforms/zcu208.md#rf-clocking)
   * [ZCU111](./platforms/zcu111.md#rf-clocking)
   * [RFSoC2x2](./platforms/rfsoc2x2.md#rf-clocking)
+  * [RFSoC4x2](./platforms/rfsoc4x2.md#rf-clocking)
   * [ZRF16](./platforms/zrf16.md#rf-clocking)
 
 Set the `User IP Clock Rate` and `RFPLL PL Clock Rate` as follows for your
@@ -98,7 +99,10 @@ User IP Clock Rate: 250, RFPLL PL Clock Rate: 125
 # ZCU111
 User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
 
-# RFSoC2x2
+# RFSoC 4x2
+User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 122.88
+
+# RFSoC 2x2
 User IP Clock Rate: 245.76, RFPLL PL Clock Rate: 15.36
 
 # ZFR16
@@ -452,7 +456,10 @@ casper@alpaca-1:~$ sudo ./bin/prg_clk104_rfpll -lmk /lib/firmware/250M_PL_125M_S
 # ZCU111
 casper@alpaca-zcu111:~$ sudo ./bin/prg_rfpll -lmk /lib/firmware/122M88_PL_122M88_SYSREF_7M68_clk5_12M8.txt
 
-# RFSoC2x2
+# RFSoC 4x2
+casper@rfsoc4x2:~$ sudo ./bin/prg_rfpll -lmk /lib/firmware/rfsoc4x2_PL_122M88_REF_245M76.txt
+
+# RFSoC 2x2
 casper@rfsoc2x2:~$ sudo ./bin/prg_rfpll -lmk /lib/firmware/rfsoc2x2_lmk04832_12M288_PL_15M36_OUT_122M88_CLK12_15M36.txt
 
 # ZRF16
