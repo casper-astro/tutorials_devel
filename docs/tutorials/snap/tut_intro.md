@@ -3,7 +3,7 @@ In this tutorial, you will create a simple Simulink design using both standard X
 
 ## Creating Your Design
 ### Create a New Model
-Start Matlab via executing the <code>startsg</code> command, as described [here](https://github.com/casper-astro/tutorials_devel/blob/master/workshop_setup.md). This ensures that necessary Xilinx and CASPER libraries are loaded into your by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early, and often**.
+Start Matlab via executing the <code>startsg</code> command, as described [here](https://github.com/casper-astro/tutorials_devel). This ensures that necessary Xilinx and CASPER libraries are loaded into your by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early, and often**.
 
 There are some Matlab limitations you should be aware-of right from the start:
  

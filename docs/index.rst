@@ -95,19 +95,19 @@ Vivado
 1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_intro>`__
 2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_40gbe>`__
 3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_hmc>`__
-4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec>`__
-5. :doc:`2.8 GSPS, N-channel, Synchronous Data Acquisition Tutorial <tutorials/skarab/tut_adc>`
+4. Spectrometer Tutorials :doc:`Step-by-Step <tutorials/skarab/tut_spec/tut_spec_index>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec>`__
+5. :doc:`ADC Synchronous Data Acquisition Tutorials <tutorials/skarab/tut_adc/tut_adc_index>`
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :hidden:
    :caption: SKARAB Tutorials
 
    tutorials/skarab/tut_intro
    tutorials/skarab/tut_40gbe
    tutorials/skarab/tut_hmc
-   tutorials/skarab/tut_spec  
-   tutorials/skarab/tut_adc
+   tutorials/skarab/tut_spec/tut_spec_index  
+   tutorials/skarab/tut_adc/tut_adc_index
    
 **Red Pitaya**
 
@@ -115,6 +115,7 @@ Vivado
 2. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_intro>`__
 3. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_adc_dac>`__
 4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_spec>`__
+
 
 .. toctree::
    :maxdepth: 1
@@ -126,12 +127,34 @@ Vivado
    tutorials/redpitaya/tut_adc_dac
    tutorials/redpitaya/tut_spec
 
+**RFSOC**
+
+1. :doc:`CASPER RFSOC README <tutorials/rfsoc/readme>`
+2. :doc:`Getting Started With RFSoC <tutorials/rfsoc/tut_getting_started>`
+3. RFSoC Platform Yellow Block and Simulink Overview :doc:`Step-by-Step <tutorials/rfsoc/tut_platform>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_platform>`__
+4. Using the RFDC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_rfdc>`__ 
+5. [Under Construction] Spectrometer Tutorial :doc:`Step-by-Step <tutorials/rfsoc/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_spec>`__
+6. [Under Construction] 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_onehundred_gbe>`__
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: RFSOC Tutorials
+
+   tutorials/rfsoc/readme 
+   tutorials/rfsoc/tut_getting_started
+   tutorials/rfsoc/tut_platform
+   tutorials/rfsoc/tut_rfdc
+   tutorials/rfsoc/tut_spec
+   tutorials/rfsoc/tut_100g
+
 ..  toctree::
     :hidden:
     :maxdepth: 1
     :caption: Documentation
 
     CASPER Documentation <https://casper-toolflow.readthedocs.io/en/latest/index.html>
+    AXI Documentation <https://casper-toolflow.readthedocs.io/en/latest/axi4lite_documentation.html>
     Block Documentation <https://casper-toolflow.readthedocs.io/en/latest/blockdocumentation.html>
     The CASPER Toolflow <https://casper-toolflow.readthedocs.io/en/latest/jasper_documentation.html>
     Toolflow Sourcecode <https://casper-toolflow.readthedocs.io/en/latest/src/jasper_library_modules/modules.html>

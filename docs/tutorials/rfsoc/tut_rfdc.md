@@ -33,11 +33,11 @@ This design will:
 To get a picture of where we are headed, the final design will look like this for
 quad-tile platforms:
 
-![](../../_static/img/rfsoc/tut_rfdc/rfdc-qt-final.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/rfdc-qt-final.png)
 
 And this for dual-tile platforms:
 
-![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.png)
 
 This design is a "snapshot" capture on two inputs on quad-tile platforms and one
 input on dual-tile platforms placing raw ADC samples in a BRAM that are read out
@@ -47,7 +47,7 @@ here is sufficient for the scope of this tutorial.
 
 ### Step 1: Add the XSG and RFSoC platform yellow block
 Add a Xilinx `System Generator` block and a platform yellow block to the design,
-as demonstrated in [tutorial 1](../tut_platform.md). While the above example
+as demonstrated in [tutorial 1](./tut_platform.md). While the above example
 layouts used the `ZCU111` as the example for a dual-tile RFSoC and the `ZCU216`
 as the example for a quad-tile platform, these steps for a design targeting the
 other RFSoC platforms is similar for its respective tile architecture.
@@ -252,11 +252,11 @@ into a pulse to trigger the snapshot block.
 The design is now complete! For a quad-tile platform it should have turned out
 like:
 
-![](../../_static/img/rfsoc/tut_rfdc/rfdc-qt-final.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/rfdc-qt-final.png)
 
 And this for dual-tile platforms:
 
-![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.PNG)
+![](../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.png)
 
 You can connect some simulink constant blocks to get rid of simulink unconnected
 port warnings, or leave them if they do not bother your. Validate the design by
@@ -632,7 +632,7 @@ x = dt_capture(fpga)
 plt.plot(np.real(x[0:N])); plt.title('Tile 0 Ch.0'); plt.grid(); plt.show();
 ```
 
-# Conclusion
+## Conclusion
 In this tutorial it was shown how to configure and use the `rfdc` yellow block
 for both dual- and quad-tile RFSoC platforms. An example design was built for
 both architectures sampling an RF signal centered in a band at 1500 MHz. It was

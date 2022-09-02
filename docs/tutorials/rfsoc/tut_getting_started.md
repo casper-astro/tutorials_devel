@@ -47,7 +47,7 @@ $ mkdir casper
 $ cd casper
 $ git clone https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel.git
 $ cd mlib_devel
-$ git checkout -b rfsoc origin/rfsoc/devel
+$ git checkout -b rfsoc origin/rfsocs/devel
 
 # install pacakge dependencies
 $ pip install -r requirements.txt
@@ -150,7 +150,7 @@ it simple.
 
 ```bash
 $ cd </path/to>/sanbox/casper
-$ git clone https://gitlab.ras.byu.edu:alpaca/casper/casperfpga.git
+$ git clone https://gitlab.ras.byu.edu/alpaca/casper/casperfpga.git
 $ cd casperfpga
 $ git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
 
@@ -181,7 +181,7 @@ and we are now ready to move on to testing the toolflow installation and get mor
 familiar with your platform image and `casperfpga` in the [next
 tutorial](./tut_platform.md).
 
-# Misc. Configuration
+## Misc. Configuration
 
 ### Platform Network Configuration
 Each platform image is configured by default to use DHCP to receive an IP
