@@ -1,3 +1,0 @@
-export XILINX_PATH=/opt/Xilinx/14.7/ISE_DS
-export MATLAB_PATH=/usr/local/matlab/matlab-R2012b
-export XILINX_PLATFORM=lin64

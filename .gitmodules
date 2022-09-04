@@ -18,3 +18,7 @@
 	path = red_pitaya/mlib_devel
 	url = https://github.com/casper-astro/mlib_devel.git
 	shallow = true
+[submodule "rfsoc/mlib_devel"]
+	path = rfsoc/mlib_devel
+	url = https://github.com/casper-astro/mlib_devel.git
+	shallow = true
