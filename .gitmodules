@@ -20,5 +20,5 @@
 	shallow = true
 [submodule "rfsoc/mlib_devel"]
 	path = rfsoc/mlib_devel
-	url = https://github.com/casper-astro/mlib_devel.git
+	url = http://github.com/casper-astro/mlib_devel
 	shallow = true
