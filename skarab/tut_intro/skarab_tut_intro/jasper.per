@@ -1,0 +1,493 @@
+yellow_blocks:
+  skarab_tut_intro/SKARAB:
+    name: SKARAB
+    fullpath: skarab_tut_intro/SKARAB
+    tag: xps:xsg
+    hw_sys: 'SKARAB:xc7vx690t'
+    clk_src: sys_clk
+    clk_rate: 180
+    sample_period: 1
+    synthesis_tool: XST
+  skarab_tut_intro/Subsystem/dest_ip:
+    name: dest_ip
+    fullpath: skarab_tut_intro/Subsystem/dest_ip
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/dest_port:
+    name: dest_port
+    fullpath: skarab_tut_intro/Subsystem/dest_port
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/fgbe:
+    name: fgbe
+    fullpath: skarab_tut_intro/Subsystem/fgbe
+    tag: xps:forty_gbe
+    flavour: cx4
+    slot: 1
+    port_r1: 0
+    port_r2_cx4: 0
+    port_r2_sfpp: 0
+    port: 0
+    rx_dist_ram: on
+    large_frames: off
+    input_pipeline_delay: 3
+    show_param: off
+    pre_emph_r2: 0.74
+    pre_emph: 3
+    post_emph_r2: 0.18
+    rxeqmix_r2: 7
+    swing_r2: 940
+    swing: 800
+    fab_en: on
+    fab_mac: 20015998304256
+    fab_ip: 3232236820
+    fab_udp: 10000
+    fab_gate: 1
+    cpu_rx_en: on
+    cpu_tx_en: on
+    ttl: 255
+    promisc_mode: off
+    debug_ctr_width: 16
+    debug_en_all: off
+    debug_dis_all: off
+    txctr: off
+    txerrctr: off
+    txerrctr_len: 100
+    txofctr: off
+    txfullctr: off
+    txvldctr: off
+    txsnaplen: 0 - no snap
+    rxctr: off
+    rxerrctr: off
+    rxerrctr_len: 100
+    rxofctr: off
+    rxbadctr: off
+    rxvldctr: off
+    rxeofctr: off
+    rxsnaplen: 0 - no snap
+    rxsrcip: on
+    rxdstip: on
+  skarab_tut_intro/Subsystem/gbe_linkup:
+    name: gbe_linkup
+    fullpath: skarab_tut_intro/Subsystem/gbe_linkup
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/gbe_rx:
+    name: gbe_rx
+    fullpath: skarab_tut_intro/Subsystem/gbe_rx
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/gbe_tx:
+    name: gbe_tx
+    fullpath: skarab_tut_intro/Subsystem/gbe_tx
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/gbe_tx_cnt:
+    name: gbe_tx_cnt
+    fullpath: skarab_tut_intro/Subsystem/gbe_tx_cnt
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/gbe_tx_full:
+    name: gbe_tx_full
+    fullpath: skarab_tut_intro/Subsystem/gbe_tx_full
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/gbe_tx_over:
+    name: gbe_tx_over
+    fullpath: skarab_tut_intro/Subsystem/gbe_tx_over
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/gpio:
+    name: gpio
+    fullpath: skarab_tut_intro/Subsystem/gpio
+    tag: xps:gpio
+    io_group: 'ROACH2:gpio'
+    io_group_real: gpio
+    io_group_custom: 0
+    io_dir: out
+    arith_type: Boolean
+    bitwidth: 1
+    bin_pt: 0
+    bit_index: 0
+    sample_period: 1
+    use_single_ended: off
+    use_ddr: off
+    reg_iob: on
+    reg_clk_phase: 0
+    termination: None
+  skarab_tut_intro/Subsystem/gpio1:
+    name: gpio1
+    fullpath: skarab_tut_intro/Subsystem/gpio1
+    tag: xps:gpio
+    io_group: 'ROACH2:gpio'
+    io_group_real: gpio
+    io_group_custom: 0
+    io_dir: out
+    arith_type: Boolean
+    bitwidth: 1
+    bin_pt: 0
+    bit_index: 1
+    sample_period: 1
+    use_single_ended: off
+    use_ddr: off
+    reg_iob: on
+    reg_clk_phase: 0
+    termination: None
+  skarab_tut_intro/Subsystem/pkt_sim/enable:
+    name: enable
+    fullpath: skarab_tut_intro/Subsystem/pkt_sim/enable
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/pkt_sim/payload_len:
+    name: payload_len
+    fullpath: skarab_tut_intro/Subsystem/pkt_sim/payload_len
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/pkt_sim/period:
+    name: period
+    fullpath: skarab_tut_intro/Subsystem/pkt_sim/period
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rst:
+    name: rst
+    fullpath: skarab_tut_intro/Subsystem/rst
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rx_bad_frame:
+    name: rx_bad_frame
+    fullpath: skarab_tut_intro/Subsystem/rx_bad_frame
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rx_data:
+    name: rx_data
+    fullpath: skarab_tut_intro/Subsystem/rx_data
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rx_dest_ip:
+    name: rx_dest_ip
+    fullpath: skarab_tut_intro/Subsystem/rx_dest_ip
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rx_dest_port:
+    name: rx_dest_port
+    fullpath: skarab_tut_intro/Subsystem/rx_dest_port
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rx_end_of_frame:
+    name: rx_end_of_frame
+    fullpath: skarab_tut_intro/Subsystem/rx_end_of_frame
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/Subsystem/rx_valid:
+    name: rx_valid
+    fullpath: skarab_tut_intro/Subsystem/rx_valid
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: on
+  skarab_tut_intro/a:
+    name: a
+    fullpath: skarab_tut_intro/a
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: off
+  skarab_tut_intro/b:
+    name: b
+    fullpath: skarab_tut_intro/b
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: off
+  skarab_tut_intro/counter_ctrl:
+    name: counter_ctrl
+    fullpath: skarab_tut_intro/counter_ctrl
+    tag: xps:sw_reg
+    io_dir: From Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: off
+  skarab_tut_intro/counter_value:
+    name: counter_value
+    fullpath: skarab_tut_intro/counter_value
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: off
+  skarab_tut_intro/gpio:
+    name: gpio
+    fullpath: skarab_tut_intro/gpio
+    tag: xps:gpio
+    io_group: 'ROACH2:led'
+    io_group_real: led
+    io_group_custom: 0
+    io_dir: out
+    arith_type: Boolean
+    bitwidth: 1
+    bin_pt: 0
+    bit_index: 0
+    sample_period: 1
+    use_single_ended: off
+    use_ddr: off
+    reg_iob: on
+    reg_clk_phase: 0
+    termination: None
+  skarab_tut_intro/sum_a_b:
+    name: sum_a_b
+    fullpath: skarab_tut_intro/sum_a_b
+    tag: xps:sw_reg
+    io_dir: To Processor
+    io_delay: 0
+    init_val: 0
+    sample_period: 1
+    names: reg
+    bitwidths: 32
+    bin_pts: 0
+    arith_types: 0
+    sim_port: on
+    show_format: off
+
+user_modules:
+  skarab_tut_intro:
+    clock: clk
+    ports:
+      - skarab_tut_intro_Subsystem_dest_ip_user_data_out
+      - skarab_tut_intro_Subsystem_dest_port_user_data_out
+      - skarab_tut_intro_Subsystem_fgbe_led_rx
+      - skarab_tut_intro_Subsystem_fgbe_led_tx
+      - skarab_tut_intro_Subsystem_fgbe_led_up
+      - skarab_tut_intro_Subsystem_fgbe_rx_bad_frame
+      - skarab_tut_intro_Subsystem_fgbe_rx_data
+      - skarab_tut_intro_Subsystem_fgbe_rx_dest_ip
+      - skarab_tut_intro_Subsystem_fgbe_rx_dest_port
+      - skarab_tut_intro_Subsystem_fgbe_rx_end_of_frame
+      - skarab_tut_intro_Subsystem_fgbe_rx_overrun
+      - skarab_tut_intro_Subsystem_fgbe_rx_source_ip
+      - skarab_tut_intro_Subsystem_fgbe_rx_source_port
+      - skarab_tut_intro_Subsystem_fgbe_rx_valid
+      - skarab_tut_intro_Subsystem_fgbe_tx_afull
+      - skarab_tut_intro_Subsystem_fgbe_tx_overflow
+      - skarab_tut_intro_Subsystem_pkt_sim_enable_user_data_out
+      - skarab_tut_intro_Subsystem_pkt_sim_payload_len_user_data_out
+      - skarab_tut_intro_Subsystem_pkt_sim_period_user_data_out
+      - skarab_tut_intro_Subsystem_rst_user_data_out
+      - skarab_tut_intro_a_user_data_out
+      - skarab_tut_intro_b_user_data_out
+      - skarab_tut_intro_counter_ctrl_user_data_out
+      - skarab_tut_intro_Subsystem_fgbe_rst
+      - skarab_tut_intro_Subsystem_fgbe_rx_ack
+      - skarab_tut_intro_Subsystem_fgbe_rx_overrun_ack
+      - skarab_tut_intro_Subsystem_fgbe_tx_data
+      - skarab_tut_intro_Subsystem_fgbe_tx_dest_ip
+      - skarab_tut_intro_Subsystem_fgbe_tx_dest_port
+      - skarab_tut_intro_Subsystem_fgbe_tx_end_of_frame
+      - skarab_tut_intro_Subsystem_fgbe_tx_valid
+      - skarab_tut_intro_Subsystem_gbe_linkup_user_data_in
+      - skarab_tut_intro_Subsystem_gbe_rx_user_data_in
+      - skarab_tut_intro_Subsystem_gbe_tx_user_data_in
+      - skarab_tut_intro_Subsystem_gbe_tx_cnt_user_data_in
+      - skarab_tut_intro_Subsystem_gbe_tx_full_user_data_in
+      - skarab_tut_intro_Subsystem_gbe_tx_over_user_data_in
+      - skarab_tut_intro_Subsystem_gpio_gateway
+      - skarab_tut_intro_Subsystem_gpio1_gateway
+      - skarab_tut_intro_Subsystem_rx_bad_frame_user_data_in
+      - skarab_tut_intro_Subsystem_rx_data_user_data_in
+      - skarab_tut_intro_Subsystem_rx_dest_ip_user_data_in
+      - skarab_tut_intro_Subsystem_rx_dest_port_user_data_in
+      - skarab_tut_intro_Subsystem_rx_end_of_frame_user_data_in
+      - skarab_tut_intro_Subsystem_rx_valid_user_data_in
+      - skarab_tut_intro_counter_value_user_data_in
+      - skarab_tut_intro_gpio_gateway
+      - skarab_tut_intro_sum_a_b_user_data_in
+    sources:
+      - /home/lwando/work/tutorials_devel/skarab/tut_intro/skarab_tut_intro/sysgen/hdl_netlist/skarab_tut_intro.srcs/sources_1/imports/sysgen
+      - /home/lwando/work/tutorials_devel/skarab/tut_intro/skarab_tut_intro/sysgen/hdl_netlist/skarab_tut_intro.srcs/sources_1/ip/*.coe
+      - /home/lwando/work/tutorials_devel/skarab/tut_intro/skarab_tut_intro/sysgen/hdl_netlist/skarab_tut_intro.srcs/sources_1/ip/*/*.xci
+      - /home/lwando/work/tutorials_devel/skarab/tut_intro/skarab_tut_intro/sysgen/hdl_netlist/skarab_tut_intro.srcs/sources_1/imports/sysgen/*.mem
