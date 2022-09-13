@@ -24,7 +24,7 @@
 	shallow = true
 [submodule "alveo/mlib_devel"]
         path = alveo/mlib_devel
-        url = http://github.com/casper-astro/mlib_devel
+        url = http://github.com/casper-astro/mlib_devel.git
         shallow = true
 
 
