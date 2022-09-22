@@ -7,10 +7,18 @@ The tutorial repository can be found on `github <https://github.com/casper-astro
 
 It is recommended to start with the introduction tutorial for the platform of your liking, then do that platform's GBE tutorial and finally move onto the spectrometer or correlator tutorial or the next difficulty tutorial.
 
+Currently there are tutorials available for five hardware platforms within the CASPER community:
+
+1. ROACH
+2. ROACH2
+3. SKARAB
+4. SNAP
+5. Red Pitaya
+
 Environment setup
 ---------------------
 
-The recommended OS is Ubuntu (currently 20.04) as it is what the majority of the collaboration are using. This makes it easier for us to support you. If you are so inclined, you could also use Red Hat, but we definitely do not support Windows. You are welcome to try but you will be on your own. You could always run Linux in a VM although this will increase your compile times.
+The recommended OS is Ubuntu (currently 16.04) as it is what the majority of the collaboration are using. This makes it easier for us to support you. If you are so inclined, you could also use Red Hat, but we definitely do not support Windows. You are welcome to try but you will be on your own. You could always run Linux in a VM although this will increase your compile times.
 
 The current compatibility matrix of software needed to run these tutorials is below:
 
@@ -21,23 +29,11 @@ The current compatibility matrix of software needed to run these tutorials is be
 +================+=====================+====================+====================+=================================+===================+
 |ROACH1/2        | Ubuntu 14.04        |  2013b             |  ISE 14.7          |  branch: `roach`                |   Python 2.7      |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|SKARAB          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
+|SKARAB          | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|SNAP            | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
+|SNAP            | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|Red Pitaya      | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
-+----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|ZCU216          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
-+----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|ZCU208          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
-+----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|ZCU111          | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
-+----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|PYNQ RFSoC 4x2  | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
-+----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|HTG ZRF16-29DR  | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
-+----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
-|HTG ZRF16-49DR  | Ubuntu 20.04        |  2021a             |  Vivado 2021.1     |  branch: `m2021a`               |   Python 3.8      |
+|Red Pitaya      | Ubuntu 16.04        |  2018a             |  Vivado 2019.1.1   |  branch: `master`               |   Python 3        |
 +----------------+---------------------+--------------------+--------------------+---------------------------------+-------------------+
 
 Instructions on setting up an environment in which to run these tutorials can be found `here <https://github.com/casper-astro/tutorials_devel/blob/workshop2019/README.md>`__. Instructions on setting up the toolflow-proper can be found `here <https://casper-toolflow.readthedocs.io/en/latest/index.html>`__.
@@ -73,10 +69,10 @@ Vivado
 
 **SNAP**
 
-1. Introduction Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/vivado/snap/tut_intro>`_
-2. 10GbE Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_ten_gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/vivado/snap/tut_tge>`__
-3. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/snap/tut_spec>` or  `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/vivado/snap/tut_spec>`__
-4. Correlator Tutorial :doc:`Step-by-Step <tutorials/snap/tut_corr>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/vivado/snap/tut_corr>`__
+1. Introduction Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_intro>`_
+2. 10GbE Tutorial: :doc:`Step-by-Step <tutorials/snap/tut_ten_gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_tge>`__
+3. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/snap/tut_spec>` or  `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_spec>`__
+4. Correlator Tutorial :doc:`Step-by-Step <tutorials/snap/tut_corr>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/vivado/snap/tut_corr>`__
 5. Yellow Block Tutorial: :doc:`Bidirectional GPIO <tutorials/snap/tut_gpio_bidir>` 
 
 .. toctree::
@@ -92,10 +88,10 @@ Vivado
 
 **SKARAB**
 
-1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/skarab/tut_intro>`__
-2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/skarab/tut_40gbe>`__
-3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/skarab/tut_hmc>`__
-4. Spectrometer Tutorials :doc:`Step-by-Step <tutorials/skarab/tut_spec/tut_spec_index>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/skarab/tut_spec>`__
+1. Introduction Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_intro>`__
+2. 40GbE Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_40gbe>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_40gbe>`__
+3. HMC Tutorial :doc:`Step-by-Step <tutorials/skarab/tut_hmc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_hmc>`__
+4. Spectrometer Tutorials :doc:`Step-by-Step <tutorials/skarab/tut_spec/tut_spec_index>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/skarab/tut_spec>`__
 5. :doc:`ADC Synchronous Data Acquisition Tutorials <tutorials/skarab/tut_adc/tut_adc_index>`
 
 .. toctree::
@@ -112,9 +108,9 @@ Vivado
 **Red Pitaya**
 
 1. :doc:`Guide to Setting Up Your New Red Pitaya <tutorials/redpitaya/red_pitaya_setup>` 
-2. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/red_pitaya/tut_intro>`__
-3. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/red_pitaya/tut_adc_dac>`__
-4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/red_pitaya/tut_spec>`__
+2. Introduction Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_intro>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_intro>`__
+3. ADC and DAC Interface Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_adc_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_adc_dac>`__
+4. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/redpitaya/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/red_pitaya/tut_spec>`__
 
 
 .. toctree::
@@ -126,15 +122,28 @@ Vivado
    tutorials/redpitaya/tut_intro
    tutorials/redpitaya/tut_adc_dac
    tutorials/redpitaya/tut_spec
+   
+**ALVEO**
+
+1. Introduction Tutorial :doc:`Step-by-Step <tutorials/alveo/tut_intro>` or `Completed <https://github.com/Gmotion94/tutorials_devel/tree/docs_update/alveo/tut_intro>`__
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Alveo Tutorials
+
+   tutorials/alveo/tut_intro	
+
+
 
 **RFSOC**
 
 1. :doc:`CASPER RFSOC README <tutorials/rfsoc/readme>`
 2. :doc:`Getting Started With RFSoC <tutorials/rfsoc/tut_getting_started>`
-3. RFSoC Platform Yellow Block and Simulink Overview :doc:`Step-by-Step <tutorials/rfsoc/tut_platform>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_platform>`__
-4. Using the RFDC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_rfdc>`__ 
-5. [Under Construction] Spectrometer Tutorial :doc:`Step-by-Step <tutorials/rfsoc/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_spec>`__
-6. [Under Construction] 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_onehundred_gbe>`__
+3. RFSoC Platform Yellow Block and Simulink Overview :doc:`Step-by-Step <tutorials/rfsoc/tut_platform>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_platform>`__
+4. Using the RFDC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_rfdc>`__ 
+5. [Under Construction] Spectrometer Tutorial :doc:`Step-by-Step <tutorials/rfsoc/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_spec>`__
+6. [Under Construction] 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_onehundred_gbe>`__
 
 .. toctree::
    :maxdepth: 1
