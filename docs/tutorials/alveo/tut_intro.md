@@ -10,7 +10,7 @@ In this tutorial, you will create a simple Simulink design using both standard X
 
 ### Create a New Model
 
-Start MATLAB via executing the <code>./startmc startsg.local.example</code> command, as described [here](https://casper-toolflow.readthedocs.io/en/latest/src/Running-the-Toolflow.html). This ensures that necessary Xilinx and CASPER libraries are loaded into development environment by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early and often**.
+Start MATLAB via executing the <code>startsg</code> command, as described [here](https://casper-toolflow.readthedocs.io/en/latest/src/Running-the-Toolflow.html). This ensures that necessary Xilinx and CASPER libraries are loaded into development environment by Simulink. When MATLAB starts up, open Simulink by typing <i>simulink</i> on the MATLAB command line. Start a new model, and save it with an appropriate name. **With Simulink, it is very wise to save early and often**.
 
 There are some Matlab limitations you should be aware-of right from the start:
 
@@ -278,9 +278,13 @@ After this is completed, the last message printed will tell you how to finish th
 python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/alveo/tut_intro/alveo_tut_intro.slx --middleware --backend --software
  ```
 
-You can run this command in a separate terminal, after sourcing appropriate environment variables. Not recommended for beginners.
+You can run this command in a separate terminal after navigating to the `tutorials_devel/vivado_2018/` directory and sourcing appropriate environment variables.
 
-
+```bash
+source startsg.local.hpw2019
+source startsg
+python /path_to/mlib_devel/jasper_library/exec_flow.py -m /home/user/path_to/alveo/tut_intro/alveo_tut_intro.slx --middleware --backend --software
+```
 
 ## Programming the FPGA
 
@@ -326,8 +330,8 @@ Should the execution of this command return true, you can safely assume the FPGA
 `fpga.transport.listdev()`. The adder and counter can be controlled by [writing to](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#write_int) and [reading from](https://github.com/ska-sa/casperfpga/wiki/API-Documentation#read_int) registers added in the design using:
 
 ```python
-fpga.transport.wordwrite('a', 0x3)
-fpga.transport.wordwrite('b', 0x4)
+fpga.transport.wordwrite('a', '0x3')
+fpga.transport.wordwrite('b', '0x4')
 fpga.transport.wordread('sum_a_b')
 ```
 
@@ -336,7 +340,7 @@ With any luck, the sum returned by the FPGA should be correct.
 You can also try writing to the counter control registers in your design. You should find that with appropriate manipulation of the control register, you can make the counter start, stop, and return to zero.
 
 ```python
-fpga.transport.wordwrite('counter_ctrl', 0x1)
+fpga.transport.wordwrite('counter_ctrl', '0x1')
 fpga.transport.wordread('counter_value')
 ```
 
