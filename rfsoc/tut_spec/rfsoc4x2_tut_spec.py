@@ -87,7 +87,7 @@ if __name__=="__main__":
     mode_str = args[1]
     if mode_str=='cx':
       mode = 1
-    if mode_str=='real':
+    elif mode_str=='real':
       mode = 0
     else:
       print('operation mode not recognized, must be "cx" or "real"')
@@ -112,8 +112,8 @@ if __name__=="__main__":
   fpga = casperfpga.CasperFpga(hostname)
   time.sleep(0.2)
 
-  print('Programming FPGA with %s...'% bitstream)
   if not opts.skip:
+    print('Programming FPGA with %s...'% bitstream)
     fpga.upload_to_ram_and_program(bitstream)
     print('done')
   else:
