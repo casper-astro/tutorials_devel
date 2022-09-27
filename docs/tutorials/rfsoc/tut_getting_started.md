@@ -13,8 +13,8 @@ consistent with the standard CASPER
 [setup](https://casper-toolflow.readthedocs.io/projects/tutorials/en/latest/#environment-setup]).
 In this case, for RFSoC what you will need is:
   * Compatible Linux host operating system (tested on RHEL 7.9, 8.4 and Ubuntu 18.04 LTS, 20.04 LTS)
-  * Vivado 2020.2
-  * Matlab 2019a (with Simulink)
+  * Vivado 2021.1
+  * Matlab 2021a (with Simulink)
   * Python 3 environment 
   * Development branches of the CASPER "toolflow" library [`mlib_devel`][rfsoc-mlib-devel] and board
     communication library [`casperfpga`][rfsoc-casperfpga] with RFSoC support
@@ -45,12 +45,16 @@ tutorial. Feel free to organize suitable to your preferences.
 $ cd </path/to>/sandbox
 $ mkdir casper
 $ cd casper
-$ git clone https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel.git
+$ git clone https://github.com/casper-astro/mlib_devel.git
 $ cd mlib_devel
-$ git checkout -b rfsoc origin/rfsocs/devel
+$ git checkout -b m2021a origin/m2021a
 
 # install pacakge dependencies
 $ pip install -r requirements.txt
+
+# initialize submodules
+$ git submdoule init
+$ git submodule update
 
 # fetch a copy of the xilinx device tree repo
 $ cd </path/to>/sandbox
@@ -64,14 +68,16 @@ $ cp startsg.local.example ./startsg.local
 
 # with you favorite text editor open `startsg.local` and update the following
 # environment variables
-XILINX_PATH=</path/to/your/Xilinx>/Vivado/2020.2
-MATLAB_PATH=</path/to/your/Matlab>/R2019a
+XILINX_PATH=</path/to/your/Xilinx>/Vivado/2021.1
+MATLAB_PATH=</path/to/your/Matlab>/R2021a
+COMPOSER_PATH=</path/to/your/Xilinx>/Model_Composer/2021.1
 JASPER_BACKEND=vitis
 XLNX_DT_REPO_PATH=</path/to>/sandbox/xilinx/device-tree-xlnx
 
 # The following is an example of my startsg.local
-export XILINX_PATH=/opt/Xilinx/Vivado/2020.2 
-export MATLAB_PATH=/opt/MATLAB/R2019a
+export XILINX_PATH=/opt/Xilinx/Vivado/2021.1 
+export MATLAB_PATH=/opt/MATLAB/R2021a
+export COMPOSER_PATH=/opt/Xilinx/Model_Composer/2021.1
 export PLATFORM=lin64 
 export JASPER_BACKEND=vitis
 export XLNX_DT_REPO_PATH=/home/mcb/git/xilinx/device-tree-xlnx
@@ -150,15 +156,15 @@ it simple.
 
 ```bash
 $ cd </path/to>/sanbox/casper
-$ git clone https://gitlab.ras.byu.edu/alpaca/casper/casperfpga.git
+$ git clone https://github.com/casper-astro/casperfpga.git
 $ cd casperfpga
-$ git checkout -b rfsoc/rfdc origin/rfsoc/rfdc
+$ git checkout -b mega-merge origin/mega-merge
 
 # install package requirments
 $ pip install -r requirments.txt
 
 # build and install `casperfpga`
-$ python setup.py install
+$ pip install .
 ```
 
 `casperfpga` is now installed and we can test connection with the platform. To
