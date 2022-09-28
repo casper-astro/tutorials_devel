@@ -131,7 +131,7 @@ As the ADC has four parallel time sampled outputs: i0, i1, i2 and i3, we need fo
 |                                 | | steepness of rolloff, etc). Hamming is the default and best for most      |
 |                                 | | purposes.                                                                 |
 +---------------------------------+-----------------------------------------------------------------------------+
-|  Number of Simultaneous         | | The number of parallel time samples which are presented to the FFT core   |
+| | Number of Simultaneous        | | The number of parallel time samples which are presented to the FFT core   |
 | | Inputs                        | | each clock. The number of output ports are set to this same value. We have|
 |                                 | | four inputs from the ADC, so set this to 2.                               |
 +---------------------------------+-----------------------------------------------------------------------------+
