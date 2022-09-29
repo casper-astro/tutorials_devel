@@ -5,11 +5,11 @@ Introduction
 -------------
 In this tutorial will go over building a simple spectrometer using CASPER DSP and hardware yellow blocks for RFSoC.
 
-This tutorial assumes that the casper-ite is familiar wth the :doc:`RFDC Interface <./tut_rfdc>` tutorial. This also assumes that the CASPER development environment is setup for RFSoC as described in the :doc:`Getting Started <./tut_getting_started>` tutorial. A brief walkthourgh of example of the spectrometer design, software control of the spectrometer will be given in this tutorial. However, it is also benefiical to become learn how to interact with the FPGA using ``casperfpga`` as demonstrated in the :doc:`simulink platform introduction <./tut_platform>`.
+This tutorial assumes that the casper-ite is familiar wth the :doc:`RFDC Interface <./tut_rfdc>` tutorial. This also assumes that the CASPER development environment is setup for RFSoC as described in the :doc:`Getting Started <./tut_getting_started>` tutorial. A brief walkthrough of example of the spectrometer design, software control of the spectrometer will be given in this tutorial. However, it is also beneficial to become learn how to interact with the FPGA using ``casperfpga`` as demonstrated in the :doc:`simulink platform introduction <./tut_platform>`.
 
-A spectrometer is an analysis filterbank that takes for its input a time domain singal and transforms it to a frequency domain representation. In digital systems, this is typically achieved by utilising the FFT (Fast Fourier Transform) algorithm. However, with a modest increase in compute, better spectral bin performance can be improved by using a Polyphase Filter Bank (PFB) based approach.
+A spectrometer is an analysis filter bank that takes for its input a time domain signal and transforms it to a frequency domain representation. In digital systems, this is typically achieved by utilising the FFT (Fast Fourier Transform) algorithm. However, with a modest increase in compute, better spectral bin performance can be improved by using a Polyphase Filter Bank (PFB) based approach.
 
-When designing a spectrometer for astronomical applications, it is important to consider the target science case. For example, pulsar timing searches typically require a spectrometer that can dump spectra on short timescales. This allows the rate of change of the spectral content to be finely observed. In contrast, a deep field HI survey will accumulate multiple spectra to increase the signal to noise ratio above a detecable threshold. It is important to note that “bigger isn't always better” here; the higher your spectral and time resolution are, the more data your computer (and scientist on the other end) will have to deal with. For now however, we skip the target science case and rather look to more familiarize ourselves with an example spectrometer design.
+When designing a spectrometer for astronomical applications, it is important to consider the target science case. For example, pulsar timing searches typically require a spectrometer that can dump spectra on short timescales. This allows the rate of change of the spectral content to be finely observed. In contrast, a deep field HI survey will accumulate multiple spectra to increase the signal to noise ratio above a detectable threshold. It is important to note that “bigger isn't always better” here; the higher your spectral and time resolution are, the more data your computer (and scientist on the other end) will have to deal with. For now however, we skip the target science case and rather look to more familiarize ourselves with an example spectrometer design.
 
 Setup
 -----
@@ -56,9 +56,9 @@ A brief rundown of some top-level details are as follows before you get down and
 
 - In the platform yellow block, the hardware Platform is set to the target RFSoC platform (e.g., “ZCU216:xczu49dr”) and the User IP clock rate must be specified. Recall from the :doc:`RFDC Interface <./tut_rfdc>` that the ``User IP Clock Rate (MHz)`` field must match the reported clock rate in the ``RFDC`` yellow block.
 
-- Input signals are digizited by the RFDC. These samples presented in parallel at the output of the ``RFDC`` each clock cycle. The output data type will be expressed as a simulink fixed point integers (e.g., ``fix_128_0``).
+- Input signals are digitized by the RFDC. These samples presented in parallel at the output of the ``RFDC`` each clock cycle. The output data type will be expressed as a simulink fixed point integers (e.g., ``fix_128_0``).
 
-- The parallel time samples pass through the ``pfb_fir_real`` and ``fft_wideband_real blocks`` (``pfb_fir`` and ``fft`` blocks when the ``RFDC`` is configured to ouput complex data samples). Together these blocks implement a polyphase filter bank.
+- The parallel time samples pass through the ``pfb_fir_real`` and ``fft_wideband_real blocks`` (``pfb_fir`` and ``fft`` blocks when the ``RFDC`` is configured to output complex data samples). Together these blocks implement a polyphase filter bank.
 
 - When the data output is real from the ``RFDC`` the FFT size is selected to be 2\ :sup:`12` = 4096 points. Because the CASPER wideband FFT outputs only the positive frequency bins we will have a 2\ :sup:`11` = 2048 channel filter bank.
 
@@ -72,14 +72,14 @@ A brief rundown of some top-level details are as follows before you get down and
 
 - The accumulated signal is then fed into a BRAM yellow blocks.
 
-Contiune further to familiarize yourself with the model file. Clicking around, opening configuration windows and refer to the blockumentation as needed.
+Continue further to familiarize yourself with the model file. Clicking around, opening configuration windows and refer to the blockumentation as needed.
 
 RFDC
 ^^^^^
 
-The first step to creating a frequency spectrum is to digitize the signal. This is done with an ADC (analog-to-digital converter). For RFSoC, the ADC is represneted by the ``RFDC`` (RF Data Converter) yellow block. Work through the :doc:`RFDC tutorial <./tut_rfdc>` if you not already familiar with this block.
+The first step to creating a frequency spectrum is to digitize the signal. This is done with an ADC (analog-to-digital converter). For RFSoC, the ADC is represented by the ``RFDC`` (RF Data Converter) yellow block. Work through the :doc:`RFDC tutorial <./tut_rfdc>` if you not already familiar with this block.
 
-The ``RFDC`` converts analog inputs to digital outputs. Every clock cycle, the inputs are sampled and digitized to a 14-bit, 2's complement binary number representation. These samples are packed and MSB aligned into 16-bit words and persented in parallel on the output interfance. This means we can represent numbers from -32768 through to 32767, including the number 0. Simulink represents such numbers as a ``fix_32_0`` data type. As an example, when the ``RFDC`` is configured in real mode with 8 samples per clock, the output data type is ``fix_128_0``. For more information about the output data representation of the ``RFDC`` refer to the `RFDC product guide`_.
+The ``RFDC`` converts analog inputs to digital outputs. Every clock cycle, the inputs are sampled and digitized to a 14-bit, 2's complement binary number representation. These samples are packed and MSB aligned into 16-bit words and presented in parallel on the output interface. This means we can represent numbers from -32768 through to 32767, including the number 0. Simulink represents such numbers as a ``fix_32_0`` data type. As an example, when the ``RFDC`` is configured in real mode with 8 samples per clock, the output data type is ``fix_128_0``. For more information about the output data representation of the ``RFDC`` refer to the `RFDC product guide`_.
 
 Recall from the :doc:`RFDC tutorial <./tut_rfdc>` that when the ``RFDC`` is configured in ``real -> I/Q`` output mode quad-tile and dual-tile RFSoCs have differing behavior. For dual-tile platforms, in both ``Real`` and ``I/Q`` digital output modes these platforms output all data bits on the same bus. So for example, with ``4`` samples per clock this results in ``2`` complex samples ordered ``{I1, Q1, I0, Q0}``. Where in each ADC word, the most recent sample is at the MSB of the word.
 
@@ -110,7 +110,7 @@ The munge blocks in these designs are responsible for reorder of the output data
 
 With quad-tile platforms (e.g., ZCU216) when configured to output complex samples it is the same approach. This is because the samples are interleaved real/imaginary on the same bus. This translates to changes in the munge block to adjust the bitwidths and division sizes.
 
-With the ``RFSoC 4x2`` and other dual-tile platforms, when configured to output complex samples we have to buil the interleaved real/imaginary samples before sending them to the ``pfb_fir`` block. To do this, the real and imaginary parts of the samples coming from the output of the ``RFDC`` on their respective interfaces are first combined with a ``bus_create`` block. The munge then reorders the blocks. The following figure graphical shows how the divisions are reordered and their respective index for when the output is 4 samples per clock. Here ``I<#>`` represents the real time sample at sample index ``#`` and the same for ``Q<#>`` but corresponding to the imaginary sample. In these examples, ``I3`` and ``Q3`` correspond to the newest time sample and ``I0`` and ``Q0`` are the oldest.
+With the ``RFSoC 4x2`` and other dual-tile platforms, when configured to output complex samples we have to build the interleaved real/imaginary samples before sending them to the ``pfb_fir`` block. To do this, the real and imaginary parts of the samples coming from the output of the ``RFDC`` on their respective interfaces are first combined with a ``bus_create`` block. The munge then reorders the blocks. The following figure graphical shows how the divisions are reordered and their respective index for when the output is 4 samples per clock. Here ``I<#>`` represents the real time sample at sample index ``#`` and the same for ``Q<#>`` but corresponding to the imaginary sample. In these examples, ``I3`` and ``Q3`` correspond to the newest time sample and ``I0`` and ``Q0`` are the oldest.
 
 .. image:: ../../_static/img/rfsoc/tut_spec/rfsoc4x2_munge_reorder_ex.png
   :width: 300 
@@ -119,7 +119,7 @@ This colors in this figure are used to track their input position relative to th
 
 Polyphase FIRs
 ^^^^^^^^^^^^^^^^^
-There are two main blocks required for a polyphase filter bank. The first is a polyphase FIR block and the second is the FFT. Depending on the input data type DSP different blocks can be used to take save hardware resources when possible. For real valued time samples the `pfb_fir_real <pfbRealBlk_>`_ block is used. When the data are complex the `pfb_fir <pfbBlk_>`_ is used instead. A polyphase FIR works by dividing the input time signal into parallel "taps" then applies finite impulse response filters (FIR). The output of this block is still a time-domain signal.  When combined with an FFT, this constitutes a polyphase filterbank. The `fft_wideband_real <fftRealBlk_>`_ block is used following the `pfb_fir <pfbBlk_>`_. The `fft <fftBlk_>`_ block is follows the `pfb_fir <pfbBlk_>`_. The complex valued inputs are the generalized implementation of these DSP algorithms. Review the real-valued and complex-valued RFSoC example designs to see more of the differences.
+There are two main blocks required for a polyphase filter bank. The first is a polyphase FIR block and the second is the FFT. Depending on the input data type DSP different blocks can be used to take save hardware resources when possible. For real valued time samples the `pfb_fir_real <pfbRealBlk_>`_ block is used. When the data are complex the `pfb_fir <pfbBlk_>`_ is used instead. A polyphase FIR works by dividing the input time signal into parallel "taps" then applies finite impulse response filters (FIR). The output of this block is still a time-domain signal.  When combined with an FFT, this constitutes a polyphase filter bank. The `fft_wideband_real <fftRealBlk_>`_ block is used following the `pfb_fir <pfbBlk_>`_. The `fft <fftBlk_>`_ block is follows the `pfb_fir <pfbBlk_>`_. The complex valued inputs are the generalized implementation of these DSP algorithms. Review the real-valued and complex-valued RFSoC example designs to see more of the differences.
 
 The following descriptions are for the `pfb_fir_real <pfbRealBlk_>`_ block but the general `pfb <pfbBlk_>`_ is configured similar.
 
@@ -169,7 +169,7 @@ The following descriptions are for the `pfb_fir_real <pfbRealBlk_>`_ block but t
 |  Coefficient bitwidth           | | The number of bits in each coefficient. This is usually chosen to be less |
 |                                 | | than or equal to the input bit width.                                     |
 +---------------------------------+-----------------------------------------------------------------------------+
-|  Use dist mem for coeffients    | | Store the FIR coefficients in distributed memory (if = 1). Otherwise,     |
+|  Use dist mem for coefficients  | | Store the FIR coefficients in distributed memory (if = 1). Otherwise,     |
 |                                 | | BRAMs are used to hold the coefficients. 0 (not using distributed memory) |
 |                                 | | is default.                                                               |
 +---------------------------------+-----------------------------------------------------------------------------+
@@ -331,7 +331,7 @@ The `power <https://casper.berkeley.edu/wiki/Power>`_ block computes the power o
 
 Sync Gen
 ^^^^^^^^^^
-CASPER DSP blocks require a sync pulse as a periodic heartbeat to keep the data path flowing. This can be either a 1 PPS pulse or something generated internal to the design. We use an internal approah in this design with the ``sync gen`` block. For more information about configuring this block please refer to the `CASPER Sync Memo <https://github.com/casper-astro/publications/blob/master/Memos/files/sync_memo_v1.pdf>`_ for how the reorders are to be setup for this block if the FFT size were to change in your designs.
+CASPER DSP blocks require a sync pulse as a periodic heartbeat to keep the data path flowing. This can be either a 1 PPS pulse or something generated internal to the design. We use an internal approach in this design with the ``sync gen`` block. For more information about configuring this block please refer to the `CASPER Sync Memo <https://github.com/casper-astro/publications/blob/master/Memos/files/sync_memo_v1.pdf>`_ for how the reorders are to be setup for this block if the FFT size were to change in your designs.
 
 Vector Accumulator
 ^^^^^^^^^^^^^^^^^^^^
@@ -372,7 +372,7 @@ Shared BRAMs
 
 .. image:: ../../_static/img/tut_spec/shared_bram_2012.png
 
-The final blocks are shared the BRAMs, which we will read out the values of using the the python script.
+The final blocks are shared the BRAMs, which we will read out the values of using the python script.
 
 **PARAMETERS**
 
@@ -432,15 +432,15 @@ Configuration and Control
 Hardware Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Make sure the RFSoC platform board is running the proper linux image as explained in the :doc:`Getting Started tutorial <./tut_getting_started>` and that clocks are running (e.g., ZCU216 requires clocking module board be installed). You will also need test signals at the inputs of the RFSoC.
+Make sure the RFSoC platform board is running the proper Linux image as explained in the :doc:`Getting Started tutorial <./tut_getting_started>` and that clocks are running (e.g., ZCU216 requires clocking module board be installed). You will also need test signals at the inputs of the RFSoC.
 
-The tutorial ``.slx`` model files for different platforms are found `here <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_spec>`_. Extending the files to a different platform not yet provided is possible following this tutorial. Open one of the example model files and run the ``jasper`` command in the matlab command prompt to build the ``.fpg`` and ``.dtbo`` files (found in model projects ``outputs/`` folder). After this completes, we can now run and configure casperfpga to communicate with the hardware design to readout and plot output spectra!
+The tutorial ``.slx`` model files for different platforms are found `here <https://github.com/casper-astro/tutorials_devel/tree/master/rfsoc/tut_spec>`_. Extending the files to a different platform not yet provided is possible following this tutorial. Open one of the example model files and run the ``jasper`` command in the matlab command prompt to build the ``.fpg`` and ``.dtbo`` files (found in model projects ``outputs/`` folder). After this completes, we can now run and configure ``casperfpga`` to communicate with the hardware design to readout and plot output spectra!
 
 Python
 ^^^^^^^^^
 We assume here working with the ``RFSoC 4x2`` and provided ``rfsoc4x2_tut_spec.py`` script for reading output. But, these instructions and files can be extended to other files. An example of this would be to also compare the provided ``ZCU216`` examples.
 
-There are two prebuilt model files: one using the ``RFDC`` configured to output real time samples and the other enabling the digital down converter to output complex time samples. For the real spectrometer design the RFDC is set to sample at 3932.16 MHz with a decimation rate of ``2x``. The spectrometer uses the ``fft_wideband_real`` set to a transform size of 4096. The number of output bins is only the positive frequency with a a size of 2048. This is an effecitive bandwidth from 0 to 983.04 MHz. The complex spectrometer design is also set to sample at 3932.16 MHz with a decimation rate of ``2x``. However, in this design the fine mixer is used with the NCO set to ``-983.04 MHz``. The FFT is set to transform to a size of 2048. With sufficient anti-alias filtering the effective bandwidth of this design is from 0 to 1966.08 MHz.
+There are two prebuilt model files: one using the ``RFDC`` configured to output real time samples and the other enabling the digital down converter to output complex time samples. For the real spectrometer design the RFDC is set to sample at 3932.16 MHz with a decimation rate of ``2x``. The spectrometer uses the ``fft_wideband_real`` set to a transform size of 4096. The number of output bins is only the positive frequency with a a size of 2048. This is an effective bandwidth from 0 to 983.04 MHz. The complex spectrometer design is also set to sample at 3932.16 MHz with a decimation rate of ``2x``. However, in this design the fine mixer is used with the NCO set to ``-983.04 MHz``. The FFT is set to transform to a size of 2048. With sufficient anti-alias filtering the effective bandwidth of this design is from 0 to 1966.08 MHz.
 
 It may be helpful to first run the python script in the two operating modes before going through the script. This can help identify what the script does by knowing before what is being presented.
 
@@ -458,7 +458,7 @@ Run in real mode using the prebuilt model. I am assuming here a hostname of ``rf
 
   python rfsoc4x2_tut_spec.py rfsoc4x2 real
   
-Assuming all goes well and with a plot window should appear updating the spectrum periodically, with the spectrum accumulation count displayed in the title. An example is shown in the following figure. Here a tone at 800 Mhz is present on the input of the RFSoC and appears as expected 800 Mhz.
+Assuming all goes well and with a plot window should appear updating the spectrum periodically, with the spectrum accumulation count displayed in the title. An example is shown in the following figure. Here a tone at 800 MHz is present on the input of the RFSoC and appears as expected 800 MHz.
 
 .. image:: ../../_static/img/rfsoc/tut_spec/rfsoc4x2_python_real.png
   :width: 420
@@ -474,7 +474,7 @@ Similar to the real mode, a plot should shortly appear. As an example, the same 
 .. image:: ../../_static/img/rfsoc/tut_spec/rfsoc4x2_python_cx.png
   :width: 420
 
-As an example of something more interesting, the following output is from the complex version of the design with wideband noise filetered to a passband from about 1280-1780 MHz and a tone present in that passband at 1520 MHz.
+As an example of something more interesting, the following output is from the complex version of the design with wideband noise filtered to a passband from about 1280-1780 MHz and a tone present in that passband at 1520 MHz.
 
 .. image:: ../../_static/img/rfsoc/tut_spec/rfsoc4x2_python_cx_wideband.png
 
