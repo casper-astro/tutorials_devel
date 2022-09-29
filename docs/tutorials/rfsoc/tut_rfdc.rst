@@ -222,7 +222,7 @@ quadarature data are produced from different ports. In this mode the first digit
 of the signal name corresponds ot the tile index just as in the quad-tile. But
 the second digit is ``0`` for inphase and ``1`` for quadrature data. In this example
 then, with ``4`` sample per clock this is ``4`` complex samples with the two complex
-components coming different ports, ``m00_axis_tdata`` for inphase data ordered
+components coming from different ports, ``m00_axis_tdata`` for inphase data ordered
 ``{I3, I2, I1, I0}`` and  ``m01_axis_tdata`` with quadrature data ordered
 ``{Q3, Q2, Q1, Q0}``. When configured in ``Real`` digital output mode the second
 digit is ``0`` for the first ADC and ``2`` for the second. With the snapshot block
