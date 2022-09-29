@@ -2,4 +2,4 @@
 
 Tutorial in progress...
 
-but simple example designs are ready and found [here](../../../rfsoc/tut_onehundred_gbe)
+but simple example designs are ready and found [here](https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_onehundred_gbe)
