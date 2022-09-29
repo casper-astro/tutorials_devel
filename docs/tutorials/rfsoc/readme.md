@@ -61,11 +61,12 @@ generations of the RFSoC.
 
 ![](../../_static/img/rfsoc/readme/casper-rfsoc-yb-platform-summary.png)
 
-The CASPER library contains support and has been tested for the following 6
+The CASPER library contains support and has been tested for the following
 RFSoC platforms:
   * [ZCU216][zcu216]
   * [ZCU208][zcu208] 
   * [ZCU111][zcu111]
+  * [PYNQ RFSoC 4x2][pynq-rfsoc4x2]
   * [PYNQ RFSoC 2x2][pynq-rfsoc2x2]
   * [HTG ZRF16-29DR][htg-zrf16] 
   * [HTG ZRF16-49DR][htg-zrf16] 
@@ -98,6 +99,7 @@ channelizers using the available fabric resources.
 [zcu216]: ./platforms/zcu216.md
 [zcu208]: ./platforms/zcu208.md
 [zcu111]: ./platforms/zcu111.md
+[pynq-rfsoc4x2]: ./platforms/rfsoc4x2.md
 [pynq-rfsoc2x2]: ./platforms/rfsoc2x2.md
 [htg-zrf16]: ./platforms/zrf16.md
 
