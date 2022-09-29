@@ -49,6 +49,9 @@ def plot_spectrum(fpga, cx=True, num_acc_updates=None):
     acc_n, spectrum = get_vacc_data(fpga, nchannels=nchannels, nfft=Nfft//2)
     line, = ax.plot(faxis,10*np.log10(spectrum),'-')
 
+  ax.set_xlabel('Frequency (MHz)')
+  ax.set_ylabel('Power (dB arb.)')
+
   def update(frame, *fargs):
     if cx:
       acc_n, spectrum = get_vacc_data(fpga, nchannels=nchannels, nfft=Nfft)
