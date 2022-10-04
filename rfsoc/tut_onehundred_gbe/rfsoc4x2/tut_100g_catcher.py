@@ -21,7 +21,7 @@ if __name__=="__main__":
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('rfsoc4x2_tut_100g_catcher.py <ethernet_interface>')
+    p.set_usage('tut_100g_catcher.py <ethernet_interface>')
     p.set_description(__doc__)
 
     opts, args = p.parse_args(sys.argv[1:])
@@ -76,5 +76,6 @@ if __name__=="__main__":
                 conn.send(p[i])
             seq_cnt+=1
     except KeyboardInterrupt:
+        print()
         print("all done!")
         conn.send("close")

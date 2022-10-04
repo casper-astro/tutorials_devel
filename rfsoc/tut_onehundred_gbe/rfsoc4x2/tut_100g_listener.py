@@ -22,7 +22,7 @@ if __name__ == "__main__":
     from optparse import OptionParser
 
     p = OptionParser()
-    p.set_usage('rfsoc4x2_tut_100g_listener.py <HOSTNAME_or_IP> [options]')
+    p.set_usage('tut_100g_listener.py <HOSTNAME_or_IP> [options]')
     p.set_description(__doc__)
     p.add_option('-n', '--numpkt', dest='numpkt', type='int', default=2**8,
         help='Set the number of packets captured in sequence and then sent to listener. Must be power of 2. default is 2**8')
