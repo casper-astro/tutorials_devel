@@ -43,7 +43,7 @@ if __name__ == "__main__":
     if opts.fpgfile != '':
       bitstream = opts.fpgfile
     else:
-      fpg_prebuilt = '../prebuilt/rfsoc4x2/rfsoc4x2_tut_stream_rfdc_100g.fpg'
+      fpg_prebuilt = '../prebuilt/rfsoc4x2/rfsoc4x2_tut_100g_stream_rfdc.fpg'
 
       print('using prebuilt fpg file at {:s}'.format(fpg_prebuilt))
       bitstream = fpg_prebuilt
@@ -74,9 +74,9 @@ if __name__ == "__main__":
       fpga.get_system_information()
       print('skip programming fpga...')
 
-    #print('setting capture on adc port {:d}'.format(opts.adc_chan_sel))
-    #fpga.write_int('adc_chan_sel', opts.adc_chan_sel)
-    #time.sleep(0.1)
+    print('setting capture on adc port {:d}'.format(opts.adc_chan_sel))
+    fpga.write_int('adc_chan_sel', opts.adc_chan_sel)
+    time.sleep(0.1)
 
     # setup waiting for 100g sender to connect
     address = ('localhost', 6000)     # family is deduced to be 'AF_INET'
