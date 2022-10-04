@@ -1,55 +1,97 @@
-#!/home/mcb/opt/miniconda3/envs/casper-dev3/bin/python
-import sys
+import sys, time
 import struct
 import numpy as np
 import matplotlib.pyplot as plt
+import casperfpga
 
 from multiprocessing.connection import Listener
 from numpy import fft
 
-#NPKT = 2**4
-#Nt = 2048
-#d = np.zeros((NPKT,4096), dtype=int)
+Nbyte_per_time = 4  # bytes per sample (I/Q time sample)
+Nbyte_hdr = 6
+Nbyte_per_word = 64
+Nword_per_pkt = 128
 
-#pkts = []
-#i = 0
-#while i < NPKT:
-#  recv_d = conn.recv()
-#  if recv_d == 'close':
-#      conn.close()
-#      break
-#  #d[i,:] = recv_d.astype(np.float64).view(np.complex128)
-#  #d[i,:] = recv_d
-#  pkts.append(recv_d)
-#  # do something with msg
-#
-#listener.close()
-#
-#Nfft = 2**10
+PAYLOAD_SIZE = Nword_per_pkt*Nbyte_per_word
+PKT_SIZE = PAYLOAD_SIZE + Nbyte_hdr
+
+Nt = PAYLOAD_SIZE//Nbyte_per_time  # time samples per packet
 
 
-#    eth_hdr = p[0:14]   # [dstmac, srcmac, ethtype]
-#    ip_hdr  = p[14:34]  # [..., srcip, dstip]
-#    udp_hdr = p[34:42]  # [src port, dst port, len]
-#    pkt_hdr = p[42:106] # 64 byte alpaca header
-#
-#    #print(eth_hdr)
-#    #print(ip_hdr)
-#    #print(udp_hdr)
-#
 if __name__ == "__main__":
+    from optparse import OptionParser
 
+    p = OptionParser()
+    p.set_usage('rfsoc4x2_tut_100g_listener.py <HOSTNAME_or_IP> [options]')
+    p.set_description(__doc__)
+    p.add_option('-n', '--numpkt', dest='numpkt', type='int', default=2**8,
+        help='Set the number of packets captured in sequence and then sent to listener. Must be power of 2. default is 2**8')
+    p.add_option('-s', '--skip', dest='skip', action='store_true',
+        help='Skip programming and begin to plot data')
+    p.add_option('-b', '--fpg', dest='fpgfile',type='str', default='',
+        help='Specify the fpg file to load')
+    p.add_option('-a', '--adc', dest='adc_chan_sel', type=int, default=0,
+        help='adc input to select values are 0,1,2, or 3. deafult is 0')
+
+    opts, args = p.parse_args(sys.argv[1:])
+    if len(args) < 1:
+      print('Specify a hostname or IP for your casper platform. Run with the -h flag to see all options.\n')
+      sys.exit()
+    else:
+      hostname = args[0]
+
+    if opts.fpgfile != '':
+      bitstream = opts.fpgfile
+    else:
+      fpg_prebuilt = '../prebuilt/rfsoc4x2/rfsoc4x2_tut_stream_rfdc_100g.fpg'
+
+      print('using prebuilt fpg file at {:s}'.format(fpg_prebuilt))
+      bitstream = fpg_prebuilt
+
+    if opts.numpkt:
+        pwr = np.floor(np.log2(opts.numpkt))
+        if pwr > 16:
+            print("requested to capture more than {:d} packets, this would require too much memory... not going to try.")
+            sys.exit()
+        NPKT = int(2**pwr)
+    else:
+        NPKT = int(2**8)
+
+    if opts.adc_chan_sel < 0 or opts.adc_chan_sel > 3:
+      print('adc select must be 0,1,2, or 3')
+      sys.exit()
+
+    # connect and configure CASPER fpga platform
+    print('Connecting to {:s}... '.format(hostname))
+    fpga = casperfpga.CasperFpga(hostname)
+    time.sleep(0.2)
+
+    if not opts.skip:
+      print('Programming FPGA with {:s}...'.format(bitstream))
+      fpga.upload_to_ram_and_program(bitstream)
+      print('done')
+    else:
+      fpga.get_system_information()
+      print('skip programming fpga...')
+
+    #print('setting capture on adc port {:d}'.format(opts.adc_chan_sel))
+    #fpga.write_int('adc_chan_sel', opts.adc_chan_sel)
+    #time.sleep(0.1)
+
+    # setup waiting for 100g sender to connect
     address = ('localhost', 6000)     # family is deduced to be 'AF_INET'
     listener = Listener(address, authkey=b'secret password')
+    print('waiting for catcher to connect...')
     conn = listener.accept()
     print('connection accepted from', listener.last_accepted)
 
-    d = conn.recv()
-    NPKT = d[0]
-    PKT_SIZE = d[1]
-    Nt   = d[2]
+
+    print("\nsending parameters to catcher...")
+    print("Number packets per sequence: {:d}".format(NPKT))
+    print("Number time samples per pkt: {:d}".format(Nt))
+    conn.send([NPKT, PKT_SIZE, Nt])
+
     payload_fmt_str = "{:d}h".format(Nt*2)
-    print("catching {:d} packets each with {:d} time samples".format(NPKT, Nt))
 
     # setup from parameters before continuing
     plt.ion()
