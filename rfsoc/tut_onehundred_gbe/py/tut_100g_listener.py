@@ -7,6 +7,7 @@ import casperfpga
 from multiprocessing.connection import Listener
 from numpy import fft
 
+# hardcoded parameters from deteremined by design
 Nbyte_per_time = 4  # bytes per sample (I/Q time sample)
 Nbyte_hdr = 6
 Nbyte_per_word = 64
@@ -14,7 +15,6 @@ Nword_per_pkt = 128
 
 PAYLOAD_SIZE = Nword_per_pkt*Nbyte_per_word
 PKT_SIZE = PAYLOAD_SIZE + Nbyte_hdr
-
 Nt = PAYLOAD_SIZE//Nbyte_per_time  # time samples per packet
 
 
@@ -121,10 +121,8 @@ if __name__ == "__main__":
             pkts.append(r)
             i+=1
 
-
         cnts = np.zeros((NPKT,))
         data = np.zeros((NPKT, Nt*2), dtype=int)
-
         vld = 0
         for i, p in enumerate(pkts):
             # discard runt packets
@@ -153,6 +151,7 @@ if __name__ == "__main__":
             d = struct.unpack(payload_fmt_str, payload)
             cnts[vld]   = c[0]
             data[vld,:] = np.array(d)
+            # can do more filtering based on other parameters (e.g., warn on dropped counts)
             vld += 1
 
         z = np.reshape(data, (NPKT*Nt*2,))
@@ -170,6 +169,3 @@ if __name__ == "__main__":
         fig.canvas.draw()
         fig.canvas.flush_events()
         plt_cnt += 1
-
-        #plt.plot(faxis, 10*np.log10(fft.fftshift(Ypsd.transpose()))); plt.grid();
-        #plt.show();
