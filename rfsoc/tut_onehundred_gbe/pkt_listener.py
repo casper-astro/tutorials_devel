@@ -1,9 +1,11 @@
 #!/home/mcb/opt/miniconda3/envs/casper-dev3/bin/python
-from multiprocessing.connection import Listener
+import sys
 import struct
-from numpy import fft
 import numpy as np
 import matplotlib.pyplot as plt
+
+from multiprocessing.connection import Listener
+from numpy import fft
 
 #NPKT = 2**4
 #Nt = 2048
@@ -50,53 +52,12 @@ if __name__ == "__main__":
     print("catching {:d} packets each with {:d} time samples".format(NPKT, Nt))
 
     # setup from parameters before continuing
-    pkts = []
-
-    conn.send('ready')
-
-    i = 0
-    while i < NPKT:
-        r = conn.recv()
-        pkts.append(r)
-        i+=1
-
-    listener.close()
-
-    cnts = np.zeros((NPKT,))
-    data = np.zeros((NPKT, Nt*2), dtype=int)
-
-    vld = 0
-    for i, p in enumerate(pkts):
-        # discard runt packets
-        if len(p) < PKT_SIZE:
-            print("caught runt (unexpected) packet... discarding...")
-            continue
-
-        eth_hdr = p[0:14]   # [dstmac, srcmac, ethtype]
-        ip_hdr  = p[14:34]  # [..., srcip, dstip]
-        udp_hdr = p[34:42]  # [src port, dst port, len]
-        pkt_hdr = p[42:106] # 64 byte header [sequence_cnt, zeros...]
-
-        payload = p[106:]   # packet payload data
-
-        src_ip = struct.unpack("4B", ip_hdr[-8:-4])
-        dst_ip = struct.unpack("4B", ip_hdr[-4:])
-
-        # simple pkt filtering on destination IP (10.17.16.60)
-        src_ip = (src_ip[0] << 24) | (src_ip[1] << 16) | (src_ip[2] << 8) | (src_ip[3])
-        src_ip_expected = 10*(2**24) + 17*(2**16) + 16*(2**8) + 60
-        if src_ip != src_ip_expected:
-            print("caught packet with unexpected ip address... discarding...")
-
-        # get packet sequence counts
-        c = struct.unpack("L", pkt_hdr[0:8])
-        d = struct.unpack(payload_fmt_str, payload)
-        cnts[vld]   = c[0]
-        data[vld,:] = np.array(d)
-        vld += 1
-
-    z = np.reshape(data, (NPKT*Nt*2,))
-    z = z.astype(np.float64).view(np.complex128)
+    plt.ion()
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.grid(True)
+    line1 = None
+    plt_cnt = 0
 
     Nfft = 2**10
     fbins = np.arange(-Nfft//2, Nfft//2)
@@ -104,10 +65,69 @@ if __name__ == "__main__":
     df = fs/Nfft
     faxis = df*fbins + fs/2
 
-    y = np.reshape(z, (1, (NPKT*Nt)//Nfft, Nfft))
-    Y = fft.fft(y, Nfft, axis=2)
-    Ypsd = np.mean(np.real(Y*np.conj(Y)), axis=1)
+    while True:
+        pkts = []
+        conn.send('ready')
 
-    plt.plot(faxis, 10*np.log10(fft.fftshift(Ypsd.transpose()))); plt.grid();
-    plt.show();
+        i = 0
+        while i < NPKT:
+            r = conn.recv()
+            if r == 'close':
+                print("recv'd 'close'... exiting...")
+                listener.close()
+                sys.exit()
+            pkts.append(r)
+            i+=1
 
+
+        cnts = np.zeros((NPKT,))
+        data = np.zeros((NPKT, Nt*2), dtype=int)
+
+        vld = 0
+        for i, p in enumerate(pkts):
+            # discard runt packets
+            if len(p) < PKT_SIZE:
+                print("caught runt (unexpected) packet... discarding...")
+                continue
+
+            eth_hdr = p[0:14]   # [dstmac, srcmac, ethtype]
+            ip_hdr  = p[14:34]  # [..., srcip, dstip]
+            udp_hdr = p[34:42]  # [src port, dst port, len]
+            pkt_hdr = p[42:106] # 64 byte header [sequence_cnt, zeros...]
+
+            payload = p[106:]   # packet payload data
+
+            src_ip = struct.unpack("4B", ip_hdr[-8:-4])
+            dst_ip = struct.unpack("4B", ip_hdr[-4:])
+
+            # simple pkt filtering on destination IP (10.17.16.60)
+            src_ip = (src_ip[0] << 24) | (src_ip[1] << 16) | (src_ip[2] << 8) | (src_ip[3])
+            src_ip_expected = 10*(2**24) + 17*(2**16) + 16*(2**8) + 60
+            if src_ip != src_ip_expected:
+                print("caught packet with unexpected ip address... discarding...")
+
+            # get packet sequence counts
+            c = struct.unpack("L", pkt_hdr[0:8])
+            d = struct.unpack(payload_fmt_str, payload)
+            cnts[vld]   = c[0]
+            data[vld,:] = np.array(d)
+            vld += 1
+
+        z = np.reshape(data, (NPKT*Nt*2,))
+        z = z.astype(np.float64).view(np.complex128)
+
+        y = np.reshape(z, (1, (NPKT*Nt)//Nfft, Nfft))
+        Y = fft.fft(y, Nfft, axis=2)
+        Ypsd = np.mean(np.real(Y*np.conj(Y)), axis=1)
+
+        if line1 == None:
+            line1, = ax.plot(faxis, 10*np.log10(fft.fftshift(Ypsd.transpose())))
+        else:
+            line1.set_ydata(10*np.log10(fft.fftshift(Ypsd.transpose())))
+        ax.set_title('num: {:d}'.format(plt_cnt))
+        fig.canvas.draw()
+        fig.canvas.flush_events()
+        plt_cnt += 1
+
+        #plt.plot(faxis, 10*np.log10(fft.fftshift(Ypsd.transpose()))); plt.grid();
+        #plt.show();

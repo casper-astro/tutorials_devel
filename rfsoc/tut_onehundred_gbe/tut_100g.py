@@ -1,10 +1,10 @@
 #!/home/mcb/opt/miniconda3/envs/casper-dev3/bin/python
-import sys, os, time
-from multiprocessing.connection import Client
-from socket import socket, AF_PACKET, SOCK_RAW, htons
+import sys
 import struct
 import numpy as np
 
+from multiprocessing.connection import Client
+from socket import socket, AF_PACKET, SOCK_RAW, htons
 
 SIZE_JUMBO_PKT = 9000
 ETH_P_ALL = 0x3
@@ -20,9 +20,7 @@ PKT_SIZE = PAYLOAD_SIZE + Nbyte_hdr
 
 Nt = PAYLOAD_SIZE//Nbyte_per_time  # time samples per packet
 
-print("Nt sampels:", Nt)
-
-NPKT = 2**12
+NPKT = 2**4
 
 def catch(npkt):
   pkts = []
@@ -34,31 +32,43 @@ def catch(npkt):
 
 if __name__=="__main__":
 
-    s = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL))
-    s.bind(("enp193s0f0", 0))
+    try:
+        s = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL))
+        s.bind(("enp193s0f0", 0))
+    except Exception:
+        print("something went wrong opening ethernet interface...")
+
+    try:
+        address = ('localhost', 6000)
+        conn = Client(address, authkey=b'secret password')
+    except Exception as e:
+        print("\n\nSomething went wrong connecting to listener socket...")
+        print("Is the listener running? It must be started first.\n\n")
+        print(e)
+        sys.exit()
 
 
-    address = ('localhost', 6000)
-    conn = Client(address, authkey=b'secret password')
-
-    print("sending info to listener...")
+    print("sending capture parameters to listener...")
     conn.send([NPKT, PKT_SIZE, Nt])
 
-    msg = None
-    print("waiting for listener to be ready...")
-    while msg != "ready":
-        msg = conn.recv()
-        print(msg)
+    try:
+        seq_cnt = 0
+        while True:
+            msg = None
+            print("waiting for listener to be ready...", end='\r')
+            while msg != "ready":
+                msg = conn.recv()
 
-    print("catching packets!")
-    p = catch(NPKT)
+            print("catching packets!", end='\r')
+            p = catch(NPKT)
 
-    print("sending packets...")
-    for i in range(0, NPKT):
-        conn.send(p[i])
-
-    print("all done!")
-
+            print("sending packet sequence {:d}...".format(seq_cnt), end='\r')
+            for i in range(0, NPKT):
+                conn.send(p[i])
+            seq_cnt+=1
+    except KeyboardInterrupt:
+        print("all done!")
+        conn.send("close")
 
 #print("catching packets...")
 #pkts = catch(NPKT)
