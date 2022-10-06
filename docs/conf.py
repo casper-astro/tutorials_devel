@@ -128,6 +128,26 @@ htmlhelp_basename = 'CASPERTutorialsdoc'
 
 # -- Options for LaTeX output ------------------------------------------------
 
+# Embedding videos into a PDF is not supported. Extend the Sphinx.writer.latex
+# to just skip the node. This will result in nothing being placed in the
+# resulting LaTeX and output PDF
+from docutils import nodes
+from sphinxcontrib.video import video
+from sphinx.writers import latex
+
+def visit_video(self, node):
+    self.builder.warn('using "video" inside a PDF is not supported. This node '
+      'will be skipped resulting in no output to the LaTeX or PDF document. '
+      'Consider extending the video node to instead place a still image a '
+      'frame for the video.')
+    raise nodes.SkipNode
+
+def depart_video(self, node):
+    pass
+
+def setup(app):
+    app.add_node(video, latex=(visit_video, depart_video), override=True)
+
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
