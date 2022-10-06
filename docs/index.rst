@@ -134,7 +134,7 @@ Vivado
 3. RFSoC Platform Yellow Block and Simulink Overview :doc:`Step-by-Step <tutorials/rfsoc/tut_platform>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_platform>`__
 4. Using the RFDC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_rfdc>`__ 
 5. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/rfsoc/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_spec>`__
-6. [Under Construction] 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_onehundred_gbe>`__
+6. 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_onehundred_gbe>`__
 
 .. toctree::
    :maxdepth: 1
