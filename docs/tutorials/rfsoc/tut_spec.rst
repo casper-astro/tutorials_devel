@@ -104,7 +104,7 @@ When operating the ``RFSoC 4x2`` with the complex data mode spectrometer example
 Munge blocks
 ^^^^^^^^^^^^^^^^
 
-The munge blocks in these designs are responsible for reorder of the output data from the ``RFDC``. This is required because the ``RFDC`` outputs time samples with the newest time samples in the MSB and CASPER blocks want the oldest sample in the MSB (top of CASPER blocks, e.g., port ``0``). When the ``RFDC`` is configured to output the ``8`` real samples this just reversing the word order as shown in the following image for the munge block configuration.
+The munge blocks in these designs are responsible for reordering the output data from the ``RFDC``. This is required because the ``RFDC`` outputs time samples with the newest time samples in the MSB and CASPER blocks want the oldest sample in the MSB (top of CASPER blocks, e.g., port ``0``). When the ``RFDC`` is configured to output the ``8`` real samples this just reversing the word order as shown in the following image for the munge block configuration.
 
 .. image:: ../../_static/img/rfsoc/tut_spec/rfsoc4x2_munge_real.png
 
@@ -115,7 +115,7 @@ With the ``RFSoC 4x2`` and other dual-tile platforms, when configured to output 
 .. image:: ../../_static/img/rfsoc/tut_spec/rfsoc4x2_munge_reorder_ex.png
   :width: 300 
 
-This colors in this figure are used to track their input position relative to their output position. Also note that that the "Munge reorder index" places the ``0-th`` element at the MSB with the highest value at the LSB. The 3rd column top-to-bottom is then what is input to the ``Division Packing Order`` field of the ``munge`` block. In the ``RFSoC 4x2`` design there are ``8`` samples per clock. Take a look at the munge block in the ``rfsoc4x2_tut_spec_cx.slx`` model and this example to see if you can follow how the complex samples are created.
+The colors in this figure are used to track the sample input position relative to the output position. Also note that that the "munge reorder index" column places the ``0-th`` element at the MSB with the highest value at the LSB. The 3rd column top-to-bottom is then what is input to the ``Division Packing Order`` field of the ``munge`` block. The resulting vector used in as the munge block parameter is the reordered column entered top to bottom from this table. In the ``RFSoC 4x2`` design there are ``8`` samples per clock. Take a look at the munge block in the ``rfsoc4x2_tut_spec_cx.slx`` model and this example to see if you can follow how the complex samples are created.
 
 Polyphase FIRs
 ^^^^^^^^^^^^^^^^^
@@ -438,7 +438,7 @@ The tutorial ``.slx`` model files for different platforms are found `here <https
 
 Python
 ^^^^^^^^^
-We assume here working with the ``RFSoC 4x2`` and provided ``rfsoc4x2_tut_spec.py`` script for reading output. But, these instructions and files can be extended to other files. An example of this would be to also compare the provided ``ZCU216`` examples.
+We assume here working with the ``RFSoC 4x2`` and provided ``rfsoc4x2_tut_spec.py`` script for reading output. But, these instructions and files can be extended to other platforms. 
 
 There are two prebuilt model files: one using the ``RFDC`` configured to output real time samples and the other enabling the digital down converter to output complex time samples. For the real spectrometer design the RFDC is set to sample at 3932.16 MHz with a decimation rate of ``2x``. The spectrometer uses the ``fft_wideband_real`` set to a transform size of 4096. The number of output bins is only the positive frequency with a a size of 2048. This is an effective bandwidth from 0 to 983.04 MHz. The complex spectrometer design is also set to sample at 3932.16 MHz with a decimation rate of ``2x``. However, in this design the fine mixer is used with the NCO set to ``-983.04 MHz``. The FFT is set to transform to a size of 2048. With sufficient anti-alias filtering the effective bandwidth of this design is from 0 to 1966.08 MHz.
 
