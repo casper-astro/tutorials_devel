@@ -140,6 +140,7 @@ the ADCs within a tile. For a quad-tile platform configure this section as:
 .. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc-qt-tile-config.png
 
 For a dual-tile platform configure this section as:
+
 .. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc-dt-tile-config.png
 
 Currently, the selected configuration will be replicated across all enabled
