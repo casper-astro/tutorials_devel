@@ -79,12 +79,12 @@ for the user IP clock.
 
 Before proceeding briefly review the clocking information for your target
 platform and any additional setup/configuration required:
-  * [ZCU216](./platforms/zcu216.md#rf-clocking)
-  * [ZCU208](./platforms/zcu208.md#rf-clocking)
-  * [ZCU111](./platforms/zcu111.md#rf-clocking)
-  * [RFSoC2x2](./platforms/rfsoc2x2.md#rf-clocking)
-  * [RFSoC4x2](./platforms/rfsoc4x2.md#rf-clocking)
-  * [ZRF16](./platforms/zrf16.md#rf-clocking)
+  * [ZCU216](./platforms/zcu216.html#rf-clocking)
+  * [ZCU208](./platforms/zcu208.html#rf-clocking)
+  * [ZCU111](./platforms/zcu111.html#rf-clocking)
+  * [RFSoC2x2](./platforms/rfsoc2x2.html#rf-clocking)
+  * [RFSoC4x2](./platforms/rfsoc4x2.html#rf-clocking)
+  * [ZRF16](./platforms/zrf16.html#rf-clocking)
 
 Set the `User IP Clock Rate` and `RFPLL PL Clock Rate` as follows for your
 target RFSoC platform:
