@@ -129,9 +129,9 @@ if __name__=="__main__":
     bitstream = opts.fpgfile
   else:
     if mode == 1:
-      fpg_prebuilt = './prebuilt/rfsoc4x2/rfsoc4x2_tut_rfdc_cx.fpg'
+      fpg_prebuilt = '../../prebuilt/rfsoc4x2/rfsoc4x2_tut_rfdc_cx.fpg'
     else:
-      fpg_prebuilt = './prebuilt/rfsoc4x2/rfsoc4x2_tut_rfdc_real.fpg'
+      fpg_prebuilt = '../../prebuilt/rfsoc4x2/rfsoc4x2_tut_rfdc_real.fpg'
 
     print('using prebuilt fpg file at %s' % fpg_prebuilt)
     bitstream = fpg_prebuilt
