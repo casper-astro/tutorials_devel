@@ -1,9 +1,8 @@
 # Getting Started With RFSoC
 
 ## Introduction
-
-This tutorial will walk through the procedure to install the development
-branches of the CASPER tools needed to target supported RFSoC platforms.
+This tutorial presents the steps to setup the development environment for using
+the CASPER tools to target supported RFSoC platforms.
 
 ## Environment Setup
 
@@ -158,7 +157,7 @@ it simple.
 $ cd </path/to>/sanbox/casper
 $ git clone https://github.com/casper-astro/casperfpga.git
 $ cd casperfpga
-$ git checkout -b mega-merge origin/mega-merge
+$ git checkout -b py38 origin/py38
 
 # install package requirments
 $ pip install -r requirments.txt
