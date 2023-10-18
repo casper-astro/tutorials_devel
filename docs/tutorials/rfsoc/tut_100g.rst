@@ -11,7 +11,7 @@ Prerequisites and Common Troubleshooting
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Make sure the CASPER development environment is setup for RFSoC as described in the :doc:`Getting Started <./tut_getting_started>` tutorial. This includes the initialization of the git submodules.
 
-- The use of the integrated UltraScale+ 100G CMAC requires that the no charge license be downloaded and included with your licenses. That can be acquired `here <https://www.xilinx.com/products/intellectual-property/cmac/cmac_order.html>`_ following the instructions under the section titled "Activation Instructions". After the license has been added you can check the status of the license using the Vivado License Manager. This is can be accessed from in Vivado going to Help > Manage License. Or it can be opened from the Xilinx Information Center (XIC) Manage Installs Tab > Manage License. If the license has succussfully been included a line starting with ``cmac_usplus`` should appear in the licenses table. You may need to refresh the license cache if it has not been updated to reflect the ``cmac_usplus`` license. For more license related issues the `managing licenses documentation from Xilinx <https://docs.xilinx.com/r/en-US/ug973-vivado-release-notes-install-license/Obtain-and-Manage-Licenses>`_ may help here.
+- The use of the integrated UltraScale+ 100G CMAC requires that the no charge license be downloaded and included with your licenses. That can be acquired `here <https://www.xilinx.com/products/intellectual-property/cmac_usplus.html>`_ following the instructions under the section titled "Activation Instructions". After the license has been added you can check the status of the license using the Vivado License Manager. This is can be accessed from in Vivado going to Help > Manage License. Or it can be opened from the Xilinx Information Center (XIC) Manage Installs Tab > Manage License. If the license has succussfully been included a line starting with ``cmac_usplus`` should appear in the licenses table. You may need to refresh the license cache if it has not been updated to reflect the ``cmac_usplus`` license. For more license related issues the `managing licenses documentation from Xilinx <https://docs.xilinx.com/r/en-US/ug973-vivado-release-notes-install-license/Obtain-and-Manage-Licenses>`_ may help here.
 
 - A 100GbE QSFP28 NIC installed in a server.
 
@@ -319,19 +319,16 @@ The ``100GbE`` also has an ARP table that can be programmed. The following is an
   c = {
     'arp': {
       10.17.16.10: 0x0c42a1a39a06,
-      .
-      .
-      .
+      # ...
+      # ...
       10.17.16.61: 0x0c42a1a3992e
     }
   }
 
   # set arp table
-  for k, v, in c['arp'].items():
-      print("Configuring arp values for {:s}".format(k))
-      for ip, mac in v.items():
-          print(ip, hex(mac))
-          eth.set_single_arp_entry(ip, mac)
+  for ip, mac in c['arp'].items():
+    print("Configuring ip {:s} with mac {:x}".format(ip, mac))
+    eth.set_single_arp_entry(ip, mac)
 
 ..
   Notes
