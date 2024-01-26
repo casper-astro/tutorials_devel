@@ -23,7 +23,7 @@ settings that are as common as possible, use a various number of the RFDC
 features, yet still be able to point out a some of the differences between the
 quad- and dual- tile architectures of the RFSoC. Where platform specific
 settings are required beyond what is needed as a quad- or dual-tile RFSoC those
-differences will be identifed.
+differences will be identified.
 
 This design will:
   * Set sample rates appropriate for the different architectures
@@ -86,7 +86,7 @@ Add an ``rfdc`` yellow block, found in ``CASPER XPS Blockset->ADCs->rfdc``.
 
 The ``rfdc`` yellow block automatically understands the target RFSoC part and
 derives the corresponding tile architecture, subsequently rendering the correct
-configuration view. For both architecutres the first half of the configuration view is
+configuration view. For both architectures the first half of the configuration view is
 identical. This is the portion of the configuration that sets the enabled tiles,
 sample rate, use of internal PLLs, inclusion of multi-tile synchronization
 infrastructure, and displays tile clocking information.
@@ -109,7 +109,7 @@ checkbox will enable the internal PLL for all selected tiles. When this option
 is enabled the ``Reference Clock`` drop down provides a list of frequencies
 that can be used to drive the PLLs to generate the sample clock for the ADCs. If
 ``Enable Tile PLLs`` is not checked, this will display the same value as the
-``Sampling Rate`` field indicating the part is expecting an extenral sample clock
+``Sampling Rate`` field indicating the part is expecting an external sample clock
 to drive the ADCs.
 
 A few behaviors to keep in mind:
@@ -126,13 +126,15 @@ A few behaviors to keep in mind:
     platform blocks can be extended to target this clock.
 
   * Gen 3 RFSoCs introduce the ability of "clock forwarding" `PG269 Ch.4,
-    Clocking`_ between tiles. The underlying implentation of the ``rfdc``
+    Clocking`_ between tiles. The underlying implementation of the ``rfdc``
     yellow block is aware of the capability as it is required to do
     DRC checks to validate the design. The framework therefore exists and needs to
     be built out. However, the ability to readily control this from the
     configuration view is not available yet. Instead, the platform configuration
     ``.yaml`` file currently keys off the ``rfdc`` for what to expect regarding how a
     tile will resolve receiving its sample clock.
+
+  * The DACs should be disabled for this tutorial
 
 The next configuration section in the GUI configures the operation behavior of
 the ADCs within a tile. For a quad-tile platform configure this section as:
@@ -146,7 +148,7 @@ For a dual-tile platform configure this section as:
 Currently, the selected configuration will be replicated across all enabled
 tiles. Meaning, that for right now, different ADCs within a tile can be
 configured differently to the extent that they meet the same required AXI4
-stream clock requirment, but that same behavior will be applied to all tiles
+stream clock requirement, but that same behavior will be applied to all tiles
 equally.
 
 The ``Enable ADC`` checkbox enables the corresponding ADC. Under "Data Settings",
@@ -160,7 +162,7 @@ Oscillator`_.
 
 The ``Decimation Mode`` drop down displays the available decimation rates that can
 be applied for the generation platform targeted. ``Sample per AXI4-Stream Cycle``
-indicate how many ``16-bit`` ADC words are output per clock cycle. The ``Required
+indicates how many ``16-bit`` ADC words are output per clock cycle. The ``Required
 AXI4-Stream clock`` field here displays the effective User IP clock that would be
 required for the configuration of the decimator and number of samples per clock.
 These fields are to match for all ADCs within a tile.
@@ -220,7 +222,7 @@ sample is at the MSB of the word. With the snapshot block configured to capture
 
 For dual-tile platforms in ``I/Q`` digital output modes, the inphase and
 quadarature data are produced from different ports. In this mode the first digit
-of the signal name corresponds ot the tile index just as in the quad-tile. But
+of the signal name corresponds to the tile index just as in the quad-tile. But
 the second digit is ``0`` for inphase and ``1`` for quadrature data. In this example
 then, with ``4`` sample per clock this is ``4`` complex samples with the two complex
 components coming from different ports, ``m00_axis_tdata`` for inphase data ordered
@@ -247,9 +249,9 @@ block (``CASPER DSP Blockset->Misc->edge_detect``).
 .. image:: ../../_static/img/rfsoc/tut_rfdc/edge_block.PNG
 .. image:: ../../_static/img/rfsoc/tut_rfdc/edge_config.PNG
 
-Set the ``I/O`` direction of the software register to ``From Software``, change the
+Set the ``I/O`` direction of the software register to ``From Processor``, change the
 ``Bitfield names`` to ``[start]``, set ``Bitfield widths`` to ``1`` and ``Bitfield types``
-to ``2``. Connect this blocks output to the input of the edge detect block. Rename
+to ``2``. Connect this block's output to the input of the edge detect block. Rename
 the register to ``snapshot_ctrl``. This is the name for the register that is
 visible in software. Remember this name for later should you name it differently.
 Connect the output of the edge detect block to the trigger port on the snapshot
@@ -268,7 +270,7 @@ And this for dual-tile platforms:
 .. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc-dt-final.png
 
 You can connect some simulink constant blocks to get rid of simulink unconnected
-port warnings, or leave them if they do not bother your. Validate the design by
+port warnings, or leave them if they do not bother you. Validate the design by
 running the simulation. In this case, there's nothing to see in the simulation,
 but can press ``ctrl+d`` to only update and validate the diagrams connections and
 that port widths and data types are consistent. Make sure to save!
@@ -284,21 +286,21 @@ machine hardware synthesis could take from 15-30 minutes.
 
 As briefly explained in the `first tutorial <./tut_platform.html#compiling>`_ the
 toolflow will run one extra step that previous users may now notice. After
-Vivado syntheis and bitstream generation the toolflow exports the platform
+Vivado synthesis and bitstream generation the toolflow exports the platform
 hardware definition to use Xilinx's software tools (the Vitis flow) to
-generate software produts to interface with the hardware design.
+generate software products to interface with the hardware design.
 
 In this step the software platform hardware definition is read parsing the
 design for IP with an associated software driver. This is done in two steps, the
 hardware platform is ran first against Xilinx software tools and then a second
-pass is taken augmenting those output products as neccessary with any CASPER
-specificy additions. The result is any software drivers that interact with user
+pass is taken augmenting those output products as necessary with any CASPER
+specific additions. The result is any software drivers that interact with user
 IP. In the case of the previous tutorial there was no IP with a corresponding
 driver (other than the underlying Zynq processor). However, here we are using
 the ``rfdc`` that has a fully configurable software component that we want to
 communicate with in software. The resulting output at this step is the ``.dtbo``
 or ``device tree binary overlay`` which is a binary representation of the device
-tree containing information for software dirvers that is is applied at runtime
+tree containing information for software drivers that is applied at runtime
 in software after the new bitstream is programmed.
 
 Note: For the ``RFDC`` ``casperfpga`` object and corresponding software driver to
@@ -339,15 +341,15 @@ manipulate and interact with the software driver components of the RFDC.
   Out[4]: ['rfdc']
 
 We can create a reference to that `RFDC` object and begin to exercise some of
-the software components included with the that object.
+the software components included with that object.
 
 .. code:: python
 
   In [5]: rfdc_zcu216 = zcu216.adcs['rfdc']
 
 We first initialize the driver; a doc string is provided for all functions and
-so we can always use IPythons help `?` mechanism to get more information of a
-methods signature and a brief description of its functionality.
+so we can always use IPython's help `?` mechanism to get more information of a
+method's signature and a brief description of its functionality.
 
 .. code:: python
 
@@ -389,7 +391,7 @@ We can query the status of the rfdc using ``status()``
   ADC3: Enabled 1, State: 6 PLL: 0
   Out[8]: True
 
-the ``status()`` method displys the enabled ADCs, current "power-up sequence"
+the ``status()`` method displays the enabled ADCs, current "power-up sequence"
 state information of the tile and the state of the tile PLL (locked, or not).
 This information can be helpful as a first glance in debugging the RFDC should
 the behavior not match the expected. The mapping of the ``State`` value to its
@@ -515,7 +517,7 @@ reviewed your platforms [page](./readme.md#platforms) for any required setup):
   Out[28]: True
 
 With the clocks programmed we can now check the status of the ``rfdc`` and it
-should now report that the tiles have locked their internall PLLs and have
+should now report that the tiles have locked their internal PLLs and have
 completed the power-on sequence by displaying a state value of ``15``.
 
 .. code:: python
