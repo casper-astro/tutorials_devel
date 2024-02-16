@@ -644,6 +644,15 @@ something like the following (make sure to replace the ``fpga`` variable with yo
   x = dt_capture(fpga)
   plt.plot(np.real(x[0:N])); plt.title('Tile 0 Ch.0'); plt.grid(); plt.show();
 
+Output of quadtile test with 1.503 GHz input:
+
+.. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc_qt_output_1503.png
+
+Output of dualtile test with 1.450 GHz input:
+
+.. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc_dt_output_1450.png
+
+
 Conclusion
 ------------
 In this tutorial it was shown how to configure and use the ``rfdc`` yellow block

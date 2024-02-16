@@ -5,7 +5,7 @@ Introduction
 -------------
 In this tutorial will go over building a simple spectrometer using CASPER DSP and hardware yellow blocks for RFSoC.
 
-This tutorial assumes that the casper-ite is familiar wth the :doc:`RFDC Interface <./tut_rfdc>` tutorial. This also assumes that the CASPER development environment is setup for RFSoC as described in the :doc:`Getting Started <./tut_getting_started>` tutorial. A brief walkthrough of example of the spectrometer design, software control of the spectrometer will be given in this tutorial. However, it is also beneficial to become learn how to interact with the FPGA using ``casperfpga`` as demonstrated in the :doc:`simulink platform introduction <./tut_platform>`.
+This tutorial assumes that the casper-ite is familiar wth the :doc:`RFDC Interface <./tut_rfdc>` tutorial. This also assumes that the CASPER development environment is setup for RFSoC as described in the :doc:`Getting Started <./tut_getting_started>` tutorial. A brief walkthrough of example of the spectrometer design, software control of the spectrometer will be given in this tutorial. However, it is also beneficial to learn how to interact with the FPGA using ``casperfpga`` as demonstrated in the :doc:`simulink platform introduction <./tut_platform>`.
 
 A spectrometer is an analysis filter bank that takes for its input a time domain signal and transforms it to a frequency domain representation. In digital systems, this is typically achieved by utilising the FFT (Fast Fourier Transform) algorithm. However, with a modest increase in compute, better spectral bin performance can be improved by using a Polyphase Filter Bank (PFB) based approach.
 
