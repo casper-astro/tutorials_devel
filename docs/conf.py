@@ -132,7 +132,7 @@ htmlhelp_basename = 'CASPERTutorialsdoc'
 # to just skip the node. This will result in nothing being placed in the
 # resulting LaTeX and output PDF
 from docutils import nodes
-from sphinxcontrib.video import video
+from sphinxcontrib import video
 from sphinx.writers import latex
 
 def visit_video(self, node):
