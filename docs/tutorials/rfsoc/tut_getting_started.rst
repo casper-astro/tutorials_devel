@@ -67,7 +67,7 @@ Toolflow Setup
    $ pip install -r requirements.txt
 
    # initialize submodules
-   $ git submdoule init
+   $ git submodule init
    $ git submodule update
 
    # fetch a copy of the xilinx device tree repo
@@ -75,6 +75,10 @@ Toolflow Setup
    $ mkdir xilinx
    $ cd xilinx
    $ git clone https://github.com/xilinx/device-tree-xlnx.git
+
+   # switch to the correct branch
+   $ cd device-tree-xlnx
+   $ git checkout xlnx_rel_v2021.1
 
    # update or create your `startsg.local` config file 
    $ cd </path/to>/sandbox/casper/mlib_devel
