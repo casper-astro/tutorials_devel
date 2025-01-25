@@ -76,6 +76,10 @@ Toolflow Setup
    $ cd xilinx
    $ git clone https://github.com/xilinx/device-tree-xlnx.git
 
+   # switch to the correct branch
+   $ cd device-tree-xlnx
+   $ git checkout xlnx_rel_v2021.1
+
    # update or create your `startsg.local` config file 
    $ cd </path/to>/sandbox/casper/mlib_devel
    $ cp startsg.local.example ./startsg.local
