@@ -67,7 +67,7 @@ Toolflow Setup
    $ pip install -r requirements.txt
 
    # initialize submodules
-   $ git submdoule init
+   $ git submodule init
    $ git submodule update
 
    # fetch a copy of the xilinx device tree repo
@@ -177,8 +177,8 @@ it simple.
    $ cd casperfpga
    $ git checkout -b py38 origin/py38
 
-   # install package requirments
-   $ pip install -r requirments.txt
+   # install package requirements
+   $ pip install -r requirements.txt
 
    # build and install `casperfpga`
    $ pip install .
