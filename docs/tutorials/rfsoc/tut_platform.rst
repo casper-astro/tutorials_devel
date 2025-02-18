@@ -61,8 +61,8 @@ You can double-click on the added block to see its configuration. However,
 instead of configuring the System Generator ourselves, we will use a platform
 Yellow Block from the **CASPER XPS Library** to configure it. Locate the block
 for the board you are using in ``CASPER XPS Blockset->Platforms-><your
-platform>``. This example uses the ZCU216 pltform block, so this example adds
-the ZCU216 Yellow Block to our Simulink model. All RFSoC platfrom Yellow Blocks
+platform>``. This example uses the ZCU216 paltform block, so this example adds
+the ZCU216 Yellow Block to our Simulink model. All RFSoC platform Yellow Blocks
 are similar in their configuration. The following is therefore easily applied to
 your specific platform.
 
@@ -156,7 +156,7 @@ Step 2: Add a slice block to select the MSB
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Now that we have a counter, we want to select just the most significant bit so
 that we can send it to an LED.  Do this by adding a blue slice block, found in
-``Xilinx BLockset->Basic Elements->Slice``.
+``Xilinx Blockset->Basic Elements->Slice``.
 
 .. image:: ../../_static/img/rfsoc/tut_plat/slice_block.PNG
 
@@ -212,7 +212,7 @@ Step 1: Add the software registers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In order to interact with the hardware while it's running, we need some software
 registers. For our counter, we want two software registers, one to control the
-counter, and another to read it's current value. Add two yellow
+counter, and another to read its current value. Add two yellow
 ``software_register`` blocks to the design, found in ``CASPER XPS
 Blockset->Memory->software_register``.
 
@@ -252,14 +252,14 @@ connect it to the ``sim`` output of the counter value register.
 
 Note that these white simulink blocks will not be compiled to the fpga hardware.
 They are for simulation purposes only. Only blue System Generator blocks are
-acutally compiled. Yellow blocks are required to interface white simulink blocks
+actually compiled. Yellow blocks are required to interface white simulink blocks
 to the blue System Generator blocks.
 
 Step 2: Add the counter
 ~~~~~~~~~~~~~~~~~~~~~~~
 Add another counter block the same way we did before. You can also copy the
 existing counter block by the usual copy-paste or by ctrl-click-drag-drop. Open
-it's paramters and set it to free running, unsigned, 32-bits, with synchronous
+its parameters and set it to free running, unsigned, 32-bits, with synchronous
 reset port and enable port turned on.
 
 .. image:: ../../_static/img/rfsoc/tut_plat/counter_param.PNG
@@ -269,7 +269,7 @@ Step 3: Add the slice blocks
 We want to be able to control the enable and reset ports on this new counter
 with the counter control register we made before. We can do this by slicing out
 one bit of the register for the enable port and slicing out another bit for the
-reset port. Alternatively, we could use two seperate registers, one for the
+reset port. Alternatively, we could use two separate registers, one for the
 reset and one for the enable, but as the registers are 32-bits each, that would
 be wasteful.
 
@@ -360,7 +360,7 @@ Simulating the design
 ^^^^^^^^^^^^^^^^^^^^^
 .. image:: ../../_static/img/rfsoc/tut_plat/whole_design.PNG
 
-With all hardware functions configureed has hooked up, we can simulate the
+With all hardware functions configured has hooked up, we can simulate the
 design with Simulink.
 
 Under the simulate section of the simulation tab on the ribbon, set the ``stop
@@ -413,7 +413,7 @@ product of the toolflow targeting SoC platforms like the RFSoC.
 Similar to the meta-data that is created for CASPER softawre the ``.dtbo`` is the
 device tree overlay binary containing somewhat similar meta data information but
 taragetd to the software drivers that will be loaded by the processor system
-when programming the FPGA. After Vivado syntheis and bitstream generation the
+when programming the FPGA. After Vivado synthesis and bitstream generation the
 toolflow exports the platform hardware definition to use Xilinx's software tools
 (the Vitis flow) to generate software produts to interface with the hardware
 design. The ``.dtbo`` is one of those software products. The ``.dtbo`` is now used
@@ -471,7 +471,7 @@ to indicate the target PLL.
   must specify -lmk|-lmx
   ./bin/prg_clk104_rfpll -lmk|-lmx <path/to/clk/file.txt>
 
-The distributed clock files for the platform are stored in ``/lib/firmare``. As
+The distributed clock files for the platform are stored in ``/lib/firmware``. As
 mentioned `above <./tut_platform.html#add-the-xilinx-system-generator-and-casper-platform-blocks>`_,
 designs for RFSoC use ``pl_clk`` coming from the on board LMK to generate the User
 IP clock. Program the LMK using the corresponding platforms utility (before
@@ -510,7 +510,7 @@ tutorial to check your connection to your board.
 
 Step 1: Copy the ``.fpg`` file to where you need it
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Navigate to the prevously mention 'outputs' folder and copy the ``.fpg`` file to
+Navigate to the previously mention 'outputs' folder and copy the ``.fpg`` file to
 wherever you are going to be running your ipython session from.
 
 Step 2: Connect to the board
