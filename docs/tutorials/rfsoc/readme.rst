@@ -94,6 +94,7 @@ Links
 * :doc:`Getting Started With RFSoC <./tut_getting_started>`
 * :doc:`RFSoC Platform Yellow Block and Simulink Overview <./tut_platform>`
 * :doc:`Using the RFDC <./tut_rfdc>`
+* :doc:`Adding the DAC <.tut_dac>`
 * :doc:`Example Spectrometer <./tut_spec>`
 * :doc:`100GbE <./tut_100g>`
 
