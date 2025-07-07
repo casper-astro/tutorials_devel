@@ -24,29 +24,29 @@ In this case, for RFSoC what you will need is:
 * Vivado 2021.1
 * Matlab 2021a (with Simulink)
 * Python 3 environment 
-* Development branches of the CASPER "toolflow" library `\ ``mlib_devel`` <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/rfsocs/zcu216>`_ and board
-  communication library `\ ``casperfpga`` <https://gitlab.ras.byu.edu/alpaca/casper/casperfpga/-/tree/rfsocs/rfdc>`_ with RFSoC support
+* Development branches of the CASPER "toolflow" ``mlib_devel`` `library <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/rfsocs/zcu216>`_ and board
+  communication ``casperfpga`` `library <https://gitlab.ras.byu.edu/alpaca/casper/casperfpga/-/tree/rfsocs/rfdc>`_ with RFSoC support
+   * These links need to be fixed. Possibly link `here <https://github.com/casper-astro/mlib_devel>`_ instead? Currently links to gitlab. Other possible links include `the main casper library <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/m2021a/casper_library>`_ and `the main board support library <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/m2021a/xps_library>`_.
 * `Xilinx device tree repository <https://github.com/Xilinx/device-tree-xlnx/>`_
 
 Some help and pointers for general toolflow and software installation can be
 found `here <https://casper-toolflow.readthedocs.io/en/latest/src/Installing-the-Toolflow.html#pre-requisites>`_. It is strongly recommended to use an
 isolated runtime environment of python. This is done with a virtual environment
-using the `\ ``venv`` <https://docs.python.org/3/tutorial/venv.html>`_ python package or some other tool with an
-environment manager such as `\ ``conda`` <https://docs.conda.io/projects/conda/en/latest/index.html>`_. The following assumes an
+using the ``venv`` `python package <https://docs.python.org/3/tutorial/venv.html>`_ or some other tool with an
+environment manager such as `conda <https://docs.conda.io/projects/conda/en/latest/index.html>`_. The following assumes an
 OS and required vendor software has been installed.
 
 Core Setup
 ----------
 
-With a compatible Linux OS, Vivado and Matlab installed (or installing...), there
-are three core tasks to complete:
-
+With a compatible Linux OS, Vivado, and Matlab installed, we will now complete
+the following three core tasks:
 
 #. Prepare and install the core "toolfow" ``mlib_devel``
 #. Prepare and setup of the CASPER platform (usually the fun part)
 #. Prepare and install the communication library ``casperfpga``
 
-Operating within a new python environment, begin by fetching the development
+To begin acquiring the toolflow, start within a new python environment by fetching the development
 branches and dependencies needed to work with RFSoC. The following will assume a
 working directory called ``sandbox`` just as an isolated example through this
 tutorial. Feel free to organize suitable to your preferences.
@@ -61,7 +61,7 @@ Toolflow Setup
    $ cd casper
    $ git clone https://github.com/casper-astro/mlib_devel.git
    $ cd mlib_devel
-   $ git checkout -b m2021a origin/m2021a
+   $ git checkout m2021a origin/m2021a
 
    # install pacakge dependencies
    $ pip install -r requirements.txt
@@ -175,7 +175,7 @@ it simple.
    $ cd </path/to>/sanbox/casper
    $ git clone https://github.com/casper-astro/casperfpga.git
    $ cd casperfpga
-   $ git checkout -b py38 origin/py38
+   $ git checkout py38 origin/py38
 
    # install package requirements
    $ pip install -r requirements.txt
