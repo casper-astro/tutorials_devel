@@ -1,4 +1,4 @@
-Tutorial 2.5: The RFDC DAC Interface
+Tutorial 3: The RFDC DAC Interface
 ====================================
 
 Introduction

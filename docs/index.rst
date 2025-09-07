@@ -132,8 +132,8 @@ Vivado
 1. :doc:`CASPER RFSoC README <tutorials/rfsoc/readme>`
 2. :doc:`Getting Started With RFSoC <tutorials/rfsoc/tut_getting_started>`
 3. RFSoC Platform Yellow Block and Simulink Overview :doc:`Step-by-Step <tutorials/rfsoc/tut_platform>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_platform>`__
-4. Using the RFDC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_rfdc>`__ 
-5. Adding our RFDC DAC :doc:`Step-by-Step <tutorials/rfsoc/tut_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_dac>`
+4. Using the RFDC's ADC :doc:`Step-by-Step <tutorials/rfsoc/tut_rfdc>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_rfdc>`__ 
+5. Using the RFDC's DAC :doc:`Step-by-Step <tutorials/rfsoc/tut_dac>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_dac>`__
 6. Spectrometer Tutorial :doc:`Step-by-Step <tutorials/rfsoc/tut_spec>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_spec>`__
 7. 100 Gigabit Ethernet :doc:`Step-by-Step <tutorials/rfsoc/tut_100g>` or `Completed <https://github.com/casper-astro/tutorials_devel/tree/main/rfsoc/tut_onehundred_gbe>`__
 
@@ -182,5 +182,23 @@ ISE
    tutorials/roach/tut_spec
    tutorials/roach/tut_corr
 
+**Board Info**
 
+1. :doc:`RFSoC2x2 Board Info <tutorials/rfsoc/platforms/rfsoc2x2>`
+2. :doc:`RFSoC4x2 Board Info <tutorials/rfsoc/platforms/rfsoc4x2>`
+3. :doc:`ZCU111 Board Info <tutorials/rfsoc/platforms/zcu111>`
+4. :doc:`ZCU208 Board Info <tutorials/rfsoc/platforms/zcu208>`
+5. :doc:`ZCU216 Board Info <tutorials/rfsoc/platforms/zcu216>`
+6. :doc:`ZRF16 Board Info <tutorials/rfsoc/platforms/zrf16>`
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Board Info
+
+   tutorials/rfsoc/platforms/rfsoc2x2
+   tutorials/rfsoc/platforms/rfsoc4x2
+   tutorials/rfsoc/platforms/zcu111
+   tutorials/rfsoc/platforms/zcu208
+   tutorials/rfsoc/platforms/zcu216
+   tutorials/rfsoc/platforms/zrf16

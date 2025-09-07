@@ -1,11 +1,10 @@
-
 ZCU208
 ======
 
-vendor `link <https://www.xilinx.com/products/boards-and-kits/zcu208.html>`_
+vendor `link <zcu208_>`_
 
 RF Clocking
-===========
+-----------
 
 Notes
 -----
@@ -15,3 +14,5 @@ platform was done at the same time. However, nothing has been tested on the
 platform as there was no immediate access to this specifc board. There would be
 a little bit of work to test a few things out, but by and large should be
 complete.
+
+.. _zcu208: https://www.xilinx.com/products/boards-and-kits/zcu208.html
