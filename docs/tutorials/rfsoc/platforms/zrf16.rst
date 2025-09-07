@@ -1,31 +1,20 @@
-
 HTG ZRF16
 =========
 
-vendor `link <http://www.hitechglobal.com/Boards/16ADC-DAC_Zynq_RFSOC.htm>`_
-
+vendor `link <htg-zrf16_>`_
 
 .. image:: ../../../_static/img/rfsoc/readme/zrf1629dr.jpeg
-   :target: ../../../_static/img/rfsoc/readme/zrf1629dr.jpeg
-   :alt: 
-
 
 RF Clocking
-===========
+-----------
 
 The following figure shows a high-level block diagram for the clocking network:
 
-
 .. image:: ../../../_static/img/rfsoc/readme/clk-zrf16.png
-   :target: ../../../_static/img/rfsoc/readme/clk-zrf16.png
-   :alt: 
-
 
 The PLLs on this board are:
-
-
-* LMX04832
-* LMX2594
+  * LMX04832
+  * LMX2594
 
 The distributed hexdump ``.txt`` file used in the tutorial examples uses the LMK
 in single loop mode. This is because of difficulty to lock PLL2 in `dual-loop
@@ -39,10 +28,10 @@ configuration file ``adc_clk_src`` parameter to the index of the desired source
 tile.
 
 Notes
-=====
+-----
 
-Toolflow Compatability
-^^^^^^^^^^^^^^^^^^^^^^
+Toolflow Compatability 
+~~~~~~~~~~~~~~~~~~~~~~
 
 The distributed images and toolflow support for both generation revisions of
 this board have been tested on hardware. However, in the process of casperizing
@@ -51,7 +40,7 @@ vendor. Should differeing hardware be present on your platform this could
 require a few patches to support your board.
 
 LMK Dual Loop Mode
-^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~
 
 The examples for this board here configure the LMK to operate in single loop
 mode.  There were problems getting PLL1 on the LMK04832 to lock when configured
@@ -61,17 +50,17 @@ to add this capacitord an inserting an 0401 ``0.1 uF`` beettween the ``OSCin`` p
 and ground did seem to resolve the issue with PLL1 being able to lock when using
 the onboard TCXO.
 
-
 .. image:: ../../../_static/img/rfsoc/readme/zrf16-oscin-mod.jpg
-   :target: ../../../_static/img/rfsoc/readme/zrf16-oscin-mod.jpg
-   :alt: 
-
 
 HTG indicates that this has been resolved in later revisions of the board.
 
 QA
-^^
+~~
 
 Testing board functionality showed that the FMC had open connections to some of
 the GTY transceivers connected. HTG did offer to reflow the board but responding
 to have that done there was no response for further instructions.
+
+
+.. _htg-zrf16: http://www.hitechglobal.com/Boards/16ADC-DAC_Zynq_RFSOC.htm
+.. _htg-disclaimers: ./zrf16#htg-disclaimers

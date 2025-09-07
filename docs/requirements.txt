@@ -1,12 +1,12 @@
 pillow
-mock
-alabaster
-commonmark
-recommonmark
-sphinx
-sphinx-rtd-theme
-readthedocs-sphinx-ext
-sphinx-markdown-tables
-sphinxcontrib-video
-jinja2
-docutils
+mock==1.0.1
+alabaster>=0.7, <0.7.14
+commonmark==0.9.1
+recommonmark==0.5.0
+sphinx<2
+sphinx-rtd-theme<0.5
+readthedocs-sphinx-ext<2.2
+sphinx-markdown-tables==0.0.6
+sphinxcontrib-video==0.0.1.dev3
+jinja2<3.1.0
+docutils==0.16

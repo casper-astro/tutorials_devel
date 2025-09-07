@@ -1,136 +1,127 @@
-
 Getting Started With RFSoC
 ==========================
 
 Introduction
 ------------
 
-This tutorial presents the steps to setup the development environment for using
-the CASPER tools to target supported RFSoC platforms.
+This tutorial walks through the procedure to install and setup the CASPER
+development tools for targeting supported RFSoC platforms.
 
 Environment Setup
 -----------------
 
 Pre requisites
-^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~
 
 The recommended environment setup and software required is more or less
-consistent with the standard CASPER
-`setup <https://casper-toolflow.readthedocs.io/projects/tutorials/en/latest/#environment-setup]>`_.
+consistent with the standard CASPER `setup <https://casper-toolflow.readthedocs.io/projects/tutorials/en/latest/#environment-setup>`_.
 In this case, for RFSoC what you will need is:
 
-
-* Compatible Linux host operating system (tested on RHEL 7.9, 8.4 and Ubuntu 18.04 LTS, 20.04 LTS)
-* Vivado 2021.1
-* Matlab 2021a (with Simulink)
-* Python 3 environment 
-* Development branches of the CASPER "toolflow" ``mlib_devel`` `library <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/rfsocs/zcu216>`_ and board
-  communication ``casperfpga`` `library <https://gitlab.ras.byu.edu/alpaca/casper/casperfpga/-/tree/rfsocs/rfdc>`_ with RFSoC support
-   * These links need to be fixed. Possibly link `here <https://github.com/casper-astro/mlib_devel>`_ instead? Currently links to gitlab. Other possible links include `the main casper library <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/m2021a/casper_library>`_ and `the main board support library <https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/m2021a/xps_library>`_.
+* Compatible Linux host operating system (tested on RHEL 7.9, 8.4 and Ubuntu 18.04 LTS, 20.04 LTS)  
+* Vivado 2021.1  
+* Matlab 2021a (with Simulink)  
+* Python 3 environment  
+* Development branches of the CASPER “toolflow” library ``mlib_devel`` (`mlib_devel <https://github.com/casper-astro/mlib_devel>`_) and board communication library ``casperfpga`` (`casperfpga <https://github.com/casper-astro/mlib_devel/tree/m2021a/casper_library>`_) with RFSoC support  
 * `Xilinx device tree repository <https://github.com/Xilinx/device-tree-xlnx/>`_
 
 Some help and pointers for general toolflow and software installation can be
-found `here <https://casper-toolflow.readthedocs.io/en/latest/src/Installing-the-Toolflow.html#pre-requisites>`_. It is strongly recommended to use an
-isolated runtime environment of python. This is done with a virtual environment
-using the ``venv`` `python package <https://docs.python.org/3/tutorial/venv.html>`_ or some other tool with an
-environment manager such as `conda <https://docs.conda.io/projects/conda/en/latest/index.html>`_. The following assumes an
-OS and required vendor software has been installed.
+found `here <https://casper-toolflow.readthedocs.io/en/latest/src/Installing-the-Toolflow.html#pre-requisites>`_.
+It is strongly recommended to use an isolated runtime environment of Python.  This is done with a virtual environment
+using the ``venv`` package (`venv <https://docs.python.org/3/tutorial/venv.html>`_) or some other tool such as
+`conda <https://docs.conda.io/projects/conda/en/latest/index.html>`_.  The following assumes an OS and required vendor
+software has already been installed.
 
 Core Setup
 ----------
 
-With a compatible Linux OS, Vivado, and Matlab installed, we will now complete
-the following three core tasks:
+With a compatible Linux OS, Vivado and Matlab installed (or in the process of
+installing), there are three core tasks to complete:
 
-#. Prepare and install the core "toolfow" ``mlib_devel``
-#. Prepare and setup of the CASPER platform (usually the fun part)
-#. Prepare and install the communication library ``casperfpga``
+1. Prepare and install the core “toolflow” ``mlib_devel``  
+2. Prepare and set up the CASPER platform (usually the fun part)  
+3. Prepare and install the communication library ``casperfpga``  
 
-To begin acquiring the toolflow, start within a new python environment by fetching the development
-branches and dependencies needed to work with RFSoC. The following will assume a
-working directory called ``sandbox`` just as an isolated example through this
-tutorial. Feel free to organize suitable to your preferences.
+Operating within a new Python environment, begin by fetching the development
+branches and dependencies needed to work with RFSoC.  The following will assume
+a working directory called ``sandbox`` just as an isolated example through this
+tutorial.  Feel free to organize paths to your preference.
 
 Toolflow Setup
-^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-   $ cd </path/to>/sandbox
-   $ mkdir casper
-   $ cd casper
-   $ git clone https://github.com/casper-astro/mlib_devel.git
-   $ cd mlib_devel
-   $ git checkout m2021a origin/m2021a
+   cd </path/to>/sandbox
+   mkdir casper
+   cd casper
+   git clone https://github.com/casper-astro/mlib_devel.git
+   cd mlib_devel
+   git checkout -b m2021a origin/m2021a
 
-   # install pacakge dependencies
-   $ pip install -r requirements.txt
+   # install package dependencies
+   pip install -r requirements.txt
 
    # initialize submodules
-   $ git submodule init
-   $ git submodule update
+   git submodule init
+   git submodule update
 
-   # fetch a copy of the xilinx device tree repo
-   $ cd </path/to>/sandbox
-   $ mkdir xilinx
-   $ cd xilinx
-   $ git clone https://github.com/xilinx/device-tree-xlnx.git
+   # fetch a copy of the Xilinx device‑tree repo
+   cd </path/to>/sandbox
+   mkdir xilinx
+   cd xilinx
+   git clone https://github.com/Xilinx/device-tree-xlnx.git
+   cd device-tree-xlnx
+   git switch xlnx_rel_v2021.2
 
-   # switch to the correct branch
-   $ cd device-tree-xlnx
-   $ git checkout xlnx_rel_v2021.1
+   # update or create your startsg.local config file
+   cd </path/to>/sandbox/casper/mlib_devel
+   cp startsg.local.example ./startsg.local
 
-   # update or create your `startsg.local` config file 
-   $ cd </path/to>/sandbox/casper/mlib_devel
-   $ cp startsg.local.example ./startsg.local
-
-   # with you favorite text editor open `startsg.local` and update the following
-   # environment variables
+   # open startsg.local in your favorite editor and update:
    XILINX_PATH=</path/to/your/Xilinx>/Vivado/2021.1
    MATLAB_PATH=</path/to/your/Matlab>/R2021a
    COMPOSER_PATH=</path/to/your/Xilinx>/Model_Composer/2021.1
    JASPER_BACKEND=vitis
    XLNX_DT_REPO_PATH=</path/to>/sandbox/xilinx/device-tree-xlnx
 
-   # The following is an example of my startsg.local
-   export XILINX_PATH=/opt/Xilinx/Vivado/2021.1 
+   # example startsg.local:
+   export XILINX_PATH=/opt/Xilinx/Vivado/2021.1
    export MATLAB_PATH=/opt/MATLAB/R2021a
    export COMPOSER_PATH=/opt/Xilinx/Model_Composer/2021.1
-   export PLATFORM=lin64 
+   export PLATFORM=lin64
    export JASPER_BACKEND=vitis
    export XLNX_DT_REPO_PATH=/home/mcb/git/xilinx/device-tree-xlnx
 
    # Start Matlab and System Generator
-   $ ./startsg
+   ./startsg
 
 Platform Processor System Setup
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These steps are generally platform agnostic as this focuses more on preparing
-and booting the processor system (PS). However, there are some platform
-dependent hardware setup and procedures to be discussed later.
-`Download <https://casper.groups.et.byu.net>`_ the casperized image for your target RFSoC board and
-locate a 16 GB micro SD card. We next start to unpack and flash the image. The
-following uses the ``zcu216_casper.img`` as an example, the target ``.img`` download
-file would be replaced in all subsequent commands.
+These steps are generally platform-agnostic, focusing on preparing
+and booting the processor system (PS).  However, some platform-dependent
+hardware setup and procedures will be discussed later.  
+`Download <https://casper.groups.et.byu.net>`_ the casperized image for your
+target RFSoC board and locate a 16 GB micro-SD card.  We'll next unpack and
+flash the image using the ``zcu216_casper.img`` as an example. As such,
+replace all ``.img``` files with your own in the following commands.
 
 .. code-block:: bash
 
-   # navigate to the download location of the compressed tar and unpack it
-   $ cd </path/to/downloads>
-   $ tar -xzf zcu216_casper.img.tar.gz
+   # navigate to the download location of the .tar file and unpack
+   cd </path/to/downloads>
+   tar -xzf zcu216_casper.img.tar.gz
 
-   # the full uncompressed image `zcu216_casper.img` is now in the current directory
-   $ ls zcu216_casper.*
+   # confirm the .img file is present
+   ls zcu216_casper.*
    zcu216_casper.img  zcu216_casper.img.tar.gz
 
-   # plug in the micro sd card, on OS's like Ubuntu the disk may auto mount,
-   # unmount before preceeding.
-
+   # insert the micro‑SD card (auto‑mounted on some OS’s—unmount before continuing)
    # Take note of the kernel registered block device
    # such as `sdb, sdc, sdd, etc.`. This can be done with the `dmesg` utility e.g.,
-   $ dmesg
-   108821.527053] scsi host38: usb-storage 2-2:1.0
+
+   dmesg
+   [108821.527053] scsi host38: usb-storage 2-2:1.0
    [108822.527801] scsi 38:0:0:0: Direct-Access     TS-RDF5  SD  Transcend    TS38 PQ: 0 ANSI: 6
    [108822.528460] sd 38:0:0:0: Attached scsi generic sg3 type 0
    [108822.829512] sd 38:0:0:0: [sdd] 31116288 512-byte logical blocks: (15.9 GB/14.8 GiB)
@@ -145,89 +136,92 @@ file would be replaced in all subsequent commands.
 
    # flash the sd card with the `dd` utility, wait until this completes. It can take awhile
    # as we must wait to sync all the I/O, must also have root access
-   $ sudo dd if=zcu216_casper.img of=/dev/sdd bs=32MB
 
-Take out the SD card and plug it into your platform board. Place the DIP
-switches that select the boot device to SD mode. You are about ready to power-on
-the board.
+   # assume `/dev/sdd` is the SD card; flash with dd (requires root):
+   sudo dd if=zcu216_casper.img of=/dev/sdd bs=32MB
 
-Prior to booting the board, provide a connection to the 1GBE port and
-review the `Network Configuration Section <#platform-network-configuration>`_ to
-understand how communication will be established on the board. A micro-USB
-serial cable can be optionally attached and the serial output from the processor
-can be monitored with a utility such as ``minicom``. The serial port is configured
-for baud 115200, 8 data bits, no parity, 1 stop bit. This output can be helpful
-to obtain the IP address if there is no direct access to configure a DHCP server
-or a static IP address was not set before hand.
+Remove the SD card, insert it into your board, and set the DIP switches
+to SD-boot mode.
 
-Power-on the board. As long as the IP address of the board is known there is no
-requirement at this time to log in. The image comes pre-configured to be ready
+Before booting, connect to the 1 GbE port and review the `Platform Network Configuration`_
+to understand how communication is established. A micro-USB serial cable can be 
+optionally attached and the serial output from the 
+processor can be monitored with a utility such as ``minicom``. The serial port is 
+configured for baud 115200, 8 data bits, no parity, 1 stop bit. This output can 
+be helpful to obtain the IP address if there is no direct access to configure a 
+DHCP server or a static IP address was not set before hand.
+
+You are now ready to power on.
+
+Once powered on (and IP address of the board is known), there's no need to 
+log in. The image comes pre-configured to be ready
 to interface with ``casperfpga``. In this case, if the IP is known the last step
-is to `install ``casperfpga`` <#setup-casperfpga>`_ and test commmunications.
+is to install ``casperfpga`` (seen in `Setup CasperFpga`_) and test commmunications.
 Otherwise, using the serial connection login with the default user ``casper`` and
 default password ``casper`` and run the ``ip addr`` command to learn the IP address
 of your board.
 
 Setup Casperfpga
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
-Next is to install ``casperfpga``. The same Python 3 environment can be used to keep
-it simple.
+Next, install ``casperfpga`` in the same Python 3 environment:
 
 .. code-block:: bash
 
-   $ cd </path/to>/sanbox/casper
-   $ git clone https://github.com/casper-astro/casperfpga.git
-   $ cd casperfpga
-   $ git checkout py38 origin/py38
+   cd </path/to>/sandbox/casper
+   git clone https://github.com/casper-astro/casperfpga.git
+   cd casperfpga
+   git checkout py38 origin/py38
 
    # install package requirements
-   $ pip install -r requirements.txt
+   pip install -r requirements.txt
 
    # build and install `casperfpga`
-   $ pip install .
+   pip install .
 
 ``casperfpga`` is now installed and we can test connection with the platform. To
 do this we can run a few commands in IPython. First, change out of the
 ``casperfpga`` directory as we want to reference the package we just installed
 instead of the one in the ``casperfpga`` source directory.
 
-Start an IPython session; In this example the ZCU216 IP address was assigned
-to ``192.168.2.101``.
+Start an IPython session; In this example the RFSoC4x2 IP address was assigned
+to ``192.168.2.140``.
 
 .. code-block:: python
 
    In [1]: import casperfpga
 
-   In [2]: fpga = casperfpga.CasperFpga('192.168.2.101')
+   In [2]: fpga = casperfpga.CasperFpga('192.168.2.140')
 
    In [3]: fpga.is_connected()
    Out[3]: True
 
-This does not seem like an incredibly exciting result, but everything is setup
-and we are now ready to move on to testing the toolflow installation and get more
-familiar with your platform image and ``casperfpga`` in the `next
-tutorial <./tut_platform.md>`_.
+This does not seem like an incredibly exciting result, but this means everything 
+is set up correctly  and we are now ready to move on to testing the toolflow 
+installation and get more familiar with your platform image and ``casperfpga``
+in the `next tutorial <./tut_platform.md>`_.
 
 Misc. Configuration
 -------------------
 
 Platform Network Configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Each platform image is configured by default to use DHCP to receive an IP
 address when the kernel boots. For the ZCU216/208, ZCU111, and RFSoC2x2
 platforms the first stage boot loader is configured to look at the EEPROM for a
 MAC address, if a valid address is not found then a randomly generated one is
 created at each boot. Random MAC generation or setting a static IP can be
-overridden by either `manually writing <#manually-writing-platform-mac-address>`_
+overridden by either `manually writing <manually-writing-platform-mac-address_>`_
 a valid MAC to the EEPROM or using the Linux kernel's Network Manager
 configuration scripts. The HTG ZRF16-29/49DR boards boot with the static MAC
 address ``0a:4c:50:14:42:00`` again, this can be overridden by using a Network
 Manager configuration script.
 
+.. _manually-writing-platform-mac-address:
+
 Manually Writing Platform MAC Address
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The on board EEPROMs are interfaced over i2c. They can be programmed with the first stage
 boot loader's (U-Boot) i2c utility, with a Linux i2c utility or custom userspace
@@ -273,7 +267,7 @@ following:
    Warning: ethernet@ff0e0000 (eth0) using random MAC address - 3a:b0:c7:80:96:3f
    eth0: ethernet@ff0e0000
    Hit any key to stop autoboot:  0 
-   ZynqMP>
+   ZynqMP> 
 
 Notice the 'Warning' line informing that a random MAC address was created. We
 now begin to peek and poke using the i2c utility.
@@ -295,7 +289,7 @@ now begin to peek and poke using the i2c utility.
    Setting bus to 2
 
    # we can get help on what the i2c utility can do
-   ZynqMP> i2c    
+   ZynqMP> i2c
    i2c - I2C sub-system
 
    Usage:
@@ -308,6 +302,8 @@ now begin to peek and poke using the i2c utility.
    .
    .
    .
+
+.. code-block:: bash
 
    # We will only need to read/write here, we can start by taking a peek at the
    # first 16 bytes of the memory using the address reported by `i2c bus`.
@@ -348,3 +344,12 @@ now begin to peek and poke using the i2c utility.
 
 The MAC address has been set and you can let the auto boot counter timeout and
 proceed to boot.
+
+.. _image downloads: https://casper.groups.et.byu.net
+.. _casper-install-pre-req: https://casper-toolflow.readthedocs.io/en/latest/src/Installing-the-Toolflow.html#pre-requisites
+.. _pg269-v2.3: https://www.xilinx.com/support/documentation/ip_documentation/usp_rf_data_converter/v2_3/pg269-rf-data-converter.pdf
+.. _rfsoc-mlib-devel: https://gitlab.ras.byu.edu/alpaca/casper/mlib_devel/-/tree/rfsocs/zcu216
+.. _rfsoc-casperfpga: https://gitlab.ras.byu.edu/alpaca/casper/casperfpga/-/tree/rfsocs/rfdc
+.. _device-tree-xlnx: https://github.com/Xilinx/device-tree-xlnx/
+.. _venv-package: https://docs.python.org/3/tutorial/venv.html
+.. _conda-homepage: https://docs.conda.io/projects/conda/en/latest/index.html
