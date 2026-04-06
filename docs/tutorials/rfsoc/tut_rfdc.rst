@@ -82,7 +82,7 @@ Step 2: Place and configure the RFDC yellow block
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Add an ``rfdc`` yellow block, found in ``CASPER XPS Blockset->ADCs->rfdc``.
 
-.. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc_block.PNG
+.. image:: ../../_static/img/rfsoc/tut_rfdc/rfdc_block.png
 
 The ``rfdc`` yellow block automatically understands the target RFSoC part and
 derives the corresponding tile architecture, subsequently rendering the correct
@@ -195,14 +195,14 @@ Next we capture the data the ADCs are producing using green
 Add a ``bitfield_snapshot`` block to the design, found in CASPER DSP
 ``Blockset->Scopes->bitfield_snapshot``.
 
-.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_block.PNG
+.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_block.png
 
 Configure the snapshot block as follows (note: for dual-tile platforms, the 
 name of the lsb should be ``m01`` instead of ``m10``):
 
-.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_config1.PNG
-.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_config2.PNG
-.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_config3.PNG
+.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_config1.png
+.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_config2.png
+.. image:: ../../_static/img/rfsoc/tut_rfdc/snapshot_config3.png
 
 Now hook up the ``bitfield_snapshot`` block to the ``rfdc`` block. In its current
 configuration, the snapshot block takes two data inputs, a write enable, and a
@@ -236,8 +236,8 @@ Next, leave write enable high, so add a blue Xilinx
 constant block (``Xilinx Blockset->Basic Elements->Constant``), connect it to the
 snapshot ``we`` port, and configure it as follows:
 
-.. image:: ../../_static/img/rfsoc/tut_rfdc/constant_block.PNG
-.. image:: ../../_static/img/rfsoc/tut_rfdc/constant_config.PNG
+.. image:: ../../_static/img/rfsoc/tut_rfdc/constant_block.png
+.. image:: ../../_static/img/rfsoc/tut_rfdc/constant_config.png
 
 Using a blue Xilinx block instead of a white simulink block causes 
 the constant ``1`` to exist in the synthesized hardware design and
@@ -247,8 +247,8 @@ Last, we want to be able to trigger the snapshot block on command in software.
 To do this, we will use a yellow ``software_register`` and a green ``edge_detect``
 block (``CASPER DSP Blockset->Misc->edge_detect``).
 
-.. image:: ../../_static/img/rfsoc/tut_rfdc/edge_block.PNG
-.. image:: ../../_static/img/rfsoc/tut_rfdc/edge_config.PNG
+.. image:: ../../_static/img/rfsoc/tut_rfdc/edge_block.png
+.. image:: ../../_static/img/rfsoc/tut_rfdc/edge_config.png
 
 Set the ``I/O`` direction of the software register to ``From Software``, change the
 ``Bitfield names`` to ``[start]``, and set ``Bitfield widths`` to ``1`` and ``Bitfield types``
