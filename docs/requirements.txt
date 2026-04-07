@@ -10,3 +10,4 @@ sphinx-markdown-tables==0.0.6
 sphinxcontrib-video==0.0.1.dev3
 jinja2<3.1.0
 docutils==0.16
+setuptools
